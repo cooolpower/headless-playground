@@ -1,5 +1,5 @@
 {
-  "name": "@repo/ui",
+  "name": "@cooolpower/headless-ui",
   "version": "1.0.0",
   "description": "Headless React component library with 57+ accessible UI components",
   "private": false,
@@ -38,7 +38,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/headless-playground",
+    "url": "git+https://github.com/cooolpower/headless-playground.git",
     "directory": "packages/ui"
   },
   "peerDependencies": {
