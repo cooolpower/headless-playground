@@ -1,0 +1,166 @@
+import {
+  DemoPaginationBasic,
+  DemoPaginationBasicWithControls,
+  DemoPaginationBasicControls,
+  DemoPaginationBasicProvider,
+  DemoPaginationWithTotal,
+  DemoPaginationWithSizeChanger,
+  DemoPaginationWithQuickJumper,
+  DemoPaginationSimple,
+  DemoPaginationSizes,
+} from './pagination.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { PaginationCss } from '@headless/ui';
+
+# Pagination
+
+Pagination 컴포넌트는 긴 목록의 데이터를 페이지 단위로 나누어 표시할 때 사용하는 Headless 컴포넌트입니다.
+
+## 기본 사용법
+
+Pagination 컴포넌트는 `total`과 `pageSize`를 통해 페이지 정보를 계산합니다.
+
+### 기본 Pagination (인터랙티브)
+
+<DemoPaginationBasicProvider>
+  <Playground
+    preview={<DemoPaginationBasicWithControls />}
+    controls={<DemoPaginationBasicControls />}
+  />
+</DemoPaginationBasicProvider>
+
+<Playground preview={<DemoPaginationBasic />} />
+
+```tsx
+import { Pagination } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Pagination
+      total={100}
+      pageSize={10}
+      current={1}
+      onChange={(page, pageSize) => {
+        console.log('Page:', page, 'PageSize:', pageSize);
+      }}
+    />
+  );
+}
+```
+
+## Show Total
+
+총 항목 수와 현재 범위를 표시할 수 있습니다.
+
+<Playground preview={<DemoPaginationWithTotal />} />
+
+```tsx
+<Pagination
+  total={100}
+  pageSize={10}
+  showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+/>
+```
+
+## Show Size Changer
+
+페이지 크기를 변경할 수 있는 선택기를 표시할 수 있습니다.
+
+<Playground preview={<DemoPaginationWithSizeChanger />} />
+
+```tsx
+<Pagination
+  total={100}
+  pageSize={10}
+  showSizeChanger
+  onShowSizeChange={(current, size) => {
+    console.log('Current:', current, 'Size:', size);
+  }}
+/>
+```
+
+## Show Quick Jumper
+
+빠른 페이지 이동 입력 필드를 표시할 수 있습니다.
+
+<Playground preview={<DemoPaginationWithQuickJumper />} />
+
+```tsx
+<Pagination total={100} pageSize={10} showQuickJumper />
+```
+
+## Simple Mode
+
+간단한 모드로 표시할 수 있습니다.
+
+<Playground preview={<DemoPaginationSimple />} />
+
+```tsx
+<Pagination total={100} pageSize={10} simple />
+```
+
+## Size
+
+Pagination의 크기를 조정할 수 있습니다.
+
+<Playground preview={<DemoPaginationSizes />} />
+
+```tsx
+<Pagination total={100} size="small" />
+<Pagination total={100} size="medium" />
+<Pagination total={100} size="large" />
+```
+
+## API Reference
+
+### Pagination Props
+
+| Property         | Description                   | Type                                                    | Default       |
+| ---------------- | ----------------------------- | ------------------------------------------------------- | ------------- |
+| current          | 현재 페이지 (controlled)      | `number`                                                | -             |
+| defaultCurrent   | 기본 현재 페이지              | `number`                                                | `1`           |
+| total            | 총 항목 수                    | `number`                                                | `0`           |
+| pageSize         | 페이지당 항목 수 (controlled) | `number`                                                | `10`          |
+| defaultPageSize  | 기본 페이지당 항목 수         | `number`                                                | `10`          |
+| showSizeChanger  | 페이지 크기 변경기 표시 여부  | `boolean`                                               | `false`       |
+| showQuickJumper  | 빠른 페이지 이동 표시 여부    | `boolean`                                               | `false`       |
+| showTotal        | 총 항목 수 표시 함수          | `(total: number, range: [number, number]) => ReactNode` | -             |
+| onChange         | 페이지 변경 콜백              | `(page: number, pageSize: number) => void`              | -             |
+| onShowSizeChange | 페이지 크기 변경 콜백         | `(current: number, size: number) => void`               | -             |
+| disabled         | 비활성화 여부                 | `boolean`                                               | `false`       |
+| size             | Pagination 크기               | `'small' \| 'medium' \| 'large'`                        | `'medium'`    |
+| simple           | 간단한 모드                   | `boolean`                                               | `false`       |
+| className        | 추가 CSS 클래스               | `string`                                                | -             |
+| children         | `ReactNode`                   | -                                                       | 커스텀 콘텐츠 |
+
+### usePagination Hook 반환값
+
+`usePagination` 훅을 직접 사용할 때 반환되는 값들입니다.
+
+| Property         | Type                                   | Description                  |
+| ---------------- | -------------------------------------- | ---------------------------- |
+| current          | `number`                               | 현재 페이지                  |
+| pageSize         | `number`                               | 페이지당 항목 수             |
+| total            | `number`                               | 총 항목 수                   |
+| totalPages       | `number`                               | 총 페이지 수                 |
+| handlePageChange | `(page: number) => void`               | 페이지 변경 핸들러           |
+| handleSizeChange | `(size: number) => void`               | 페이지 크기 변경 핸들러      |
+| getPageRange     | `() => { start: number; end: number }` | 현재 페이지 범위 가져오기    |
+| canGoPrev        | `() => boolean`                        | 이전 페이지로 이동 가능 여부 |
+| canGoNext        | `() => boolean`                        | 다음 페이지로 이동 가능 여부 |
+| goToPrev         | `() => void`                           | 이전 페이지로 이동           |
+| goToNext         | `() => void`                           | 다음 페이지로 이동           |
+| goToFirst        | `() => void`                           | 첫 페이지로 이동             |
+| goToLast         | `() => void`                           | 마지막 페이지로 이동         |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={PaginationCss} title="PaginationCss" />
+
+## 특징
+
+- **키보드 네비게이션**: 화살표 키로 페이지 이동 가능
+- **접근성**: ARIA 속성을 지원하여 스크린 리더와 호환
+- **제어/비제어 모드**: controlled/uncontrolled 모드 모두 지원
+- **커스터마이징**: showTotal 함수로 총 항목 수 표시 형식 커스터마이징

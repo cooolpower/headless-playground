@@ -1,0 +1,270 @@
+# Switch
+
+스위치 컴포넌트입니다. 켜기/끄기 상태를 전환할 수 있습니다.
+
+Switch는 켜기/끄기 상태를 전환하는 컴포넌트입니다. Checkbox와 유사하지만 시각적으로 토글 스위치 형태로 표시됩니다.
+
+### 사용법
+
+```tsx
+import { Switch } from '@headless/ui';
+
+export function MyComponent() {
+  const [checked, setChecked] = useState(false);
+
+  return <Switch checked={checked} onChange={setChecked} />;
+}
+```
+
+import {
+  DemoSwitchBasic,
+  DemoSwitchBasicWithControls,
+  DemoSwitchBasicControls,
+  DemoSwitchBasicProvider,
+  DemoSwitchControlled,
+  DemoSwitchDisabled,
+  DemoSwitchSizes,
+  DemoSwitchWithLabel,
+  DemoSwitchLoading,
+  DemoSwitchEvent,
+  DemoSwitchShape,
+  DemoSwitchCustomColors,
+  DemoSwitchCustomIcon,
+} from './switch.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { SwitchCss } from '@headless/ui';
+
+### 예제
+
+#### 기본 Switch (인터랙티브)
+
+<DemoSwitchBasicProvider>
+  <Playground
+    preview={<DemoSwitchBasicWithControls />}
+    controls={<DemoSwitchBasicControls />}
+  />
+</DemoSwitchBasicProvider>
+
+#### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 Switch가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={SwitchCss} title="SwitchCss" />
+
+#### 기본 Switch
+
+<Playground preview={<DemoSwitchBasic />} />
+
+```tsx
+<Switch />
+<Switch defaultChecked />
+```
+
+#### Controlled Switch
+
+<Playground preview={<DemoSwitchControlled />} />
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Switch checked={checked} onChange={setChecked} />;
+```
+
+#### Disabled
+
+<Playground preview={<DemoSwitchDisabled />} />
+
+```tsx
+<Switch disabled />
+<Switch disabled defaultChecked />
+```
+
+#### Sizes
+
+<Playground preview={<DemoSwitchSizes />} />
+
+```tsx
+<Switch size="small" />
+<Switch size="medium" />
+<Switch size="large" />
+```
+
+#### With Label
+
+<Playground preview={<DemoSwitchWithLabel />} />
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Switch checked={checked} onChange={setChecked}>
+  알림 받기
+</Switch>;
+```
+
+#### Content (텍스트 표시)
+
+<Playground preview={<DemoSwitchWithLabel />} />
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Switch checked={checked} onChange={setChecked}>
+  알림 받기
+</Switch>;
+```
+
+#### Loading State
+
+<Playground preview={<DemoSwitchLoading />} />
+
+```tsx
+const [checked, setChecked] = useState(false);
+const [loading, setLoading] = useState(false);
+
+const handleChange = (newChecked: boolean) => {
+  if (!newChecked) {
+    // 꺼지는 것은 즉시 반영
+    setChecked(false);
+    return;
+  }
+  // 켜지는 것은 로딩 후 반영
+  setLoading(true);
+  setTimeout(() => {
+    setChecked(true);
+    setLoading(false);
+  }, 1000);
+};
+
+<Switch checked={checked} onChange={handleChange} loading={loading} />;
+```
+
+#### Event (이벤트 핸들러)
+
+<Playground preview={<DemoSwitchEvent />} />
+
+```tsx
+const [checked, setChecked] = useState(false);
+const [eventLog, setEventLog] = useState<string[]>([]);
+
+const handleChange = (newChecked: boolean) => {
+  setChecked(newChecked);
+  setEventLog((prev) => [
+    ...prev,
+    `Switch changed to: ${newChecked ? '켜짐' : '꺼짐'}`,
+  ]);
+};
+
+<Switch checked={checked} onChange={handleChange}>
+  이벤트 테스트
+</Switch>;
+```
+
+#### Shape (모양)
+
+<Playground preview={<DemoSwitchShape />} />
+
+```tsx
+// 둥근 모양 (기본값)
+<Switch checked={checked} onChange={setChecked} round />
+
+// 사각 모양
+<Switch checked={checked} onChange={setChecked} round={false} />
+```
+
+#### Customizing Colors (색상 커스터마이징)
+
+<Playground preview={<DemoSwitchCustomColors />} />
+
+```tsx
+// 기본 색상
+<Switch checked={checked} onChange={setChecked} />
+
+// 커스텀 색상 (Success)
+<Switch
+  checked={checked}
+  onChange={setChecked}
+  railColor="var(--color-border)"
+  railColorActive="var(--color-semantic-success)"
+/>
+
+// 커스텀 색상 (Warning)
+<Switch
+  checked={checked}
+  onChange={setChecked}
+  railColor="var(--color-border)"
+  railColorActive="var(--color-semantic-warning)"
+/>
+```
+
+#### Customizing Icon (아이콘 커스터마이징)
+
+<Playground preview={<DemoSwitchCustomIcon />} />
+
+```tsx
+import { Check, X, Moon, Sun, Wifi, WifiOff } from 'lucide-react';
+
+// Check / X 아이콘
+<Switch
+  checked={checked}
+  onChange={setChecked}
+  checkedIcon={Check}
+  uncheckedIcon={X}
+/>
+
+// Moon / Sun 아이콘
+<Switch
+  checked={checked}
+  onChange={setChecked}
+  checkedIcon={Sun}
+  uncheckedIcon={Moon}
+>
+  다크 모드
+</Switch>
+
+// Wifi / WifiOff 아이콘
+<Switch
+  checked={checked}
+  onChange={setChecked}
+  checkedIcon={Wifi}
+  uncheckedIcon={WifiOff}
+>
+  Wi-Fi
+</Switch>
+```
+
+### API Reference
+
+#### Switch Props
+
+| Property        | Type                             | Default    | Description           |
+| --------------- | -------------------------------- | ---------- | --------------------- |
+| checked         | `boolean`                        | -          | 제어된 상태           |
+| defaultChecked  | `boolean`                        | `false`    | 기본 상태             |
+| disabled        | `boolean`                        | `false`    | 비활성화 여부         |
+| size            | `'small' \| 'medium' \| 'large'` | `'medium'` | 크기                  |
+| loading         | `boolean`                        | `false`    | 로딩 상태 여부        |
+| round           | `boolean`                        | `true`     | 둥근 모양 여부        |
+| railColor       | `string`                         | -          | 비활성 상태 Rail 색상 |
+| railColorActive | `string`                         | -          | 활성 상태 Rail 색상   |
+| checkedIcon     | `LucideIcon \| ComponentType`    | -          | 체크 상태 아이콘      |
+| uncheckedIcon   | `LucideIcon \| ComponentType`    | -          | 언체크 상태 아이콘    |
+| onChange        | `(checked: boolean) => void`     | -          | 상태 변경 핸들러      |
+| onFocus         | `(event: FocusEvent) => void`    | -          | 포커스 핸들러         |
+| onBlur          | `(event: FocusEvent) => void`    | -          | 블러 핸들러           |
+| name            | `string`                         | -          | 폼 필드 이름          |
+| value           | `string`                         | -          | 폼 필드 값            |
+| className       | `string`                         | -          | 추가 CSS 클래스       |
+| children        | `ReactNode`                      | -          | 라벨 콘텐츠           |
+
+### 특징
+
+- **켜기/끄기 전환**: 간단한 토글 스위치 형태
+- **제어/비제어 모드**: checked와 defaultChecked를 통한 상태 관리 지원
+- **크기 조절**: small, medium, large 크기 지원
+- **로딩 상태**: loading prop으로 로딩 스피너 표시
+- **모양 커스터마이징**: round prop으로 둥근/사각 모양 제어
+- **색상 커스터마이징**: railColor, railColorActive로 색상 제어
+- **아이콘 커스터마이징**: checkedIcon, uncheckedIcon으로 아이콘 표시
+- **Headless 설계**: 스타일링은 사용자가 제어
+- **접근성**: ARIA 속성 지원

@@ -1,0 +1,201 @@
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { MentionCss } from '@headless/ui';
+
+# Mention
+
+사용자 멘션 기능을 제공하는 컴포넌트입니다. 텍스트 입력 시 특정 사용자나 항목을 언급할 수 있습니다.
+
+### 사용법
+
+```tsx
+import { Mention } from '@headless/ui';
+
+export function MyComponent() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Mention
+      value={value}
+      onChange={setValue}
+      options={[
+        { label: 'User 1', value: 'user1' },
+        { label: 'User 2', value: 'user2' },
+      ]}
+    />
+  );
+}
+```
+
+### 예제
+
+#### 기본 Mention
+
+<Playground preview={<DemoMentionBasic />} />
+
+```tsx
+const users = [
+  { label: '07akioni', value: '07akioni' },
+  { label: 'star-kirby', value: 'star-kirby' },
+  // ...
+];
+
+<Mention
+  value={value}
+  onChange={setValue}
+  options={users}
+  placeholder="Type @ to mention someone"
+/>;
+```
+
+#### With Default Value
+
+<Playground preview={<DemoMentionDefaultValue />} />
+
+```tsx
+<Mention
+  value={value}
+  onChange={setValue}
+  options={users}
+  defaultValue="Hello @07akioni, how are you?"
+/>
+```
+
+#### Custom Prefix
+
+<Playground preview={<DemoMentionCustomPrefix />} />
+
+```tsx
+<Mention
+  value={value}
+  onChange={setValue}
+  options={users}
+  prefix="#"
+  placeholder="Type # to mention someone"
+/>
+```
+
+#### Custom Separator
+
+<Playground preview={<DemoMentionCustomSeparator />} />
+
+```tsx
+<Mention
+  value={value}
+  onChange={setValue}
+  options={users}
+  separator="\n"
+  placeholder="Type @ to mention (Enter to new line)"
+/>
+```
+
+#### Disabled
+
+<Playground preview={<DemoMentionDisabled />} />
+
+```tsx
+<Mention value={value} onChange={setValue} options={users} disabled />
+```
+
+#### Custom Get Mention
+
+<Playground preview={<DemoMentionCustomGetMention />} />
+
+```tsx
+<Mention
+  value={value}
+  onChange={setValue}
+  options={users}
+  getMention={(option) => `@${option.label}`}
+/>
+```
+
+#### Load Remote Options
+
+<Playground preview={<DemoMentionLoadRemoteOptions />} />
+
+```tsx
+const handleSearch = async (query: string): Promise<MentionOption[]> => {
+  // API 호출 시뮬레이션
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const filtered = users.filter(
+        (user) =>
+          user.label.toLowerCase().includes(query.toLowerCase()) ||
+          user.value.toLowerCase().includes(query.toLowerCase()),
+      );
+      resolve(filtered);
+    }, 500);
+  });
+};
+
+<Mention
+  value={value}
+  onChange={setValue}
+  onSearch={handleSearch}
+  placeholder="Type @ to search users (remote)"
+/>;
+```
+
+#### Empty Slot
+
+<Playground preview={<DemoMentionEmptySlot />} />
+
+```tsx
+<Mention
+  value={value}
+  onChange={setValue}
+  onSearch={handleSearch}
+  empty={
+    <div>
+      <div>🔍</div>
+      <div>검색 결과가 없습니다</div>
+      <div>다른 키워드로 검색해보세요</div>
+    </div>
+  }
+/>
+```
+
+### API Reference
+
+#### Mention Props
+
+| Property              | Type                                                             | Default | Description                                            |
+| --------------------- | ---------------------------------------------------------------- | ------- | ------------------------------------------------------ |
+| value                 | `string`                                                         | -       | 제어된 값                                              |
+| defaultValue          | `string`                                                         | -       | 기본값                                                 |
+| onChange              | `(value: string) => void`                                        | -       | 값 변경 핸들러                                         |
+| options               | `MentionOption[]`                                                | `[]`    | 멘션 옵션 목록                                         |
+| onSearch              | `(query: string) => Promise<MentionOption[]> \| MentionOption[]` | -       | 원격 검색 함수 (onSearch가 제공되면 options 대신 사용) |
+| disabled              | `boolean`                                                        | `false` | 비활성화 여부                                          |
+| placeholder           | `string`                                                         | -       | 입력 플레이스홀더                                      |
+| prefix                | `string`                                                         | `'@'`   | 멘션 접두사                                            |
+| separator             | `string`                                                         | `' '`   | 멘션 구분자                                            |
+| getMention            | `(option: MentionOption) => string`                              | -       | 멘션 텍스트 생성 함수                                  |
+| empty                 | `ReactNode`                                                      | -       | 옵션이 없을 때 표시할 내용 (empty slot)                |
+| injectStyles          | `boolean`                                                        | `true`  | 기본 스타일(CSS) 주입 여부                             |
+| className             | `string`                                                         | -       | 추가 CSS 클래스                                        |
+| inputWrapperClassName | `string`                                                         | -       | Input wrapper CSS 클래스                               |
+| inputClassName        | `string`                                                         | -       | Input CSS 클래스                                       |
+| dropdownClassName     | `string`                                                         | -       | Dropdown CSS 클래스                                    |
+| optionClassName       | `string`                                                         | -       | Option CSS 클래스                                      |
+
+#### MentionOption
+
+| Property | Type     | Description   |
+| -------- | -------- | ------------- |
+| label    | `string` | 표시할 레이블 |
+| value    | `string` | 옵션 값       |
+
+### 특징
+
+- **자동완성**: `@` 기호 입력 시 자동완성 목록 표시
+- **키보드 네비게이션**: 화살표 키로 옵션 선택, Enter/Tab으로 확인
+- **원격 옵션 로딩**: `onSearch` prop을 통해 비동기로 옵션을 로드할 수 있음
+- **로딩 상태**: 원격 검색 중 로딩 표시
+- **커스터마이징**: prefix, separator, getMention 함수로 동작 커스터마이징 가능
+- **Headless 설계**: 스타일링은 사용자가 제어
+- **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={MentionCss} title="MentionCss" />

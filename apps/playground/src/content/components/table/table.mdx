@@ -1,0 +1,119 @@
+import {
+  DemoTableBasic,
+  DemoTableBasicWithControls,
+  DemoTableBasicControls,
+  DemoTableBasicProvider,
+  DemoTableStyled,
+} from './table.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { TableCss } from '@headless/ui';
+
+# Table
+
+Displays data in a structured table format.
+
+### Usage
+
+```tsx
+import { Table } from '@headless/ui';
+
+const columns = [
+  { key: 'name', title: 'Name', dataIndex: 'name' },
+  { key: 'email', title: 'Email', dataIndex: 'email' },
+];
+
+const data = [{ id: 1, name: 'John', email: 'john@example.com' }];
+
+export function MyTable() {
+  return <Table data={data} columns={columns} />;
+}
+```
+
+### Examples
+
+#### 기본 Table (인터랙티브)
+
+<DemoTableBasicProvider>
+  <Playground
+    preview={<DemoTableBasicWithControls />}
+    controls={<DemoTableBasicControls />}
+  />
+</DemoTableBasicProvider>
+
+#### Basic Table
+
+<Playground preview={<DemoTableBasic />} />
+
+```tsx
+const columns = [
+  { key: 'name', title: 'Name', dataIndex: 'name' },
+  { key: 'email', title: 'Email', dataIndex: 'email' },
+  { key: 'role', title: 'Role', dataIndex: 'role' }
+]
+
+<Table data={userData} columns={columns} />
+```
+
+#### Styled Table
+
+<Playground preview={<DemoTableStyled />} />
+
+```tsx
+<Table data={userData} columns={columns} bordered striped hoverable />
+```
+
+### API
+
+#### Table Props
+
+| Property     | Type                                             | Default    | Description                |
+| ------------ | ------------------------------------------------ | ---------- | -------------------------- |
+| data         | `T[]`                                            | `[]`       | 데이터 배열                |
+| columns      | `TableColumn<T>[]`                               | `[]`       | 컬럼 정의                  |
+| rowKey       | `string \| (record: T, index: number) => string` | `'key'`    | 행 키 생성자               |
+| size         | `'small' \| 'medium' \| 'large'`                 | `'medium'` | 테이블 크기                |
+| bordered     | `boolean`                                        | `false`    | 테두리 표시 여부           |
+| striped      | `boolean`                                        | `false`    | 줄무늬 행 표시 여부        |
+| hoverable    | `boolean`                                        | `true`     | 호버 효과 여부             |
+| loading      | `boolean`                                        | `false`    | 로딩 상태                  |
+| pagination   | `object`                                         | -          | 페이징 설정                |
+| onRow        | `(record: T, index: number) => object`           | -          | 행 이벤트 핸들러           |
+| injectStyles | `boolean`                                        | `true`     | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`                                         | -          | 추가 CSS 클래스            |
+
+#### TableColumn
+
+| Property  | Type                                                        | Default  | Description                   |
+| --------- | ----------------------------------------------------------- | -------- | ----------------------------- |
+| key       | `string`                                                    | -        | 고유 컬럼 키                  |
+| title     | `string`                                                    | -        | 컬럼 헤더                     |
+| dataIndex | `keyof T`                                                   | -        | 데이터 필드 키                |
+| width     | `number \| string`                                          | -        | 컬럼 너비                     |
+| align     | `'left' \| 'center' \| 'right'`                             | `'left'` | 텍스트 정렬                   |
+| sortable  | `boolean`                                                   | `false`  | 정렬 가능 여부                |
+| render    | `(value: any, record: T, index: number) => React.ReactNode` | -        | 커스텀 셀 렌더러              |
+| ellipsis  | `boolean`                                                   | `false`  | 오버플로우 말줄임표 표시 여부 |
+
+#### Pagination
+
+| Property        | Type                                       | Default | Description                |
+| --------------- | ------------------------------------------ | ------- | -------------------------- |
+| current         | `number`                                   | `1`     | 현재 페이지 번호           |
+| pageSize        | `number`                                   | `10`    | 페이지당 항목 수           |
+| total           | `number`                                   | -       | 전체 항목 수               |
+| showSizeChanger | `boolean`                                  | `false` | 페이지 크기 변경 표시 여부 |
+| showQuickJumper | `boolean`                                  | `false` | 빠른 페이지 이동 표시 여부 |
+| onChange        | `(page: number, pageSize: number) => void` | -       | 페이지 변경 핸들러         |
+
+#### onRow Return
+
+| Property      | Type                                | Description         |
+| ------------- | ----------------------------------- | ------------------- |
+| onClick       | `(event: React.MouseEvent) => void` | 행 클릭 핸들러      |
+| onDoubleClick | `(event: React.MouseEvent) => void` | 행 더블 클릭 핸들러 |
+| className     | `string`                            | 행 CSS 클래스       |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={TableCss} title="TableCss" />

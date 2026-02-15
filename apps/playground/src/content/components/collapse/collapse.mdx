@@ -1,0 +1,235 @@
+import {
+  DemoCollapseBasic,
+  DemoCollapseBasicWithControls,
+  DemoCollapseBasicControls,
+  DemoCollapseBasicProvider,
+  DemoCollapseAccordion,
+  DemoCollapseDefaultActive,
+  DemoCollapseControlled,
+  DemoCollapseWithExtra,
+  DemoCollapseDisabled,
+} from './collapse.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { CollapseCss } from '@headless/ui';
+
+# Collapse
+
+Collapse 컴포넌트는 콘텐츠를 접었다 펼칠 수 있는 아코디언 형태의 컴포넌트입니다. FAQ, 설정 패널 등에서 사용됩니다.
+
+## 기본 사용법
+
+Collapse 컴포넌트는 `Collapse.Panel`을 children으로 받습니다.
+
+### 기본 Collapse (인터랙티브)
+
+<DemoCollapseBasicProvider>
+  <Playground
+    preview={<DemoCollapseBasicWithControls />}
+    controls={<DemoCollapseBasicControls />}
+  />
+</DemoCollapseBasicProvider>
+
+<Playground preview={<DemoCollapseBasic />} />
+
+```tsx
+import { Collapse } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Collapse>
+      <Collapse.Panel header="Panel 1" key="1">
+        <p>Content of panel 1</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 2" key="2">
+        <p>Content of panel 2</p>
+      </Collapse.Panel>
+    </Collapse>
+  );
+}
+```
+
+## Accordion Mode
+
+`accordion` prop을 사용하면 한 번에 하나의 패널만 열리도록 할 수 있습니다.
+
+<Playground preview={<DemoCollapseAccordion />} />
+
+```tsx
+import { Collapse } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Collapse accordion>
+      <Collapse.Panel header="Panel 1" key="1">
+        <p>Content 1</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 2" key="2">
+        <p>Content 2</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 3" key="3">
+        <p>Content 3</p>
+      </Collapse.Panel>
+    </Collapse>
+  );
+}
+```
+
+## Default Active
+
+기본적으로 열려있을 패널을 지정할 수 있습니다.
+
+<Playground preview={<DemoCollapseDefaultActive />} />
+
+```tsx
+import { Collapse } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Collapse defaultActiveKey={['1', '2']}>
+      <Collapse.Panel header="Panel 1" key="1">
+        <p>Content 1</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 2" key="2">
+        <p>Content 2</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 3" key="3">
+        <p>Content 3</p>
+      </Collapse.Panel>
+    </Collapse>
+  );
+}
+```
+
+## Controlled
+
+`activeKey`와 `onChange`를 통해 패널 상태를 제어할 수 있습니다.
+
+<Playground preview={<DemoCollapseControlled />} />
+
+```tsx
+import { useState } from 'react';
+import { Collapse } from '@headless/ui';
+
+export function MyComponent() {
+  const [activeKey, setActiveKey] = useState<string[]>(['1']);
+
+  return (
+    <Collapse
+      activeKey={activeKey}
+      onChange={(keys) => setActiveKey(keys as string[])}
+    >
+      <Collapse.Panel header="Panel 1" key="1">
+        <p>Content 1</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 2" key="2">
+        <p>Content 2</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 3" key="3">
+        <p>Content 3</p>
+      </Collapse.Panel>
+    </Collapse>
+  );
+}
+```
+
+## With Extra
+
+패널 헤더에 추가 콘텐츠를 표시할 수 있습니다.
+
+<Playground preview={<DemoCollapseWithExtra />} />
+
+```tsx
+import { Collapse } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Collapse>
+      <Collapse.Panel
+        header="Panel 1"
+        key="1"
+        extra={
+          <span style={{ color: 'var(--color-text-secondary)' }}>Extra</span>
+        }
+      >
+        <p>Content 1</p>
+      </Collapse.Panel>
+      <Collapse.Panel
+        header="Panel 2"
+        key="2"
+        extra={
+          <span style={{ color: 'var(--color-text-secondary)' }}>Extra</span>
+        }
+      >
+        <p>Content 2</p>
+      </Collapse.Panel>
+    </Collapse>
+  );
+}
+```
+
+## Disabled Panel
+
+특정 패널을 비활성화할 수 있습니다.
+
+<Playground preview={<DemoCollapseDisabled />} />
+
+```tsx
+import { Collapse } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Collapse>
+      <Collapse.Panel header="Panel 1" key="1">
+        <p>Content 1</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 2" key="2" disabled>
+        <p>Content 2 (disabled)</p>
+      </Collapse.Panel>
+      <Collapse.Panel header="Panel 3" key="3">
+        <p>Content 3</p>
+      </Collapse.Panel>
+    </Collapse>
+  );
+}
+```
+
+## API
+
+### Collapse Props
+
+| Property             | Description                         | Type                                          | Default  |
+| -------------------- | ----------------------------------- | --------------------------------------------- | -------- |
+| accordion            | 아코디언 모드 (한 번에 하나만 열림) | `boolean`                                     | `false`  |
+| activeKey            | 활성화된 패널 키 (controlled)       | `string \| string[]`                          | -        |
+| defaultActiveKey     | 기본 활성화된 패널 키               | `string \| string[]`                          | `[]`     |
+| onChange             | 패널 상태 변경 콜백                 | `(activeKey: string \| string[]) => void`     | -        |
+| destroyInactivePanel | 비활성 패널을 DOM에서 제거          | `boolean`                                     | `false`  |
+| expandIcon           | 커스텀 확장 아이콘                  | `(props: { isActive: boolean }) => ReactNode` | -        |
+| expandIconPosition   | 확장 아이콘 위치                    | `'left' \| 'right'`                           | `'left'` |
+| className            | 추가 CSS 클래스                     | `string`                                      | -        |
+| injectStyles         | 기본 스타일 주입 여부               | `boolean`                                     | `true`   |
+| children             | Collapse.Panel 컴포넌트들           | `React.ReactNode`                             | -        |
+
+### Collapse.Panel Props
+
+| Property  | Description          | Type              | Default |
+| --------- | -------------------- | ----------------- | ------- |
+| key       | 패널 고유 키         | `string`          | -       |
+| header    | 패널 헤더            | `React.ReactNode` | -       |
+| disabled  | 비활성화 여부        | `boolean`         | `false` |
+| showArrow | 화살표 표시 여부     | `boolean`         | `true`  |
+| extra     | 헤더에 추가할 콘텐츠 | `React.ReactNode` | -       |
+| className | 추가 CSS 클래스      | `string`          | -       |
+| children  | 패널 콘텐츠          | `React.ReactNode` | -       |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={CollapseCss} title="CollapseCss" />
+
+## 특징
+
+- **아코디언 모드**: 한 번에 하나의 패널만 열리도록 설정 가능
+- **제어/비제어 모드**: controlled/uncontrolled 모드 모두 지원
+- **키보드 네비게이션**: 화살표 키로 패널 탐색 가능
+- **접근성**: ARIA 속성을 지원하여 스크린 리더와 호환

@@ -1,0 +1,213 @@
+import {
+  DemoSnackbarBasic,
+  DemoSnackbarWithAction,
+  DemoSnackbarClosable,
+  DemoSnackbarPlacement,
+  DemoSnackbarDuration,
+  DemoSnackbarMaxCount,
+  DemoSnackbarWithProgress,
+} from './snackbar.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { SnackbarCss } from '@headless/ui';
+
+# Snackbar
+
+화면 하단에 표시되는 간단한 메시지 컴포넌트입니다. 액션 버튼을 포함할 수 있으며 사용자에게 빠른 피드백을 제공합니다.
+
+### 사용법
+
+```tsx
+import { Snackbar } from '@headless/ui';
+
+export function MyComponent() {
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setShowSnackbar(true)}>Snackbar 표시</button>
+      {showSnackbar && (
+        <Snackbar
+          message="작업이 완료되었습니다!"
+          onClose={() => setShowSnackbar(false)}
+          duration={4000}
+        />
+      )}
+    </>
+  );
+}
+```
+
+### 예제
+
+#### 기본 Snackbar
+
+<Playground preview={<DemoSnackbarBasic />} />
+
+```tsx
+const [snackbars, setSnackbars] = useState([]);
+
+const showSnackbar = (message) => {
+  const id = Date.now();
+  setSnackbars((prev) => [...prev, { id, message }]);
+};
+
+const removeSnackbar = (id) => {
+  setSnackbars((prev) => prev.filter((snackbar) => snackbar.id !== id));
+};
+
+<Button onClick={() => showSnackbar('메시지가 전송되었습니다.')}>
+  기본 Snackbar
+</Button>;
+
+{
+  snackbars.map((snackbar) => (
+    <Snackbar
+      key={snackbar.id}
+      message={snackbar.message}
+      onClose={() => removeSnackbar(snackbar.id)}
+      duration={4000}
+    />
+  ));
+}
+```
+
+#### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 Snackbar가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={SnackbarCss} title="SnackbarCss" />
+
+#### 액션 버튼과 함께
+
+<Playground preview={<DemoSnackbarWithAction />} />
+
+```tsx
+<Snackbar
+  message="파일이 삭제되었습니다."
+  action={<Button onClick={handleUndo}>실행 취소</Button>}
+  onClose={() => setShowSnackbar(false)}
+  duration={4000}
+/>
+```
+
+#### 닫기 가능
+
+<Playground preview={<DemoSnackbarClosable />} />
+
+```tsx
+<Snackbar
+  message="닫기 버튼이 있는 Snackbar입니다."
+  closable
+  onClose={() => setShowSnackbar(false)}
+  duration={0}
+/>
+```
+
+#### 배치 옵션
+
+<Playground preview={<DemoSnackbarPlacement />} />
+
+```tsx
+<Snackbar
+  message="하단 중앙에 표시됩니다."
+  placement="bottom"
+  onClose={() => setShowSnackbar(false)}
+/>
+
+<Snackbar
+  message="하단 오른쪽에 표시됩니다."
+  placement="bottom-right"
+  onClose={() => setShowSnackbar(false)}
+/>
+```
+
+#### 프로그레스 바
+
+<Playground preview={<DemoSnackbarWithProgress />} />
+
+```tsx
+<Snackbar
+  message="프로그레스 바가 있는 Snackbar"
+  duration={5000}
+  showProgress
+  onClose={() => setShowSnackbar(false)}
+/>
+```
+
+#### 지속 시간
+
+<Playground preview={<DemoSnackbarDuration />} />
+
+```tsx
+// 4초 후 자동으로 사라짐
+<Snackbar
+  message="4초 후 자동으로 사라집니다."
+  duration={4000}
+  onClose={() => setShowSnackbar(false)}
+/>
+
+// 자동으로 사라지지 않음
+<Snackbar
+  message="자동으로 사라지지 않습니다."
+  duration={0}
+  onClose={() => setShowSnackbar(false)}
+/>
+```
+
+#### 최대 개수 제한
+
+<Playground preview={<DemoSnackbarMaxCount />} />
+
+```tsx
+const [snackbars, setSnackbars] = useState([]);
+const maxCount = 3; // 최대 3개까지 표시
+
+const showSnackbar = (message) => {
+  const id = Date.now();
+  setSnackbars((prev) => {
+    const newSnackbars = [...prev, { id, message }];
+    // maxCount를 초과하면 가장 오래된 것부터 제거
+    return newSnackbars.slice(-maxCount);
+  });
+};
+
+{
+  snackbars.map((snackbar, index) => (
+    <Snackbar
+      key={snackbar.id}
+      message={snackbar.message}
+      index={index}
+      maxCount={maxCount}
+      onClose={() => removeSnackbar(snackbar.id)}
+    />
+  ));
+}
+```
+
+### API Reference
+
+#### Snackbar Props
+
+| Property     | Type                                          | Default    | Description                            |
+| ------------ | --------------------------------------------- | ---------- | -------------------------------------- |
+| message      | `ReactNode`                                   | -          | Snackbar 메시지                        |
+| action       | `ReactNode`                                   | -          | 액션 버튼 (예: 실행 취소)              |
+| duration     | `number`                                      | `4000`     | 자동 닫힘 시간 (밀리초, 0이면 영구)    |
+| onClose      | `() => void`                                  | -          | Snackbar가 닫힐 때 콜백                |
+| placement    | `'bottom' \| 'bottom-left' \| 'bottom-right'` | `'bottom'` | Snackbar 배치 위치                     |
+| closable     | `boolean`                                     | `false`    | 닫기 버튼 표시 여부                    |
+| showProgress | `boolean`                                     | `false`    | 프로그레스 바 표시 여부                |
+| index        | `number`                                      | `0`        | Snackbar 인덱스 (여러 개 쌓을 때 사용) |
+| maxCount     | `number`                                      | `Infinity` | 최대 표시 개수                         |
+| className    | `string`                                      | -          | 추가 CSS 클래스                        |
+
+### 특징
+
+- **액션 버튼**: 사용자가 빠르게 액션을 취할 수 있는 버튼을 포함할 수 있습니다
+- **자동 닫힘**: 설정된 시간 후 자동으로 사라집니다
+- **다양한 배치**: 화면 하단의 다양한 위치에 배치할 수 있습니다
+- **쌓임 효과**: 여러 Snackbar가 위로 쌓이며, 사라지면 남은 Snackbar가 부드럽게 이동합니다
+- **최대 개수 제한**: `maxCount` prop으로 동시에 표시할 최대 개수를 제한할 수 있습니다
+- **접근성**: ARIA 속성을 사용하여 스크린 리더를 지원합니다
+- **Headless 설계**: 스타일링은 사용자가 제어합니다

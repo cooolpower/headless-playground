@@ -1,0 +1,139 @@
+# Typography
+
+일관된 계층 구조와 스타일링을 가진 시맨틱 텍스트 요소를 제공합니다. Typography 컴포넌트는 애플리케이션 전체에서 시각적 일관성과 적절한 텍스트 구조를 유지하는 데 도움이 됩니다.
+
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { TypographyCss } from '@headless/ui';
+
+### 사용법
+
+```tsx
+import {
+  Title,
+  Text,
+  Paragraph,
+} from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <>
+      <Title level={1}>메인 제목</Title>
+      <Paragraph>콘텐츠 단락</Paragraph>
+      <Text>인라인 텍스트</Text>
+    </>
+  );
+}
+```
+
+### 예제
+
+#### 제목 레벨
+
+<Playground preview={<DemoTypographyTitles />} />
+
+```tsx
+<Title level={1}>H1 제목 - 메인 제목</Title>
+<Title level={2}>H2 제목 - 섹션 제목</Title>
+<Title level={3}>H3 제목 - 하위 섹션 제목</Title>
+<Title level={4}>H4 제목 - 부제목</Title>
+<Title level={5}>H5 제목 - 작은 제목</Title>
+<Title level={6}>H6 제목 - 가장 작은 제목</Title>
+```
+
+#### 텍스트 변형
+
+<Playground preview={<DemoTypographyText />} />
+
+```tsx
+<Text>일반 텍스트 콘텐츠</Text>
+<Text>
+  <strong>굵은 텍스트</strong>와 <em>기울임 텍스트</em>를 혼합할 수 있습니다
+</Text>
+```
+
+#### 단락
+
+<Playground preview={<DemoTypographyParagraphs />} />
+
+```tsx
+<Paragraph>
+  이것은 긴 텍스트 블록을 위한 단락 컴포넌트입니다.
+  단락은 적절한 줄 간격과 텍스트 흐름을 제공합니다.
+</Paragraph>
+
+<Paragraph>
+  여러 단락은 일관된 간격을 유지합니다.
+</Paragraph>
+```
+
+#### 아티클 예제
+
+<Playground preview={<DemoTypographyCombined />} />
+
+```tsx
+<Title level={1}>아티클 제목</Title>
+
+<Title level={3}>소개</Title>
+<Paragraph>
+  이것은 주요 주제를 설명하는 소개 단락입니다.
+</Paragraph>
+
+<Title level={3}>주요 콘텐츠</Title>
+<Paragraph>
+  여기에 상세한 정보가 담긴 주요 콘텐츠가 있습니다.
+  <Text> 인라인 텍스트 컴포넌트 </Text>는 단락 내에서 사용할 수 있습니다.
+</Paragraph>
+```
+
+#### 커스텀 스타일링
+
+<Playground preview={<DemoTypographyCustom />} />
+
+```tsx
+<Title level={1} className="custom-title">
+  커스텀 스타일 제목
+</Title>
+
+<Paragraph className="custom-paragraph">
+  커스텀 스타일이 적용된 단락
+</Paragraph>
+```
+
+### API Reference
+
+#### Title Props
+
+| Property     | Type                         | Default | Description                |
+| ------------ | ---------------------------- | ------- | -------------------------- |
+| level        | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `1`     | 제목 레벨                  |
+| injectStyles | `boolean`                    | `true`  | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`                     | -       | 추가 CSS 클래스            |
+| children     | `ReactNode`                  | -       | 제목 콘텐츠                |
+
+#### Text Props
+
+| Property     | Type        | Default | Description                |
+| ------------ | ----------- | ------- | -------------------------- |
+| injectStyles | `boolean`   | `true`  | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`    | -       | 추가 CSS 클래스            |
+| children     | `ReactNode` | -       | 텍스트 콘텐츠              |
+
+#### Paragraph Props
+
+| Property     | Type        | Default | Description                |
+| ------------ | ----------- | ------- | -------------------------- |
+| injectStyles | `boolean`   | `true`  | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`    | -       | 추가 CSS 클래스            |
+| children     | `ReactNode` | -       | 단락 콘텐츠                |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={TypographyCss} title="TypographyCss" />
+
+### Best Practices
+
+- 시맨틱 HTML 구조를 유지하기 위해 제목에는 `Title` 사용
+- 본문 텍스트 블록에는 `Paragraph` 사용
+- 일관된 스타일링이 필요한 인라인 텍스트에는 `Text` 사용
+- 적절한 제목 계층 구조 유지 (레벨 건너뛰지 않기)
+- 풍부한 텍스트 레이아웃을 만들기 위해 컴포넌트 결합

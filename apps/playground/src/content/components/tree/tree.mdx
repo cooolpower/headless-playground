@@ -1,0 +1,223 @@
+import {
+  DemoTreeBasic,
+  DemoTreeBasicWithControls,
+  DemoTreeBasicControls,
+  DemoTreeBasicProvider,
+  DemoTreeCheckable,
+  DemoTreeSelectable,
+  DemoTreeWithIcons,
+  DemoTreeShowLine,
+  DemoTreeDefaultExpanded,
+  DemoTreeDisabled,
+} from './tree.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { TreeCss } from '@headless/ui';
+
+# Tree
+
+Tree는 계층적 데이터를 트리 구조로 표시하는 컴포넌트입니다. 파일 시스템, 조직도, 카테고리 구조 등을 표현하는 데 사용됩니다.
+
+## 기본 사용법
+
+Tree 컴포넌트는 `treeData` prop을 통해 데이터를 전달받습니다.
+
+### 기본 Tree (인터랙티브)
+
+<DemoTreeBasicProvider>
+  <Playground
+    preview={<DemoTreeBasicWithControls />}
+    controls={<DemoTreeBasicControls />}
+  />
+</DemoTreeBasicProvider>
+
+<Playground preview={<DemoTreeBasic />} />
+
+```tsx
+import { Tree } from '@headless/ui';
+import type { TreeNodeData } from '@headless/ui';
+
+const treeData: TreeNodeData[] = [
+  {
+    key: '1',
+    title: 'Parent 1',
+    children: [
+      {
+        key: '1-1',
+        title: 'Child 1-1',
+      },
+      {
+        key: '1-2',
+        title: 'Child 1-2',
+      },
+    ],
+  },
+  {
+    key: '2',
+    title: 'Parent 2',
+  },
+];
+
+export function MyComponent() {
+  return <Tree treeData={treeData} />;
+}
+```
+
+## Checkable
+
+체크박스를 표시하여 노드를 선택할 수 있습니다.
+
+<Playground preview={<DemoTreeCheckable />} />
+
+```tsx
+const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
+
+<Tree
+  treeData={treeData}
+  checkable
+  checkedKeys={checkedKeys}
+  onCheck={(keys) => setCheckedKeys(keys)}
+/>;
+```
+
+## Selectable
+
+노드를 선택할 수 있습니다. `multiple` prop으로 다중 선택을 지원합니다.
+
+<Playground preview={<DemoTreeSelectable />} />
+
+```tsx
+const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+
+<Tree
+  treeData={treeData}
+  selectable
+  selectedKeys={selectedKeys}
+  onSelect={(keys) => setSelectedKeys(keys)}
+/>;
+```
+
+## With Icons
+
+각 노드에 아이콘을 표시할 수 있습니다.
+
+<Playground preview={<DemoTreeWithIcons />} />
+
+```tsx
+const treeData: TreeNodeData[] = [
+  {
+    key: '1',
+    title: 'Documents',
+    icon: '📁',
+    children: [
+      {
+        key: '1-1',
+        title: 'Document 1',
+        icon: '📄',
+      },
+    ],
+  },
+];
+
+<Tree treeData={treeData} showIcon />;
+```
+
+## Show Line
+
+노드 간 연결선을 표시합니다.
+
+<Playground preview={<DemoTreeShowLine />} />
+
+```tsx
+<Tree treeData={treeData} showLine />
+```
+
+## Default Expanded
+
+기본적으로 확장할 노드를 지정할 수 있습니다.
+
+<Playground preview={<DemoTreeDefaultExpanded />} />
+
+```tsx
+<Tree treeData={treeData} defaultExpandedKeys={['1', '2']} />
+```
+
+## Disabled
+
+특정 노드를 비활성화할 수 있습니다.
+
+<Playground preview={<DemoTreeDisabled />} />
+
+```tsx
+const treeData: TreeNodeData[] = [
+  {
+    key: '1',
+    title: 'Parent 1',
+    children: [
+      {
+        key: '1-1',
+        title: 'Child 1-1',
+        disabled: true,
+      },
+    ],
+  },
+];
+
+<Tree treeData={treeData} />;
+```
+
+## API
+
+### Tree Props
+
+| Property            | Description                                 | Type                                     | Default   |
+| ------------------- | ------------------------------------------- | ---------------------------------------- | --------- |
+| treeData            | 트리 데이터                                 | `TreeNodeData[]`                         | `[]`      |
+| expandedKeys        | 확장된 노드 키 배열 (controlled)            | `string[]`                               | -         |
+| selectedKeys        | 선택된 노드 키 배열 (controlled)            | `string[]`                               | -         |
+| checkedKeys         | 체크된 노드 키 배열 (controlled)            | `string[]`                               | -         |
+| defaultExpandedKeys | 기본 확장된 노드 키 배열                    | `string[]`                               | `[]`      |
+| defaultSelectedKeys | 기본 선택된 노드 키 배열                    | `string[]`                               | `[]`      |
+| defaultCheckedKeys  | 기본 체크된 노드 키 배열                    | `string[]`                               | `[]`      |
+| onExpand            | 노드 확장/축소 콜백                         | `(expandedKeys: string[], info) => void` | -         |
+| onSelect            | 노드 선택 콜백                              | `(selectedKeys: string[], info) => void` | -         |
+| onCheck             | 노드 체크 콜백                              | `(checkedKeys: string[], info) => void`  | -         |
+| showLine            | 연결선 표시 여부                            | `boolean`                                | `false`   |
+| showIcon            | 아이콘 표시 여부                            | `boolean`                                | `false`   |
+| checkable           | 체크박스 표시 여부                          | `boolean`                                | `false`   |
+| selectable          | 선택 가능 여부                              | `boolean`                                | `true`    |
+| multiple            | 다중 선택 여부                              | `boolean`                                | `false`   |
+| disabled            | 전체 비활성화 여부                          | `boolean`                                | `false`   |
+| checkStrictly       | 체크박스가 부모-자식 관계와 독립적으로 동작 | `boolean`                                | `false`   |
+| autoExpandParent    | 자식 노드 선택 시 부모 자동 확장            | `boolean`                                | `true`    |
+| defaultExpandAll    | 기본적으로 모든 노드 확장                   | `boolean`                                | `false`   |
+| expandAction        | 노드 확장 트리거 액션                       | `'click' \| 'doubleClick'`               | `'click'` |
+| titleRender         | 커스텀 타이틀 렌더 함수                     | `(node: TreeNodeData) => ReactNode`      | -         |
+| filterTreeNode      | 노드 필터링 함수                            | `(node: TreeNodeData) => boolean`        | -         |
+| injectStyles        | 기본 스타일 주입 여부                       | `boolean`                                | `true`    |
+| className           | 추가 CSS 클래스                             | `string`                                 | -         |
+| classNames          | 내부 요소별 CSS 클래스 객체                 | `TreeClassNames`                         | -         |
+
+### TreeNodeData
+
+| Property   | Description    | Type               | Default |
+| ---------- | -------------- | ------------------ | ------- |
+| key        | 노드 고유 키   | `string \| number` | -       |
+| title      | 노드 제목      | `ReactNode`        | -       |
+| children   | 자식 노드 배열 | `TreeNodeData[]`   | -       |
+| disabled   | 비활성화 여부  | `boolean`          | `false` |
+| selectable | 선택 가능 여부 | `boolean`          | `true`  |
+| checkable  | 체크 가능 여부 | `boolean`          | `true`  |
+| icon       | 노드 아이콘    | `ReactNode`        | -       |
+| isLeaf     | 리프 노드 여부 | `boolean`          | -       |
+
+## 특징
+
+- **키보드 네비게이션**: 화살표 키로 트리 탐색 가능
+- **접근성**: ARIA 속성을 지원하여 스크린 리더와 호환
+- **제어 모드**: controlled/uncontrolled 모드 모두 지원
+- **커스터마이징**: `titleRender`로 노드 제목 커스터마이징 가능
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={TreeCss} title="TreeCss" />

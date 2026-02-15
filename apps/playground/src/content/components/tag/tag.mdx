@@ -1,0 +1,90 @@
+import {
+  DemoTagBasic,
+  DemoTagBasicWithControls,
+  DemoTagBasicControls,
+  DemoTagBasicProvider,
+  DemoTagClosable,
+  DemoTagTypes,
+  DemoTagSizes,
+  DemoTagWithIcons,
+} from './tag.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { TagCss } from '@headless/ui';
+
+# Tag
+
+콘텐츠에 대한 분류 및 레이블링을 제공합니다.
+
+### 예제
+
+#### 기본 Tag (인터랙티브)
+
+<DemoTagBasicProvider>
+  <Playground
+    preview={<DemoTagBasicWithControls />}
+    controls={<DemoTagBasicControls />}
+  />
+</DemoTagBasicProvider>
+
+#### 기본
+
+<Playground preview={<DemoTagBasic />} />
+
+```tsx
+<Tag>기본 Tag</Tag>
+```
+
+#### 닫기 가능
+
+<Playground preview={<DemoTagClosable />} />
+
+```tsx
+<Tag closable onClose={() => removeTag(tag)}>
+  제거 가능한 Tag
+  <button onClick={handleClose}>×</button>
+</Tag>
+```
+
+#### 타입
+
+<Playground preview={<DemoTagTypes />} />
+
+```tsx
+<Tag variant="default">Default</Tag>
+<Tag variant="primary">Primary</Tag>
+<Tag variant="success">Success</Tag>
+<Tag variant="warning">Warning</Tag>
+<Tag variant="error">Error</Tag>
+```
+
+#### 크기
+
+<Playground preview={<DemoTagSizes />} />
+
+```tsx
+<Tag size="small">Small</Tag>
+<Tag size="medium">Medium</Tag>
+<Tag size="large">Large</Tag>
+```
+
+#### 아이콘과 함께
+
+<Playground preview={<DemoTagWithIcons />} />
+
+```tsx
+<Tag>
+  <Icon icon={Star} size="small" />
+  레이블
+</Tag>
+
+<Tag closable>
+    <Icon icon={AlertCircle} size="small" />
+    Warning
+  </Tag>
+</div>
+```
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={TagCss} title="TagCss" />

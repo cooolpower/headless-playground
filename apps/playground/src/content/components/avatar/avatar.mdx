@@ -1,0 +1,71 @@
+import {
+  DemoAvatarSizes,
+  DemoAvatarBasicWithControls,
+  DemoAvatarBasicControls,
+  DemoAvatarBasicProvider,
+  DemoAvatarWithImages,
+  DemoAvatarFallback,
+  DemoAvatarGroup,
+} from './avatar.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { AvatarCss } from '@headless/ui';
+
+# Avatar
+
+사용자 프로필 이미지 또는 대체 텍스트/이니셜을 표시합니다.
+
+### 예제
+
+#### 기본 Avatar (인터랙티브)
+
+<DemoAvatarBasicProvider>
+  <Playground
+    preview={<DemoAvatarBasicWithControls />}
+    controls={<DemoAvatarBasicControls />}
+  />
+</DemoAvatarBasicProvider>
+
+#### 크기
+
+<Playground preview={<DemoAvatarSizes />} />
+
+```tsx
+<Avatar size="small" fallback="SM" />
+<Avatar size="medium" fallback="MD" />
+<Avatar size="large" fallback="LG" />
+```
+
+#### 이미지와 함께
+
+<Playground preview={<DemoAvatarWithImages />} />
+
+```tsx
+<Avatar src="/path/to/image.jpg" alt="User Avatar" fallback="JD" />
+```
+
+#### 대체 텍스트
+
+<Playground preview={<DemoAvatarFallback />} />
+
+```tsx
+<Avatar fallback="JD" />
+<Avatar fallback="AB" />
+```
+
+#### Avatar 그룹
+
+<Playground preview={<DemoAvatarGroup />} />
+
+```tsx
+<div style={{ display: 'flex' }}>
+  <Avatar fallback="A" />
+  <Avatar fallback="B" />
+  <Avatar fallback="C" />
+  <Avatar fallback="+2" />
+</div>
+```
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={AvatarCss} title="AvatarCss" />

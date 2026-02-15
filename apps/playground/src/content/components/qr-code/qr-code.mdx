@@ -1,0 +1,62 @@
+import {
+  DemoQrCodeBasic,
+  DemoQrCodeBasicWithControls,
+  DemoQrCodeBasicControls,
+  DemoQrCodeBasicProvider,
+} from './qr-code.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { QrCodeCss } from '@headless/ui';
+
+# QR Code
+
+QR 코드를 생성하고 표시하는 컴포넌트입니다. 텍스트나 URL을 QR 코드로 변환할 수 있습니다.
+
+### 사용법
+
+```tsx
+import { QrCode } from '@headless/ui';
+
+export function MyComponent() {
+  return <QrCode value="https://example.com" />;
+}
+```
+
+### 예제
+
+#### 기본 QR Code (인터랙티브)
+
+<DemoQrCodeBasicProvider>
+  <Playground
+    preview={<DemoQrCodeBasicWithControls />}
+    controls={<DemoQrCodeBasicControls />}
+  />
+</DemoQrCodeBasicProvider>
+
+#### 기본 QR Code
+
+<Playground preview={<DemoQrCodeBasic />} />
+
+```tsx
+<QrCode defaultValue="https://example.com" />
+```
+
+**Note:** 이 컴포넌트는 현재 개발 중입니다. 향후 업데이트에서 QR 코드 생성, 크기 조절, 다운로드 등의 기능이 추가될 예정입니다.
+
+### API
+
+#### QrCode Props
+
+| Property     | Type                   | Default | Description           |
+| ------------ | ---------------------- | ------- | --------------------- |
+| value        | `any`                  | -       | 제어된 값             |
+| defaultValue | `any`                  | -       | 기본값                |
+| onChange     | `(value: any) => void` | -       | 값 변경 콜백          |
+| disabled     | `boolean`              | `false` | 비활성화 여부         |
+| className    | `string`               | -       | 추가 CSS 클래스       |
+| injectStyles | `boolean`              | `true`  | 기본 스타일 주입 여부 |
+| children     | `ReactNode`            | -       | 커스텀 콘텐츠         |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={QrCodeCss} title="QrCodeCss" />

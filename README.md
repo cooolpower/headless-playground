@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Headless UI Playground
 
-## Getting Started
+A **Headless UI Component Playground** built with **Next.js**, **TypeScript**, **MDX**, and **pnpm**.
 
-First, run the development server:
+This project focuses on **behavior-first UI components** rather than styles, inspired by **shadcn/ui** and **Storybook**, but implemented from scratch to demonstrate component design, accessibility, and documentation patterns.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ What is this?
+
+This repository is a personal portfolio project showcasing how to design and document **headless React components**.
+
+Each component:
+
+* Exposes **behavior and accessibility**, not styles
+* Supports **controlled & uncontrolled patterns**
+* Can be **interactively tested** directly in the browser
+* Is documented using **MDX**, combining explanation + live examples
+
+The playground UI provides a **Storybook-like experience** without using Storybook itself.
+
+---
+
+## 🧠 Key Concepts Demonstrated
+
+* Headless component architecture
+* Accessibility (ARIA roles, keyboard navigation, focus management)
+* Controlled vs uncontrolled state patterns
+* Composition-first API design
+* MDX-based component documentation
+* Custom interactive playground (preview + controls)
+
+---
+
+## 🛠 Tech Stack
+
+* **Framework**: Next.js (App Router)
+* **Language**: TypeScript
+* **Package Manager**: pnpm
+* **Styling**: Tailwind CSS (demo purposes only)
+* **Documentation**: MDX (`@next/mdx`)
+* **Deployment**: Vercel
+
+---
+
+## 📁 Project Structure
+
+```txt
+src/
+├─ app/
+│  ├─ layout.tsx
+│  ├─ page.tsx
+│  └─ components/
+│     └─ [slug]/
+│        └─ page.tsx      # MDX-driven component pages
+│
+├─ components/
+│  ├─ headless/           # Headless component logic
+│  │  ├─ button/
+│  │  ├─ dropdown/
+│  │  └─ ...
+│  │
+│  ├─ playground/         # Storybook-like playground
+│  │  ├─ playground.tsx
+│  │  ├─ preview.tsx
+│  │  └─ controls.tsx
+│  │
+│  └─ ui/                 # Styled demo components
+│
+├─ content/
+│  └─ components/         # MDX documentation
+│     ├─ button.mdx
+│     └─ dropdown.mdx
+│
+└─ lib/
+   └─ mdx.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧩 Components
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Currently implemented / planned components:
 
-## Learn More
+* Button
+* Toggle / Switch
+* Dropdown
+* Modal (Focus Trap)
+* Tabs (Roving Tabindex)
 
-To learn more about Next.js, take a look at the following resources:
+Each component page includes:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Usage explanation
+* API description
+* Accessibility notes
+* Interactive playground
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧪 Playground
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The playground allows you to:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* See component behavior in real time
+* Toggle props via control panels
+* Understand how state affects behavior
+
+This replaces traditional Storybook with a **fully custom solution** integrated into the app itself.
+
+---
+
+## 🚀 Getting Started
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the playground.
+
+---
+
+## 📦 Why not Storybook?
+
+This project intentionally avoids Storybook to:
+
+* Demonstrate understanding of component documentation internals
+* Control rendering and routing via Next.js
+* Integrate documentation directly with the app
+* Explore MDX-driven UI patterns
+
+---
+
+## 🎯 Goal of This Project
+
+This project is designed as a **frontend engineering portfolio**, focusing on:
+
+* Clear separation of logic and presentation
+* Scalable component APIs
+* Real-world accessibility considerations
+* Developer experience and documentation
+
+---
+
+## 📄 License
+
+MIT

@@ -1,0 +1,81 @@
+import {
+  DemoEllipsisSingleLine,
+  DemoEllipsisBasicWithControls,
+  DemoEllipsisBasicControls,
+  DemoEllipsisBasicProvider,
+  DemoEllipsisMultiLine,
+  DemoEllipsisShortText,
+  DemoEllipsisSizes,
+} from './ellipsis.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { EllipsisCss } from '@headless/ui';
+
+# Ellipsis
+
+Truncates text that exceeds the container width or specified number of lines.
+
+### Examples
+
+#### 기본 Ellipsis (인터랙티브)
+
+<DemoEllipsisBasicProvider>
+  <Playground
+    preview={<DemoEllipsisBasicWithControls />}
+    controls={<DemoEllipsisBasicControls />}
+  />
+</DemoEllipsisBasicProvider>
+
+#### Single Line
+
+<Playground preview={<DemoEllipsisSingleLine />} />
+
+```tsx
+<Ellipsis>
+  <div>Long text that will be truncated...</div>
+</Ellipsis>
+```
+
+#### Multi-line
+
+<Playground preview={<DemoEllipsisMultiLine />} />
+
+```tsx
+<Ellipsis lines={3}>
+  <div>Long text that will be truncated after 3 lines...</div>
+</Ellipsis>
+```
+
+#### Short Text
+
+<Playground preview={<DemoEllipsisShortText />} />
+
+```tsx
+<Ellipsis>
+  <div>Short text that fits</div>
+</Ellipsis>
+```
+
+#### Different Sizes
+
+<Playground preview={<DemoEllipsisSizes />} />
+
+```tsx
+<div style={{ width: '200px' }}>
+  <Ellipsis>
+    <div>Text in different container sizes</div>
+  </Ellipsis>
+</div>
+```
+
+### API
+
+| Property     | Description                                 | Type      | Default |
+| ------------ | ------------------------------------------- | --------- | ------- |
+| lines        | 줄 수 (미지정/1이면 single-line)            | `number`  | `1`     |
+| className    | 추가 CSS 클래스                             | `string`  | -       |
+| injectStyles | 기본 스타일을 컴포넌트가 직접 주입할지 여부 | `boolean` | `true`  |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={EllipsisCss} title="EllipsisCss" />

@@ -1,0 +1,71 @@
+import {
+  DemoImageBasic,
+  DemoImageBasicWithControls,
+  DemoImageBasicControls,
+  DemoImageBasicProvider,
+} from './image.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { ImageCss } from '@headless/ui';
+
+# Image
+
+이미지 표시 + 로딩/에러 상태 + (선택) 프리뷰 오버레이를 제공하는 headless 컴포넌트입니다.
+
+### 사용법
+
+```tsx
+import { Image } from '@headless/ui';
+
+export function MyImage() {
+  return (
+    <Image
+      src="/path/to.jpg"
+      alt="Example"
+      width={240}
+      height={160}
+      preview
+      placeholder={<span>Loading…</span>}
+      fallback={<span>Failed</span>}
+    />
+  );
+}
+```
+
+### 예제
+
+#### 기본 Image (인터랙티브)
+
+<DemoImageBasicProvider>
+  <Playground
+    preview={<DemoImageBasicWithControls />}
+    controls={<DemoImageBasicControls />}
+  />
+</DemoImageBasicProvider>
+
+#### 기본 사용
+
+<Playground preview={<DemoImageBasic />} />
+
+### API Reference
+
+#### Image Props
+
+| Property     | Type                                                       | Default   | Description                |
+| ------------ | ---------------------------------------------------------- | --------- | -------------------------- |
+| src          | `string`                                                   | -         | 이미지 URL                 |
+| alt          | `string`                                                   | `''`      | 대체 텍스트                |
+| width        | `number \| string`                                         | -         | 너비                       |
+| height       | `number \| string`                                         | -         | 높이                       |
+| objectFit    | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'` | object-fit                 |
+| loading      | `'lazy' \| 'eager'`                                        | `'lazy'`  | 로딩 전략                  |
+| placeholder  | `ReactNode`                                                | -         | 로딩 상태 UI               |
+| fallback     | `ReactNode`                                                | -         | 에러 상태 UI               |
+| preview      | `boolean`                                                  | `false`   | 클릭 시 프리뷰 오버레이    |
+| previewSrc   | `string`                                                   | -         | 프리뷰에서 사용할 src      |
+| injectStyles | `boolean`                                                  | `true`    | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`                                                   | -         | 컨테이너 추가 클래스       |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={ImageCss} title="ImageCss" />

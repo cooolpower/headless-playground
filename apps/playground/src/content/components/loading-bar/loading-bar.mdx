@@ -1,0 +1,88 @@
+import {
+  DemoLoadingBarBasic,
+  DemoLoadingBarBasicWithControls,
+  DemoLoadingBarBasicControls,
+  DemoLoadingBarBasicProvider,
+  DemoLoadingBarCustomColor,
+  DemoLoadingBarAutoProgress,
+} from './loading-bar.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { LoadingBarCss } from '@headless/ui';
+
+# Loading Bar
+
+페이지 상단에 표시되는 로딩 진행 바 컴포넌트입니다. 비동기 작업의 진행 상황을 시각적으로 표시합니다.
+
+### 사용법
+
+```tsx
+import { LoadingBar } from '@headless/ui';
+
+export function MyComponent() {
+  const [percent, setPercent] = useState(0);
+
+  return <LoadingBar percent={percent} show={true} color="#007bff" />;
+}
+```
+
+### 예제
+
+#### 기본 Loading Bar (인터랙티브)
+
+<DemoLoadingBarBasicProvider>
+  <Playground
+    preview={<DemoLoadingBarBasicWithControls />}
+    controls={<DemoLoadingBarBasicControls />}
+  />
+</DemoLoadingBarBasicProvider>
+
+#### 기본 Loading Bar
+
+<Playground preview={<DemoLoadingBarBasic />} />
+
+```tsx
+<LoadingBar percent={50} show={true} />
+```
+
+#### 커스텀 색상
+
+<Playground preview={<DemoLoadingBarCustomColor />} />
+
+```tsx
+<LoadingBar percent={75} show={true} color="#28a745" />
+```
+
+#### 커스텀 높이
+
+<Playground preview={<DemoLoadingBarCustomHeight />} />
+
+```tsx
+<LoadingBar percent={60} show={true} height={5} />
+```
+
+#### 자동 숨김
+
+<Playground preview={<DemoLoadingBarAutoHide />} />
+
+```tsx
+<LoadingBar percent={100} show={true} />
+```
+
+### API Reference
+
+#### LoadingBar Props
+
+| Property     | Type        | Default     | Description                |
+| ------------ | ----------- | ----------- | -------------------------- |
+| percent      | `number`    | -           | 로딩 진행률 (0-100)        |
+| show         | `boolean`   | -           | Loading Bar 표시 여부      |
+| color        | `string`    | `'#007bff'` | Loading Bar 색상           |
+| height       | `number`    | `3`         | Loading Bar 높이 (픽셀)    |
+| injectStyles | `boolean`   | `true`      | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`    | -           | 추가 CSS 클래스            |
+| children     | `ReactNode` | -           | 커스텀 콘텐츠              |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={LoadingBarCss} title="LoadingBarCss" />

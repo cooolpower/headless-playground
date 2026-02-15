@@ -1,0 +1,207 @@
+# Radio
+
+라디오 버튼 컴포넌트입니다. 여러 옵션 중 하나만 선택할 수 있습니다.
+
+Radio는 여러 옵션 중 하나만 선택할 수 있는 컴포넌트입니다. RadioGroup을 사용하여 여러 Radio를 그룹화하여 관리할 수 있습니다.
+
+### 사용법
+
+```tsx
+import { Radio, RadioGroup } from '@headless/ui';
+
+export function MyComponent() {
+  const [value, setValue] = useState('option1');
+
+  return (
+    <RadioGroup value={value} onChange={setValue}>
+      <Radio value="option1">Option 1</Radio>
+      <Radio value="option2">Option 2</Radio>
+      <Radio value="option3">Option 3</Radio>
+    </RadioGroup>
+  );
+}
+```
+
+import {
+  DemoRadioBasic,
+  DemoRadioBasicWithControls,
+  DemoRadioBasicControls,
+  DemoRadioBasicProvider,
+  DemoRadioGroup,
+  DemoRadioDefaultValue,
+  DemoRadioDisabled,
+  DemoRadioDisabledGroup,
+  DemoRadioSizes,
+  DemoRadioButtonStyle,
+  DemoRadioCustomLabel,
+} from './radio.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { RadioCss } from '@headless/ui';
+
+### 예제
+
+#### 기본 Radio (인터랙티브)
+
+<DemoRadioBasicProvider>
+  <Playground
+    preview={<DemoRadioBasicWithControls />}
+    controls={<DemoRadioBasicControls />}
+  />
+</DemoRadioBasicProvider>
+
+#### 기본 Radio
+
+<Playground preview={<DemoRadioBasic />} />
+
+```tsx
+const [value, setValue] = useState('option1');
+
+<RadioGroup value={value} onChange={setValue}>
+  <Radio value="option1">Radio 1</Radio>
+  <Radio value="option2">Radio 2</Radio>
+</RadioGroup>;
+```
+
+#### Radio Group
+
+<Playground preview={<DemoRadioGroup />} />
+
+```tsx
+const [value, setValue] = useState('option1');
+
+<RadioGroup value={value} onChange={setValue}>
+  <Radio value="option1">Radio 1</Radio>
+  <Radio value="option2">Radio 2</Radio>
+  <Radio value="option3">Radio 3</Radio>
+</RadioGroup>;
+```
+
+#### With Default Value
+
+<Playground preview={<DemoRadioDefaultValue />} />
+
+```tsx
+<RadioGroup defaultValue="option2">
+  <Radio value="option1">Radio 1</Radio>
+  <Radio value="option2">Radio 2</Radio>
+  <Radio value="option3">Radio 3</Radio>
+</RadioGroup>
+```
+
+#### Disabled
+
+<Playground preview={<DemoRadioDisabled />} />
+
+```tsx
+<RadioGroup>
+  <Radio value="option1" disabled>
+    Disabled Radio 1
+  </Radio>
+  <Radio value="option2" disabled>
+    Disabled Radio 2
+  </Radio>
+  <Radio value="option3">Enabled Radio 3</Radio>
+</RadioGroup>
+```
+
+#### Disabled Group
+
+<Playground preview={<DemoRadioDisabledGroup />} />
+
+```tsx
+<RadioGroup disabled>
+  <Radio value="option1">Radio 1</Radio>
+  <Radio value="option2">Radio 2</Radio>
+  <Radio value="option3">Radio 3</Radio>
+</RadioGroup>
+```
+
+#### Sizes
+
+<Playground preview={<DemoRadioSizes />} />
+
+```tsx
+<RadioGroup value={value} onChange={setValue}>
+  <Radio value="small" size="small">
+    Small
+  </Radio>
+  <Radio value="medium" size="medium">
+    Medium
+  </Radio>
+  <Radio value="large" size="large">
+    Large
+  </Radio>
+</RadioGroup>
+```
+
+#### Button Style
+
+<Playground preview={<DemoRadioButtonStyle />} />
+
+```tsx
+<RadioGroup value={value} onChange={setValue}>
+  <Radio value="option1">Option 1</Radio>
+  <Radio value="option2">Option 2</Radio>
+  <Radio value="option3">Option 3</Radio>
+</RadioGroup>
+```
+
+#### Custom Label
+
+<Playground preview={<DemoRadioCustomLabel />} />
+
+```tsx
+<RadioGroup value={value} onChange={setValue}>
+  <Radio value="option1">
+    <div>
+      <div style={{ fontWeight: '600' }}>Custom Label 1</div>
+      <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
+        Description text
+      </div>
+    </div>
+  </Radio>
+</RadioGroup>
+```
+
+### API Reference
+
+#### Radio Props
+
+| Property     | Type                                | Default    | Description                |
+| ------------ | ----------------------------------- | ---------- | -------------------------- |
+| value        | `string \| number`                  | -          | Radio 값                   |
+| disabled     | `boolean`                           | `false`    | 비활성화 여부              |
+| name         | `string`                            | -          | Radio 그룹 이름            |
+| onChange     | `(value: string \| number) => void` | -          | 값 변경 핸들러             |
+| size         | `'small' \| 'medium' \| 'large'`    | `'medium'` | 크기                       |
+| injectStyles | `boolean`                           | `true`     | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`                            | -          | 추가 CSS 클래스            |
+| children     | `ReactNode`                         | -          | 라벨 콘텐츠                |
+
+#### RadioGroup Props
+
+| Property     | Type                                | Default    | Description                |
+| ------------ | ----------------------------------- | ---------- | -------------------------- |
+| value        | `string \| number`                  | -          | 제어된 값                  |
+| defaultValue | `string \| number`                  | -          | 기본값                     |
+| disabled     | `boolean`                           | `false`    | 전체 비활성화 여부         |
+| name         | `string`                            | -          | Radio 그룹 이름            |
+| onChange     | `(value: string \| number) => void` | -          | 값 변경 핸들러             |
+| size         | `'small' \| 'medium' \| 'large'`    | `'medium'` | 크기                       |
+| injectStyles | `boolean`                           | `true`     | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`                            | -          | 추가 CSS 클래스            |
+| children     | `ReactNode`                         | -          | Radio 컴포넌트들           |
+
+### 특징
+
+- **단일 선택**: 여러 옵션 중 하나만 선택 가능
+- **그룹 관리**: RadioGroup으로 여러 Radio를 그룹화하여 관리
+- **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
+- **크기 조절**: small, medium, large 크기 지원
+- **Headless 설계**: 스타일링은 사용자가 제어
+- **접근성**: ARIA 속성 지원
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={RadioCss} title="RadioCss" />

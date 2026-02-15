@@ -1,0 +1,239 @@
+import {
+  DemoModalBasic,
+  DemoModalBasicWithControls,
+  DemoModalBasicControls,
+  DemoModalBasicProvider,
+  DemoModalConfirm,
+  DemoModalLarge,
+} from './modal.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { ModalCss } from '@headless/ui';
+
+# Modal
+
+모달 다이얼로그 오버레이에 콘텐츠를 표시합니다.
+
+### 사용법
+
+```tsx
+import { Modal } from '@headless/ui';
+
+export function MyModal() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>Modal 열기</button>
+      <Modal open={open} onOpenChange={setOpen} title="My Modal">
+        <p>Modal 콘텐츠가 여기에 들어갑니다.</p>
+      </Modal>
+    </>
+  );
+}
+```
+
+### 예제
+
+#### 기본 Modal (인터랙티브)
+
+<DemoModalBasicProvider>
+  <Playground
+    preview={<DemoModalBasicWithControls />}
+    controls={<DemoModalBasicControls />}
+  />
+</DemoModalBasicProvider>
+
+#### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 Modal이 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={ModalCss} title="ModalCss" />
+
+#### 기본 Modal
+
+<Playground preview={<DemoModalBasic />} />
+
+```tsx
+const [open, setOpen] = useState(false)
+
+<Modal open={open} onOpenChange={setOpen} title="기본 Modal">
+  <p>이것은 기본 모달 다이얼로그입니다.</p>
+</Modal>
+```
+
+#### 확인 Modal
+
+<Playground preview={<DemoModalConfirm />} />
+
+```tsx
+<Modal open={confirmOpen} onOpenChange={setConfirmOpen} title="삭제 확인">
+  <p>이 항목을 삭제하시겠습니까?</p>
+  <div className="flex justify-end gap-2 mt-4">
+    <button onClick={() => setConfirmOpen(false)}>취소</button>
+    <button onClick={handleDelete}>삭제</button>
+  </div>
+</Modal>
+```
+
+#### 폼이 있는 큰 Modal
+
+<Playground preview={<DemoModalLarge />} />
+
+```tsx
+<Modal
+  open={largeOpen}
+  onOpenChange={setLargeOpen}
+  title="프로필 편집"
+  width={600}
+>
+  <form onSubmit={handleSubmit}>
+    <div className="space-y-4">
+      <input placeholder="이름" className="w-full p-2 border rounded" />
+      <textarea
+        placeholder="소개"
+        rows={3}
+        className="w-full p-2 border rounded"
+      />
+    </div>
+    <div className="flex justify-end gap-2 mt-4">
+      <button type="button" onClick={() => setLargeOpen(false)}>
+        취소
+      </button>
+      <button type="submit">저장</button>
+    </div>
+  </form>
+</Modal>
+```
+
+#### Modal 타입
+
+<Playground preview={<DemoModalTypes />} />
+
+```tsx
+// Info Modal
+<Modal open={infoOpen} onOpenChange={setInfoOpen} title="정보">
+  <p>이것은 정보 메시지입니다.</p>
+</Modal>
+
+// Success Modal
+<Modal open={successOpen} onOpenChange={setSuccessOpen} title="성공!">
+  <p>작업이 성공적으로 완료되었습니다.</p>
+</Modal>
+
+// Warning Modal
+<Modal open={warningOpen} onOpenChange={setWarningOpen} title="경고">
+  <p>이 작업에 주의하세요.</p>
+</Modal>
+
+// Error Modal
+<Modal open={errorOpen} onOpenChange={setErrorOpen} title="오류">
+  <p>문제가 발생했습니다. 다시 시도해주세요.</p>
+</Modal>
+```
+
+#### 커스텀 Footer
+
+<Playground preview={<DemoModalCustomFooter />} />
+
+```tsx
+<Modal
+  open={customOpen}
+  onOpenChange={setCustomOpen}
+  title="커스텀 Footer"
+  footer={
+    <div className="flex justify-between w-full">
+      <button onClick={handleSecondary}>보조 액션</button>
+      <div className="flex gap-2">
+        <button onClick={() => setCustomOpen(false)}>취소</button>
+        <button onClick={handlePrimary}>주요 액션</button>
+      </div>
+    </div>
+  }
+>
+  <p>커스텀 footer 콘텐츠가 있는 Modal입니다.</p>
+</Modal>
+```
+
+#### Footer 없는 Modal
+
+<Playground preview={<DemoModalNoFooter />} />
+
+```tsx
+<Modal
+  open={noFooterOpen}
+  onOpenChange={setNoFooterOpen}
+  title="Footer 없음"
+  footer={null}
+>
+  <p>이 Modal은 footer가 없습니다. X 버튼이나 ESC 키로 닫을 수 있습니다.</p>
+  <div className="mt-4">
+    <button
+      onClick={() => setNoFooterOpen(false)}
+      className="px-4 py-2 bg-blue-500 text-white rounded"
+    >
+      Modal 닫기
+    </button>
+  </div>
+</Modal>
+```
+
+#### 중앙 정렬 Modal
+
+<Playground preview={<DemoModalCentered />} />
+
+```tsx
+<Modal
+  open={centeredOpen}
+  onOpenChange={setCenteredOpen}
+  title="중앙 정렬 Modal"
+  centered
+  width={400}
+>
+  <p>이 Modal은 가로와 세로 모두 중앙에 정렬됩니다.</p>
+</Modal>
+```
+
+#### 커스텀 너비 Modal
+
+<Playground preview={<DemoModalCustomWidth />} />
+
+```tsx
+// 작은 Modal
+<Modal open={smallOpen} onOpenChange={setSmallOpen} title="작은 Modal" width={300}>
+  <p>간단한 메시지를 위한 컴팩트한 Modal입니다.</p>
+</Modal>
+
+// 매우 큰 Modal
+<Modal open={xlOpen} onOpenChange={setXlOpen} title="매우 큰 Modal" width={900}>
+  <p>복잡한 콘텐츠와 폼을 위한 큰 Modal입니다.</p>
+</Modal>
+```
+
+### API
+
+#### Modal Props
+
+| Property     | Type                      | Default | Description                        |
+| ------------ | ------------------------- | ------- | ---------------------------------- |
+| open         | `boolean`                 | -       | Modal 열림 여부                    |
+| onOpenChange | `(open: boolean) => void` | -       | Modal 열림 상태 변경 콜백          |
+| title        | `ReactNode`               | -       | Modal 제목                         |
+| children     | `ReactNode`               | -       | Modal 콘텐츠                       |
+| footer       | `ReactNode \| null`       | -       | Modal footer, null이면 footer 숨김 |
+| closable     | `boolean`                 | `true`  | 닫기 버튼 표시 여부                |
+| maskClosable | `boolean`                 | `true`  | 마스크 클릭으로 닫기 여부          |
+| centered     | `boolean`                 | `false` | Modal 중앙 정렬 여부               |
+| width        | `number \| string`        | `520`   | Modal 너비                         |
+| zIndex       | `number`                  | `1000`  | Modal z-index                      |
+| className    | `string`                  | -       | 추가 CSS 클래스                    |
+
+### Notes
+
+- **포커스 관리**: Modal은 열리고 닫힐 때 자동으로 포커스를 관리합니다
+- **키보드 네비게이션**: ESC 키로 Modal 닫기, Modal 내부 Tab 네비게이션
+- **Portal 렌더링**: Modal은 z-index 문제를 피하기 위해 DOM 트리 외부에 렌더링됩니다
+- **백드롭 제어**: Modal 외부 클릭으로 닫기 (`maskClosable`로 설정 가능)
+- **접근성**: 적절한 역할과 레이블을 가진 완전한 ARIA 지원
+- **반응형**: 다양한 화면 크기에 자동으로 적응
+- **성능**: 언마운트 시 적절한 정리와 함께 효율적인 렌더링

@@ -1,0 +1,70 @@
+import {
+  DemoDividerHorizontal,
+  DemoDividerBasicWithControls,
+  DemoDividerBasicControls,
+  DemoDividerBasicProvider,
+  DemoDividerWithText,
+  DemoDividerVertical,
+} from './divider.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { DividerCss } from '@headless/ui';
+
+# Divider
+
+Provides visual separation between content sections.
+
+### Examples
+
+#### 기본 Divider (인터랙티브)
+
+<DemoDividerBasicProvider>
+  <Playground
+    preview={<DemoDividerBasicWithControls />}
+    controls={<DemoDividerBasicControls />}
+  />
+</DemoDividerBasicProvider>
+
+#### Horizontal
+
+<Playground preview={<DemoDividerHorizontal />} />
+
+```tsx
+<div>
+  <p>Content above</p>
+  <Divider />
+  <p>Content below</p>
+</div>
+```
+
+#### With Text
+
+<Playground preview={<DemoDividerWithText />} />
+
+```tsx
+<div>
+  <p>Section A</p>
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+    <Divider />
+    <span>OR</span>
+    <Divider />
+  </div>
+  <p>Section B</p>
+</div>
+```
+
+#### Vertical
+
+<Playground preview={<DemoDividerVertical />} />
+
+```tsx
+<div style={{ display: 'flex' }}>
+  <div>Left content</div>
+  <Divider orientation="vertical" />
+  <div>Right content</div>
+</div>
+```
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={DividerCss} title="DividerCss" />

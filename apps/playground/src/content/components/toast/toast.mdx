@@ -1,0 +1,246 @@
+import {
+  DemoToastBasic,
+  DemoToastWithIcon,
+  DemoToastPlacement,
+  DemoToastDuration,
+  DemoToastMaxCount,
+  DemoToastWithProgress,
+} from './toast.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { ToastCss } from '@headless/ui';
+
+# Toast
+
+일시적인 알림 메시지를 화면에 표시하는 컴포넌트입니다. 자동으로 사라지며 사용자에게 빠른 피드백을 제공합니다.
+
+### 사용법
+
+```tsx
+import { Toast } from '@headless/ui';
+
+export function MyComponent() {
+  const [showToast, setShowToast] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setShowToast(true)}>Toast 표시</button>
+      {showToast && (
+        <Toast
+          message="작업이 완료되었습니다!"
+          type="success"
+          onClose={() => setShowToast(false)}
+          duration={3000}
+        />
+      )}
+    </>
+  );
+}
+```
+
+### 예제
+
+#### 기본 Toast
+
+<Playground preview={<DemoToastBasic />} />
+
+```tsx
+const [toasts, setToasts] = useState([]);
+
+const showToast = (type, message, options) => {
+  const id = Date.now();
+  setToasts((prev) => [
+    ...prev,
+    { id, type, message, duration: options?.duration, showProgress: options?.showProgress },
+  ]);
+};
+
+const removeToast = (id) => {
+  setToasts((prev) => prev.filter((toast) => toast.id !== id));
+};
+
+// 기본 사용 (duration: 3000ms, showProgress: false)
+<Button onClick={() => showToast('success', '작업이 성공적으로 완료되었습니다!')}>
+  Success Toast
+</Button>
+
+// 커스터마이징 (duration: 5000ms, showProgress: true)
+<Button onClick={() => showToast('info', '5초 후 사라집니다', { duration: 5000, showProgress: true })}>
+  Info with Progress
+</Button>
+
+{toasts.map((toast, index) => (
+  <Toast
+    key={toast.id}
+    message={toast.message}
+    type={toast.type}
+    onClose={() => removeToast(toast.id)}
+    duration={toast.duration ?? 3000}
+    showProgress={toast.showProgress ?? false}
+    index={index}
+    maxCount={5}
+  />
+))}
+```
+
+#### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 Toast가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={ToastCss} title="ToastCss" />
+
+#### 아이콘과 함께
+
+<Playground preview={<DemoToastWithIcon />} />
+
+```tsx
+<Toast
+  message="데이터가 성공적으로 저장되었습니다."
+  type="success"
+  showIcon
+  onClose={() => setShowToast(false)}
+  duration={3000}
+/>
+```
+
+#### 배치 옵션
+
+<Playground preview={<DemoToastPlacement />} />
+
+```tsx
+<Toast
+  message="상단 중앙에 표시됩니다."
+  placement="top"
+  onClose={() => setShowToast(false)}
+/>
+
+<Toast
+  message="하단 오른쪽에 표시됩니다."
+  placement="bottom-right"
+  onClose={() => setShowToast(false)}
+/>
+```
+
+#### 지속 시간
+
+<Playground preview={<DemoToastDuration />} />
+
+```tsx
+// 1초 후 자동으로 사라짐
+<Toast
+  message="1초 후 자동으로 사라집니다."
+  duration={1000}
+  onClose={() => setShowToast(false)}
+/>
+
+// 자동으로 사라지지 않음
+<Toast
+  message="자동으로 사라지지 않습니다."
+  duration={0}
+  onClose={() => setShowToast(false)}
+/>
+```
+
+#### 프로그레스 바
+
+<Playground preview={<DemoToastWithProgress />} />
+
+```tsx
+const showToast = (type, message, options) => {
+  const id = Date.now();
+  setToasts((prev) => [
+    ...prev,
+    {
+      id,
+      type,
+      message,
+      duration: options?.duration,
+      showProgress: options?.showProgress,
+    },
+  ]);
+};
+
+// showToast 호출 시 옵션 전달
+<Button
+  onClick={() =>
+    showToast('success', '프로그레스 바가 있는 Toast', {
+      duration: 3000,
+      showProgress: true,
+    })
+  }
+>
+  Success with Progress
+</Button>;
+
+{
+  toasts.map((toast, index) => (
+    <Toast
+      key={toast.id}
+      message={toast.message}
+      type={toast.type}
+      duration={toast.duration ?? 3000}
+      showProgress={toast.showProgress ?? true}
+      onClose={() => removeToast(toast.id)}
+      index={index}
+      maxCount={5}
+    />
+  ));
+}
+```
+
+#### 최대 개수 제한
+
+<Playground preview={<DemoToastMaxCount />} />
+
+```tsx
+const [toasts, setToasts] = useState([]);
+const maxCount = 3; // 최대 3개까지 표시
+
+const showToast = (message) => {
+  const id = Date.now();
+  setToasts((prev) => {
+    const newToasts = [...prev, { id, message }];
+    // maxCount를 초과하면 가장 오래된 것부터 제거
+    return newToasts.slice(-maxCount);
+  });
+};
+
+{
+  toasts.map((toast, index) => (
+    <Toast
+      key={toast.id}
+      message={toast.message}
+      index={index}
+      maxCount={maxCount}
+      onClose={() => removeToast(toast.id)}
+    />
+  ));
+}
+```
+
+### API Reference
+
+#### Toast Props
+
+| Property     | Type                                                                                | Default    | Description                         |
+| ------------ | ----------------------------------------------------------------------------------- | ---------- | ----------------------------------- |
+| message      | `ReactNode`                                                                         | -          | Toast 메시지                        |
+| type         | `'success' \| 'info' \| 'warning' \| 'error'`                                       | `'info'`   | Toast 타입                          |
+| duration     | `number`                                                                            | `3000`     | 자동 닫힘 시간 (밀리초, 0이면 영구) |
+| onClose      | `() => void`                                                                        | -          | Toast가 닫힐 때 콜백                |
+| placement    | `'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | `'top'`    | Toast 배치 위치                     |
+| showIcon     | `boolean`                                                                           | `false`    | 아이콘 표시 여부                    |
+| showProgress | `boolean`                                                                           | `false`    | 프로그레스 바 표시 여부             |
+| index        | `number`                                                                            | `0`        | Toast 인덱스 (여러 개 쌓을 때 사용) |
+| maxCount     | `number`                                                                            | `Infinity` | 최대 표시 개수                      |
+| className    | `string`                                                                            | -          | 추가 CSS 클래스                     |
+
+### 특징
+
+- **자동 닫힘**: 설정된 시간 후 자동으로 사라집니다
+- **다양한 배치**: 화면의 다양한 위치에 배치할 수 있습니다
+- **타입별 스타일**: success, info, warning, error 타입별로 다른 색상을 사용합니다
+- **쌓임 효과**: 여러 Toast가 위로 쌓이며, 사라지면 남은 Toast가 부드럽게 이동합니다
+- **최대 개수 제한**: `maxCount` prop으로 동시에 표시할 최대 개수를 제한할 수 있습니다
+- **접근성**: ARIA 속성을 사용하여 스크린 리더를 지원합니다
+- **Headless 설계**: 스타일링은 사용자가 제어합니다

@@ -1,0 +1,231 @@
+import {
+  DemoTabsBasic,
+  DemoTabsBasicWithControls,
+  DemoTabsBasicControls,
+  DemoTabsBasicProvider,
+  DemoTabsWithIcons,
+  DemoTabsClosable,
+  DemoTabsDisabled,
+  DemoTabsCardType,
+  DemoTabsButtonType,
+  DemoTabsSizes,
+} from './tabs.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { TabsCss } from '@headless/ui';
+
+# Tabs
+
+여러 탭을 통해 콘텐츠를 전환할 수 있는 컴포넌트입니다.
+
+Tabs는 여러 콘텐츠 영역을 탭으로 구분하여 표시하고 전환할 수 있는 컴포넌트입니다.
+
+### 사용법
+
+```tsx
+import { Tabs } from '@headless/ui';
+import type { TabItem } from '@headless/ui';
+
+const items: TabItem[] = [
+  {
+    key: '1',
+    label: '탭 1',
+    content: <div>탭 1의 콘텐츠입니다.</div>,
+  },
+  {
+    key: '2',
+    label: '탭 2',
+    content: <div>탭 2의 콘텐츠입니다.</div>,
+  },
+];
+
+export function MyComponent() {
+  const [activeKey, setActiveKey] = useState('1');
+
+  return <Tabs items={items} activeKey={activeKey} onChange={setActiveKey} />;
+}
+```
+
+### 예제
+
+#### 기본 Tabs (인터랙티브)
+
+<DemoTabsBasicProvider>
+  <Playground
+    preview={<DemoTabsBasicWithControls />}
+    controls={<DemoTabsBasicControls />}
+  />
+</DemoTabsBasicProvider>
+
+#### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 Tabs가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={TabsCss} title="TabsCss" />
+
+#### 기본 Tabs
+
+<Playground preview={<DemoTabsBasic />} />
+
+```tsx
+const [activeKey, setActiveKey] = useState('1');
+
+const items: TabItem[] = [
+  {
+    key: '1',
+    label: '탭 1',
+    content: <div>탭 1의 콘텐츠입니다.</div>,
+  },
+  {
+    key: '2',
+    label: '탭 2',
+    content: <div>탭 2의 콘텐츠입니다.</div>,
+  },
+];
+
+<Tabs items={items} activeKey={activeKey} onChange={setActiveKey} />;
+```
+
+#### With Icons
+
+<Playground preview={<DemoTabsWithIcons />} />
+
+```tsx
+import { Icon } from '@headless/ui';
+import { Home, User, Settings } from 'lucide-react';
+
+const items: TabItem[] = [
+  {
+    key: 'home',
+    label: '홈',
+    icon: <Icon icon={Home} size="small" />,
+    content: <div>홈 페이지 콘텐츠</div>,
+  },
+  {
+    key: 'user',
+    label: '사용자',
+    icon: <Icon icon={User} size="small" />,
+    content: <div>사용자 페이지 콘텐츠</div>,
+  },
+];
+
+<Tabs items={items} activeKey={activeKey} onChange={setActiveKey} />;
+```
+
+#### Closable
+
+<Playground preview={<DemoTabsClosable />} />
+
+```tsx
+const [items, setItems] = useState<TabItem[]>([...]);
+const [activeKey, setActiveKey] = useState('1');
+
+const handleTabClose = (key: string) => {
+  const newItems = items.filter((item) => item.key !== key);
+  setItems(newItems);
+  if (activeKey === key && newItems.length > 0) {
+    setActiveKey(newItems[0].key);
+  }
+};
+
+<Tabs
+  items={items}
+  activeKey={activeKey}
+  onChange={setActiveKey}
+  onTabClose={handleTabClose}
+/>
+```
+
+#### Disabled
+
+<Playground preview={<DemoTabsDisabled />} />
+
+```tsx
+const items: TabItem[] = [
+  {
+    key: '1',
+    label: '탭 1',
+    content: <div>탭 1의 콘텐츠입니다.</div>,
+  },
+  {
+    key: '2',
+    label: '탭 2 (비활성화)',
+    disabled: true,
+    content: <div>탭 2의 콘텐츠입니다.</div>,
+  },
+];
+
+<Tabs items={items} activeKey={activeKey} onChange={setActiveKey} />;
+```
+
+#### Card Type
+
+<Playground preview={<DemoTabsCardType />} />
+
+```tsx
+<Tabs items={items} activeKey={activeKey} onChange={setActiveKey} type="card" />
+```
+
+#### Button Type
+
+<Playground preview={<DemoTabsButtonType />} />
+
+```tsx
+<Tabs
+  items={items}
+  activeKey={activeKey}
+  onChange={setActiveKey}
+  type="button"
+/>
+```
+
+#### Sizes
+
+<Playground preview={<DemoTabsSizes />} />
+
+```tsx
+<Tabs items={items} activeKey={activeKey} onChange={setActiveKey} size="small" />
+<Tabs items={items} activeKey={activeKey} onChange={setActiveKey} size="medium" />
+<Tabs items={items} activeKey={activeKey} onChange={setActiveKey} size="large" />
+```
+
+### API Reference
+
+#### Tabs Props
+
+| Property               | Type                                             | Default    | Description                |
+| ---------------------- | ------------------------------------------------ | ---------- | -------------------------- |
+| items                  | `TabItem[]`                                      | `[]`       | 탭 항목 배열               |
+| activeKey              | `string`                                         | -          | 활성 탭 키 (controlled)    |
+| defaultActiveKey       | `string`                                         | -          | 기본 활성 탭 키            |
+| type                   | `'line' \| 'card' \| 'button'`                   | `'line'`   | 탭 타입                    |
+| size                   | `'small' \| 'medium' \| 'large'`                 | `'medium'` | 탭 크기                    |
+| tabPosition            | `'top' \| 'bottom' \| 'left' \| 'right'`         | `'top'`    | 탭 위치                    |
+| destroyInactiveTabPane | `boolean`                                        | `false`    | 비활성 탭 콘텐츠 제거 여부 |
+| animated               | `boolean`                                        | `true`     | 전환 애니메이션 여부       |
+| onChange               | `(activeKey: string) => void`                    | -          | 탭 변경 콜백               |
+| onTabClick             | `(key: string, event: React.MouseEvent) => void` | -          | 탭 클릭 콜백               |
+| onTabClose             | `(key: string) => void`                          | -          | 탭 닫기 콜백               |
+| className              | `string`                                         | -          | 추가 CSS 클래스            |
+| children               | `ReactNode`                                      | -          | 커스텀 콘텐츠              |
+
+#### TabItem
+
+| Property | Type        | Default | Description            |
+| -------- | ----------- | ------- | ---------------------- |
+| key      | `string`    | -       | 탭 고유 키             |
+| label    | `ReactNode` | -       | 탭 레이블              |
+| content  | `ReactNode` | -       | 탭 콘텐츠              |
+| disabled | `boolean`   | `false` | 탭 비활성화 여부       |
+| closable | `boolean`   | `false` | 탭 닫기 버튼 표시 여부 |
+| icon     | `ReactNode` | -       | 탭 아이콘              |
+
+### 특징
+
+- **다양한 타입**: line, card, button 타입 지원
+- **아이콘 지원**: 탭에 아이콘 추가 가능
+- **닫기 가능**: `closable` prop으로 탭 닫기 기능 제공
+- **키보드 네비게이션**: 화살표 키로 탭 전환 가능
+- **접근성**: ARIA 속성을 지원하여 스크린 리더와 호환
+- **제어/비제어 모드**: activeKey와 defaultActiveKey를 통한 상태 관리 지원
+- **Headless 설계**: 스타일링은 사용자가 제어

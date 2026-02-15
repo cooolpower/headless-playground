@@ -1,0 +1,181 @@
+import {
+  DemoTooltipBasic,
+  DemoTooltipBasicWithControls,
+  DemoTooltipBasicControls,
+  DemoTooltipBasicProvider,
+  DemoTooltipPlacement,
+  DemoTooltipTrigger,
+  DemoTooltipRich,
+} from './tooltip.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { TooltipCss } from '@headless/ui';
+
+# Tooltip
+
+사용자가 요소에 마우스를 올리거나, 포커스하거나, 탭할 때 정보 텍스트를 표시합니다.
+
+### 사용법
+
+```tsx
+import { Tooltip } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Tooltip content="이것은 툴팁입니다">
+      <button>마우스를 올려보세요</button>
+    </Tooltip>
+  );
+}
+```
+
+### 예제
+
+#### 기본 Tooltip (인터랙티브)
+
+<DemoTooltipBasicProvider>
+  <Playground
+    preview={<DemoTooltipBasicWithControls />}
+    controls={<DemoTooltipBasicControls />}
+  />
+</DemoTooltipBasicProvider>
+
+#### 기본 Tooltip
+
+<Playground preview={<DemoTooltipBasic />} />
+
+```tsx
+<Tooltip content="이것은 기본 툴팁입니다">
+  <button>마우스를 올려보세요</button>
+</Tooltip>
+```
+
+#### 배치 옵션
+
+<Playground preview={<DemoTooltipPlacement />} />
+
+```tsx
+<Tooltip content="위쪽 배치" placement="top">
+  <button>위</button>
+</Tooltip>
+
+<Tooltip content="아래쪽 배치" placement="bottom">
+  <button>아래</button>
+</Tooltip>
+
+<Tooltip content="왼쪽 배치" placement="left">
+  <button>왼쪽</button>
+</Tooltip>
+
+<Tooltip content="오른쪽 배치" placement="right">
+  <button>오른쪽</button>
+</Tooltip>
+```
+
+#### 트리거 타입
+
+<Playground preview={<DemoTooltipTrigger />} />
+
+```tsx
+<Tooltip content="호버 트리거" trigger="hover">
+  <button>호버</button>
+</Tooltip>
+
+<Tooltip content="클릭 트리거" trigger="click">
+  <button>클릭</button>
+</Tooltip>
+
+<Tooltip content="포커스 트리거" trigger="focus">
+  <input placeholder="포커스하세요" />
+</Tooltip>
+```
+
+#### 풍부한 콘텐츠
+
+<Playground preview={<DemoTooltipRich />} />
+
+```tsx
+<Tooltip
+  content={
+    <div>
+      <strong>풍부한 콘텐츠 툴팁</strong>
+      여기에 어떤 JSX든 넣을 수 있습니다!
+      <em>포맷된 텍스트도 가능합니다</em>
+    </div>
+  }
+>
+  <button>풍부한 콘텐츠</button>
+</Tooltip>
+```
+
+### API Reference
+
+#### Tooltip Props
+
+| Property         | Type                         | Default   | Description                            |
+| ---------------- | ---------------------------- | --------- | -------------------------------------- |
+| children         | `ReactNode`                  | -         | 툴팁을 트리거할 요소                   |
+| content          | `ReactNode`                  | -         | 툴팁 콘텐츠                            |
+| placement        | `TooltipPlacement`           | `'top'`   | 툴팁 위치                              |
+| trigger          | `TooltipTrigger`             | `'hover'` | 툴팁 트리거 방법                       |
+| visible          | `boolean`                    | -         | 툴팁 표시 여부 (제어됨)                |
+| onVisibleChange  | `(visible: boolean) => void` | -         | 표시 상태 변경 콜백                    |
+| mouseEnterDelay  | `number`                     | `100`     | 툴팁 표시 전 지연 시간 (밀리초)        |
+| mouseLeaveDelay  | `number`                     | `100`     | 툴팁 숨김 전 지연 시간 (밀리초)        |
+| overlayClassName | `string`                     | -         | 툴팁 오버레이에 대한 커스텀 CSS 클래스 |
+| injectStyles     | `boolean`                    | `true`    | 기본 스타일 주입 여부                  |
+| className        | `string`                     | -         | 래퍼에 대한 커스텀 CSS 클래스          |
+
+#### TooltipPlacement
+
+```tsx
+type TooltipPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end';
+```
+
+#### TooltipTrigger
+
+```tsx
+type TooltipTrigger = 'hover' | 'click' | 'focus' | 'context-menu';
+```
+
+### Accessibility
+
+- 스크린 리더를 위해 `role="tooltip"` 사용
+- Tab 키로 키보드 네비게이션 지원
+- 툴팁 트리거 요소에 자동 포커스
+- 툴팁 콘텐츠 내부 포커스 트랩 구현
+- ESC 키로 툴팁 닫기
+
+### Keyboard Shortcuts
+
+- **Tab**: 인터랙티브 요소 간 포커스 이동
+- **Enter/Space**: 버튼이나 링크 활성화
+- **Escape**: 툴팁 닫기
+
+### Styling
+
+툴팁은 테마를 위해 CSS 커스텀 속성을 사용합니다:
+
+```css
+--tooltip-background: rgba(0, 0, 0, 0.85);
+--tooltip-color: #ffffff;
+--tooltip-border: rgba(255, 255, 255, 0.1);
+```
+
+이 변수들을 재정의하여 외관을 커스터마이즈할 수 있습니다.
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={TooltipCss} title="TooltipCss" />

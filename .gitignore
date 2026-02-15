@@ -23,6 +23,10 @@
 # misc
 .DS_Store
 *.pem
+*.log
+.eslintcache
+.turbo
+.vercel
 
 # debug
 npm-debug.log*
@@ -32,10 +36,45 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-
-# vercel
-.vercel
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# MCP Server & AI Helpers
+mcp-server.py
+mcp-config.json
+requirements-mcp.txt
+.cursorrules
+
+# 내부 문서 및 AI 생성 파일 (GitHub 업로드 시 불필요)
+MCP-README.md
+SUMMARY.md
+PROJECT_STRUCTURE.md
+NPM_PUBLISHING_GUIDE.md
+/md/
+/notion/
+/sdk-demo/
+/brain/
+
+# 개발 스크립트 및 임시 파일
+create_css_files.sh
+test-components.js
+fix-relative-imports.js
+add-use-client.js
+
+# 빌드물 및 설정
+/tokens/
+/dist/
+packages/ui/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

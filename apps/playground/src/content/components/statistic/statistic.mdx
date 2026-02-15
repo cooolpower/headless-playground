@@ -1,0 +1,146 @@
+import {
+  DemoStatisticBasic,
+  DemoStatisticBasicWithControls,
+  DemoStatisticBasicControls,
+  DemoStatisticBasicProvider,
+  DemoStatisticWithPrefixSuffix,
+  DemoStatisticPrecision,
+  DemoStatisticLoading,
+  DemoStatisticAnimated,
+} from './statistic.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { StatisticCss } from '@headless/ui';
+
+# Statistic
+
+통계 숫자를 표시하는 컴포넌트입니다. 숫자 포맷팅, prefix/suffix, 로딩 상태 등을 지원합니다.
+
+### 사용법
+
+```tsx
+import { Statistic } from '@headless/ui';
+
+export function MyComponent() {
+  return <Statistic title="총 사용자" value={1234567} suffix="명" />;
+}
+```
+
+### 예제
+
+#### 기본 Statistic (인터랙티브)
+
+<DemoStatisticBasicProvider>
+  <Playground
+    preview={<DemoStatisticBasicWithControls />}
+    controls={<DemoStatisticBasicControls />}
+  />
+</DemoStatisticBasicProvider>
+
+#### 기본 Statistic
+
+<Playground preview={<DemoStatisticBasic />} />
+
+```tsx
+<Statistic title="총 사용자" value={1234567} />
+```
+
+#### Prefix와 Suffix
+
+<Playground preview={<DemoStatisticWithPrefixSuffix />} />
+
+```tsx
+<Statistic title="매출액" value={9876543} prefix="₩" suffix="원" />
+```
+
+#### 정밀도
+
+<Playground preview={<DemoStatisticPrecision />} />
+
+```tsx
+<Statistic title="평균 점수" value={95.6789} precision={2} />
+```
+
+#### 로딩 상태
+
+<Playground preview={<DemoStatisticLoading />} />
+
+```tsx
+<Statistic title="처리 중" value={12345} loading={true} />
+```
+
+#### 애니메이션 값
+
+숫자가 0부터 목표 값까지 롤링 애니메이션으로 증가하는 예제입니다.
+
+<Playground preview={<DemoStatisticAnimated />} />
+
+```tsx
+function useAnimatedValue(targetValue: number, duration: number = 2000) {
+  const [currentValue, setCurrentValue] = useState(0);
+
+  useEffect(() => {
+    const startValue = 0;
+    const endValue = targetValue;
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Easing function (ease-out)
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+
+      const newValue = Math.floor(
+        startValue + (endValue - startValue) * easeOut,
+      );
+      setCurrentValue(newValue);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setCurrentValue(endValue);
+      }
+    };
+
+    const animationId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [targetValue, duration]);
+
+  return currentValue;
+}
+
+export function MyComponent() {
+  const [targetValue, setTargetValue] = useState(1234567);
+  const animatedValue = useAnimatedValue(targetValue, 2000);
+
+  return <Statistic title="총 사용자" value={animatedValue} />;
+}
+```
+
+### API Reference
+
+#### Statistic Props
+
+| Property         | Type                  | Default | Description                 |
+| ---------------- | --------------------- | ------- | --------------------------- |
+| title            | `ReactNode`           | -       | 제목 텍스트                 |
+| value            | `string \| number`    | -       | 표시할 값                   |
+| prefix           | `ReactNode`           | -       | 접두사 요소 (예: 통화 기호) |
+| suffix           | `ReactNode`           | -       | 접미사 요소 (예: 단위)      |
+| precision        | `number`              | `2`     | 소수점 자릿수               |
+| groupSeparator   | `string`              | `','`   | 천 단위 구분자              |
+| decimalSeparator | `string`              | `'.'`   | 소수점 구분자               |
+| loading          | `boolean`             | `false` | 로딩 상태 표시 여부         |
+| valueStyle       | `CSSProperties`       | -       | 값에 대한 커스텀 스타일     |
+| injectStyles     | `boolean`             | `true`  | 기본 스타일(CSS) 주입 여부  |
+| className        | `string`              | -       | 추가 CSS 클래스             |
+| classNames       | `StatisticClassNames` | -       | 내부 요소에 대한 CSS 클래스 |
+| children         | `ReactNode`           | -       | 커스텀 콘텐츠               |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={StatisticCss} title="StatisticCss" />

@@ -1,0 +1,200 @@
+import {
+  DemoBadgeBasic,
+  DemoBadgeBasicWithControls,
+  DemoBadgeBasicControls,
+  DemoBadgeBasicProvider,
+  DemoBadgeStandalone,
+  DemoBadgeColors,
+  DemoBadgeDot,
+  DemoBadgeSizes,
+  DemoBadgeProcessing,
+  DemoBadgeInteractive,
+} from './badge.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { BadgeCss } from '@headless/ui';
+
+# Badge
+
+UI 요소에 작은 숫자 값이나 상태 설명자를 표시합니다.
+
+### 사용법
+
+```tsx
+import { Badge } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Badge count={5}>
+      <button>메시지</button>
+    </Badge>
+  );
+}
+```
+
+### 예제
+
+#### 기본 Badge (인터랙티브)
+
+<DemoBadgeBasicProvider>
+  <Playground
+    preview={<DemoBadgeBasicWithControls />}
+    controls={<DemoBadgeBasicControls />}
+  />
+</DemoBadgeBasicProvider>
+
+#### 기본 Badge
+
+<Playground preview={<DemoBadgeBasic />} />
+
+```tsx
+<Badge count={5}>
+  <button>메시지</button>
+</Badge>
+
+<Badge count={99}>
+  <span>알림</span>
+</Badge>
+```
+
+#### 독립 Badge
+
+<Playground preview={<DemoBadgeStandalone />} />
+
+```tsx
+<Badge count={25} />
+<Badge count="hot" />
+<Badge count="new" />
+```
+
+#### 색상 변형
+
+<Playground preview={<DemoBadgeColors />} />
+
+```tsx
+<Badge count={3} color="primary">
+  <span>Primary</span>
+</Badge>
+
+<Badge count={5} color="success">
+  <span>Success</span>
+</Badge>
+
+<Badge count={2} color="danger">
+  <span>Danger</span>
+</Badge>
+```
+
+#### 점 스타일
+
+<Playground preview={<DemoBadgeDot />} />
+
+```tsx
+<Badge dot color="success">
+  <span>온라인 상태</span>
+</Badge>
+
+<Badge dot color="warning">
+  <span>바쁨</span>
+</Badge>
+```
+
+#### 크기 변형
+
+<Playground preview={<DemoBadgeSizes />} />
+
+```tsx
+<Badge count={3} size="small">
+  <span>Small</span>
+</Badge>
+
+<Badge count={5} size="medium">
+  <span>Medium</span>
+</Badge>
+
+<Badge count={7} size="large">
+  <span>Large</span>
+</Badge>
+```
+
+#### 처리 중 애니메이션
+
+<Playground preview={<DemoBadgeProcessing />} />
+
+```tsx
+<Badge count={3} processing>
+  <span>처리 중</span>
+</Badge>
+
+<Badge dot processing color="primary">
+  <span>로딩 중</span>
+</Badge>
+```
+
+#### 인터랙티브 데모
+
+<Playground preview={<DemoBadgeInteractive />} />
+
+```tsx
+const [count, setCount] = useState(5);
+
+<Badge count={count}>
+  <button onClick={() => setCount(count + 1)}>증가</button>
+</Badge>;
+```
+
+### API Reference
+
+#### Badge Props
+
+| Property     | Type               | Default     | Description                    |
+| ------------ | ------------------ | ----------- | ------------------------------ |
+| children     | `ReactNode`        | -           | Badge를 첨부할 요소            |
+| count        | `number \| string` | -           | Badge에 표시할 숫자            |
+| dot          | `boolean`          | `false`     | 숫자 대신 점 표시 여부         |
+| showZero     | `boolean`          | `false`     | count가 0일 때 Badge 표시 여부 |
+| maxCount     | `number`           | `99`        | 최대 표시 숫자                 |
+| color        | `BadgeColor`       | `'default'` | Badge 색상                     |
+| size         | `BadgeSize`        | `'medium'`  | Badge 크기                     |
+| processing   | `boolean`          | `false`     | 처리 중 애니메이션 표시 여부   |
+| injectStyles | `boolean`          | `true`      | 기본 스타일(CSS) 주입 여부     |
+| className    | `string`           | -           | 커스텀 CSS 클래스              |
+
+#### BadgeColor
+
+```tsx
+type BadgeColor =
+  | 'default'
+  | 'primary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'info';
+```
+
+#### BadgeSize
+
+```tsx
+type BadgeSize = 'small' | 'medium' | 'large';
+```
+
+### Accessibility
+
+- 스크린 리더를 위한 적절한 ARIA 속성 사용
+- 키보드 네비게이션 지원
+- 명확한 시각적 표시 제공
+
+### Styling
+
+Badge는 테마를 위해 CSS 커스텀 속성을 사용합니다:
+
+```css
+--badge-default-background: #f0f0f0;
+--badge-default-color: #666666;
+--badge-primary-background: #007bff;
+--badge-primary-color: #ffffff;
+```
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={BadgeCss} title="BadgeCss" />

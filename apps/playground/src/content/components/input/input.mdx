@@ -1,0 +1,95 @@
+# Input
+
+Input field component with various types and features.
+
+### Usage
+
+```tsx
+import { Input } from '@headless/ui';
+
+export function MyInput() {
+  return <Input placeholder="Enter text..." />;
+}
+```
+
+import {
+  DemoInputBasic,
+  DemoInputBasicWithControls,
+  DemoInputBasicControls,
+  DemoInputBasicProvider,
+  DemoInputFeatures,
+} from './input.demo';
+import { Playground } from '@/components/playground/playground';
+
+### Examples
+
+#### 기본 Input (인터랙티브)
+
+<DemoInputBasicProvider>
+  <Playground
+    preview={<DemoInputBasicWithControls />}
+    controls={<DemoInputBasicControls />}
+  />
+</DemoInputBasicProvider>
+
+#### Basic Input
+
+<Playground preview={<DemoInputBasic />} />
+
+```tsx
+<Input placeholder="Basic input" />
+
+<Input type="password" placeholder="Password input" />
+
+<Input type="email" placeholder="Email input" />
+```
+
+#### With Features
+
+<Playground preview={<DemoInputFeatures />} />
+
+```tsx
+// With clear button
+<Input placeholder="With clear button" clearable />
+
+// Password with show/hide
+<Input type="password" placeholder="Password" showPassword />
+
+// With max length
+<Input placeholder="Max 10 chars" maxLength={10} />
+```
+
+### API
+
+#### Input Props
+
+| Property                | Type                                                                        | Default    | Description                             |
+| ----------------------- | --------------------------------------------------------------------------- | ---------- | --------------------------------------- |
+| type                    | `'text' \| 'password' \| 'email' \| 'number' \| 'tel' \| 'url' \| 'search'` | `'text'`   | 입력 타입                               |
+| size                    | `'custom' \| 'small' \| 'medium' \| 'large'`                                | `'medium'` | 입력 필드 크기                          |
+| disabled                | `boolean`                                                                   | `false`    | 비활성화 여부                           |
+| readonly                | `boolean`                                                                   | `false`    | 읽기 전용 여부                          |
+| placeholder             | `string`                                                                    | -          | 플레이스홀더 텍스트                     |
+| value                   | `string`                                                                    | -          | 제어된 값                               |
+| defaultValue            | `string`                                                                    | `''`       | 기본값                                  |
+| onChange                | `(value: string, event?: React.ChangeEvent<HTMLInputElement>) => void`      | -          | 값 변경 핸들러                          |
+| onFocus                 | `(event: React.FocusEvent<HTMLInputElement>) => void`                       | -          | 포커스 핸들러                           |
+| onBlur                  | `(event: React.FocusEvent<HTMLInputElement>) => void`                       | -          | 블러 핸들러                             |
+| onKeyDown               | `(event: React.KeyboardEvent<HTMLInputElement>) => void`                    | -          | 키 다운 핸들러                          |
+| onClick                 | `(event: React.MouseEvent<HTMLInputElement>) => void`                       | -          | 클릭 핸들러                             |
+| clearable               | `boolean`                                                                   | `false`    | 지우기 버튼 표시 여부                   |
+| showPassword            | `boolean`                                                                   | `false`    | 비밀번호 표시/숨김 토글 (password 타입) |
+| maxLength               | `number`                                                                    | -          | 최대 길이                               |
+| minLength               | `number`                                                                    | -          | 최소 길이                               |
+| pattern                 | `string`                                                                    | -          | 유효성 검사 패턴                        |
+| required                | `boolean`                                                                   | `false`    | 필수 여부                               |
+| autoComplete            | `string`                                                                    | -          | 자동완성 속성                           |
+| autoFocus               | `boolean`                                                                   | `false`    | 자동 포커스 여부                        |
+| name                    | `string`                                                                    | -          | 입력 필드 name 속성                     |
+| id                      | `string`                                                                    | -          | 입력 필드 id 속성                       |
+| className               | `string`                                                                    | -          | 추가 CSS 클래스                         |
+| inputClassName          | `string`                                                                    | -          | 입력 요소 CSS 클래스                    |
+| inputStyle              | `React.CSSProperties`                                                       | -          | 입력 요소 인라인 스타일                 |
+| clearButtonClassName    | `string`                                                                    | -          | 지우기 버튼 CSS 클래스                  |
+| passwordToggleClassName | `string`                                                                    | -          | 비밀번호 토글 버튼 CSS 클래스           |
+| style                   | `React.CSSProperties`                                                       | -          | 컨테이너 인라인 스타일                  |

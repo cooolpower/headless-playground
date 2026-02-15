@@ -1,0 +1,183 @@
+import {
+  DemoFloatButtonProvider,
+  DemoFloatButtonBasic,
+  DemoFloatButtonTypes,
+  DemoFloatButtonShapes,
+  DemoFloatButtonStates,
+  DemoFloatButtonSizes,
+  DemoFloatButtonBackTop,
+  DemoFloatButtonGroup,
+  DemoFloatButtonControls,
+} from './float-button.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { FloatButtonCss } from '@headless/ui';
+
+# Float Button
+
+Provides floating action buttons for quick access to common actions.
+
+### Examples
+
+#### Basic
+
+<DemoFloatButtonProvider>
+  <Playground
+    preview={<DemoFloatButtonBasic />}
+    controls={<DemoFloatButtonControls />}
+  />
+</DemoFloatButtonProvider>
+
+```tsx
+<FloatButton onClick={handleClick} tooltip="Add item">
+  <span>+</span>
+</FloatButton>
+```
+
+#### Types
+
+<DemoFloatButtonProvider>
+  <Playground
+    preview={<DemoFloatButtonTypes />}
+    controls={<DemoFloatButtonControls />}
+  />
+</DemoFloatButtonProvider>
+
+```tsx
+<FloatButton type="primary" onClick={handleClick}>
+  <span>🚀</span>
+</FloatButton>
+
+<FloatButton type="success" onClick={handleClick}>
+  <span>✓</span>
+</FloatButton>
+
+<FloatButton type="warning" onClick={handleClick}>
+  <span>⚠️</span>
+</FloatButton>
+```
+
+#### Shapes
+
+<DemoFloatButtonProvider>
+  <Playground
+    preview={<DemoFloatButtonShapes />}
+    controls={<DemoFloatButtonControls />}
+  />
+</DemoFloatButtonProvider>
+
+```tsx
+<FloatButton shape="circle" onClick={handleClick}>
+  <span>⭕</span>
+</FloatButton>
+
+<FloatButton shape="square" onClick={handleClick}>
+  <span>⬜</span>
+</FloatButton>
+```
+
+#### States
+
+<DemoFloatButtonProvider>
+  <Playground
+    preview={<DemoFloatButtonStates />}
+    controls={<DemoFloatButtonControls />}
+  />
+</DemoFloatButtonProvider>
+
+```tsx
+<FloatButton loading={isLoading} onClick={handleClick}>
+  <span>{isLoading ? '⏳' : '⚡'}</span>
+</FloatButton>
+
+<FloatButton disabled onClick={handleClick}>
+  <span>🚫</span>
+</FloatButton>
+```
+
+#### Sizes
+
+<DemoFloatButtonProvider>
+  <Playground
+    preview={<DemoFloatButtonSizes />}
+    controls={<DemoFloatButtonControls />}
+  />
+</DemoFloatButtonProvider>
+
+```tsx
+<FloatButton size="small" onClick={handleClick}>
+  <span>⭐</span>
+</FloatButton>
+
+<FloatButton size="medium" onClick={handleClick}>
+  <span>⭐</span>
+</FloatButton>
+
+<FloatButton size="large" onClick={handleClick}>
+  <span>⭐</span>
+</FloatButton>
+```
+
+#### Back to Top
+
+<DemoFloatButtonProvider>
+  <Playground
+    preview={<DemoFloatButtonBackTop />}
+    controls={<DemoFloatButtonControls />}
+  />
+</DemoFloatButtonProvider>
+
+```tsx
+<FloatButtonBackTop tooltip="Back to top">
+  <span>⬆️</span>
+</FloatButtonBackTop>
+```
+
+#### Group
+
+<DemoFloatButtonProvider>
+  <Playground
+    preview={<DemoFloatButtonGroup />}
+    controls={<DemoFloatButtonControls />}
+  />
+</DemoFloatButtonProvider>
+
+```tsx
+import {
+  FloatButton,
+  FloatButtonGroup,
+} from '@headless/ui';
+```
+
+```tsx
+<FloatButtonGroup direction="column">
+  <FloatButton type="primary" onClick={handlePrimary}>
+    <span>+</span>
+  </FloatButton>
+  <FloatButton type="success" onClick={handleSuccess}>
+    <span>✓</span>
+  </FloatButton>
+</FloatButtonGroup>
+```
+
+### API
+
+#### FloatButton Props
+
+| Property     | Description                                 | Type                                                                              | Default          |
+| ------------ | ------------------------------------------- | --------------------------------------------------------------------------------- | ---------------- |
+| onClick      | 클릭 핸들러                                 | `() => void`                                                                      | -                |
+| position     | 버튼 위치                                   | `'bottom-right' \| 'bottom-center' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` |
+| size         | 버튼 크기                                   | `'small' \| 'medium' \| 'large'`                                                  | `'medium'`       |
+| shape        | 버튼 형태                                   | `'circle' \| 'square'`                                                            | `'circle'`       |
+| type         | 스타일 타입                                 | `'default' \| 'primary' \| 'info' \| 'success' \| 'warning' \| 'error'`           | `'primary'`      |
+| disabled     | 비활성화                                    | `boolean`                                                                         | `false`          |
+| loading      | 로딩 상태                                   | `boolean`                                                                         | `false`          |
+| tooltip      | 툴팁/aria-label 텍스트                      | `string`                                                                          | -                |
+| show         | 표시 여부                                   | `boolean`                                                                         | `true`           |
+| className    | 추가 CSS 클래스                             | `string`                                                                          | -                |
+| injectStyles | 기본 스타일을 컴포넌트가 직접 주입할지 여부 | `boolean`                                                                         | `true`           |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={FloatButtonCss} title="FloatButtonCss" />

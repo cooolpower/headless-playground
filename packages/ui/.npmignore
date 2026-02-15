@@ -1,0 +1,25 @@
+# Source files
+src/
+*.ts
+*.tsx
+
+# Config files
+tsconfig.json
+tsup.config.ts
+.eslintrc*
+.prettierrc*
+
+# Tests
+*.test.ts
+*.test.tsx
+__tests__/
+__mocks__/
+
+# Dev files
+.DS_Store
+*.log
+node_modules/
+
+# Build artifacts
+.turbo/
+.cache/

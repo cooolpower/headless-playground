@@ -1,0 +1,51 @@
+import {
+  DemoListBasic,
+  DemoListBasicWithControls,
+  DemoListBasicControls,
+  DemoListBasicProvider,
+} from './list.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { ListCss } from '@headless/ui';
+
+# List
+
+리스트 형태로 데이터를 표시하는 headless 컴포넌트입니다.
+
+### 예제
+
+#### 기본 List (인터랙티브)
+
+<DemoListBasicProvider>
+  <Playground
+    preview={<DemoListBasicWithControls />}
+    controls={<DemoListBasicControls />}
+  />
+</DemoListBasicProvider>
+
+#### 기본 List
+
+<Playground preview={<DemoListBasic />} />
+
+### API Reference
+
+#### List Props
+
+| Property     | Type                                      | Default        | Description                |
+| ------------ | ----------------------------------------- | -------------- | -------------------------- |
+| data         | `any[]`                                   | `[]`           | 데이터 배열                |
+| itemLayout   | `'horizontal' \| 'vertical'`              | `'horizontal'` | 아이템 레이아웃            |
+| size         | `'small' \| 'medium' \| 'large'`          | `'medium'`     | 크기                       |
+| bordered     | `boolean`                                 | `false`        | 테두리                     |
+| split        | `boolean`                                 | `true`         | 구분선                     |
+| loading      | `boolean`                                 | `false`        | 로딩                       |
+| header       | `ReactNode`                               | -              | 헤더                       |
+| footer       | `ReactNode`                               | -              | 푸터                       |
+| emptyText    | `ReactNode`                               | `'No data'`    | 빈 상태 텍스트             |
+| renderItem   | `(item: any, index: number) => ReactNode` | -              | 아이템 렌더                |
+| injectStyles | `boolean`                                 | `true`         | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`                                  | -              | 추가 클래스                |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={ListCss} title="ListCss" />

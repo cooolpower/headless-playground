@@ -1,0 +1,109 @@
+# Data Table
+
+고급 데이터 테이블 컴포넌트입니다. 정렬, 필터링, 페이지네이션, 행 선택 등의 기능을 제공합니다.
+
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { DataTableCss } from '@headless/ui';
+import {
+  DemoDataTableProvider,
+  DemoDataTableControls,
+  DemoDataTableBasic,
+  DemoDataTablePagination,
+  DemoDataTableSortable,
+} from './data-table.demo';
+
+### Usage
+
+```tsx
+import { DataTable } from '@headless/ui';
+
+export function MyComponent() {
+  const columns = [
+    { key: 'name', title: '이름' },
+    { key: 'age', title: '나이' },
+    { key: 'email', title: '이메일' },
+  ];
+
+  const data = [
+    { name: '홍길동', age: 30, email: 'hong@example.com' },
+    { name: '김철수', age: 25, email: 'kim@example.com' },
+  ];
+
+  return <DataTable columns={columns} data={data} />;
+}
+```
+
+### Examples
+
+#### Basic Data Table
+
+<DemoDataTableProvider>
+  <Playground
+    preview={<DemoDataTableBasic />}
+    controls={<DemoDataTableControls />}
+  />
+</DemoDataTableProvider>
+
+```tsx
+<DataTable
+  columns={[
+    { key: 'name', title: '이름' },
+    { key: 'age', title: '나이' },
+    { key: 'email', title: '이메일' },
+  ]}
+  data={[
+    { name: '홍길동', age: 30, email: 'hong@example.com' },
+    { name: '김철수', age: 25, email: 'kim@example.com' },
+  ]}
+/>
+```
+
+#### With Pagination
+
+<Playground preview={<DemoDataTablePagination />} />
+
+```tsx
+<DataTable
+  columns={columns}
+  data={data}
+  pagination={{
+    pageSize: 10,
+    current: 1,
+  }}
+/>
+```
+
+#### Sortable
+
+<Playground preview={<DemoDataTableSortable />} />
+
+```tsx
+<DataTable
+  columns={[
+    { key: 'name', title: '이름', sortable: true },
+    { key: 'age', title: '나이', sortable: true },
+  ]}
+  data={data}
+/>
+```
+
+### API Reference
+
+#### DataTable Props
+
+| Property     | Type                   | Default | Description             |
+| ------------ | ---------------------- | ------- | ----------------------- |
+| value        | `any`                  | -       | 제어된 값               |
+| defaultValue | `any`                  | -       | 기본값                  |
+| onChange     | `(value: any) => void` | -       | 값 변경 콜백            |
+| disabled     | `boolean`              | `false` | DataTable 비활성화 여부 |
+| className    | `string`               | -       | 추가 CSS 클래스         |
+| injectStyles | `boolean`              | `true`  | 기본 스타일 주입 여부   |
+| children     | `ReactNode`            | -       | 커스텀 콘텐츠           |
+
+**Note:** 이 컴포넌트는 현재 개발 중입니다. 향후 업데이트에서 정렬, 필터링, 페이지네이션 등의 고급 기능이 추가될 예정입니다.
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={DataTableCss} title="DataTableCss" />
