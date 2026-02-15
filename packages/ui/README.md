@@ -1,75 +1,146 @@
-# @repo/ui
+# @cooolpower/headless-ui
 
-Headless React component library with 57+ accessible UI components.
+[![npm version](https://img.shields.io/npm/v/@cooolpower/headless-ui.svg?style=flat-square)](https://www.npmjs.com/package/@cooolpower/headless-ui)
+[![npm downloads](https://img.shields.io/npm/dm/@cooolpower/headless-ui.svg?style=flat-square)](https://www.npmjs.com/package/@cooolpower/headless-ui)
+[![license](https://img.shields.io/npm/l/@cooolpower/headless-ui.svg?style=flat-square)](https://github.com/cooolpower/headless-playground/blob/main/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/cooolpower/headless-playground/pulls)
+
+**A high-performance, accessible, and fully customizable headless UI library for React.**
+
+`@cooolpower/headless-ui` provides a set of 57+ unstyled components and hooks, giving you complete control over your UI's appearance while handling all the complex logic, state management, and accessibility requirements.
+
+---
+
+## ✨ Features
+
+- 🏗️ **Headless Architecture**: Complete freedom over styling (CSS, Tailwind, CSS-in-JS).
+- ♿ **Built-in Accessibility**: ARIA-compliant, keyboard navigation, and focus management.
+- 📦 **57+ Components**: From basic buttons to complex data tables and charts.
+- 🪝 **Hook-first Design**: Use our logic hooks or high-level components.
+- 📐 **TypeScript First**: Robust types for a superior developer experience.
+- ⚡ **Tree-shakeable**: Optimised for minimal bundle size.
+
+---
 
 ## 🚀 Installation
 
 ```bash
-npm install @repo/ui
-# or
-pnpm add @repo/ui
-# or
-yarn add @repo/ui
+# Using pnpm
+pnpm add @cooolpower/headless-ui
+
+# Using npm
+npm install @cooolpower/headless-ui
+
+# Using yarn
+yarn add @cooolpower/headless-ui
 ```
 
-## 📖 Usage
+---
+
+## 📖 Quick Start
+
+You can use either the full logic-included components or the underlying headless hooks for maximum flexibility.
+
+### 1. Using Components
+
+Ideal for getting started quickly. Just bring your own styles or use our default tokens.
 
 ```tsx
-import { Button, useButton, Input, Dropdown } from '@repo/ui';
+import { Button, Input, Flex } from '@cooolpower/headless-ui';
 
-function MyApp() {
+function App() {
   return (
-    <div>
-      <Button onClick={() => alert('Clicked!')}>Click Me</Button>
-      <Input placeholder="Enter text..." />
-    </div>
+    <Flex gap="medium">
+      <Input placeholder="Enter your name" />
+      <Button onClick={() => console.log('Hello!')}>Submit</Button>
+    </Flex>
   );
 }
 ```
 
-## 🎯 Features
+### 2. Using Headless Hooks
 
-- **57+ Components**: Comprehensive UI component library
-- **Headless Architecture**: full control over styling
-- **TypeScript**: Full type safety
-- **Accessibility**: ARIA-compliant and keyboard navigation
-- **Controlled/Uncontrolled**: Flexible state management
-- **Tree-shakeable**: Import only what you need
+Ideal when you need absolute control over the DOM structure and animations.
 
-## 📦 Components
+```tsx
+import { useButton } from '@cooolpower/headless-ui';
 
-### Basic UI
+function MyCustomButton(props) {
+  const { buttonProps, isPressed } = useButton(props);
 
-Button, Input, Textarea, Select, Checkbox, Radio, Switch
+  return (
+    <button
+      {...buttonProps}
+      style={{
+        backgroundColor: isPressed ? 'blue' : 'gray',
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '4px',
+      }}
+    >
+      {props.children}
+    </button>
+  );
+}
+```
 
-### Layout
+---
 
-Card, Divider, Space, Grid, Flex
+## 📦 Component Overview
 
-### Data Display
+Our library covers everything you need to build a modern dashboard or application.
 
-Tag, Badge, Avatar, Icon, Image, Typography, Ellipsis, Empty
+| Category         | Components                                                                |
+| :--------------- | :------------------------------------------------------------------------ |
+| **Basic Inputs** | Button, Input, Select, Checkbox, Radio, Switch, InputNumber, AutoComplete |
+| **Data Display** | Table, DataTable, List, Card, Badge, Tag, Avatar, Image, Typography       |
+| **Navigation**   | Breadcrumb, Menu, Pagination, Steps, Tabs, PageHeader                     |
+| **Overlays**     | Modal, Drawer, Dialog, Popover, Tooltip, Dropdown                         |
+| **Feedback**     | Alert, Progress, Timeline, Toast, Snackbar, LoadingBar                    |
+| **Date & Time**  | Calendar, DatePicker, TimePicker, Countdown, FlipCountdown                |
+| **Advanced**     | Charts, Heatmap, Tree, TreeSelect, Carousel, Upload, ColorPicker          |
+| **Layout**       | Flex, Grid, Space, Divider, Watermark                                     |
 
-### Navigation
+---
 
-Breadcrumb, Menu, Pagination, Steps, Tabs
+## 🎨 Styling Philosophy
 
-### Feedback
+`@cooolpower/headless-ui` stays out of your way. We provide the **Behavior** and **Accessibility**, while you provide the **Style**.
 
-Alert, Progress, Statistic, Timeline, Toast, Snackbar
+Every component accepts a `className` and `style` prop. For complex components, we provide data-attributes like `data-open`, `data-disabled`, or `data-placement` so you can style them easily with CSS:
 
-### Data Entry
+```css
+/* Styling based on state */
+.hc-dialog[data-open='true'] {
+  animation: fade-in 0.2s ease-out;
+}
 
-Calendar, DatePicker, TimePicker, ColorPicker, Slider, Rate, Upload, Cascader
+.hc-button[data-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```
 
-### Overlays
+---
 
-Modal, Drawer, Dialog, Popover, Tooltip, Dropdown
+## 🤝 Contributing
 
-### Advanced
+Contributions are always welcome! Whether it's fixing bugs, improving documentation, or suggesting new components, please feel free to open a PR.
 
-Table, DataTable, Tree, Form, Chart, Heatmap, Carousel, Collapse
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
 
 ## 📄 License
 
-MIT © James
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+<p align="center">
+  Built with ❤️ by James
+</p>
