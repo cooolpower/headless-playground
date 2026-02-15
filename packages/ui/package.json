@@ -1,6 +1,6 @@
 {
   "name": "@cooolpower/headless-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Headless React component library with 57+ accessible UI components",
   "private": false,
   "main": "./dist/index.js",
