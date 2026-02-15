@@ -1,0 +1,125 @@
+import {
+  DemoFlipCountdownBasic,
+  DemoFlipCountdownBasicControls,
+  DemoFlipCountdownBasicProvider,
+  DemoFlipCountdownBasicWithControls,
+  DemoFlipCountdownCustomFormat,
+  DemoFlipCountdownNoInjectStyles,
+  DemoFlipCountdownNumber,
+} from './flip-countdown.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { FlipCountdownCss } from '@headless/ui';
+
+# Flip Countdown
+
+Flip 애니메이션으로 카운트다운을 표시하는 컴포넌트입니다. 내부적으로 `Countdown`의 값을 사용해 각 자리(숫자) 변경 시에만 플립 애니메이션이 발생하도록 구현되어 있습니다.
+
+### 사용법
+
+```tsx
+import { FlipCountdown } from '@headless/ui';
+
+export function MyComponent() {
+  const targetTime = Date.now() + 10 * 1000; // 10초 후
+  return <FlipCountdown targetTime={targetTime} />;
+}
+```
+
+### 예제
+
+#### 기본 Flip Countdown
+
+<Playground preview={<DemoFlipCountdownBasic />} />
+
+```tsx
+const targetTime = Date.now() + 10 * 1000; // 10초 후
+
+<FlipCountdown targetTime={targetTime} format="HH:mm:ss" />;
+```
+
+#### 기본 Flip Countdown (인터랙티브)
+
+<DemoFlipCountdownBasicProvider>
+  <Playground
+    preview={<DemoFlipCountdownBasicWithControls />}
+    controls={<DemoFlipCountdownBasicControls />}
+  />
+</DemoFlipCountdownBasicProvider>
+
+```tsx
+import { useState } from 'react';
+import { FlipCountdown } from '@headless/ui';
+
+export function MyComponent() {
+  const [seconds, setSeconds] = useState(10);
+  const [active, setActive] = useState(false);
+  const [mode, setMode] = useState<'time' | 'number'>('time');
+  const [format, setFormat] = useState('HH:mm:ss');
+  const targetTime = Date.now() + seconds * 1000;
+
+  return (
+    <FlipCountdown
+      targetTime={targetTime}
+      active={active}
+      mode={mode}
+      format={mode === 'time' ? format : undefined}
+    />
+  );
+}
+```
+
+#### mode="number" (총 초 표시)
+
+<Playground preview={<DemoFlipCountdownNumber />} />
+
+```tsx
+<FlipCountdown targetTime={targetTime} mode="number" minDigits={3} />
+```
+
+#### format="DD:HH:mm:ss" (일 포함)
+
+<Playground preview={<DemoFlipCountdownCustomFormat />} />
+
+```tsx
+<FlipCountdown targetTime={targetTime} format="DD:HH:mm:ss" />
+```
+
+#### injectStyles={false} (외부에서 스타일 주입)
+
+<Playground preview={<DemoFlipCountdownNoInjectStyles />} />
+
+```tsx
+import { FlipCountdown } from '@headless/ui';
+import { flipCountdownCss } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <>
+      <style>{flipCountdownCss}</style>
+      <FlipCountdown targetTime={Date.now() + 10 * 1000} injectStyles={false} />
+    </>
+  );
+}
+```
+
+### API Reference
+
+| Property     | Type                                           | Default      | Description                                                                  |
+| ------------ | ---------------------------------------------- | ------------ | ---------------------------------------------------------------------------- |
+| targetTime   | `number \| Date`                               | -            | 목표 시간 (타임스탬프 또는 Date)                                             |
+| active       | `boolean`                                      | `true`       | 활성화 여부                                                                  |
+| mode         | `'time' \| 'number'`                           | `'time'`     | 표시 모드 (`time`: 일/시/분/초, `number`: 총 초)                             |
+| format       | `string`                                       | `'HH:mm:ss'` | `mode="time"`에서 사용할 포맷 (예: `HH:mm:ss`, `mm:ss`, `ss`, `DD:HH:mm:ss`) |
+| minDigits    | `number`                                       | `1`          | `mode="number"`에서 최소 자릿수(왼쪽 0 padding)                              |
+| labels       | `Partial<{days,hours,minutes,seconds,number}>` | -            | 단위 라벨 커스터마이징                                                       |
+| digitSize    | `'sm' \| 'md' \| 'lg' \| 'xl'`                 | `'md'`       | 한 자리(카드) 크기                                                           |
+| injectStyles | `boolean`                                      | `true`       | 기본 스타일(`<style>{flipCountdownCss}</style>`) 자동 주입 여부              |
+| className    | `string`                                       | -            | 추가 CSS 클래스                                                              |
+| children     | `ReactNode`                                    | -            | 추가 콘텐츠 (컴포넌트 하단에 렌더링)                                         |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 FlipCountdown이 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={FlipCountdownCss} title="FlipCountdownCss" />

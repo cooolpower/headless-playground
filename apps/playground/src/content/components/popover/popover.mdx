@@ -1,0 +1,159 @@
+import {
+  DemoPopoverBasic,
+  DemoPopoverBasicWithControls,
+  DemoPopoverBasicControls,
+  DemoPopoverBasicProvider,
+} from './popover.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { PopoverCss } from '@headless/ui';
+
+# Popover
+
+Popover 컴포넌트는 트리거 요소에 마우스를 올리거나 클릭하면 나타나는 작은 오버레이입니다. Tooltip과 유사하지만 더 많은 콘텐츠를 표시할 수 있습니다.
+
+## 기본 사용법
+
+Popover 컴포넌트는 `content` prop을 통해 표시할 콘텐츠를 전달받습니다.
+
+### 기본 Popover (인터랙티브)
+
+<DemoPopoverBasicProvider>
+  <Playground
+    preview={<DemoPopoverBasicWithControls />}
+    controls={<DemoPopoverBasicControls />}
+  />
+</DemoPopoverBasicProvider>
+
+<Playground preview={<DemoPopoverBasic />} />
+
+```tsx
+import { Popover } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Popover content="This is a popover">
+      <button>Hover me</button>
+    </Popover>
+  );
+}
+```
+
+## Placement
+
+Popover의 위치를 조정할 수 있습니다.
+
+```tsx
+<Popover
+  content="Popover content"
+  placement="top"
+>
+  <button>Top</button>
+</Popover>
+
+<Popover
+  content="Popover content"
+  placement="bottom"
+>
+  <button>Bottom</button>
+</Popover>
+
+<Popover
+  content="Popover content"
+  placement="left"
+>
+  <button>Left</button>
+</Popover>
+
+<Popover
+  content="Popover content"
+  placement="right"
+>
+  <button>Right</button>
+</Popover>
+```
+
+## Trigger
+
+Popover를 표시하는 트리거를 설정할 수 있습니다.
+
+```tsx
+// Hover (기본값)
+<Popover
+  content="Popover content"
+  trigger="hover"
+>
+  <button>Hover me</button>
+</Popover>
+
+// Click
+<Popover
+  content="Popover content"
+  trigger="click"
+>
+  <button>Click me</button>
+</Popover>
+
+// Focus
+<Popover
+  content="Popover content"
+  trigger="focus"
+>
+  <input placeholder="Focus me" />
+</Popover>
+```
+
+## With Title
+
+제목을 포함한 Popover를 만들 수 있습니다.
+
+```tsx
+<Popover title="Popover Title" content="This is the popover content">
+  <button>Hover me</button>
+</Popover>
+```
+
+## Controlled
+
+`visible`과 `onVisibleChange`를 통해 Popover의 표시 상태를 제어할 수 있습니다.
+
+```tsx
+const [visible, setVisible] = useState(false);
+
+<Popover
+  content="Popover content"
+  visible={visible}
+  onVisibleChange={setVisible}
+>
+  <button onClick={() => setVisible(!visible)}>Toggle Popover</button>
+</Popover>;
+```
+
+## API
+
+### Popover Props
+
+| Property         | Description                        | Type                                                                                                                                                                 | Default   |
+| ---------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| content          | Popover 콘텐츠                     | `React.ReactNode`                                                                                                                                                    | -         |
+| title            | Popover 제목                       | `React.ReactNode`                                                                                                                                                    | -         |
+| placement        | Popover 위치                       | `'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `'top'`   |
+| trigger          | Popover 트리거                     | `'hover' \| 'click' \| 'focus' \| 'context-menu'`                                                                                                                    | `'hover'` |
+| visible          | Popover 표시 여부 (controlled)     | `boolean`                                                                                                                                                            | -         |
+| onVisibleChange  | Popover 표시 상태 변경 핸들러      | `(visible: boolean) => void`                                                                                                                                         | -         |
+| mouseEnterDelay  | 마우스 진입 후 표시 지연 시간 (ms) | `number`                                                                                                                                                             | `0`       |
+| mouseLeaveDelay  | 마우스 이탈 후 숨김 지연 시간 (ms) | `number`                                                                                                                                                             | `100`     |
+| overlayClassName | 오버레이 추가 CSS 클래스           | `string`                                                                                                                                                             | -         |
+| className        | 추가 CSS 클래스                    | `string`                                                                                                                                                             | -         |
+| children         | Popover 트리거 요소                | `React.ReactNode`                                                                                                                                                    | -         |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={PopoverCss} title="PopoverCss" />
+
+## 특징
+
+- **다양한 트리거**: hover, click, focus, context-menu 지원
+- **위치 조정**: 12가지 위치 옵션 제공
+- **지연 시간**: mouseEnterDelay, mouseLeaveDelay로 UX 개선
+- **접근성**: 키보드 네비게이션 및 ARIA 속성 지원

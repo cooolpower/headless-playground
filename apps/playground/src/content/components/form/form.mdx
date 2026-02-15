@@ -1,0 +1,292 @@
+# Form
+
+A form component for managing form state, validation, and submission. The Form component provides a headless foundation that can be styled and extended to support various form use cases.
+
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { FormCss } from '@headless/ui';
+import {
+  DemoFormBasic,
+  DemoFormBasicProvider,
+  DemoFormBasicWithControls,
+  DemoFormBasicControls,
+  DemoFormLayout,
+  DemoFormValidation,
+  DemoFormWithZod,
+} from './form.demo';
+
+## Usage
+
+```tsx
+import { Form, FormItem } from '@headless/ui';
+import { Input } from '@headless/ui';
+
+export function MyComponent() {
+  return (
+    <Form
+      initialValues={{ username: '', email: '' }}
+      onFinish={(values) => console.log(values)}
+    >
+      <FormItem name="username" label="사용자명" required>
+        <Input placeholder="사용자명을 입력하세요" />
+      </FormItem>
+      <FormItem name="email" label="이메일" required>
+        <Input type="email" placeholder="이메일을 입력하세요" />
+      </FormItem>
+    </Form>
+  );
+}
+```
+
+## Examples
+
+### Basic Form
+
+<DemoFormBasicProvider>
+  <Playground
+    preview={<DemoFormBasicWithControls />}
+    controls={<DemoFormBasicControls />}
+  />
+</DemoFormBasicProvider>
+
+```tsx
+<Form
+  initialValues={{
+    username: '',
+    email: '',
+    password: '',
+  }}
+  onFinish={(values) => console.log(values)}
+>
+  <FormItem
+    name="username"
+    label="사용자명"
+    required
+    rules={[{ required: true, message: '사용자명을 입력해주세요' }]}
+  >
+    <Input placeholder="사용자명을 입력하세요" />
+  </FormItem>
+  {/* ... more fields */}
+</Form>
+```
+
+### Form Layouts
+
+<Playground preview={<DemoFormLayout />} />
+
+```tsx
+{
+  /* Vertical Layout */
+}
+<Form layout="vertical">
+  <FormItem name="field1" label="필드 1">
+    <Input />
+  </FormItem>
+</Form>;
+
+{
+  /* Inline Layout */
+}
+<Form layout="inline">
+  <FormItem name="field1" label="필드 1">
+    <Input />
+  </FormItem>
+  <Button type="submit">검색</Button>
+</Form>;
+```
+
+### Form Validation
+
+<Playground preview={<DemoFormValidation />} />
+
+```tsx
+<FormItem
+  name="email"
+  label="이메일"
+  rules={[
+    { required: true, message: '이메일을 입력해주세요' },
+    {
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      message: '올바른 이메일 형식이 아닙니다',
+    },
+  ]}
+  hasFeedback
+>
+  <Input type="email" />
+</FormItem>
+```
+
+### Validation with Zod (Optional)
+
+Zod를 선택적으로 사용할 수 있습니다. Zod를 사용하려면 먼저 설치해주세요:
+
+```bash
+npm install zod
+```
+
+<Playground preview={<DemoFormWithZod />} />
+
+```tsx
+import { z } from 'zod'
+
+// Zod schema 정의
+const emailSchema = z.string()
+  .email('올바른 이메일 형식이 아닙니다')
+  .min(1, '이메일을 입력해주세요')
+
+const passwordSchema = z.string()
+  .min(6, '비밀번호는 최소 6자 이상이어야 합니다')
+  .max(20, '비밀번호는 최대 20자까지 입력 가능합니다')
+
+// FormItem에서 zodSchema prop 사용
+<FormItem
+  name="email"
+  label="이메일"
+  zodSchema={emailSchema}
+  hasFeedback
+>
+  <Input type="email" />
+</FormItem>
+
+<FormItem
+  name="password"
+  label="비밀번호"
+  zodSchema={passwordSchema}
+  hasFeedback
+>
+  <Input type="password" />
+</FormItem>
+```
+
+**참고:**
+
+- `zodSchema`와 `rules`를 함께 사용할 수 있습니다
+- Zod가 설치되어 있지 않으면 기존 `rules` 방식만 사용됩니다
+- Zod schema는 자동으로 FormRule로 변환되어 검증됩니다
+
+### API Reference
+
+#### Form Props
+
+| Property        | Type                                                | Default        | Description                 |
+| --------------- | --------------------------------------------------- | -------------- | --------------------------- |
+| children        | `ReactNode`                                         | -              | 폼 콘텐츠                   |
+| form            | `FormInstance<T>`                                   | -              | 폼 인스턴스 (외부에서 제어) |
+| initialValues   | `T`                                                 | -              | 초기 값                     |
+| onFinish        | `(values: T) => void`                               | -              | 제출 성공 콜백              |
+| onFinishFailed  | `(errors: FormErrors) => void`                      | -              | 제출 실패 콜백              |
+| onValuesChange  | `(changedValues: Partial<T>, allValues: T) => void` | -              | 값 변경 콜백                |
+| validateTrigger | `'onChange' \| 'onBlur' \| 'onSubmit'`              | `'onChange'`   | 검증 트리거 시점            |
+| layout          | `'horizontal' \| 'vertical' \| 'inline'`            | `'horizontal'` | 폼 레이아웃                 |
+| size            | `'small' \| 'medium' \| 'large'`                    | `'medium'`     | 폼 요소 크기                |
+| disabled        | `boolean`                                           | `false`        | 전체 폼 비활성화            |
+| className       | `string`                                            | -              | 추가 CSS 클래스             |
+| onFormReady     | `(form: FormInstance<T>) => void`                   | -              | 폼 인스턴스 준비 완료 콜백  |
+| injectStyles    | `boolean`                                           | `true`         | 기본 스타일 주입 여부       |
+
+#### FormItem Props
+
+| Property                       | Type                                                | Default | Description                   |
+| ------------------------------ | --------------------------------------------------- | ------- | ----------------------------- |
+| children                       | `ReactNode`                                         | -       | 입력 요소                     |
+| name                           | `string \| string[]`                                | -       | 필드 이름                     |
+| label                          | `ReactNode`                                         | -       | 레이블                        |
+| rules                          | `FormRule[]`                                        | -       | 검증 규칙                     |
+| zodSchema                      | `ZodSchema`                                         | -       | Zod 스키마 (선택적)           |
+| required                       | `boolean`                                           | `false` | 필수 여부                     |
+| tooltip                        | `ReactNode`                                         | -       | 툴팁                          |
+| help                           | `ReactNode`                                         | -       | 도움말 텍스트                 |
+| validateStatus                 | `'success' \| 'warning' \| 'error' \| 'validating'` | -       | 검증 상태                     |
+| hasFeedback                    | `boolean`                                           | `false` | 피드백 아이콘 표시 여부       |
+| className                      | `string`                                            | -       | 추가 CSS 클래스               |
+| injectStyles                   | `boolean`                                           | `true`  | 기본 스타일 주입 여부         |
+| labelClassName                 | `string`                                            | -       | 레이블 wrapper CSS 클래스     |
+| inputWrapperClassName          | `string`                                            | -       | Input wrapper CSS 클래스      |
+| requiredMarkClassName          | `string`                                            | -       | 필수 표시 CSS 클래스          |
+| formItemControlClassName       | `string`                                            | -       | Control wrapper CSS 클래스    |
+| formItemControlInputClassName  | `string`                                            | -       | Control input CSS 클래스      |
+| formItemControlStatusClassName | `string`                                            | -       | Status 아이콘 CSS 클래스      |
+| formItemHelpClassName          | `string`                                            | -       | 도움말/에러 메시지 CSS 클래스 |
+| statusClassNames               | `object`                                            | -       | 상태별 CSS 클래스 객체        |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={FormCss} title="FormCss" />
+
+#### FormRule
+
+| Property   | Type                                                                       | Description         |
+| ---------- | -------------------------------------------------------------------------- | ------------------- |
+| required   | `boolean`                                                                  | 필수 여부           |
+| message    | `string`                                                                   | 에러 메시지         |
+| pattern    | `RegExp`                                                                   | 정규식 패턴         |
+| min        | `number`                                                                   | 최소 길이/값        |
+| max        | `number`                                                                   | 최대 길이/값        |
+| len        | `number`                                                                   | 정확한 길이         |
+| validator  | `(rule: FormRule, value: any, callback: (error?: string) => void) => void` | 커스텀 검증 함수    |
+| whitespace | `boolean`                                                                  | 공백 문자 허용 여부 |
+| type       | `'string' \| 'number' \| 'boolean' \| 'array' \| 'object'`                 | 값 타입             |
+
+#### FormInstance Methods
+
+FormInstance는 Form.useForm()으로 생성하거나 Form 컴포넌트에서 onFormReady를 통해 접근할 수 있습니다.
+
+```tsx
+const [form] = Form.useForm();
+
+// 또는
+<Form onFormReady={(form) => { /* form 사용 */ }}>
+```
+
+| Method          | Type                                                | Description              |
+| --------------- | --------------------------------------------------- | ------------------------ |
+| getFieldValue   | `(name: string \| string[]) => any`                 | 필드 값 가져오기         |
+| getFieldsValue  | `(nameList?: string[] \| string[][]) => T`          | 여러 필드 값 가져오기    |
+| setFieldValue   | `(name: string \| string[], value: any) => void`    | 필드 값 설정하기         |
+| setFieldsValue  | `(values: Partial<T>) => void`                      | 여러 필드 값 설정하기    |
+| resetFields     | `(fields?: string[] \| string[][]) => void`         | 필드 초기화              |
+| validateFields  | `(nameList?: string[] \| string[][]) => Promise<T>` | 필드 검증하기            |
+| submit          | `() => void`                                        | 폼 제출하기              |
+| isFieldTouched  | `(name: string \| string[]) => boolean`             | 필드 터치 여부 확인      |
+| isFieldsTouched | `(nameList?: string[] \| string[][]) => boolean`    | 여러 필드 터치 여부 확인 |
+
+#### Form.useForm() 사용법
+
+외부에서 폼을 제어하려면 `Form.useForm()` 훅을 사용합니다:
+
+```tsx
+import { Form } from '@headless/ui';
+
+function MyComponent() {
+  const [form] = Form.useForm();
+
+  const handleReset = () => {
+    form.resetFields();
+  };
+
+  const handleFillForm = () => {
+    form.setFieldsValue({
+      username: 'john',
+      email: 'john@example.com',
+    });
+  };
+
+  return (
+    <Form form={form} onFinish={(values) => console.log(values)}>
+      <FormItem name="username" label="사용자명">
+        <Input />
+      </FormItem>
+      <FormItem name="email" label="이메일">
+        <Input />
+      </FormItem>
+      <button type="button" onClick={handleReset}>
+        초기화
+      </button>
+      <button type="button" onClick={handleFillForm}>
+        자동 입력
+      </button>
+      <button type="submit">제출</button>
+    </Form>
+  );
+}
+```

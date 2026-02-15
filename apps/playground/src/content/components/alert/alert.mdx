@@ -1,0 +1,126 @@
+import {
+  DemoAlertBasic,
+  DemoAlertBasicWithControls,
+  DemoAlertBasicControls,
+  DemoAlertBasicProvider,
+  DemoAlertWithIcon,
+  DemoAlertClosable,
+  DemoAlertBanner,
+} from './alert.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { AlertCss } from '@headless/ui';
+
+# Alert
+
+중요한 메시지를 다양한 타입과 스타일로 사용자에게 표시합니다.
+
+### 사용법
+
+```tsx
+import { Alert } from '@headless/ui';
+
+export function MyAlert() {
+  return (
+    <Alert
+      type="success"
+      title="성공!"
+      description="작업이 성공적으로 완료되었습니다."
+    />
+  );
+}
+```
+
+### 예제
+
+#### 기본 Alert (인터랙티브)
+
+<DemoAlertBasicProvider>
+  <Playground
+    preview={<DemoAlertBasicWithControls />}
+    controls={<DemoAlertBasicControls />}
+  />
+</DemoAlertBasicProvider>
+
+#### 기본 타입
+
+<Playground preview={<DemoAlertBasic />} />
+
+```tsx
+// Success
+<Alert type="success" title="성공!" description="작업이 성공적으로 완료되었습니다." />
+
+// Error
+<Alert type="error" title="오류!" description="문제가 발생했습니다." />
+
+// Warning
+<Alert type="warning" title="경고!" description="입력을 확인해주세요." />
+
+// Info
+<Alert type="info" title="정보" description="여기에 정보가 있습니다." />
+```
+
+#### 아이콘과 함께
+
+<Playground preview={<DemoAlertWithIcon />} />
+
+```tsx
+<Alert type="success" showIcon title="성공!" description="데이터가 성공적으로 저장되었습니다." />
+<Alert type="error" showIcon title="실패!" description="서버에 연결할 수 없습니다." />
+```
+
+#### 닫기 가능
+
+<Playground preview={<DemoAlertClosable />} />
+
+```tsx
+<Alert
+  type="info"
+  showIcon
+  closable
+  title="닫을 수 있는 Alert"
+  description="X 버튼을 클릭하여 이 Alert를 닫을 수 있습니다."
+  onClose={() => console.log('Alert가 닫혔습니다!')}
+/>
+```
+
+#### 배너
+
+<Playground preview={<DemoAlertBanner />} />
+
+```tsx
+<Alert
+  type="warning"
+  banner
+  title="시스템 점검"
+  description="예정된 점검이 오전 2시 EST에 시작됩니다."
+/>
+```
+
+### API
+
+#### Alert Props
+
+| Property     | Type                                          | Default    | Description                |
+| ------------ | --------------------------------------------- | ---------- | -------------------------- |
+| type         | `'success' \| 'error' \| 'warning' \| 'info'` | `'info'`   | Alert 타입                 |
+| showIcon     | `boolean`                                     | `false`    | 아이콘 표시 여부           |
+| closable     | `boolean`                                     | `false`    | 닫기 가능 여부             |
+| onClose      | `() => void`                                  | -          | Alert가 닫힐 때 콜백       |
+| title        | `ReactNode`                                   | -          | Alert 제목                 |
+| description  | `ReactNode`                                   | -          | Alert 설명                 |
+| banner       | `boolean`                                     | `false`    | 배너로 표시 여부           |
+| size         | `'small' \| 'medium' \| 'large'`              | `'medium'` | Alert 크기                 |
+| injectStyles | `boolean`                                     | `true`     | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`                                      | -          | 추가 CSS 클래스            |
+
+### Notes
+
+- Alert는 타입에 따라 의미론적 색상 코딩을 사용합니다
+- 배너 Alert는 전체 너비를 차지하며 일반적으로 시스템 전체 메시지에 사용됩니다
+- 닫기 가능한 Alert는 사용자가 메시지를 해제할 수 있도록 합니다
+- `showIcon`이 true일 때 Alert 타입에 따라 아이콘이 자동으로 선택됩니다
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={AlertCss} title="AlertCss" />

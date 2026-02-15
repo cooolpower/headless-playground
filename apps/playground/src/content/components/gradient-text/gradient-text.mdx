@@ -1,0 +1,69 @@
+import {
+  DemoGradientTextProvider,
+  DemoGradientText,
+  GradientTextControls,
+} from './gradient-text.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { GradientTextCss } from '@headless/ui';
+
+# Gradient Text
+
+Gradient Text는 그라데이션 효과가 적용된 텍스트를 표시하는 Headless 컴포넌트입니다.
+
+## 기본 사용법
+
+Gradient Text 컴포넌트를 사용하여 그라데이션 효과가 적용된 텍스트를 표시할 수 있습니다.
+
+<DemoGradientTextProvider>
+  <Playground
+    preview={<DemoGradientText />}
+    controls={<GradientTextControls />}
+  />
+</DemoGradientTextProvider>
+
+```tsx
+import { GradientText } from '@headless/ui';
+
+export function MyComponent() {
+  return <GradientText>Gradient Text</GradientText>;
+}
+```
+
+## 커스텀 그라데이션
+
+CSS를 통해 그라데이션 색상과 방향을 커스터마이징할 수 있습니다.
+
+```tsx
+<GradientText
+  style={{
+    background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+  }}
+>
+  Custom Gradient
+</GradientText>
+```
+
+## API
+
+### GradientText Props
+
+| Property     | Description                                 | Type                   | Default    |
+| ------------ | ------------------------------------------- | ---------------------- | ---------- |
+| children     | 그라데이션을 적용할 텍스트                  | `React.ReactNode`      | -          |
+| className    | 추가 CSS 클래스                             | `string`               | -          |
+| style        | 인라인 스타일                               | `React.CSSProperties`  | -          |
+| type         | 기본 그라데이션 타입                        | `'linear' \| 'radial'` | `'linear'` |
+| injectStyles | 기본 스타일을 컴포넌트가 직접 주입할지 여부 | `boolean`              | `true`     |
+
+## 특징
+
+- **그라데이션 효과**: CSS 그라데이션을 사용한 텍스트 스타일링
+- **커스터마이징**: CSS를 통해 다양한 그라데이션 효과 적용 가능
+- **접근성**: 텍스트 내용은 스크린 리더에서 정상적으로 읽힘
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={GradientTextCss} title="GradientTextCss" />

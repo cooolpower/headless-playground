@@ -1,0 +1,189 @@
+import {
+  DemoCountdownBasic,
+  DemoCountdownBasicProvider,
+  DemoCountdownBasicWithControls,
+  DemoCountdownBasicControls,
+  DemoCountdownFormat,
+  DemoCountdownActive,
+  DemoCountdownOnFinish,
+  DemoCountdownCustomRender,
+  DemoCountdownWithDays,
+} from './countdown.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { CountdownCss } from '@headless/ui';
+
+# Countdown
+
+카운트다운 컴포넌트입니다. 특정 시간까지의 남은 시간을 표시합니다.
+
+Countdown은 목표 시간까지의 남은 시간을 실시간으로 표시하는 컴포넌트입니다. 다양한 포맷을 지원하며, 카운트다운이 끝났을 때 콜백을 실행할 수 있습니다.
+
+### 사용법
+
+```tsx
+import { Countdown } from '@headless/ui';
+
+export function MyComponent() {
+  const targetTime = Date.now() + 10 * 1000; // 10초 후
+
+  return <Countdown targetTime={targetTime} />;
+}
+```
+
+### 예제
+
+#### 기본 Countdown
+
+<Playground preview={<DemoCountdownBasic />} />
+
+```tsx
+const targetTime = Date.now() + 10 * 1000; // 10초 후
+
+<Countdown targetTime={targetTime} />;
+```
+
+#### 기본 Countdown (인터랙티브)
+
+<DemoCountdownBasicProvider>
+  <Playground
+    preview={<DemoCountdownBasicWithControls />}
+    controls={<DemoCountdownBasicControls />}
+  />
+</DemoCountdownBasicProvider>
+
+```tsx
+import { useState } from 'react';
+import { Countdown } from '@headless/ui';
+
+export function MyComponent() {
+  const [seconds, setSeconds] = useState(10);
+  const [active, setActive] = useState(true);
+  const [format, setFormat] = useState('HH:mm:ss');
+  const targetTime = Date.now() + seconds * 1000;
+
+  return <Countdown targetTime={targetTime} active={active} format={format} />;
+}
+```
+
+#### Format
+
+<Playground preview={<DemoCountdownFormat />} />
+
+```tsx
+<Countdown targetTime={targetTime1} format="HH:mm:ss" />
+<Countdown targetTime={targetTime2} format="mm:ss" />
+<Countdown targetTime={targetTime3} format="ss" />
+```
+
+#### Active
+
+<Playground preview={<DemoCountdownActive />} />
+
+```tsx
+const [active, setActive] = useState(true);
+const targetTime = Date.now() + 10 * 1000;
+
+<Countdown targetTime={targetTime} active={active} />
+<Button onClick={() => setActive(!active)}>
+  {active ? '일시정지' : '재개'}
+</Button>
+```
+
+#### On Finish
+
+<Playground preview={<DemoCountdownOnFinish />} />
+
+```tsx
+const [finished, setFinished] = useState(false);
+const targetTime = Date.now() + 5 * 1000;
+
+<Countdown targetTime={targetTime} onFinish={() => setFinished(true)} />;
+```
+
+#### Custom Render
+
+<Playground preview={<DemoCountdownCustomRender />} />
+
+```tsx
+<Countdown targetTime={targetTime}>
+  {({ days, hours, minutes, seconds }) => (
+    <>
+      <div>
+        <div>{days}</div>
+        <div>일</div>
+      </div>
+      <div>
+        <div>{hours}</div>
+        <div>시</div>
+      </div>
+      <div>
+        <div>{minutes}</div>
+        <div>분</div>
+      </div>
+      <div>
+        <div>{seconds}</div>
+        <div>초</div>
+      </div>
+    </>
+  )}
+</Countdown>
+```
+
+#### Custom Format with Days
+
+<Playground preview={<DemoCountdownWithDays />} />
+
+```tsx
+const targetTime = Date.now() + 2 * 24 * 60 * 60 * 1000; // 2일 후
+
+<Countdown targetTime={targetTime} format="DD:HH:mm:ss" />;
+```
+
+### API Reference
+
+#### Countdown Props
+
+| Property        | Type                                              | Default      | Description                                                                                       |
+| --------------- | ------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------- |
+| targetTime      | `number \| Date`                                  | -            | 목표 시간 (타임스탬프 또는 Date)                                                                  |
+| active          | `boolean`                                         | `true`       | 활성화 여부                                                                                       |
+| onFinish        | `() => void`                                      | -            | 카운트다운 종료 시 콜백                                                                           |
+| format          | `string`                                          | `'HH:mm:ss'` | 시간 포맷 (HH:mm:ss, mm:ss, ss, DD:HH:mm:ss)                                                      |
+| formatType      | `'time' \| 'number' \| 'temperature' \| 'custom'` | `'time'`     | 포맷 타입 (`time`: 시간 포맷, `number`: 총 초, `temperature`: °C, `custom`: format 문자열 그대로) |
+| finishedContent | `ReactNode`                                       | -            | 카운트다운 완료 시 표시할 내용 (있으면 formatted/children 대신 우선 표시)                         |
+| className       | `string`                                          | -            | 추가 CSS 클래스                                                                                   |
+| injectStyles    | `boolean`                                         | `true`       | 기본 스타일 주입 여부                                                                             |
+| children        | `(timeLeft: TimeLeft) => ReactNode`               | -            | 커스텀 렌더링 함수                                                                                |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={CountdownCss} title="CountdownCss" />
+
+#### TimeLeft
+
+| Property | Type     | Description |
+| -------- | -------- | ----------- |
+| days     | `number` | 일          |
+| hours    | `number` | 시          |
+| minutes  | `number` | 분          |
+| seconds  | `number` | 초          |
+| total    | `number` | 총 밀리초   |
+
+### 특징
+
+- **실시간 업데이트**: 1초마다 자동으로 업데이트
+- **다양한 포맷**: HH:mm:ss, mm:ss, ss, DD:HH:mm:ss 등 지원
+- **활성화 제어**: active prop으로 일시정지/재개 가능
+- **커스텀 렌더링**: children prop으로 원하는 형태로 렌더링 가능
+- **콜백 지원**: onFinish로 카운트다운 종료 시 작업 수행
+- **Headless 설계**: 스타일링은 사용자가 제어
+
+### Format 문자열
+
+- `DD`: 일 (2자리)
+- `HH`: 시 (2자리)
+- `mm`: 분 (2자리)
+- `ss`: 초 (2자리)
+
+예: `"DD:HH:mm:ss"`, `"HH:mm:ss"`, `"mm:ss"`, `"ss"`

@@ -1,0 +1,249 @@
+# Checkbox
+
+A checkbox component for selecting one or multiple options from a set. Supports controlled and uncontrolled modes, indeterminate state, and disabled state.
+
+### Usage
+
+```tsx
+import { Checkbox } from '@headless/ui';
+
+export function MyComponent() {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Checkbox checked={checked} onChange={setChecked}>
+      Accept terms and conditions
+    </Checkbox>
+  );
+}
+```
+
+import {
+  DemoCheckboxBasic,
+  DemoCheckboxBasicWithControls,
+  DemoCheckboxBasicControls,
+  DemoCheckboxBasicProvider,
+  DemoCheckboxControlled,
+  DemoCheckboxGroup,
+  DemoCheckboxIndeterminate,
+  DemoCheckboxDisabled,
+  DemoCheckboxCustomLabel,
+  DemoCheckboxGroupWithSelectAll,
+} from './checkbox.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { CheckboxCss } from '@headless/ui';
+
+### Examples
+
+#### 기본 Checkbox (인터랙티브)
+
+<DemoCheckboxBasicProvider>
+  <Playground
+    preview={<DemoCheckboxBasicWithControls />}
+    controls={<DemoCheckboxBasicControls />}
+  />
+</DemoCheckboxBasicProvider>
+
+#### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 Checkbox가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={CheckboxCss} title="CheckboxCss" />
+
+#### Basic Checkbox
+
+<Playground preview={<DemoCheckboxBasic />} />
+
+```tsx
+<Checkbox>Basic checkbox</Checkbox>
+
+<Checkbox defaultChecked>
+  Checked by default
+</Checkbox>
+```
+
+#### Controlled Checkbox
+
+<Playground preview={<DemoCheckboxControlled />} />
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+<Checkbox checked={checked} onChange={setChecked}>
+  Controlled checkbox
+</Checkbox>;
+```
+
+#### Checkbox Group
+
+<Playground preview={<DemoCheckboxGroup />} />
+
+```tsx
+const [options, setOptions] = useState({
+  option1: false,
+  option2: true,
+  option3: false
+});
+
+<Checkbox
+  checked={options.option1}
+  onChange={(checked) => setOptions({...options, option1: checked})}
+>
+  Option 1
+</Checkbox>
+<Checkbox
+  checked={options.option2}
+  onChange={(checked) => setOptions({...options, option2: checked})}
+>
+  Option 2
+</Checkbox>
+<Checkbox
+  checked={options.option3}
+  onChange={(checked) => setOptions({...options, option3: checked})}
+>
+  Option 3
+</Checkbox>
+```
+
+#### Group with Select All
+
+<Playground preview={<DemoCheckboxGroupWithSelectAll />} />
+
+```tsx
+const [options, setOptions] = useState({
+  option1: false,
+  option2: false,
+  option3: false,
+  option4: false,
+});
+
+const allChecked = Object.values(options).every(v => v);
+const someChecked = Object.values(options).some(v => v);
+
+const handleSelectAll = (checked: boolean) => {
+  if (checked) {
+    // 전체 체크: 모든 옵션을 체크
+    setOptions({
+      option1: true,
+      option2: true,
+      option3: true,
+      option4: true,
+    });
+  } else {
+    // 전체 체크 해제: 모든 옵션을 해제
+    setOptions({
+      option1: false,
+      option2: false,
+      option3: false,
+      option4: false,
+    });
+  }
+};
+
+const handleOptionChange = (key, checked: boolean) => {
+  // 모두 체크된 상태에서 옵션 하나를 선택하면
+  // 전체 체크 해제되고 선택된 체크도 해제
+  if (allChecked && checked) {
+    setOptions({
+      ...options,
+      [key]: false,
+    });
+  } else {
+    setOptions({
+      ...options,
+      [key]: checked,
+    });
+  }
+};
+
+<Checkbox
+  checked={allChecked}
+  indeterminate={someChecked && !allChecked}
+  onChange={handleSelectAll}
+>
+  전체 선택
+</Checkbox>
+<div style={{ marginLeft: '24px' }}>
+  <Checkbox
+    checked={options.option1}
+    onChange={(checked) => handleOptionChange('option1', checked)}
+  >
+    Option 1
+  </Checkbox>
+  {/* ... more options */}
+</div>
+```
+
+#### Indeterminate State
+
+<Playground preview={<DemoCheckboxIndeterminate />} />
+
+```tsx
+<Checkbox indeterminate>
+  Indeterminate checkbox
+</Checkbox>
+
+<Checkbox checked indeterminate>
+  Checked and indeterminate
+</Checkbox>
+```
+
+#### Disabled State
+
+<Playground preview={<DemoCheckboxDisabled />} />
+
+```tsx
+<Checkbox disabled>Disabled checkbox</Checkbox>
+<Checkbox disabled defaultChecked>
+  Disabled and checked
+</Checkbox>
+<Checkbox disabled indeterminate>
+  Disabled and indeterminate
+</Checkbox>
+```
+
+#### With Custom Label
+
+<Playground preview={<DemoCheckboxCustomLabel />} />
+
+```tsx
+<Checkbox>
+  <span style={{ fontWeight: 'bold' }}>Bold label</span>
+</Checkbox>
+
+<Checkbox>
+  <div>
+    <div>Multi-line</div>
+    <div style={{ fontSize: '12px', color: '#666' }}>Description text</div>
+  </div>
+</Checkbox>
+```
+
+### API Reference
+
+#### Checkbox Props
+
+| Property       | Type                                                                      | Default    | Description            |
+| -------------- | ------------------------------------------------------------------------- | ---------- | ---------------------- |
+| checked        | `boolean`                                                                 | -          | 제어된 체크 상태       |
+| defaultChecked | `boolean`                                                                 | `false`    | 기본 체크 상태         |
+| onChange       | `(checked: boolean, event?: React.ChangeEvent<HTMLInputElement>) => void` | -          | 체크 상태 변경 콜백    |
+| indeterminate  | `boolean`                                                                 | `false`    | 불확정 상태 여부       |
+| disabled       | `boolean`                                                                 | `false`    | 체크박스 비활성화 여부 |
+| onFocus        | `(event: React.FocusEvent<HTMLInputElement>) => void`                     | -          | 포커스 이벤트 핸들러   |
+| onBlur         | `(event: React.FocusEvent<HTMLInputElement>) => void`                     | -          | 블러 이벤트 핸들러     |
+| name           | `string`                                                                  | -          | 입력 필드 name 속성    |
+| value          | `string`                                                                  | -          | 입력 필드 value 속성   |
+| id             | `string`                                                                  | -          | 입력 필드 id 속성      |
+| required       | `boolean`                                                                 | `false`    | 필수 여부              |
+| size           | `'small' \| 'medium' \| 'large'`                                          | `'medium'` | 체크박스 크기          |
+| className      | `string`                                                                  | -          | 추가 CSS 클래스        |
+| children       | `React.ReactNode`                                                         | -          | 레이블 콘텐츠          |
+
+### Notes
+
+- `checked`는 제어 모드, `defaultChecked`는 비제어 모드에 사용
+- 불확정 상태는 "전체 선택" 시나리오에 유용
+- 체크박스는 자동으로 키보드 네비게이션 처리 (Space 키)
+- 레이블을 클릭하면 체크박스가 토글됨

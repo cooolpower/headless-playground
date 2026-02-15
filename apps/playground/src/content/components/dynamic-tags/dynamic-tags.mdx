@@ -1,0 +1,148 @@
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { DynamicTagsCss } from '@headless/ui';
+import {
+  DemoDynamicTagsBasic,
+  DemoDynamicTagsMax,
+  DemoDynamicTagsDisabled,
+  DemoDynamicTagsSizes,
+  DemoDynamicTagsHandlers,
+  DemoDynamicTagsCustomRender,
+} from './dynamic-tags.demo';
+
+# Dynamic Tags
+
+Dynamic Tags는 사용자가 태그를 동적으로 추가하거나 제거할 수 있는 컴포넌트입니다.
+
+## 기본 사용법
+
+Dynamic Tags 컴포넌트를 사용하여 태그를 동적으로 관리할 수 있습니다.
+
+<Playground preview={<DemoDynamicTagsBasic />} />
+
+```tsx
+import { DynamicTags } from '@headless/ui';
+import { useState } from 'react';
+
+export function MyComponent() {
+  const [tags, setTags] = useState<string[]>(['Tag1', 'Tag2']);
+
+  return <DynamicTags value={tags} onChange={setTags} />;
+}
+```
+
+## 최대 개수 제한
+
+`max` prop을 사용하여 최대 태그 개수를 제한할 수 있습니다.
+
+<Playground preview={<DemoDynamicTagsMax />} />
+
+```tsx
+<DynamicTags value={tags} onChange={setTags} max={5} />
+```
+
+## 비활성화
+
+`disabled` prop을 사용하여 Dynamic Tags를 비활성화할 수 있습니다.
+
+<Playground preview={<DemoDynamicTagsDisabled />} />
+
+```tsx
+<DynamicTags value={tags} disabled />
+```
+
+## 크기 변형
+
+`size` prop을 사용하여 태그 크기를 조절할 수 있습니다.
+
+<Playground preview={<DemoDynamicTagsSizes />} />
+
+```tsx
+<DynamicTags
+  value={tags}
+  onChange={setTags}
+  size="small" // 'small' | 'medium' | 'large'
+/>
+```
+
+## 커스텀 핸들러
+
+`onCreate`와 `onRemove` prop을 사용하여 태그 생성/제거 시 커스텀 로직을 실행할 수 있습니다.
+
+<Playground preview={<DemoDynamicTagsHandlers />} />
+
+```tsx
+<DynamicTags
+  value={tags}
+  onChange={setTags}
+  onCreate={async (tag) => {
+    // 태그 생성 전 검증
+    if (tag.length < 3) {
+      alert('태그는 최소 3글자 이상이어야 합니다.');
+      return false; // 생성 취소
+    }
+    return true; // 생성 허용
+  }}
+  onRemove={async (tag, index) => {
+    // 태그 제거 전 확인
+    return confirm(`${tag} 태그를 제거하시겠습니까?`);
+  }}
+/>
+```
+
+## 커스텀 렌더링
+
+`renderTag` prop을 사용하여 태그를 커스텀 렌더링할 수 있습니다.
+
+<Playground preview={<DemoDynamicTagsCustomRender />} />
+
+```tsx
+<DynamicTags
+  value={tags}
+  onChange={setTags}
+  renderTag={(tag, index) => (
+    <div
+      key={index}
+      style={
+        {
+          /* 커스텀 스타일 */
+        }
+      }
+    >
+      {tag}
+    </div>
+  )}
+/>
+```
+
+## API
+
+### DynamicTags Props
+
+| Property     | Description                   | Type                                                                          | Default               |
+| ------------ | ----------------------------- | ----------------------------------------------------------------------------- | --------------------- |
+| value        | 제어된 값                     | `string[]`                                                                    | -                     |
+| defaultValue | 기본값                        | `string[]`                                                                    | -                     |
+| onChange     | 값 변경 핸들러                | `(value: string[]) => void`                                                   | -                     |
+| max          | 최대 태그 개수                | `number`                                                                      | -                     |
+| onCreate     | 태그 생성 핸들러              | `(tag: string) => void \| boolean \| Promise<void \| boolean>`                | -                     |
+| onRemove     | 태그 제거 핸들러              | `(tag: string, index: number) => void \| boolean \| Promise<void \| boolean>` | -                     |
+| disabled     | 비활성화 여부                 | `boolean`                                                                     | `false`               |
+| className    | 추가 CSS 클래스               | `string`                                                                      | -                     |
+| classNames   | 내부 요소들에 적용할 클래스명 | `object`                                                                      | -                     |
+| renderTag    | 커스텀 렌더 함수              | `(tag: string, index: number) => ReactNode`                                   | -                     |
+| placeholder  | 입력 필드 플레이스홀더        | `string`                                                                      | `'태그를 입력하세요'` |
+| size         | 입력 필드 크기                | `'small' \| 'medium' \| 'large'`                                              | `'medium'`            |
+| injectStyles | 기본 스타일 주입 여부         | `boolean`                                                                     | `true`                |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={DynamicTagsCss} title="DynamicTagsCss" />
+
+## 특징
+
+- **동적 태그 관리**: 태그를 동적으로 추가하거나 제거할 수 있습니다
+- **Headless 설계**: 스타일링은 사용자가 제어합니다
+- **제어/비제어 모드**: `value`와 `defaultValue`를 통한 상태 관리 지원
+- **커스텀 핸들러**: 태그 생성/제거 시 커스텀 로직 실행 가능
+- **접근성**: 키보드 네비게이션 및 ARIA 속성 지원

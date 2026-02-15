@@ -1,25 +1,18 @@
 {
-  "name": "headless-playground",
+  "name": "headless-playground-root",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "next": "16.0.10",
-    "react": "19.2.1",
-    "react-dom": "19.2.1"
+    "dev": "pnpm --filter playground dev",
+    "build": "pnpm --filter playground build",
+    "start": "pnpm --filter playground start",
+    "lint": "pnpm --filter playground lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md,mdx}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md,mdx}\"",
+    "type-check": "pnpm --filter playground type-check"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.0.10",
+    "prettier": "^3.7.4",
     "typescript": "^5"
   }
 }

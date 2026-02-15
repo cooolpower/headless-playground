@@ -1,0 +1,272 @@
+# Chart
+
+Chart 컴포넌트는 데이터 시각화를 위한 차트를 표시하는 Headless 컴포넌트입니다. Chart.js와 같은 다양한 차트 라이브러리와 통합하여 사용할 수 있습니다.
+
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { ChartCss } from '@headless/ui';
+import {
+  DemoChartBasicProvider,
+  DemoChartBasicWithControls,
+  DemoChartBasicControls,
+  DemoChartLine,
+  DemoChartBar,
+  DemoChartPie,
+  DemoChartDoughnut,
+  DemoChartRadar,
+  DemoChartPolarArea,
+} from './chart.demo';
+
+## 기본 사용법
+
+Chart 컴포넌트는 children을 통해 차트 콘텐츠를 받습니다. 실제 차트 렌더링은 외부 라이브러리(예: Chart.js, Recharts 등)를 사용합니다.
+
+<DemoChartBasicProvider>
+  <Playground
+    preview={<DemoChartBasicWithControls />}
+    controls={<DemoChartBasicControls />}
+  />
+</DemoChartBasicProvider>
+
+```tsx
+import { Chart } from '@headless/ui';
+import { Line } from 'react-chartjs-2';
+
+export function MyComponent() {
+  const data = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    datasets: [
+      {
+        label: 'Sales',
+        data: [12, 19, 3, 5, 2],
+      },
+    ],
+  };
+
+  return (
+    <Chart>
+      <Line data={data} />
+    </Chart>
+  );
+}
+```
+
+## Line Chart
+
+선 그래프는 시간에 따른 데이터 변화를 시각화하는 데 적합합니다.
+
+<Playground preview={<DemoChartLine />} />
+
+```tsx
+import { Chart } from '@headless/ui';
+import { Line } from 'react-chartjs-2';
+
+const data = {
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+  datasets: [
+    {
+      label: 'Sales',
+      data: [12, 19, 3, 5, 2, 3],
+      borderColor: 'rgb(75, 192, 192)',
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+    },
+  ],
+};
+
+export function MyComponent() {
+  return (
+    <Chart>
+      <Line data={data} options={{ responsive: true }} />
+    </Chart>
+  );
+}
+```
+
+## Bar Chart
+
+막대 그래프는 카테고리별 데이터를 비교하는 데 적합합니다.
+
+<Playground preview={<DemoChartBar />} />
+
+```tsx
+import { Chart } from '@headless/ui';
+import { Bar } from 'react-chartjs-2';
+
+const data = {
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+  datasets: [
+    {
+      label: 'Sales',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: 'rgba(75, 192, 192, 0.6)',
+    },
+  ],
+};
+
+export function MyComponent() {
+  return (
+    <Chart>
+      <Bar data={data} options={{ responsive: true }} />
+    </Chart>
+  );
+}
+```
+
+## Pie Chart
+
+원형 그래프는 전체 대비 각 부분의 비율을 시각화하는 데 적합합니다.
+
+<Playground preview={<DemoChartPie />} />
+
+```tsx
+import { Chart } from '@headless/ui';
+import { Pie } from 'react-chartjs-2';
+
+const data = {
+  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+  datasets: [
+    {
+      data: [12, 19, 3, 5, 2],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+      ],
+    },
+  ],
+};
+
+export function MyComponent() {
+  return (
+    <Chart>
+      <Pie data={data} options={{ responsive: true }} />
+    </Chart>
+  );
+}
+```
+
+## Doughnut Chart
+
+도넛 그래프는 원형 그래프의 변형으로, 중앙에 공간이 있어 추가 정보를 표시할 수 있습니다.
+
+<Playground preview={<DemoChartDoughnut />} />
+
+```tsx
+import { Chart } from '@headless/ui';
+import { Doughnut } from 'react-chartjs-2';
+
+const data = {
+  labels: ['Desktop', 'Mobile', 'Tablet'],
+  datasets: [
+    {
+      data: [60, 30, 10],
+      backgroundColor: [
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+      ],
+    },
+  ],
+};
+
+export function MyComponent() {
+  return (
+    <Chart>
+      <Doughnut data={data} options={{ responsive: true }} />
+    </Chart>
+  );
+}
+```
+
+## Radar Chart
+
+레이더 차트는 여러 변수를 동시에 비교하는 데 적합합니다.
+
+<Playground preview={<DemoChartRadar />} />
+
+```tsx
+import { Chart } from '@headless/ui';
+import { Radar } from 'react-chartjs-2';
+
+const data = {
+  labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling'],
+  datasets: [
+    {
+      label: 'My First Dataset',
+      data: [65, 59, 90, 81, 56, 55],
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+    },
+  ],
+};
+
+export function MyComponent() {
+  return (
+    <Chart>
+      <Radar data={data} options={{ responsive: true }} />
+    </Chart>
+  );
+}
+```
+
+## Polar Area Chart
+
+극좌표 영역 차트는 원형 그래프와 유사하지만 각 섹션의 각도가 데이터 값에 비례합니다.
+
+<Playground preview={<DemoChartPolarArea />} />
+
+```tsx
+import { Chart } from '@headless/ui';
+import { PolarArea } from 'react-chartjs-2';
+
+const data = {
+  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+  datasets: [
+    {
+      data: [11, 16, 7, 3, 14],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+      ],
+    },
+  ],
+};
+
+export function MyComponent() {
+  return (
+    <Chart>
+      <PolarArea data={data} options={{ responsive: true }} />
+    </Chart>
+  );
+}
+```
+
+## API
+
+### Chart Props
+
+| Property     | Description           | Type                   | Default |
+| ------------ | --------------------- | ---------------------- | ------- |
+| value        | 제어된 값             | `any`                  | -       |
+| defaultValue | 기본값                | `any`                  | -       |
+| onChange     | 값 변경 핸들러        | `(value: any) => void` | -       |
+| disabled     | 비활성화 여부         | `boolean`              | `false` |
+| className    | 추가 CSS 클래스       | `string`               | -       |
+| injectStyles | 기본 스타일 주입 여부 | `boolean`              | `true`  |
+| children     | 차트 콘텐츠           | `React.ReactNode`      | -       |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={ChartCss} title="ChartCss" />
+
+## 특징
+
+- **유연한 통합**: 다양한 차트 라이브러리와 함께 사용 가능
+- **Headless 설계**: 스타일링은 사용자가 제어
+- **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
+- **Chart.js 지원**: react-chartjs-2를 통한 Chart.js 통합

@@ -1,0 +1,221 @@
+import {
+  DemoCarouselBasic,
+  DemoCarouselAutoplay,
+  DemoCarouselControlled,
+  DemoCarouselCustomContent,
+  DemoCarouselWithCards,
+  DemoCarouselProvider,
+  DemoCarouselControls,
+} from './carousel.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { CarouselCss } from '@headless/ui';
+
+# Carousel
+
+슬라이딩 컨테이너에서 콘텐츠를 표시하는 캐로샐 컴포넌트입니다. Carousel 컴포넌트는 이미지 갤러리, 콘텐츠 슬라이드 등 다양한 사용 사례를 지원할 수 있도록 스타일링하고 확장할 수 있는 headless 기반을 제공합니다.
+
+## 사용법
+
+```tsx
+import { Carousel } from '@headless/ui';
+
+export function MyComponent() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  return (
+    <Carousel value={currentIndex} onChange={setCurrentIndex}>
+      {/* 캐로샐 콘텐츠 */}
+    </Carousel>
+  );
+}
+```
+
+## 예제
+
+### 기본 Carousel
+
+<DemoCarouselProvider>
+  <Playground
+    preview={<DemoCarouselBasic />}
+    controls={<DemoCarouselControls />}
+  />
+</DemoCarouselProvider>
+
+```tsx
+const [currentIndex, setCurrentIndex] = useState(0)
+
+<Carousel value={currentIndex} onChange={setCurrentIndex}>
+  <div className={styles.carouselContainer}>
+    <div className={styles.carouselTrack}>
+      {slides.map((slide) => (
+        <div key={slide.id} className={styles.slide}>
+          {slide.content}
+        </div>
+      ))}
+    </div>
+  </div>
+  <div className={styles.indicators}>
+    {slides.map((_, index) => (
+      <button
+        key={index}
+        onClick={() => setCurrentIndex(index)}
+      />
+    ))}
+  </div>
+</Carousel>
+```
+
+### 자동 재생 Carousel
+
+<Playground preview={<DemoCarouselAutoplay />} />
+
+```tsx
+const [currentIndex, setCurrentIndex] = useState(0)
+const [isPaused, setIsPaused] = useState(false)
+
+useEffect(() => {
+  if (isPaused) return
+
+  const interval = setInterval(() => {
+    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1))
+  }, 3000)
+
+  return () => clearInterval(interval)
+}, [isPaused])
+
+<Carousel value={currentIndex} onChange={setCurrentIndex}>
+  <div
+    onMouseEnter={() => setIsPaused(true)}
+    onMouseLeave={() => setIsPaused(false)}
+  >
+    {/* Carousel content */}
+  </div>
+</Carousel>
+```
+
+### 제어된 Carousel
+
+<Playground preview={<DemoCarouselControlled />} />
+
+```tsx
+const [currentIndex, setCurrentIndex] = useState(0)
+
+<Carousel value={currentIndex} onChange={setCurrentIndex}>
+  {/* Carousel content */}
+</Carousel>
+
+<button onClick={() => setCurrentIndex(0)}>Go to first</button>
+<button onClick={() => setCurrentIndex(slides.length - 1)}>Go to last</button>
+```
+
+### 커스텀 콘텐츠 Carousel
+
+<Playground preview={<DemoCarouselCustomContent />} />
+
+```tsx
+const customSlides = [
+  {
+    id: 1,
+    content: (
+      <div>
+        <div>🎨</div>
+        <h3>Design</h3>
+        <p>Beautiful and modern UI components</p>
+      </div>
+    ),
+  },
+  // ... more slides
+]
+
+<Carousel value={currentIndex} onChange={setCurrentIndex}>
+  {customSlides.map((slide) => (
+    <div key={slide.id}>{slide.content}</div>
+  ))}
+</Carousel>
+```
+
+### Card와 함께 사용하는 Carousel
+
+캐로샐 안에 Card 컴포넌트를 사용하여 제품 카드를 슬라이드로 표시하는 예제입니다.
+
+<Playground preview={<DemoCarouselWithCards />} />
+
+```tsx
+import { Carousel } from '@headless/ui';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from '@headless/ui';
+
+const cardSlides = [
+  {
+    id: 1,
+    title: 'Product A',
+    description: 'This is a description for Product A.',
+    price: '$99',
+    color: '#3b82f6',
+  },
+  // ... more products
+];
+
+export function MyComponent() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  return (
+    <Carousel value={currentIndex} onChange={setCurrentIndex}>
+      <div className={styles.carouselContainer}>
+        <div
+          className={styles.carouselTrack}
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {cardSlides.map((slide) => (
+            <div key={slide.id} className={styles.slide}>
+              <Card>
+                <div
+                  style={{ height: '120px', backgroundColor: slide.color }}
+                />
+                <CardHeader>
+                  <h4>{slide.title}</h4>
+                </CardHeader>
+                <CardContent>
+                  <p>{slide.description}</p>
+                </CardContent>
+                <CardFooter>
+                  <span>{slide.price}</span>
+                  <button>구매하기</button>
+                </CardFooter>
+              </Card>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className={styles.indicators}>
+        {cardSlides.map((_, index) => (
+          <button key={index} onClick={() => setCurrentIndex(index)} />
+        ))}
+      </div>
+    </Carousel>
+  );
+}
+```
+
+## API Reference
+
+### Carousel Props
+
+| Property     | Type                   | Default | Description           |
+| ------------ | ---------------------- | ------- | --------------------- |
+| value        | `any`                  | -       | 제어된 값             |
+| defaultValue | `any`                  | -       | 기본값                |
+| onChange     | `(value: any) => void` | -       | 값 변경 콜백          |
+| disabled     | `boolean`              | `false` | 비활성화 여부         |
+| className    | `string`               | -       | 추가 CSS 클래스       |
+| injectStyles | `boolean`              | `true`  | 기본 스타일 주입 여부 |
+| children     | `ReactNode`            | -       | 커스텀 콘텐츠         |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={CarouselCss} title="CarouselCss" />

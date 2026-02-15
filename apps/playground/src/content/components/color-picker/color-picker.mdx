@@ -1,0 +1,255 @@
+import {
+  DemoColorPickerHeadlessWithControls,
+  DemoColorPickerBasic,
+  DemoColorPickerFormats,
+  DemoColorPickerPresets,
+  DemoColorPickerAlpha,
+  DemoColorPickerLivePreview,
+} from './color-picker.demo';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { ColorPickerCss } from '@headless/ui';
+
+# Color Picker
+
+색상을 선택할 수 있는 컴포넌트입니다. HTML5 color input을 사용하여 실제로 컬러를 선택할 수 있으며, HEX, RGB, HSL 등 다양한 색상 형식을 지원합니다.
+
+## 기본 사용법
+
+HTML5 color input을 사용하여 컬러를 선택할 수 있습니다.
+
+<Playground preview={<DemoColorPickerBasic />} />
+
+## Headless ColorPicker (Inject Styles)
+
+<Playground preview={<DemoColorPickerHeadlessWithControls />} />
+
+```tsx
+'use client';
+
+import { useState, useRef } from 'react';
+import * as styles from './color-picker.demo.css';
+
+export function MyComponent() {
+  const [color, setColor] = useState('#007bff');
+  const colorInputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <div className={styles.colorPickerWrapper}>
+      <div className={styles.colorPreviewWrapper}>
+        <input
+          ref={colorInputRef}
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          className={styles.colorInputNative}
+        />
+        <div
+          className={styles.colorPreview}
+          style={{ backgroundColor: color }}
+          onClick={() => colorInputRef.current?.click()}
+        />
+      </div>
+      <input
+        type="text"
+        value={color.toUpperCase()}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (/^#[0-9A-Fa-f]{0,6}$/.test(value) && value.length === 7) {
+            setColor(value);
+          }
+        }}
+        className={styles.colorInput}
+        placeholder="#000000"
+      />
+    </div>
+  );
+}
+```
+
+## 컬러 포맷 변경
+
+HEX, RGB, HSL 포맷을 전환하면서 컬러를 입력하고 선택할 수 있습니다.
+
+<Playground preview={<DemoColorPickerFormats />} />
+
+```tsx
+'use client';
+
+import { useState, useEffect } from 'react';
+
+type ColorFormat = 'hex' | 'rgb' | 'hsl';
+
+export function ColorPickerFormats() {
+  const [color, setColor] = useState('#63e2b7');
+  const [format, setFormat] = useState<ColorFormat>('hex');
+  const [inputValue, setInputValue] = useState('');
+
+  // 컬러 변환 로직은 데모 파일 참조
+
+  return (
+    <div>
+      <div className={styles.formatSelector}>
+        <button onClick={() => setFormat('hex')}>HEX</button>
+        <button onClick={() => setFormat('rgb')}>RGB</button>
+        <button onClick={() => setFormat('hsl')}>HSL</button>
+      </div>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(e) => handleInputChange(e.target.value)}
+      />
+    </div>
+  );
+}
+```
+
+## 프리셋 컬러
+
+자주 사용하는 컬러를 프리셋으로 제공합니다.
+
+<Playground preview={<DemoColorPickerPresets />} />
+
+```tsx
+const presets = [
+  { name: 'Primary', color: '#63e2b7' },
+  { name: 'Warning', color: '#f2c97d' },
+  { name: 'Error', color: '#e88080' },
+  { name: 'Info', color: '#70c0e8' },
+  { name: 'Black', color: '#000000' },
+  { name: 'White', color: '#ffffff' },
+  { name: 'Gray', color: '#808080' },
+  { name: 'Red', color: '#ff0000' },
+  { name: 'Blue', color: '#0000ff' },
+  { name: 'Green', color: '#00ff00' },
+  { name: 'Yellow', color: '#ffff00' },
+  { name: 'Purple', color: '#800080' },
+];
+
+{
+  presets.map((preset) => (
+    <button
+      key={preset.name}
+      style={{ backgroundColor: preset.color }}
+      onClick={() => setColor(preset.color)}
+      aria-label={`Select ${preset.name}`}
+      title={preset.name}
+    />
+  ));
+}
+```
+
+## 알파 채널 지원
+
+RGBA 색상을 지원하여 투명도를 조절할 수 있습니다.
+
+<Playground preview={<DemoColorPickerAlpha />} />
+
+```tsx
+const [color, setColor] = useState('#63e2b7');
+const [alpha, setAlpha] = useState(1);
+
+const rgbaColor = (() => {
+  const rgb = hexToRgb(color);
+  if (!rgb) return 'rgba(0, 0, 0, 1)';
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
+})();
+
+<input
+  type="range"
+  min="0"
+  max="1"
+  step="0.01"
+  value={alpha}
+  onChange={(e) => setAlpha(parseFloat(e.target.value))}
+/>;
+```
+
+## 실시간 미리보기
+
+선택한 컬러를 다양한 방식으로 실시간 미리보기할 수 있습니다. hover, active, visited 등의 상태별 색상도 자동으로 계산하여 표시합니다.
+
+<Playground preview={<DemoColorPickerLivePreview />} />
+
+```tsx
+'use client';
+
+import { useState, useRef } from 'react';
+
+// 색상 밝기 조절 함수 (hover/active 상태용)
+function adjustLightness(hex: string, amount: number): string {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return hex;
+  const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+  const newL = Math.max(0, Math.min(100, hsl.l + amount));
+  const newRgb = hslToRgb(hsl.h, hsl.s, newL);
+  return rgbToHex(newRgb.r, newRgb.g, newRgb.b);
+}
+
+export function ColorPickerLivePreview() {
+  const [color, setColor] = useState('#63e2b7');
+
+  // 상태별 색상 계산
+  const hoverColor = adjustLightness(color, 10); // hover는 더 밝게
+  const activeColor = adjustLightness(color, -10); // active는 더 어둡게
+  const visitedColor = adjustLightness(color, -5); // visited는 약간 어둡게
+
+  return (
+    <div>
+      {/* Button States */}
+      <div>
+        <button style={{ backgroundColor: color }}>Normal</button>
+        <button style={{ backgroundColor: hoverColor }}>Hover</button>
+        <button style={{ backgroundColor: activeColor }}>Active</button>
+      </div>
+
+      {/* Link States */}
+      <div>
+        <a href="#" style={{ color }}>
+          Normal Link
+        </a>
+        <a href="#" style={{ color: hoverColor }}>
+          Hover Link
+        </a>
+        <a href="#" style={{ color: visitedColor }}>
+          Visited Link
+        </a>
+      </div>
+
+      {/* Border & Shadow */}
+      <div style={{ borderColor: color, borderWidth: '2px' }}>
+        Border Preview
+      </div>
+      <div style={{ boxShadow: `0 4px 12px ${color}40` }}>Shadow Preview</div>
+    </div>
+  );
+}
+```
+
+## API
+
+| Property     | Description           | Type                      | Default                    |
+| ------------ | --------------------- | ------------------------- | -------------------------- |
+| value        | 제어된 값             | `string`                  | -                          |
+| defaultValue | 기본값                | `string`                  | `'var(--color-neutral-0)'` |
+| onChange     | 값 변경 핸들러        | `(color: string) => void` | -                          |
+| disabled     | 비활성화 여부         | `boolean`                 | `false`                    |
+| className    | 추가 CSS 클래스       | `string`                  | -                          |
+| children     | 커스텀 렌더           | `React.ReactNode`         | -                          |
+| injectStyles | 기본 스타일 주입 여부 | `boolean`                 | `true`                     |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={ColorPickerCss} title="ColorPickerCss" />
+
+### API Reference
+
+#### ColorPicker Props
+
+| Property     | Type                      | Default | Description                         |
+| ------------ | ------------------------- | ------- | ----------------------------------- |
+| value        | `string`                  | -       | Controlled color value (hex format) |
+| defaultValue | `string`                  | -       | Default color value                 |
+| onChange     | `(color: string) => void` | -       | Callback when color changes         |
+| disabled     | `boolean`                 | `false` | Whether picker is disabled          |
+| className    | `string`                  | -       | Additional CSS class                |
+| children     | `ReactNode`               | -       | Custom content                      |

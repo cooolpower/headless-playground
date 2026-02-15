@@ -1,0 +1,75 @@
+import {
+  DemoCardBasic,
+  DemoCardBasicWithControls,
+  DemoCardBasicControls,
+  DemoCardBasicProvider,
+  DemoCardInteractive,
+  DemoCardMinimal,
+} from './card.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { CardCss } from '@headless/ui';
+
+# Card
+
+선택적 헤더, 콘텐츠, 푸터 섹션이 있는 콘텐츠를 구성하는 컨테이너를 표시합니다.
+
+### 예제
+
+#### 기본 Card (인터랙티브)
+
+<DemoCardBasicProvider>
+  <Playground
+    preview={<DemoCardBasicWithControls />}
+    controls={<DemoCardBasicControls />}
+  />
+</DemoCardBasicProvider>
+
+#### 기본
+
+<Playground preview={<DemoCardBasic />} />
+
+```tsx
+<Card>
+  <CardHeader>
+    <h4>기본 Card</h4>
+  </CardHeader>
+  <CardContent>
+    <p>Card 콘텐츠가 여기에 들어갑니다</p>
+  </CardContent>
+  <CardFooter>
+    <button>액션</button>
+  </CardFooter>
+</Card>
+```
+
+#### 인터랙티브
+
+<Playground preview={<DemoCardInteractive />} />
+
+```tsx
+<Card onClick={handleClick}>
+  <CardHeader>
+    <h4>인터랙티브 Card</h4>
+  </CardHeader>
+  <CardContent>
+    <p>클릭 가능한 Card 콘텐츠</p>
+  </CardContent>
+</Card>
+```
+
+#### 최소
+
+<Playground preview={<DemoCardMinimal />} />
+
+```tsx
+<Card>
+  <CardContent>
+    <p>콘텐츠만 있는 최소 Card</p>
+  </CardContent>
+</Card>
+```
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={CardCss} title="CardCss" />

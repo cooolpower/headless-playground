@@ -1,0 +1,198 @@
+# Cascader
+
+계층적 선택 컴포넌트입니다. Input을 클릭하면 1Depth 패널이 나타나고, 옵션을 선택하면 2Depth 패널이 옆으로 나타나는 방식으로 동작합니다.
+
+Cascader는 계층적 데이터 구조에서 값을 선택할 수 있는 컴포넌트입니다. Naive UI의 Input Group 예제와 유사한 방식으로 동작합니다.
+
+### 사용법
+
+```tsx
+import { Cascader } from '@headless/ui';
+
+export function MyComponent() {
+  const [value, setValue] = useState<string[]>([]);
+
+  const options = [
+    {
+      label: '프론트엔드',
+      value: 'frontend',
+      children: [
+        { label: 'React', value: 'react' },
+        { label: 'Vue', value: 'vue' },
+      ],
+    },
+  ];
+
+  return (
+    <Cascader
+      options={options}
+      value={value}
+      onChange={setValue}
+      placeholder="선택하세요..."
+    />
+  );
+}
+```
+
+import {
+  DemoCascaderBasic,
+  DemoCascaderBasicWithControls,
+  DemoCascaderBasicControls,
+  DemoCascaderBasicProvider,
+  DemoCascaderWithValue,
+  DemoCascaderSizes,
+  DemoCascaderSeparators,
+  DemoCascaderDisabled,
+} from './cascader.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { CascaderCss } from '@headless/ui';
+
+### 예제
+
+#### 기본 Cascader (인터랙티브)
+
+<DemoCascaderBasicProvider>
+  <Playground
+    preview={<DemoCascaderBasicWithControls />}
+    controls={<DemoCascaderBasicControls />}
+  />
+</DemoCascaderBasicProvider>
+
+#### 기본 Cascader
+
+<Playground preview={<DemoCascaderBasic />} />
+
+```tsx
+const [value, setValue] = useState<string[]>([]);
+
+const options = [
+  {
+    label: '프론트엔드',
+    value: 'frontend',
+    children: [
+      { label: 'React', value: 'react' },
+      { label: 'Vue', value: 'vue' },
+    ],
+  },
+];
+
+<Cascader
+  options={options}
+  value={value}
+  onChange={setValue}
+  placeholder="선택하세요..."
+/>;
+```
+
+#### With Value
+
+<Playground preview={<DemoCascaderWithValue />} />
+
+```tsx
+const [value, setValue] = useState<string[]>(['frontend', 'react']);
+
+<Cascader
+  options={options}
+  value={value}
+  onChange={setValue}
+  placeholder="선택하세요..."
+/>;
+```
+
+#### Sizes
+
+<Playground preview={<DemoCascaderSizes />} />
+
+```tsx
+<Cascader options={options} value={value} onChange={setValue} size="small" />
+<Cascader options={options} value={value} onChange={setValue} size="medium" />
+<Cascader options={options} value={value} onChange={setValue} size="large" />
+```
+
+#### Separators (구분자)
+
+<Playground preview={<DemoCascaderSeparators />} />
+
+```tsx
+// 구분자: /
+<Cascader
+  options={options}
+  value={value}
+  onChange={setValue}
+  separator=" / "
+/>
+
+// 구분자: >
+<Cascader
+  options={options}
+  value={value}
+  onChange={setValue}
+  separator=" > "
+/>
+
+// 구분자: →
+<Cascader
+  options={options}
+  value={value}
+  onChange={setValue}
+  separator=" → "
+/>
+```
+
+#### Disabled
+
+<Playground preview={<DemoCascaderDisabled />} />
+
+```tsx
+<Cascader
+  options={options}
+  value={[]}
+  onChange={() => {}}
+  disabled
+  placeholder="선택하세요..."
+/>
+```
+
+### API Reference
+
+#### Cascader Props
+
+| Property       | Type                             | Default           | Description           |
+| -------------- | -------------------------------- | ----------------- | --------------------- |
+| options        | `CascaderOption[]`               | `[]`              | 계층적 옵션 데이터    |
+| value          | `string[]`                       | -                 | 제어된 값             |
+| defaultValue   | `string[]`                       | `[]`              | 기본 값               |
+| placeholder    | `string`                         | `'선택하세요...'` | Placeholder 텍스트    |
+| disabled       | `boolean`                        | `false`           | 비활성화 여부         |
+| separator      | `string`                         | `' / '`           | 선택된 값들의 구분자  |
+| size           | `'small' \| 'medium' \| 'large'` | `'medium'`        | 크기                  |
+| onChange       | `(value: string[]) => void`      | -                 | 값 변경 핸들러        |
+| onOpen         | `() => void`                     | -                 | 패널 열림 핸들러      |
+| onClose        | `() => void`                     | -                 | 패널 닫힘 핸들러      |
+| injectStyles   | `boolean`                        | `true`            | 기본 스타일 주입 여부 |
+| className      | `string`                         | -                 | 추가 CSS 클래스       |
+| inputClassName | `string`                         | -                 | Input 요소 CSS 클래스 |
+
+#### CascaderOption
+
+| Property | Type               | Description   |
+| -------- | ------------------ | ------------- |
+| label    | `string`           | 옵션 레이블   |
+| value    | `string \| number` | 옵션 값       |
+| disabled | `boolean`          | 비활성화 여부 |
+| children | `CascaderOption[]` | 하위 옵션들   |
+
+### 특징
+
+- **계층적 선택**: 1Depth와 2Depth 패널을 통한 계층적 선택 지원
+- **체크박스 표시**: 각 옵션에 체크박스 표시로 선택 상태 명확히 표시
+- **구분자 커스터마이징**: 선택된 값들의 구분자를 사용자가 설정 가능
+- **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
+- **크기 조절**: small, medium, large 크기 지원
+- **Headless 설계**: 스타일링은 사용자가 제어
+- **접근성**: ARIA 속성 지원
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={CascaderCss} title="CascaderCss" />

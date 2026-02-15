@@ -1,0 +1,252 @@
+import {
+  DemoDatePickerBasic,
+  DemoDatePickerBasicWithControls,
+  DemoDatePickerBasicControls,
+  DemoDatePickerBasicProvider,
+  DemoDatePickerDefaultValue,
+  DemoDatePickerDisabled,
+  DemoDatePickerRange,
+  DemoDateRangePickerSingle,
+} from './date-picker.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { DatePickerCss } from '@headless/ui';
+
+# Date Picker
+
+날짜를 선택할 수 있는 입력 컴포넌트입니다. 캘린더 팝업을 통해 날짜를 쉽게 선택할 수 있습니다.
+
+### 사용법
+
+```tsx
+import { DatePicker } from '@headless/ui';
+
+export function MyComponent() {
+  const [date, setDate] = useState<Date | null>(null);
+
+  return (
+    <DatePicker
+      value={date}
+      onChange={setDate}
+      placeholder="날짜를 선택하세요"
+    />
+  );
+}
+```
+
+### 예제
+
+#### 기본 Date Picker (인터랙티브)
+
+<DemoDatePickerBasicProvider>
+  <Playground
+    preview={<DemoDatePickerBasicWithControls />}
+    controls={<DemoDatePickerBasicControls />}
+  />
+</DemoDatePickerBasicProvider>
+
+#### 기본 Date Picker
+
+<Playground preview={<DemoDatePickerBasic />} />
+
+```tsx
+<DatePicker
+  placeholder="날짜를 선택하세요"
+  onChange={(date) => console.log(date)}
+/>
+```
+
+#### With Default Value
+
+<Playground preview={<DemoDatePickerDefaultValue />} />
+
+```tsx
+<DatePicker defaultValue={new Date()} onChange={(date) => console.log(date)} />
+```
+
+#### Disabled
+
+<Playground preview={<DemoDatePickerDisabled />} />
+
+```tsx
+<DatePicker value={new Date()} disabled />
+```
+
+#### Date Range (Two Inputs)
+
+시작일과 종료일을 각각 선택하여 날짜 범위를 지정할 수 있습니다.
+
+<Playground preview={<DemoDatePickerRange />} />
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { DatePicker } from '@headless/ui';
+import * as styles from './date-picker.demo.css';
+
+export function DateRangePicker() {
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  // 날짜 범위 포맷팅
+  const formatRange = () => {
+    if (!startDate && !endDate) return '없음';
+    if (startDate && !endDate) {
+      return `${startDate.toLocaleDateString('ko-KR')} ~`;
+    }
+    if (!startDate && endDate) {
+      return `~ ${endDate.toLocaleDateString('ko-KR')}`;
+    }
+    if (startDate && endDate) {
+      return `${startDate.toLocaleDateString('ko-KR')} ~ ${endDate.toLocaleDateString('ko-KR')}`;
+    }
+    return '없음';
+  };
+
+  // 날짜 차이 계산
+  const getDaysDifference = () => {
+    if (!startDate || !endDate) return null;
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const daysDiff = getDaysDifference();
+
+  return (
+    <div className={styles.rangePickerWrapper}>
+      <div className={styles.rangePickerItem}>
+        <label className={styles.rangeLabel}>시작일</label>
+        <DatePicker
+          value={startDate}
+          onChange={(date) => {
+            setStartDate(date);
+            // 시작일이 종료일보다 늦으면 종료일 초기화
+            if (date && endDate && date > endDate) {
+              setEndDate(null);
+            }
+          }}
+          placeholder="시작일 선택"
+        />
+      </div>
+      <div className={styles.rangeSeparator}>~</div>
+      <div className={styles.rangePickerItem}>
+        <label className={styles.rangeLabel}>종료일</label>
+        <DatePicker
+          value={endDate}
+          onChange={(date) => {
+            setEndDate(date);
+            // 종료일이 시작일보다 이르면 시작일 초기화
+            if (date && startDate && date < startDate) {
+              setStartDate(null);
+            }
+          }}
+          placeholder="종료일 선택"
+        />
+      </div>
+      <div className={styles.rangeInfo}>
+        <div className={styles.rangeValue}>선택된 기간: {formatRange()}</div>
+        {daysDiff !== null && (
+          <div className={styles.rangeDays}>기간: {daysDiff}일</div>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+#### Date Range (Single Input)
+
+하나의 입력 필드에서 날짜 범위를 선택할 수 있습니다. 클릭하면 두 개의 달력이 나란히 표시되며, 첫 번째 클릭으로 시작일을, 두 번째 클릭으로 종료일을 선택합니다.
+
+<Playground preview={<DemoDateRangePickerSingle />} />
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { DateRangePicker } from '@headless/ui';
+import * as styles from './date-picker.demo.css';
+
+export function DateRangePickerExample() {
+  const [range, setRange] = useState<[Date | null, Date | null] | null>(null);
+
+  return (
+    <DateRangePicker
+      value={range}
+      onChange={setRange}
+      placeholder="날짜 범위를 선택하세요"
+      className={styles.datepicker}
+      inputWrapperClassName={styles.inputWrapper}
+      calendarIconButtonClassName={styles.calendarIconButton}
+      panelWrapperClassName={styles.rangePanelWrapper}
+      calendarClassName={styles.calendar}
+      dateCellTodayClassName={styles.dateCellToday}
+      dateCellSelectedClassName={styles.dateCellSelected}
+      dateCellInRangeClassName={styles.dateCellInRange}
+      dateCellRangeStartClassName={styles.dateCellRangeStart}
+      dateCellRangeEndClassName={styles.dateCellRangeEnd}
+    />
+  );
+}
+```
+
+### API Reference
+
+#### DatePicker Props
+
+| Property                    | Type                            | Default | Description                   |
+| --------------------------- | ------------------------------- | ------- | ----------------------------- |
+| value                       | `Date \| null`                  | -       | 제어된 값                     |
+| defaultValue                | `Date \| null`                  | -       | 기본값                        |
+| onChange                    | `(value: Date \| null) => void` | -       | 값 변경 콜백                  |
+| disabled                    | `boolean`                       | `false` | Picker 비활성화 여부          |
+| placeholder                 | `string`                        | -       | 입력 플레이스홀더             |
+| className                   | `string`                        | -       | 추가 CSS 클래스               |
+| inputWrapperClassName       | `string`                        | -       | Input wrapper CSS 클래스      |
+| calendarIconButtonClassName | `string`                        | -       | 캘린더 아이콘 버튼 CSS 클래스 |
+| panelWrapperClassName       | `string`                        | -       | 패널 wrapper CSS 클래스       |
+| calendarClassName           | `string`                        | -       | 캘린더 CSS 클래스             |
+| calendarHeaderClassName     | `string`                        | -       | 캘린더 헤더 CSS 클래스        |
+| navButtonClassName          | `string`                        | -       | 네비게이션 버튼 CSS 클래스    |
+| monthYearClassName          | `string`                        | -       | 월/년 표시 CSS 클래스         |
+| weekHeaderClassName         | `string`                        | -       | 요일 헤더 CSS 클래스          |
+| weekDayClassName            | `string`                        | -       | 요일 CSS 클래스               |
+| dateGridClassName           | `string`                        | -       | 날짜 그리드 CSS 클래스        |
+| dateCellClassName           | `string`                        | -       | 날짜 셀 CSS 클래스            |
+| dateCellTodayClassName      | `string`                        | -       | 오늘 날짜 셀 CSS 클래스       |
+| dateCellSelectedClassName   | `string`                        | -       | 선택된 날짜 셀 CSS 클래스     |
+| children                    | `ReactNode`                     | -       | 커스텀 콘텐츠                 |
+| injectStyles                | `boolean`                       | `true`  | 기본 스타일 주입 여부         |
+
+#### DateRangePicker Props
+
+| Property                    | Type                                                    | Default | Description                   |
+| --------------------------- | ------------------------------------------------------- | ------- | ----------------------------- |
+| value                       | `[Date \| null, Date \| null] \| null`                  | -       | 제어된 값                     |
+| defaultValue                | `[Date \| null, Date \| null] \| null`                  | -       | 기본값                        |
+| onChange                    | `(value: [Date \| null, Date \| null] \| null) => void` | -       | 값 변경 콜백                  |
+| disabled                    | `boolean`                                               | `false` | Picker 비활성화 여부          |
+| placeholder                 | `string`                                                | -       | 입력 플레이스홀더             |
+| className                   | `string`                                                | -       | 추가 CSS 클래스               |
+| inputWrapperClassName       | `string`                                                | -       | Input wrapper CSS 클래스      |
+| calendarIconButtonClassName | `string`                                                | -       | 캘린더 아이콘 버튼 CSS 클래스 |
+| panelWrapperClassName       | `string`                                                | -       | 패널 wrapper CSS 클래스       |
+| calendarClassName           | `string`                                                | -       | 캘린더 CSS 클래스             |
+| calendarHeaderClassName     | `string`                                                | -       | 캘린더 헤더 CSS 클래스        |
+| navButtonClassName          | `string`                                                | -       | 네비게이션 버튼 CSS 클래스    |
+| monthYearClassName          | `string`                                                | -       | 월/년 표시 CSS 클래스         |
+| weekHeaderClassName         | `string`                                                | -       | 요일 헤더 CSS 클래스          |
+| weekDayClassName            | `string`                                                | -       | 요일 CSS 클래스               |
+| dateGridClassName           | `string`                                                | -       | 날짜 그리드 CSS 클래스        |
+| dateCellClassName           | `string`                                                | -       | 날짜 셀 CSS 클래스            |
+| dateCellTodayClassName      | `string`                                                | -       | 오늘 날짜 셀 CSS 클래스       |
+| dateCellSelectedClassName   | `string`                                                | -       | 선택된 날짜 셀 CSS 클래스     |
+| dateCellInRangeClassName    | `string`                                                | -       | 범위 내 날짜 셀 CSS 클래스    |
+| dateCellRangeStartClassName | `string`                                                | -       | 범위 시작 날짜 셀 CSS 클래스  |
+| dateCellRangeEndClassName   | `string`                                                | -       | 범위 종료 날짜 셀 CSS 클래스  |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={DatePickerCss} title="DatePickerCss" />

@@ -1,0 +1,695 @@
+import {
+  DemoSliderBasic,
+  DemoSliderBasicProvider,
+  DemoSliderBasicWithControls,
+  DemoSliderBasicControls,
+  DemoSliderDefaultValue,
+  DemoSliderStep,
+  DemoSliderDisabled,
+  DemoSliderSizes,
+  DemoSliderMinMax,
+  DemoSliderControlled,
+  DemoSliderOnChangeComplete,
+  DemoSliderWithTooltip,
+  DemoSliderWithMarks,
+  DemoSliderWithMarksAndTooltip,
+  DemoSliderCustomTooltip,
+  DemoSliderDynamicRailColor,
+  DemoSliderVertical,
+  DemoSliderVerticalDynamicColor,
+  DemoSliderVerticalWithControls,
+  DemoSliderMarksWithIcons,
+  DemoSliderHandleWithIcon,
+  DemoSliderCustomizeHandle,
+  DemoSliderTooltipOptions,
+  DemoSliderRange,
+  DemoSliderRangeWithControls,
+  DemoSliderRangeDynamicColor,
+  DemoSliderTemperature,
+} from './slider.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { SliderCss } from '@headless/ui';
+
+# Slider
+
+값의 범위를 선택할 수 있는 슬라이더 컴포넌트입니다.
+
+Slider는 사용자가 마우스나 키보드로 값을 조정할 수 있는 범위 입력 컴포넌트입니다.
+
+### 사용법
+
+```tsx
+import { Slider } from '@headless/ui';
+
+export function MyComponent() {
+  const [value, setValue] = useState(20);
+
+  return (
+    <Slider value={value} onChange={setValue} min={0} max={100} step={1} />
+  );
+}
+```
+
+### 예제
+
+#### 기본 Slider
+
+<Playground preview={<DemoSliderBasic />} />
+
+#### 기본 Slider (인터랙티브 컨트롤러)
+
+모든 기능을 컨트롤러에서 조절할 수 있습니다.
+
+<DemoSliderBasicProvider>
+  <Playground
+    preview={<DemoSliderBasicWithControls />}
+    controls={<DemoSliderBasicControls />}
+  />
+</DemoSliderBasicProvider>
+
+```tsx
+const [value, setValue] = useState(20);
+
+<Slider value={value} onChange={setValue} min={0} max={100} step={1} />;
+```
+
+#### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 Slider가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={SliderCss} title="SliderCss" />
+
+#### With Default Value
+
+<Playground preview={<DemoSliderDefaultValue />} />
+
+```tsx
+<Slider defaultValue={50} min={0} max={100} step={1} />
+```
+
+#### Step
+
+<Playground preview={<DemoSliderStep />} />
+
+```tsx
+const [value, setValue] = useState(0);
+
+<Slider value={value} onChange={setValue} min={0} max={100} step={10} />;
+```
+
+#### Disabled
+
+<Playground preview={<DemoSliderDisabled />} />
+
+```tsx
+<Slider value={50} min={0} max={100} step={1} disabled />
+```
+
+#### Sizes
+
+<Playground preview={<DemoSliderSizes />} />
+
+```tsx
+const [value, setValue] = useState(50);
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  size="small" // 'small' | 'medium' | 'large'
+/>;
+```
+
+#### Min/Max
+
+<Playground preview={<DemoSliderMinMax />} />
+
+```tsx
+const [value, setValue] = useState(25);
+
+<Slider value={value} onChange={setValue} min={10} max={50} step={1} />;
+```
+
+#### Controlled
+
+<Playground preview={<DemoSliderControlled />} />
+
+```tsx
+const [value, setValue] = useState(30);
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+/>;
+
+<button onClick={() => setValue(Math.max(0, value - 10))}>-10</button>
+<button onClick={() => setValue(Math.min(100, value + 10))}>+10</button>
+```
+
+#### onChangeComplete
+
+<Playground preview={<DemoSliderOnChangeComplete />} />
+
+`onChange`는 드래그 중에도 계속 호출되지만, `onChangeComplete`는 마우스를 놓았을 때(드래그 완료 시)만 호출됩니다.
+
+```tsx
+const [value, setValue] = useState(20);
+const [completedValue, setCompletedValue] = useState<number | null>(null);
+
+<Slider
+  value={value}
+  onChange={(val) => {
+    // 드래그 중에도 계속 호출됨
+    if (typeof val === 'number') {
+      setValue(val);
+    }
+  }}
+  onChangeComplete={(val) => {
+    // 마우스를 놓았을 때만 호출됨
+    if (typeof val === 'number') {
+      setCompletedValue(val);
+    }
+  }}
+  min={0}
+  max={100}
+  step={1}
+/>;
+```
+
+#### With Tooltip
+
+<Playground preview={<DemoSliderWithTooltip />} />
+
+```tsx
+const [value, setValue] = useState(30);
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  showTooltip
+/>;
+```
+
+#### With Marks
+
+<Playground preview={<DemoSliderWithMarks />} />
+
+```tsx
+const [value, setValue] = useState(50);
+
+const marks: SliderMark[] = [
+  { value: 0, label: '0' },
+  { value: 25, label: '25' },
+  { value: 50, label: '50' },
+  { value: 75, label: '75' },
+  { value: 100, label: '100' },
+];
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  marks={marks}
+/>;
+```
+
+#### With Marks and Tooltip
+
+<Playground preview={<DemoSliderWithMarksAndTooltip />} />
+
+```tsx
+const [value, setValue] = useState(50);
+
+const marks: SliderMark[] = [
+  { value: 0, label: '0%' },
+  { value: 50, label: '50%' },
+  { value: 100, label: '100%' },
+];
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  marks={marks}
+  showTooltip
+  tooltipFormatter={(val) => `${val}%`}
+/>;
+```
+
+#### Custom Tooltip Format
+
+<Playground preview={<DemoSliderCustomTooltip />} />
+
+```tsx
+const [value, setValue] = useState(30);
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  showTooltip
+  tooltipFormatter={(val) => `$${val}`}
+/>;
+```
+
+#### Dynamic Rail Color (수치에 따라 레일 색상 변화)
+
+<Playground preview={<DemoSliderDynamicRailColor />} />
+
+```tsx
+const [value, setValue] = useState(50);
+
+const getRailColor = (val: number) => {
+  if (val < 25) return 'oklch(70% 0.15 120)'; // 초록색
+  if (val < 50) return 'oklch(75% 0.15 180)'; // 청록색
+  if (val < 75) return 'oklch(70% 0.15 240)'; // 파란색
+  return 'oklch(65% 0.20 30)'; // 주황색
+};
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  railColor={getRailColor}
+  showTooltip="always"
+/>;
+```
+
+#### Vertical Slider (세로 슬라이더)
+
+<Playground preview={<DemoSliderVertical />} />
+
+```tsx
+const [value, setValue] = useState(50);
+
+<div style={{ height: '200px', width: '40px' }}>
+  <Slider
+    value={value}
+    onChange={(val) => {
+      if (typeof val === 'number') {
+        setValue(val);
+      }
+    }}
+    min={0}
+    max={100}
+    step={1}
+    vertical
+    showTooltip="always"
+  />
+</div>;
+```
+
+#### Vertical Slider with Dynamic Rail Color (세로 슬라이더 + 동적 색상)
+
+<Playground preview={<DemoSliderVerticalDynamicColor />} />
+
+```tsx
+const [value, setValue] = useState(50);
+
+const getRailColor = (val: number) => {
+  if (val < 25) return 'oklch(70% 0.15 120)'; // 초록색
+  if (val < 50) return 'oklch(75% 0.15 180)'; // 청록색
+  if (val < 75) return 'oklch(70% 0.15 240)'; // 파란색
+  return 'oklch(65% 0.20 30)'; // 주황색
+};
+
+<div style={{ height: '200px', width: '40px' }}>
+  <Slider
+    value={value}
+    onChange={(val) => {
+      if (typeof val === 'number') {
+        setValue(val);
+      }
+    }}
+    min={0}
+    max={100}
+    step={1}
+    vertical
+    railColor={getRailColor}
+    showTooltip="always"
+  />
+</div>;
+```
+
+#### Vertical Slider with Input and Buttons (세로 슬라이더 + 입력/버튼)
+
+<Playground preview={<DemoSliderVerticalWithControls />} />
+
+```tsx
+import { Input } from '@headless/ui';
+import { Icon } from '@headless/ui';
+import { Minus, Plus } from 'lucide-react';
+
+const [value, setValue] = useState(50);
+const [inputValue, setInputValue] = useState('50');
+
+const handleInputChange = (val: string) => {
+  setInputValue(val);
+  const numVal = parseInt(val, 10);
+  if (!isNaN(numVal) && numVal >= 0 && numVal <= 100) {
+    setValue(numVal);
+  }
+};
+
+const handleDecrement = () => {
+  const newValue = Math.max(0, value - 5);
+  setValue(newValue);
+  setInputValue(String(newValue));
+};
+
+const handleIncrement = () => {
+  const newValue = Math.min(100, value + 5);
+  setValue(newValue);
+  setInputValue(String(newValue));
+};
+
+<div>
+  <button onClick={handleIncrement}>
+    <Icon icon={Plus} size="small" />
+  </button>
+  <Input
+    value={inputValue}
+    onChange={handleInputChange}
+    style={{ width: '80px', textAlign: 'center' }}
+  />
+  <button onClick={handleDecrement}>
+    <Icon icon={Minus} size="small" />
+  </button>
+  <div style={{ height: '200px', width: '40px' }}>
+    <Slider
+      value={value}
+      onChange={(val) => {
+        if (typeof val === 'number') {
+          setValue(val);
+          setInputValue(String(val));
+        }
+      }}
+      min={0}
+      max={100}
+      step={1}
+      vertical
+      showTooltip="always"
+    />
+  </div>
+</div>;
+```
+
+#### Marks with Icons (마커에 아이콘 사용)
+
+<Playground preview={<DemoSliderMarksWithIcons />} />
+
+```tsx
+import { VolumeX, Volume2, Sun, Cloud, Moon } from 'lucide-react';
+
+const [value, setValue] = useState(50);
+
+const marks: SliderMark[] = [
+  { value: 0, icon: VolumeX },
+  { value: 25, icon: Volume2 },
+  { value: 50, icon: Sun },
+  { value: 75, icon: Cloud },
+  { value: 100, icon: Moon },
+];
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  marks={marks}
+  showTooltip="always"
+/>;
+```
+
+#### Handle with Icon (핸들에 아이콘 표시)
+
+<Playground preview={<DemoSliderHandleWithIcon />} />
+
+```tsx
+import { Gauge } from 'lucide-react';
+
+const [value, setValue] = useState(50);
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  handleIcon={Gauge}
+  showTooltip="always"
+/>;
+```
+
+#### Customize Handle with Input and Buttons (입력과 버튼으로 값 조절)
+
+<Playground preview={<DemoSliderCustomizeHandle />} />
+
+```tsx
+import { Input } from '@headless/ui';
+import { Icon } from '@headless/ui';
+import { Minus, Plus } from 'lucide-react';
+
+const [value, setValue] = useState(50);
+const [inputValue, setInputValue] = useState('50');
+
+const handleInputChange = (val: string) => {
+  setInputValue(val);
+  const numVal = parseInt(val, 10);
+  if (!isNaN(numVal) && numVal >= 0 && numVal <= 100) {
+    setValue(numVal);
+  }
+};
+
+<div>
+  <button onClick={() => setValue(Math.max(0, value - 5))}>
+    <Icon icon={Minus} size="small" />
+  </button>
+  <Input
+    value={inputValue}
+    onChange={handleInputChange}
+    style={{ width: '80px', textAlign: 'center' }}
+  />
+  <button onClick={() => setValue(Math.min(100, value + 5))}>
+    <Icon icon={Plus} size="small" />
+  </button>
+  <Slider
+    value={value}
+    onChange={setValue}
+    min={0}
+    max={100}
+    step={1}
+    showTooltip="always"
+  />
+</div>;
+```
+
+#### Tooltip Options (툴팁 표시 옵션)
+
+<Playground preview={<DemoSliderTooltipOptions />} />
+
+```tsx
+// always: 항상 표시
+<Slider showTooltip="always" />
+
+// onDrag: 드래그 시만 표시
+<Slider showTooltip="onDrag" />
+
+// never: 표시 안 함
+<Slider showTooltip="never" />
+```
+
+#### Range Slider (Range 슬라이더)
+
+<Playground preview={<DemoSliderRange />} />
+
+```tsx
+const [value, setValue] = useState<[number, number]>([20, 80]);
+
+<Slider
+  value={value}
+  onChange={(val) => {
+    if (Array.isArray(val)) {
+      setValue(val);
+    }
+  }}
+  min={0}
+  max={100}
+  step={1}
+  range
+  showTooltip="always"
+/>;
+```
+
+#### Range Slider with Input and Buttons (Range 슬라이더 + 입력/버튼)
+
+<Playground preview={<DemoSliderRangeWithControls />} />
+
+```tsx
+const [value, setValue] = useState<[number, number]>([20, 80]);
+const [inputValue1, setInputValue1] = useState('20');
+const [inputValue2, setInputValue2] = useState('80');
+
+// 최소값과 최대값을 각각 입력 필드와 버튼으로 조절
+// 코드는 예제 참조
+```
+
+#### Range Slider with Dynamic Rail Color (Range 슬라이더 + 동적 레일 색상)
+
+<Playground preview={<DemoSliderRangeDynamicColor />} />
+
+```tsx
+const [value, setValue] = useState<[number, number]>([30, 70]);
+
+const getRailColor = (val: number) => {
+  if (val < 25) return 'oklch(70% 0.15 120)';
+  if (val < 50) return 'oklch(75% 0.15 180)';
+  if (val < 75) return 'oklch(70% 0.15 240)';
+  return 'oklch(65% 0.20 30)';
+};
+
+<Slider
+  value={value}
+  onChange={(val) => {
+    if (Array.isArray(val)) {
+      setValue(val);
+    }
+  }}
+  min={0}
+  max={100}
+  step={1}
+  range
+  railColor={getRailColor}
+  showTooltip="always"
+/>;
+```
+
+#### Temperature Slider (온도 슬라이더 예제)
+
+<Playground preview={<DemoSliderTemperature />} />
+
+```tsx
+import { Thermometer, Sun, Cloud, Droplets, Flame } from 'lucide-react';
+
+const [value, setValue] = useState(25);
+
+const marks: SliderMark[] = [
+  { value: 0, icon: Thermometer },
+  { value: 25, icon: Sun },
+  { value: 50, icon: Cloud },
+  { value: 75, icon: Droplets },
+  { value: 100, icon: Flame },
+];
+
+const getRailColor = (val: number) => {
+  if (val < 20) return 'oklch(70% 0.15 240)'; // 파란색
+  if (val < 40) return 'oklch(75% 0.15 180)'; // 청록색
+  if (val < 60) return 'oklch(70% 0.15 120)'; // 초록색
+  if (val < 80) return 'oklch(70% 0.20 60)'; // 노란색
+  return 'oklch(65% 0.25 30)'; // 주황색
+};
+
+<Slider
+  value={value}
+  onChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  marks={marks}
+  railColor={getRailColor}
+  handleIcon={Thermometer}
+  showTooltip="always"
+  tooltipFormatter={(val) => `${val}°C`}
+/>;
+```
+
+### API Reference
+
+#### Slider Props
+
+| Property         | Type                                          | Default    | Description                        |
+| ---------------- | --------------------------------------------- | ---------- | ---------------------------------- |
+| value            | `number \| [number, number]`                  | -          | 제어된 값 (Range 슬라이더는 배열)  |
+| defaultValue     | `number \| [number, number]`                  | `0`        | 기본값                             |
+| min              | `number`                                      | `0`        | 최소값                             |
+| max              | `number`                                      | `100`      | 최대값                             |
+| step             | `number`                                      | `1`        | 값 증가/감소 단위                  |
+| disabled         | `boolean`                                     | `false`    | 비활성화 여부                      |
+| size             | `'small' \| 'medium' \| 'large'`              | `'medium'` | Slider 크기                        |
+| vertical         | `boolean`                                     | `false`    | 세로 슬라이더 여부                 |
+| range            | `boolean`                                     | `false`    | Range 슬라이더 여부 (두 개의 핸들) |
+| showTooltip      | `boolean \| 'always' \| 'onDrag' \| 'never'`  | `false`    | 툴팁 표시 옵션                     |
+| tooltipFormatter | `(value: number) => string`                   | -          | 툴팁 텍스트 포맷터                 |
+| marks            | `SliderMark[]`                                | -          | 특정 위치에 표시할 마크            |
+| handleIcon       | `LucideIcon`                                  | -          | 핸들에 표시할 아이콘               |
+| railColor        | `(value: number) => string`                   | -          | 수치에 따른 레일 색상 함수         |
+| onChange         | `(value: number \| [number, number]) => void` | -          | 값 변경 핸들러                     |
+| onChangeComplete | `(value: number \| [number, number]) => void` | -          | 드래그 완료 시 호출되는 콜백       |
+| className        | `string`                                      | -          | 추가 CSS 클래스                    |
+
+#### SliderMark
+
+| Property | Type         | Default | Description                        |
+| -------- | ------------ | ------- | ---------------------------------- |
+| value    | `number`     | -       | 마크 위치 값                       |
+| label    | `string`     | -       | 마크 레이블                        |
+| icon     | `LucideIcon` | -       | 마크 아이콘 (label 대신 사용 가능) |
+
+### 특징
+
+- **키보드 접근성**: Arrow 키, Home, End 키로 값 조정 가능
+- **마우스 드래그**: 마우스로 드래그하여 값 조정
+- **트랙 클릭**: 트랙을 클릭하여 해당 위치로 값 이동
+- **Controlled/Uncontrolled**: `value`와 `defaultValue` 모두 지원
+- **드래그 완료 감지**: `onChangeComplete`로 드래그 완료 시점 감지
+- **Tooltip 표시**: 드래그 시 현재 값을 툴팁으로 표시
+- **Marks 표시**: 특정 위치에 마크와 레이블 표시
+
+### Design Tokens
+
+Slider는 다음 CSS 변수를 사용합니다:
+
+- `--color-border`: 트랙 배경색
+- `--color-brand-primary`: 채워진 트랙 색상
+- `--color-text-disabled`: 비활성화 상태 색상
+
+### Accessibility
+
+- ARIA 속성: `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, `aria-disabled`
+- 키보드 네비게이션: Arrow 키, Home, End 키 지원
+- 포커스 관리: `tabIndex`로 키보드 접근성 제공
+
+### Styling
+
+Slider는 headless 컴포넌트이므로 스타일은 외부에서 제어할 수 있습니다. 기본 스타일은 데모 목적으로 제공됩니다.
+
+### Best Practices
+
+1. **명확한 범위 설정**: `min`과 `max` 값을 명확히 설정하세요.
+2. **적절한 step 값**: 사용자가 원하는 정밀도에 맞는 `step` 값을 설정하세요.
+3. **피드백 제공**: 값 변경 시 시각적 피드백을 제공하세요.
+4. **접근성 고려**: 키보드 사용자를 위해 키보드 네비게이션을 테스트하세요.
+
+### Notes
+
+- `onChange`는 값이 변경될 때마다 호출됩니다.
+- `onChangeComplete`는 드래그가 완료되었을 때만 호출됩니다.
+- `disabled` 상태에서는 모든 상호작용이 비활성화됩니다.

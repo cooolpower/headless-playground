@@ -1,0 +1,82 @@
+import {
+  DemoEmptyBasic,
+  DemoEmptyBasicWithControls,
+  DemoEmptyBasicControls,
+  DemoEmptyBasicProvider,
+  DemoEmptyCustomImage,
+  DemoEmptyWithFooter,
+} from './empty.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { EmptyCss } from '@headless/ui';
+
+# Empty
+
+빈 상태를 표시하는 컴포넌트입니다. 데이터가 없을 때 사용자에게 명확한 피드백을 제공합니다.
+
+### Usage
+
+```tsx
+import { Empty } from '@headless/ui';
+
+export function MyComponent() {
+  return <Empty description="데이터가 없습니다" />;
+}
+```
+
+### Examples
+
+#### 기본 Empty (인터랙티브)
+
+<DemoEmptyBasicProvider>
+  <Playground
+    preview={<DemoEmptyBasicWithControls />}
+    controls={<DemoEmptyBasicControls />}
+  />
+</DemoEmptyBasicProvider>
+
+#### Basic Empty
+
+<Playground preview={<DemoEmptyBasic />} />
+
+```tsx
+<Empty description="데이터가 없습니다" />
+```
+
+#### Custom Image
+
+<Playground preview={<DemoEmptyCustomImage />} />
+
+```tsx
+<Empty
+  image={<span style={{ fontSize: '48px' }}>📭</span>}
+  description="메일함이 비어있습니다"
+/>
+```
+
+#### With Footer
+
+<Playground preview={<DemoEmptyWithFooter />} />
+
+```tsx
+<Empty description="결과를 찾을 수 없습니다">
+  <button onClick={() => console.log('새로고침')}>새로고침</button>
+</Empty>
+```
+
+### API Reference
+
+#### Empty Props
+
+| Property     | Type            | Default               | Description                             |
+| ------------ | --------------- | --------------------- | --------------------------------------- |
+| image        | `ReactNode`     | `<DefaultImage />`    | Custom empty image                      |
+| description  | `ReactNode`     | `'데이터가 없습니다'` | Empty description text                  |
+| children     | `ReactNode`     | -                     | Footer content (usually action buttons) |
+| imageStyle   | `CSSProperties` | -                     | Custom styles for image container       |
+| injectStyles | `boolean`       | `true`                | 기본 스타일(CSS) 주입 여부              |
+| className    | `string`        | -                     | Additional CSS class                    |
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={EmptyCss} title="EmptyCss" />

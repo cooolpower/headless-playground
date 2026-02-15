@@ -1,0 +1,287 @@
+import {
+  DemoButtonTypes,
+  DemoButtonBasicWithControls,
+  DemoButtonBasicControls,
+  DemoButtonBasicProvider,
+  DemoButtonColors,
+  DemoButtonDefault,
+  DemoButtonDisabled,
+  DemoButtonEvents,
+  DemoButtonCustom,
+  DemoButtonGroups,
+  DemoButtonSize,
+  DemoButtonIcon,
+  DemoButtonWithIcon,
+  DemoButtonRounded,
+  DemoButtonLoading,
+} from './button.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { ButtonCss } from '@headless/ui';
+
+# Button
+
+A versatile button component for triggering actions. The Button component provides a headless foundation that can be styled and extended to support various use cases.
+
+## Usage
+
+```tsx
+import { Button } from '@headless/ui';
+
+export function MyComponent() {
+  return <Button onClick={() => console.log('Clicked!')}>Click Me</Button>;
+}
+```
+
+## Examples
+
+### 기본 Button (인터랙티브)
+
+<DemoButtonBasicProvider>
+  <Playground
+    preview={<DemoButtonBasicWithControls />}
+    controls={<DemoButtonBasicControls />}
+  />
+</DemoButtonBasicProvider>
+
+### Button Types
+
+<Playground preview={<DemoButtonTypes />} />
+
+```tsx
+<Button type="Primary" color="Success">
+  Primary
+</Button>
+```
+
+### Button Sizes
+
+<Playground preview={<DemoButtonSize />} />
+
+```tsx
+// height: '22px', fontSize: '12px' */
+<Button type="primary" color="success" size="tiny">Tiny</Button>
+
+// height: '28px', fontSize: '13px' */
+<Button type="primary" color="success" size="small">Small</Button>
+
+// height: '32px', fontSize: '14px' */
+<Button type="primary" color="success" size="medium">Medium</Button>
+
+// height: '36px', fontSize: '14px' */
+<Button type="primary" color="success" size="large">Large</Button>
+
+// height: '40px', fontSize: '15px' */
+<Button type="primary" color="success" size="huge">Huge</Button>
+```
+
+#### Button Colors
+
+<Playground preview={<DemoButtonColors />} />
+
+```tsx
+<Button type="primary" color="success">Primary</Button>
+<Button type="primary" color="info">Info</Button>
+<Button type="primary" color="success"> Success</Button>
+<Button type="primary" color="warn">Warning</Button>
+<Button type="primary" color="error">Error</Button>
+```
+
+#### Disabled State
+
+<Playground preview={<DemoButtonDisabled />} />
+
+```tsx
+<Button disabled>Disabled</Button>
+<Button disabled>Disabled Primary</Button>
+```
+
+#### Loading State
+
+<Playground preview={<DemoButtonLoading />} />
+
+```tsx
+<Button loading  type="primary" color="success">Submit</Button>
+<Button loading  type="secondary" color="success">Save</Button>
+```
+
+#### Icon Buttons
+
+<Playground preview={<DemoButtonIcon />} />
+
+```tsx
+<Button type='secondary' color='success'>
+  <Icon icon={ArrowUp} size="small" />
+</Button>
+<Button type='secondary' color='success'>
+  <Icon icon={ArrowDown} size="small" />
+</Button>
+<Button type='secondary' color='success'>
+  <Icon icon={ArrowLeft} size="small" />
+</Button>
+<Button type='secondary' color='success'>
+  <Icon icon={ArrowRight} size="small" />
+</Button>
+```
+
+#### Buttons with Icons
+
+<Playground preview={<DemoButtonWithIcon />} />
+
+```tsx
+<Button type='secondary' color='success'>⚡ New Branch</Button>
+<Button type='secondary' color='success'>💾 Save</Button>
+<Button type='secondary' color='success'>✓ Check</Button>
+```
+
+#### Button Groups
+
+<Playground preview={<DemoButtonGroups />} />
+
+```tsx
+<div style={{ display: 'flex', gap: '8px' }}>
+  <Button
+    type='secondary'
+    color='error'
+    onClick={() => handleCancel()}
+  >
+    Cancel
+  </Button>
+  <Button
+    type='primary'
+    color='success'
+    onClick={() => handleConfirm()}
+  >
+    Confirm
+  </Button>
+</div>
+
+<div className={styles.buttonGroup} style={{ marginTop: '1rem' }}>
+  <Button
+    type='quaternary'
+    color='success'
+    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+    disabled={currentPage === 1}
+  >
+    <Icon icon={ArrowLeft} size='small'></Icon> Previous
+  </Button>
+  <span className={styles.currentPageNumber}
+  >
+    Page {currentPage}
+  </span>
+  <Button
+    type='quaternary'
+    color='success'
+    onClick={() => setCurrentPage(currentPage + 1)}
+  >
+    Next <Icon icon={ArrowRight} size='small'></Icon>
+  </Button>
+</div>
+```
+
+#### Interactive Examples
+
+<Playground preview={<DemoButtonEvents />} />
+
+```tsx
+const [count, setCount] = useState(0);
+
+<Button onClick={() => setCount(count + 1)}>Clicked {count} times</Button>;
+```
+
+### API Reference
+
+#### Button Props
+
+| Property     | Type                  | Default | Description           |
+| ------------ | --------------------- | ------- | --------------------- |
+| disabled     | `boolean`             | `false` | 버튼 비활성화 여부    |
+| onClick      | `() => void`          | -       | 클릭 이벤트 핸들러    |
+| className    | `string`              | -       | 추가 CSS 클래스       |
+| style        | `React.CSSProperties` | -       | 인라인 스타일         |
+| title        | `string`              | -       | 툴팁 텍스트           |
+| injectStyles | `boolean`             | `true`  | 기본 스타일 주입 여부 |
+| children     | `React.ReactNode`     | -       | 버튼 콘텐츠           |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={ButtonCss} title="ButtonCss" />
+
+### Design Tokens
+
+다음 디자인 토큰은 Naive UI에서 영감을 받은 스타일링에 사용됩니다. 모든 색상은 `globals.css`에 OKLCH 형식의 CSS 커스텀 속성으로 정의되어 있습니다:
+
+#### Colors
+
+- **Primary**: `oklch(62.14% 0.1530 153.16)` - Naive UI green (#18a058)
+- **Info**: `oklch(60.80% 0.1888 255.88)` - Blue (#2080f0)
+- **Success**: `oklch(62.14% 0.1530 153.16)` - Primary와 동일한 green
+- **Warning**: `oklch(76.69% 0.1570 71.71)` - Orange (#f0a020)
+- **Error**: `oklch(56.87% 0.1947 15.26)` - Red (#d03050)
+
+모든 색상은 더 나은 지각적 균일성을 위해 OKLCH 형식을 따르며, CSS 커스텀 속성을 통해 접근 가능합니다:
+
+- `var(--color-brand-primary)` - Primary 색상
+- `var(--color-semantic-info)` - Info 색상
+- `var(--color-semantic-success)` - Success 색상
+- `var(--color-semantic-warning)` - Warning 색상
+- `var(--color-semantic-error)` - Error 색상
+
+#### Sizes
+
+- **Tiny**: 높이 `22px`, 폰트 `12px`
+- **Small**: 높이 `28px`, 폰트 `13px`
+- **Medium**: 높이 `32px`, 폰트 `14px` (기본값)
+- **Large**: 높이 `36px`, 폰트 `14px`
+- **Huge**: 높이 `40px`, 폰트 `15px`
+
+#### Button Types
+
+- **Primary**: Primary 색상의 단색 배경, 흰색 텍스트
+- **Secondary**: 테두리가 있는 밝은 배경, 어두운 텍스트
+- **Tertiary**: 투명한 배경, 테두리 없음, 어두운 텍스트
+- **Dashed**: 점선 테두리가 있는 투명한 배경
+- **Text**: 최소 패딩의 투명한 배경, 어두운 텍스트
+
+#### Border Radius
+
+- **Small**: `2-3px`
+- **Medium**: `3-4px`
+- **Rounded**: `16px` (아이콘 버튼용)
+
+#### Spacing
+
+- **Padding**: `0 14px` (medium), 크기에 따라 조정
+- **Gap**: 버튼 그룹 간 `8px`
+
+### Accessibility
+
+- 버튼은 키보드로 접근 가능 (Enter/Space 키)
+- 비활성화된 버튼은 스크린 리더에 적절히 알림
+- 포커스 상태가 명확하게 표시됨
+- 적절한 ARIA 속성 사용 (`role="button"`, `aria-disabled`)
+
+### Styling
+
+Button 컴포넌트는 headless 컴포넌트로, 기본 스타일 없이 로직과 접근성 기능만 제공합니다. 다음 방법으로 스타일을 적용할 수 있습니다:
+
+- **CSS Classes**: `className` prop을 통해 커스텀 클래스 적용
+- **Inline Styles**: 빠른 스타일링을 위해 `style` prop 사용
+- **CSS-in-JS**: 선호하는 스타일링 솔루션 사용
+- **CSS Modules**: 모듈 클래스 import 및 적용
+
+### Best Practices
+
+- 액션에는 시맨틱 버튼 요소 사용
+- 명확하고 설명적인 버튼 레이블 제공
+- 액션이 불가능할 때 버튼 비활성화
+- 비동기 작업 중 로딩 상태 표시
+- 관련된 버튼들을 함께 그룹화
+- 애플리케이션 전반에 걸쳐 일관된 버튼 스타일 유지
+- 접근성을 위한 충분한 색상 대비 확보
+- 다양한 컨텍스트에 적절한 버튼 크기 사용
+- 일관성을 위해 Naive UI 디자인 패턴 따르기
+
+### Notes
+
+이것은 headless 컴포넌트로, 핵심 기능과 접근성 기능만 제공합니다. 모든 시각적 스타일링은 CSS 클래스나 인라인 스타일을 통해 적용해야 합니다. 위 예제들은 애플리케이션에 맞게 적용할 수 있는 Naive UI에서 영감을 받은 스타일링 패턴을 보여줍니다.

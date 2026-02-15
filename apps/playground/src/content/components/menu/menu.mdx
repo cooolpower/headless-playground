@@ -1,0 +1,254 @@
+import {
+  DemoMenuBasic,
+  DemoMenuBasicWithControls,
+  DemoMenuBasicControls,
+  DemoMenuBasicProvider,
+  DemoMenuWithIcons,
+  DemoMenuWithMixedIcons,
+  DemoMenuWithSubmenu,
+  DemoMenuHorizontal,
+  DemoMenuWithDisabled,
+} from './menu.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { MenuCss } from '@headless/ui';
+
+# Menu
+
+Menu 컴포넌트는 네비게이션 메뉴를 표시하는 Headless 컴포넌트입니다. 수직, 수평, 인라인 모드를 지원하며 서브메뉴를 포함할 수 있습니다. 내부적으로 Tree 컴포넌트를 재사용하여 계층적 메뉴 구조를 지원합니다.
+
+## 기본 사용법
+
+Menu 컴포넌트는 `items` prop을 통해 메뉴 항목을 전달받습니다.
+
+### 기본 Menu (인터랙티브)
+
+<DemoMenuBasicProvider>
+  <Playground
+    preview={<DemoMenuBasicWithControls />}
+    controls={<DemoMenuBasicControls />}
+  />
+</DemoMenuBasicProvider>
+
+<Playground preview={<DemoMenuBasic />} />
+
+```tsx
+import { Menu } from '@headless/ui';
+import type { MenuItem } from '@headless/ui';
+import { useState } from 'react';
+
+const menuItems: MenuItem[] = [
+  { key: '1', label: 'Option 1' },
+  { key: '2', label: 'Option 2' },
+  { key: '3', label: 'Option 3' },
+];
+
+export function MyComponent() {
+  const [selectedKey, setSelectedKey] = useState<string>('1');
+
+  return (
+    <Menu
+      items={menuItems}
+      selectedKeys={[selectedKey]}
+      onSelect={(info) => setSelectedKey(info.key)}
+    />
+  );
+}
+```
+
+```tsx
+import { Menu } from '@headless/ui';
+import type { MenuItem } from '@headless/ui';
+
+const menuItems: MenuItem[] = [
+  { key: '1', label: 'Option 1' },
+  { key: '2', label: 'Option 2' },
+  { key: '3', label: 'Option 3' },
+];
+
+export function MyComponent() {
+  const [selectedKey, setSelectedKey] = useState<string>('1');
+
+  return (
+    <Menu
+      items={menuItems}
+      selectedKeys={[selectedKey]}
+      onSelect={(info) => setSelectedKey(info.key)}
+    />
+  );
+}
+```
+
+## With Icons
+
+메뉴 항목에 lucide-react 아이콘을 추가할 수 있습니다.
+
+<Playground preview={<DemoMenuWithIcons />} />
+
+```tsx
+import { Home, Settings, User } from 'lucide-react';
+import { Icon } from '@headless/ui';
+
+const menuItems: MenuItem[] = [
+  { key: '1', label: 'Home', icon: <Icon icon={Home} size="small" /> },
+  { key: '2', label: 'Settings', icon: <Icon icon={Settings} size="small" /> },
+  { key: '3', label: 'Profile', icon: <Icon icon={User} size="small" /> },
+];
+
+<Menu items={menuItems} />;
+```
+
+## Mixed Icons
+
+이모지와 lucide-react 아이콘을 함께 사용할 수 있습니다.
+
+<Playground preview={<DemoMenuWithMixedIcons />} />
+
+```tsx
+import { Home, Settings, Image } from 'lucide-react';
+import { Icon } from '@headless/ui';
+
+const menuItems: MenuItem[] = [
+  { key: '1', label: 'Home', icon: <Icon icon={Home} size="small" /> },
+  { key: '2', label: 'Documents', icon: '📄' },
+  { key: '3', label: 'Images', icon: <Icon icon={Image} size="small" /> },
+  { key: '4', label: 'Folder', icon: '📁' },
+  { key: '5', label: 'Settings', icon: <Icon icon={Settings} size="small" /> },
+];
+
+<Menu items={menuItems} />;
+```
+
+## With Submenu
+
+서브메뉴를 포함한 메뉴를 만들 수 있습니다. 내부적으로 Tree 컴포넌트를 재사용하여 계층적 메뉴 구조를 지원합니다.
+
+<Playground preview={<DemoMenuWithSubmenu />} />
+
+```tsx
+import { Folder } from 'lucide-react';
+import { Icon } from '@headless/ui';
+import { useState } from 'react';
+
+const menuItems: MenuItem[] = [
+  {
+    key: '1',
+    label: 'Navigation 1',
+    icon: <Icon icon={Folder} size="small" />,
+    children: [
+      { key: '1-1', label: 'Option 1-1' },
+      { key: '1-2', label: 'Option 1-2' },
+    ],
+  },
+];
+
+export function MyComponent() {
+  const [selectedKey, setSelectedKey] = useState<string>('1-1');
+  const [openKeys, setOpenKeys] = useState<string[]>(['1']);
+
+  return (
+    <Menu
+      items={menuItems}
+      selectedKeys={[selectedKey]}
+      openKeys={openKeys}
+      onSelect={(info) => setSelectedKey(info.key)}
+      onOpenChange={(keys) => setOpenKeys(keys)}
+    />
+  );
+}
+```
+
+## Horizontal Mode
+
+수평 모드로 메뉴를 표시할 수 있습니다.
+
+<Playground preview={<DemoMenuHorizontal />} />
+
+```tsx
+<Menu items={menuItems} mode="horizontal" />
+```
+
+## With Disabled
+
+특정 메뉴 항목을 비활성화할 수 있습니다.
+
+<Playground preview={<DemoMenuWithDisabled />} />
+
+```tsx
+const menuItems: MenuItem[] = [
+  { key: '1', label: 'Option 1' },
+  { key: '2', label: 'Option 2', disabled: true },
+  { key: '3', label: 'Danger Option', danger: true },
+];
+
+<Menu items={menuItems} />;
+```
+
+## API
+
+### Menu Props
+
+| Property            | Description                        | Type                                     | Default      |
+| ------------------- | ---------------------------------- | ---------------------------------------- | ------------ |
+| items               | 메뉴 항목 배열                     | `MenuItem[]`                             | `[]`         |
+| mode                | 메뉴 모드                          | `'vertical' \| 'horizontal' \| 'inline'` | `'vertical'` |
+| theme               | 메뉴 테마                          | `'light' \| 'dark'`                      | `'light'`    |
+| selectedKeys        | 선택된 메뉴 키 배열 (controlled)   | `string[]`                               | -            |
+| defaultSelectedKeys | 기본 선택된 메뉴 키 배열           | `string[]`                               | `[]`         |
+| openKeys            | 열린 서브메뉴 키 배열 (controlled) | `string[]`                               | -            |
+| defaultOpenKeys     | 기본 열린 서브메뉴 키 배열         | `string[]`                               | `[]`         |
+| onSelect            | 메뉴 선택 콜백                     | `(info: MenuInfo) => void`               | -            |
+| onOpenChange        | 서브메뉴 열림/닫힘 콜백            | `(openKeys: string[]) => void`           | -            |
+| onClick             | 메뉴 클릭 콜백                     | `(info: MenuInfo) => void`               | -            |
+| inlineCollapsed     | 인라인 모드에서 축소 여부          | `boolean`                                | `false`      |
+| className           | 추가 CSS 클래스                    | `string`                                 | -            |
+| classNames          | 내부 요소별 CSS 클래스 객체        | `MenuClassNames`                         | -            |
+| children            | 자식 요소 (대신 items 사용 권장)   | `React.ReactNode`                        | -            |
+
+### MenuItem
+
+| Property | Description       | Type     | Default |
+| -------- | ----------------- | -------- | ------- |
+| key      | 메뉴 항목 고유 키 | `string` | -       |
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={MenuCss} title="MenuCss" />
+
+| Name     | Description        | Type                   | Default |
+| -------- | ------------------ | ---------------------- | ------- |
+| label    | 메뉴 항목 레이블   | `React.ReactNode`      | -       |
+| icon     | 메뉴 항목 아이콘   | `React.ReactNode`      | -       |
+| children | 서브메뉴 항목 배열 | `MenuItem[]`           | -       |
+| disabled | 비활성화 여부      | `boolean`              | `false` |
+| danger   | 위험 스타일 적용   | `boolean`              | `false` |
+| type     | 메뉴 항목 타입     | `'group' \| 'divider'` | -       |
+
+### MenuInfo
+
+메뉴 선택 이벤트에서 전달되는 정보 객체입니다.
+
+| Property | Type               | Description                                 |
+| -------- | ------------------ | ------------------------------------------- |
+| key      | `string`           | 선택된 메뉴 항목 키                         |
+| keyPath  | `string[]`         | 선택된 메뉴 항목의 경로 (부모부터 자식까지) |
+| item     | `MenuItem`         | 선택된 메뉴 항목 객체                       |
+| domEvent | `React.MouseEvent` | DOM 이벤트 객체                             |
+
+### MenuClassNames
+
+내부 요소별 CSS 클래스를 지정할 수 있습니다. `TreeClassNames`를 확장하여 Tree 컴포넌트의 모든 클래스명과 추가로 다음 클래스명을 지원합니다.
+
+| Property | Type     | Description                                         |
+| -------- | -------- | --------------------------------------------------- |
+| menu     | `string` | Menu 루트 요소 CSS 클래스                           |
+| tree     | `string` | Tree 루트 요소 CSS 클래스 (TreeClassNames에서 상속) |
+| treeNode | `string` | Tree 노드 CSS 클래스 (TreeClassNames에서 상속)      |
+| ...      | ...      | 기타 TreeClassNames의 모든 속성                     |
+
+## 특징
+
+- **다양한 모드**: 수직, 수평, 인라인 모드 지원
+- **서브메뉴**: 다단계 서브메뉴 지원
+- **키보드 네비게이션**: 화살표 키로 메뉴 탐색 가능
+- **접근성**: ARIA 속성을 지원하여 스크린 리더와 호환

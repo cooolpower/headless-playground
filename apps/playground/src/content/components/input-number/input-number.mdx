@@ -1,0 +1,137 @@
+import {
+  DemoInputNumberBasic,
+  DemoInputNumberBasicWithControls,
+  DemoInputNumberBasicControls,
+  DemoInputNumberBasicProvider,
+  DemoInputNumberMinMax,
+  DemoInputNumberStep,
+  DemoInputNumberDisabled,
+  DemoInputNumberSizes,
+  DemoInputNumberPrecision,
+  DemoInputNumberNoControls,
+} from './input-number.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { InputNumberCss } from '@headless/ui';
+
+# Input Number
+
+Input Number 컴포넌트는 숫자만 입력할 수 있는 입력 필드를 제공하는 Headless 컴포넌트입니다. 증가/감소 버튼과 키보드 화살표 키를 지원합니다.
+
+## 기본 사용법
+
+Input Number 컴포넌트를 사용하여 숫자 입력 필드를 만들 수 있습니다.
+
+### 기본 Input Number (인터랙티브)
+
+<DemoInputNumberBasicProvider>
+  <Playground
+    preview={<DemoInputNumberBasicWithControls />}
+    controls={<DemoInputNumberBasicControls />}
+  />
+</DemoInputNumberBasicProvider>
+
+<Playground preview={<DemoInputNumberBasic />} />
+
+```tsx
+import { InputNumber } from '@headless/ui';
+
+export function MyComponent() {
+  const [value, setValue] = useState<number | undefined>(0);
+
+  return (
+    <InputNumber
+      value={value}
+      onChange={setValue}
+      placeholder="Enter a number"
+    />
+  );
+}
+```
+
+## Min and Max
+
+최소값과 최대값을 설정할 수 있습니다.
+
+<Playground preview={<DemoInputNumberMinMax />} />
+
+```tsx
+<InputNumber min={0} max={100} value={value} onChange={setValue} />
+```
+
+## Step
+
+증가/감소 단위를 설정할 수 있습니다.
+
+<Playground preview={<DemoInputNumberStep />} />
+
+```tsx
+<InputNumber step={0.1} precision={2} value={value} onChange={setValue} />
+```
+
+## Without Controls
+
+증가/감소 버튼을 숨길 수 있습니다.
+
+<Playground preview={<DemoInputNumberNoControls />} />
+
+```tsx
+<InputNumber controls={false} value={value} onChange={setValue} />
+```
+
+## Size
+
+Input Number의 크기를 조정할 수 있습니다.
+
+<Playground preview={<DemoInputNumberSizes />} />
+
+```tsx
+<InputNumber size="small" />
+<InputNumber size="medium" />
+<InputNumber size="large" />
+```
+
+## Disabled
+
+Input Number를 비활성화할 수 있습니다.
+
+```tsx
+<InputNumber disabled value={value} />
+```
+
+## API
+
+### InputNumber Props
+
+| Property     | Description                                 | Type                                   | Default    |
+| ------------ | ------------------------------------------- | -------------------------------------- | ---------- |
+| value        | 제어된 값                                   | `number`                               | -          |
+| defaultValue | 기본값                                      | `number`                               | -          |
+| onChange     | 값 변경 핸들러                              | `(value: number \| undefined) => void` | -          |
+| onFocus      | 포커스 핸들러                               | `(e: React.FocusEvent) => void`        | -          |
+| onBlur       | 블러 핸들러                                 | `(e: React.FocusEvent) => void`        | -          |
+| min          | 최소값                                      | `number`                               | -          |
+| max          | 최대값                                      | `number`                               | -          |
+| step         | 증가/감소 단위                              | `number`                               | `1`        |
+| precision    | 소수점 자릿수                               | `number`                               | -          |
+| disabled     | 비활성화 여부                               | `boolean`                              | `false`    |
+| readonly     | 읽기 전용 여부                              | `boolean`                              | `false`    |
+| placeholder  | 플레이스홀더 텍스트                         | `string`                               | -          |
+| size         | Input Number 크기                           | `'small' \| 'medium' \| 'large'`       | `'medium'` |
+| controls     | 증가/감소 버튼 표시 여부                    | `boolean`                              | `true`     |
+| keyboard     | 키보드 화살표 키 활성화 여부                | `boolean`                              | `true`     |
+| stringMode   | 문자열 모드 (정밀도 유지)                   | `boolean`                              | `false`    |
+| className    | 추가 CSS 클래스                             | `string`                               | -          |
+| injectStyles | 기본 스타일을 컴포넌트가 직접 주입할지 여부 | `boolean`                              | `true`     |
+
+## 특징
+
+- **증가/감소 버튼**: 버튼을 클릭하여 값 조정
+- **키보드 지원**: 화살표 키로 값 증가/감소
+- **범위 제한**: min/max로 입력 범위 제한
+- **소수점 지원**: precision으로 소수점 자릿수 제어
+- **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
+
+## 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={InputNumberCss} title="InputNumberCss" />

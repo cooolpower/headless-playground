@@ -1,0 +1,119 @@
+import {
+  DemoProgressLine,
+  DemoProgressBasicWithControls,
+  DemoProgressBasicControls,
+  DemoProgressBasicProvider,
+  DemoProgressCircle,
+  DemoProgressFormat,
+  DemoProgressInteractive,
+} from './progress.demo';
+import { Playground } from '@/components/playground/playground';
+import { CssSnippet } from '@/components/playground/css-snippet';
+import { ProgressCss } from '@headless/ui';
+
+# Progress
+
+작업 진행 상황을 시각적 표시기로 표시합니다.
+
+### 사용법
+
+```tsx
+import { Progress } from '@headless/ui';
+
+export function MyProgress() {
+  return <Progress percent={75} type="line" />;
+}
+```
+
+### 예제
+
+#### 기본 Progress (인터랙티브)
+
+<DemoProgressBasicProvider>
+  <Playground
+    preview={<DemoProgressBasicWithControls />}
+    controls={<DemoProgressBasicControls />}
+  />
+</DemoProgressBasicProvider>
+
+#### 선형 Progress
+
+<Playground preview={<DemoProgressLine />} />
+
+```tsx
+// 기본 선형 progress
+<Progress percent={65} type="line" />
+
+// 다른 상태와 함께
+<Progress percent={80} type="line" status="success" />
+<Progress percent={45} type="line" status="warning" />
+<Progress percent={25} type="line" status="error" />
+```
+
+#### 원형 Progress
+
+<Playground preview={<DemoProgressCircle />} />
+
+```tsx
+// 기본 원형 progress
+<Progress percent={75} type="circle" width={80} />
+
+// 다른 상태와 함께
+<Progress percent={90} type="circle" width={80} status="success" />
+<Progress percent={60} type="circle" width={80} status="warning" />
+```
+
+#### 커스텀 포맷과 함께
+
+<Playground preview={<DemoProgressFormat />} />
+
+```tsx
+<Progress
+  percent={75}
+  type="circle"
+  format={(percent) => `${percent} Days`}
+  width={100}
+/>
+```
+
+#### 인터랙티브 Progress
+
+<Playground preview={<DemoProgressInteractive />} />
+
+```tsx
+const [progress, setProgress] = useState(50)
+
+<Progress percent={progress} type="line" />
+<button onClick={() => setProgress(Math.min(100, progress + 10))}>+10%</button>
+<button onClick={() => setProgress(Math.max(0, progress - 10))}>-10%</button>
+```
+
+### API
+
+#### Progress Props
+
+| Property     | Type                                            | Default     | Description                |
+| ------------ | ----------------------------------------------- | ----------- | -------------------------- |
+| percent      | `number`                                        | `0`         | 진행률 (0-100)             |
+| type         | `'line' \| 'circle'`                            | `'line'`    | Progress 타입              |
+| size         | `'small' \| 'medium' \| 'large'`                | `'medium'`  | Progress 크기              |
+| status       | `'normal' \| 'success' \| 'error' \| 'warning'` | `'normal'`  | Progress 상태              |
+| strokeWidth  | `number`                                        | `6`         | 선 두께 (원형 타입용)      |
+| strokeColor  | `string`                                        | -           | 커스텀 선 색상             |
+| trailColor   | `string`                                        | `'#e5e7eb'` | 트레일 색상                |
+| showInfo     | `boolean`                                       | `true`      | 진행 정보 표시 여부        |
+| format       | `(percent: number) => ReactNode`                | -           | 커스텀 포맷 함수           |
+| width        | `number`                                        | `120`       | 원형 Progress 너비         |
+| injectStyles | `boolean`                                       | `true`      | 기본 스타일(CSS) 주입 여부 |
+
+### Notes
+
+- Progress는 자동으로 애니메이션 전환을 처리합니다
+- 원형 Progress는 너비와 선 속성으로 완전히 커스터마이즈 가능합니다
+- 선형 Progress는 색상 코딩으로 다른 상태를 지원합니다
+- 커스텀 포맷 함수로 유연한 텍스트 표시가 가능합니다
+- 모든 Progress 타입은 완전히 접근 가능합니다
+
+### 기본 스타일(CSS) (Inject Styles)
+
+<CssSnippet css={ProgressCss} title="ProgressCss" />
