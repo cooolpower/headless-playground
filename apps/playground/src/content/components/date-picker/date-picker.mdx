@@ -10,7 +10,7 @@ import {
 } from './date-picker.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { DatePickerCss } from '@headless/ui';
+import { DatePickerCss } from '@repo/ui';
 
 # Date Picker
 
@@ -19,7 +19,7 @@ import { DatePickerCss } from '@headless/ui';
 ### 사용법
 
 ```tsx
-import { DatePicker } from '@headless/ui';
+import { DatePicker } from '@repo/ui';
 
 export function MyComponent() {
   const [date, setDate] = useState<Date | null>(null);
@@ -82,7 +82,7 @@ export function MyComponent() {
 'use client';
 
 import { useState } from 'react';
-import { DatePicker } from '@headless/ui';
+import { DatePicker } from '@repo/ui';
 import * as styles from './date-picker.demo.css';
 
 export function DateRangePicker() {
@@ -166,7 +166,7 @@ export function DateRangePicker() {
 'use client';
 
 import { useState } from 'react';
-import { DateRangePicker } from '@headless/ui';
+import { DateRangePicker } from '@repo/ui';
 import * as styles from './date-picker.demo.css';
 
 export function DateRangePickerExample() {

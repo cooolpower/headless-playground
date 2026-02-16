@@ -11,7 +11,7 @@ import {
 } from './breadcrumb.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { BreadcrumbCss } from '@headless/ui';
+import { BreadcrumbCss } from '@repo/ui';
 
 # Breadcrumb
 
@@ -22,8 +22,8 @@ Breadcrumb는 계층적 네비게이션 구조를 보여주며, 사용자가 현
 ### 사용법
 
 ```tsx
-import { Breadcrumb } from '@headless/ui';
-import type { BreadcrumbItem } from '@headless/ui';
+import { Breadcrumb } from '@repo/ui';
+import type { BreadcrumbItem } from '@repo/ui';
 
 const items: BreadcrumbItem[] = [
   { title: '홈', href: '/' },
@@ -66,7 +66,7 @@ const items: BreadcrumbItem[] = [
 <Playground preview={<DemoBreadcrumbWithIcons />} />
 
 ```tsx
-import { Icon } from '@headless/ui';
+import { Icon } from '@repo/ui';
 import { Home, FileText, Folder } from 'lucide-react';
 
 const items: BreadcrumbItem[] = [

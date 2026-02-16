@@ -8,6 +8,7 @@ import type { TreeNodeData } from '../tree/type-tree';
 import { MenuProps, MenuItem, MenuInfo } from './type-menu';
 import { useMenu } from './use-menu';
 import { menuCss as _menuCss } from './menu.styles';
+import { cx } from '../../utils';
 
 // MenuItem을 TreeNodeData로 변환
 function menuItemToTreeNode(item: MenuItem): TreeNodeData {
@@ -41,7 +42,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { handleSelect, handleOpenChange, isSelected, isOpen } = useMenu({
       selectedKeys,
@@ -55,25 +56,27 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(
     });
 
     // MenuItem을 TreeNodeData로 변환
-    const treeData = useMemo(
-      () => items.map(menuItemToTreeNode),
-      [items]
-    );
+    const treeData = useMemo(() => items.map(menuItemToTreeNode), [items]);
 
     // Tree의 onSelect를 Menu의 onSelect로 변환
     const handleTreeSelect = useCallback(
-      (selectedKeys: string[], info: { node: TreeNodeData; selected: boolean }) => {
+      (
+        selectedKeys: string[],
+        info: { node: TreeNodeData; selected: boolean },
+      ) => {
         if (!info.selected) return;
 
         const { node } = info;
-        const menuItem = items.find((item) => String(item.key) === String(node.key));
+        const menuItem = items.find(
+          (item) => String(item.key) === String(node.key),
+        );
         if (!menuItem) return;
 
         // keyPath 구축 (부모에서 자식으로)
         const findKeyPath = (
           items: MenuItem[],
           targetKey: string,
-          path: string[] = []
+          path: string[] = [],
         ): string[] => {
           for (const item of items) {
             const currentPath = [...path, String(item.key)];
@@ -99,23 +102,28 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(
 
         handleSelect(menuInfo);
       },
-      [items, handleSelect]
+      [items, handleSelect],
     );
 
     // Tree의 onExpand를 Menu의 onOpenChange로 변환
     const handleTreeExpand = useCallback(
-      (expandedKeys: string[], info: { node: TreeNodeData; expanded: boolean }) => {
+      (
+        expandedKeys: string[],
+        info: { node: TreeNodeData; expanded: boolean },
+      ) => {
         // Tree의 expandedKeys를 Menu의 onOpenChange에 전달
         // Menu의 onOpenChange는 전체 openKeys 배열을 받음
         onOpenChange?.(expandedKeys);
       },
-      [onOpenChange]
+      [onOpenChange],
     );
 
     // titleRender: 아이콘과 label을 표시하고 danger 스타일 적용
     const titleRender = useCallback(
       (node: TreeNodeData) => {
-        const menuItem = items.find((item) => String(item.key) === String(node.key));
+        const menuItem = items.find(
+          (item) => String(item.key) === String(node.key),
+        );
         const danger = menuItem?.danger || (node as any).danger;
 
         return (
@@ -124,17 +132,19 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(
           </span>
         );
       },
-      [items]
+      [items],
     );
 
     return (
       <div
         ref={ref}
-        className={className || classNames?.menu}
+        className={cx('hcMenu', className, classNames?.menu)}
         role="menu"
         {...props}
       >
-        {injectStyles ? <style suppressHydrationWarning>{_menuCss}</style> : null}
+        {injectStyles ? (
+          <style suppressHydrationWarning>{_menuCss}</style>
+        ) : null}
         <Tree
           treeData={treeData}
           selectable
@@ -150,7 +160,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(
         />
       </div>
     );
-  }
+  },
 );
 
 Menu.displayName = 'Menu';

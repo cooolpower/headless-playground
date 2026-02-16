@@ -146,11 +146,11 @@ export function DemoQrCodeBasic() {
 
   return (
     <div style={{ padding: '2rem' }}>
-      <img
+      {/* <img
         src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
           value,
         )}`}
-      />
+      /> */}
       <QrCode value={value} onChange={setValue} />
       <p
         style={{

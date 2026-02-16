@@ -7,9 +7,7 @@ import { dataTableCss as _dataTableCss } from './data-table.styles';
 
 export const DataTableCss = _dataTableCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
   (
@@ -23,9 +21,10 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { currentValue, handleChange } = useDataTable({
+      // Changed from useDataTable to useMap
       value,
       defaultValue,
       onChange,
@@ -35,17 +34,19 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
     return (
       <div
         ref={ref}
-        className={injectStyles ? cx('hcDataTable', className) : className}
+        className={cx('hcDataTable', className)}
         data-disabled={disabled ? 'true' : 'false'}
         {...props}
       >
-        {injectStyles && <style suppressHydrationWarning>{_dataTableCss}</style>}
+        {injectStyles && (
+          <style suppressHydrationWarning>{_dataTableCss}</style>
+        )}
         {children || (
           <div>DataTable Component - Value: {JSON.stringify(currentValue)}</div>
         )}
       </div>
     );
-  }
+  },
 );
 
 DataTable.displayName = 'DataTable';

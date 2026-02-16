@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { PopoverProps } from './type-popover';
 import { usePopover } from './use-popover';
 import { popoverCss as _popoverCss } from './popover.styles';
+import { cx } from '../../utils';
 
 export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
   (
@@ -22,7 +23,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { isVisible, triggerProps, popoverProps } = usePopover({
       visible,
@@ -41,7 +42,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 
         {isVisible && (
           <div
-            className={overlayClassName ? `hcPopoverOverlay ${overlayClassName}` : 'hcPopoverOverlay'}
+            className={cx('hcPopoverOverlay', overlayClassName)}
             {...popoverProps}
           >
             {injectStyles ? (
@@ -49,14 +50,14 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
             ) : null}
             <div className="hcPopoverArrow" aria-hidden="true" />
             <div className="hcPopoverCard">
-              {title && <div className="hcPopoverTitle">{title}</div>}
-              <div className="hcPopoverContent">{content}</div>
+              {!!title && <div className="hcPopoverTitle">{title as any}</div>}
+              <div className="hcPopoverContent">{content as any}</div>
             </div>
           </div>
         )}
       </>
     );
-  }
+  },
 );
 
 Popover.displayName = 'Popover';

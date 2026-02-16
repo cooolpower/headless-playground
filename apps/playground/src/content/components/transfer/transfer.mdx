@@ -12,7 +12,7 @@ import {
 } from './transfer.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { TransferCss } from '@headless/ui';
+import { TransferCss } from '@repo/ui';
 
 # Transfer
 
@@ -30,8 +30,8 @@ Transfer 컴포넌트는 `dataSource`와 `targetKeys`를 통해 데이터를 관
 </DemoTransferBasicProvider>
 
 ```tsx
-import { Transfer } from '@headless/ui';
-import type { TransferItem } from '@headless/ui';
+import { Transfer } from '@repo/ui';
+import type { TransferItem } from '@repo/ui';
 import { useState } from 'react';
 
 const dataSource: TransferItem[] = [
@@ -68,8 +68,8 @@ export function MyComponent() {
 <Playground preview={<DemoTransferWithSearch />} />
 
 ```tsx
-import { Transfer } from '@headless/ui';
-import type { TransferItem } from '@headless/ui';
+import { Transfer } from '@repo/ui';
+import type { TransferItem } from '@repo/ui';
 import { useState } from 'react';
 
 const dataSource: TransferItem[] = [
@@ -109,8 +109,8 @@ export function MyComponent() {
 <Playground preview={<DemoTransferCustomRender />} />
 
 ```tsx
-import { Transfer } from '@headless/ui';
-import type { TransferItem } from '@headless/ui';
+import { Transfer } from '@repo/ui';
+import type { TransferItem } from '@repo/ui';
 import { useState } from 'react';
 
 const dataSource: TransferItem[] = [
@@ -157,8 +157,8 @@ export function MyComponent() {
 <Playground preview={<DemoTransferDisabled />} />
 
 ```tsx
-import { Transfer } from '@headless/ui';
-import type { TransferItem } from '@headless/ui';
+import { Transfer } from '@repo/ui';
+import type { TransferItem } from '@repo/ui';
 import { useState } from 'react';
 
 const dataSource: TransferItem[] = [
@@ -196,8 +196,8 @@ export function MyComponent() {
 <Playground preview={<DemoTransferNoSelectAll />} />
 
 ```tsx
-import { Transfer } from '@headless/ui';
-import type { TransferItem } from '@headless/ui';
+import { Transfer } from '@repo/ui';
+import type { TransferItem } from '@repo/ui';
 import { useState } from 'react';
 
 const dataSource: TransferItem[] = [
@@ -235,8 +235,8 @@ export function MyComponent() {
 <Playground preview={<DemoTransferPermission />} />
 
 ```tsx
-import { Transfer } from '@headless/ui';
-import type { TransferItem } from '@headless/ui';
+import { Transfer } from '@repo/ui';
+import type { TransferItem } from '@repo/ui';
 import { useState } from 'react';
 
 export function MyComponent() {
@@ -293,8 +293,8 @@ export function MyComponent() {
 <Playground preview={<DemoTransferTeam />} />
 
 ```tsx
-import { Transfer } from '@headless/ui';
-import type { TransferItem } from '@headless/ui';
+import { Transfer } from '@repo/ui';
+import type { TransferItem } from '@repo/ui';
 import { useState } from 'react';
 
 export function MyComponent() {
@@ -357,8 +357,8 @@ export function MyComponent() {
 <Playground preview={<DemoTransferFeature />} />
 
 ```tsx
-import { Transfer } from '@headless/ui';
-import type { TransferItem } from '@headless/ui';
+import { Transfer } from '@repo/ui';
+import type { TransferItem } from '@repo/ui';
 import { useState } from 'react';
 
 export function MyComponent() {
@@ -439,7 +439,7 @@ export function MyComponent() {
 내부 요소별 CSS 클래스를 지정할 수 있습니다.
 
 ```tsx
-import type { TransferClassNames } from '@headless/ui';
+import type { TransferClassNames } from '@repo/ui';
 
 const classNames: TransferClassNames = {
   transfer: 'my-transfer',
@@ -467,7 +467,7 @@ const classNames: TransferClassNames = {
 Transfer 컴포넌트는 Headless 컴포넌트이므로 스타일을 직접 제공하지 않습니다. `classNames` prop을 통해 내부 요소에 CSS 클래스를 적용할 수 있습니다.
 
 ```tsx
-import { Transfer } from '@headless/ui';
+import { Transfer } from '@repo/ui';
 import * as styles from './my-transfer-styles.css';
 
 <Transfer

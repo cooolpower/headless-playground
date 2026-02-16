@@ -11,7 +11,7 @@ import {
 } from './countdown.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { CountdownCss } from '@headless/ui';
+import { CountdownCss } from '@repo/ui';
 
 # Countdown
 
@@ -22,7 +22,7 @@ Countdown은 목표 시간까지의 남은 시간을 실시간으로 표시하�
 ### 사용법
 
 ```tsx
-import { Countdown } from '@headless/ui';
+import { Countdown } from '@repo/ui';
 
 export function MyComponent() {
   const targetTime = Date.now() + 10 * 1000; // 10초 후
@@ -54,7 +54,7 @@ const targetTime = Date.now() + 10 * 1000; // 10초 후
 
 ```tsx
 import { useState } from 'react';
-import { Countdown } from '@headless/ui';
+import { Countdown } from '@repo/ui';
 
 export function MyComponent() {
   const [seconds, setSeconds] = useState(10);

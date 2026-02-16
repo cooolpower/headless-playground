@@ -7,9 +7,7 @@ import { carouselCss as _carouselCss } from './carousel.styles';
 
 export const CarouselCss = _carouselCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   (
@@ -23,7 +21,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { currentValue, handleChange } = useCarousel({
       value,
@@ -35,7 +33,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     return (
       <div
         ref={ref}
-        className={injectStyles ? cx('hcCarousel', className) : className}
+        className={cx('hcCarousel', className)}
         data-disabled={disabled ? 'true' : 'false'}
         {...props}
       >
@@ -45,7 +43,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Carousel.displayName = 'Carousel';

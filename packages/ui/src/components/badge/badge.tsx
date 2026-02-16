@@ -27,7 +27,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { displayCount, shouldShowBadge } = useBadge({
       count,
@@ -41,15 +41,19 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     const shouldDisplay = dot ? true : shouldShowBadge;
 
     // 커스텀 색상이 있는지 확인 (color가 BadgeColor 타입인지 문자열인지)
-    const isCustomColor = typeof color === 'string' && !['default', 'primary', 'success', 'warning', 'danger', 'info'].includes(color);
+    const isCustomColor =
+      typeof color === 'string' &&
+      !['default', 'primary', 'success', 'warning', 'danger', 'info'].includes(
+        color,
+      );
 
     // className을 조합하여 스타일 적용
     const badgeClassName = [
       className,
-      dot ? 'badge-dot' : 'badge-count',
-      !isCustomColor ? `badge-${color}` : undefined,
-      `badge-${size}`,
-      processing ? 'badge-processing' : '',
+      dot ? 'hcBadgeDot' : 'hcBadgeCount',
+      !isCustomColor ? `hcBadge-${color}` : undefined,
+      `hcBadge-${size}`,
+      processing ? 'hcBadgeProcessing' : '',
     ]
       .filter(Boolean)
       .join(' ');
@@ -72,12 +76,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     ) : null;
 
     const badgeElement = (
-      <span
-        ref={ref}
-        className={badgeClassName}
-        style={customStyle}
-        {...props}
-      >
+      <span ref={ref} className={badgeClassName} style={customStyle} {...props}>
         {!dot && displayCount}
       </span>
     );
@@ -92,13 +91,13 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     }
 
     return (
-      <span className="badge-container">
+      <span className="hcBadgeContainer">
         {styleTag}
         {children}
         {shouldDisplay && badgeElement}
       </span>
     );
-  }
+  },
 );
 
 Badge.displayName = 'Badge';

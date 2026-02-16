@@ -20,9 +20,7 @@ export interface IconProps extends UseIconProps {
 
 export const IconCss = _iconCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export function Icon({
   children,
@@ -46,10 +44,7 @@ export function Icon({
     const iconSize = sizeMap[props.size || 'medium'];
 
     return (
-      <span
-        {...iconStyles}
-        className={injectStyles ? cx('hcIcon', className) : className}
-      >
+      <span {...iconStyles} className={cx('hcIcon', className)}>
         {injectStyles && <style suppressHydrationWarning>{_iconCss}</style>}
         {/* Type cast to fix React 18/19 compatibility */}
         {(() => {
@@ -62,10 +57,7 @@ export function Icon({
 
   // Otherwise, render children
   return (
-    <span
-      {...iconStyles}
-      className={injectStyles ? cx('hcIcon', className) : className}
-    >
+    <span {...iconStyles} className={cx('hcIcon', className)}>
       {injectStyles && <style suppressHydrationWarning>{_iconCss}</style>}
       {children}
     </span>

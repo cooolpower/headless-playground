@@ -7,19 +7,14 @@ import { spaceCss as _spaceCss } from './space.styles';
 
 export const SpaceCss = _spaceCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export function Space(props: SpaceProps) {
   const { containerProps } = useSpace(props);
   const { className, children, injectStyles = true } = props;
 
   return (
-    <div
-      {...containerProps}
-      className={injectStyles ? cx('hcSpace', className) : className}
-    >
+    <div {...containerProps} className={cx('hcSpace', className)}>
       {injectStyles && <style suppressHydrationWarning>{_spaceCss}</style>}
       {children}
     </div>

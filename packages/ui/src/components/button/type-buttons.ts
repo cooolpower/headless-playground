@@ -1,7 +1,9 @@
 export interface UseButtonProps {
   disabled?: boolean;
-  type?: string;
-  color?: string;
+  type?: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary';
+  color?: 'info' | 'success' | 'warning' | 'error';
+  size?: 'tiny' | 'small' | 'medium' | 'large' | 'huge';
+  loading?: boolean;
   onClick?: () => void;
   className?: string;
   style?: React.CSSProperties;

@@ -6,6 +6,7 @@ import { Icon } from '../icon/icon';
 import { useSelect, type SelectOption } from './use-select';
 import { SelectProps } from './type-select';
 import { selectCss as _selectCss } from './select.styles';
+import { cx } from '../../utils';
 
 export function Select(props: SelectProps) {
   const {
@@ -53,15 +54,22 @@ export function Select(props: SelectProps) {
   return (
     <div
       {...containerRest}
-      className={className ? `hcSelect ${className}` : 'hcSelect'}
+      className={cx('hcSelect', className)}
       data-open={isOpen ? 'true' : 'false'}
       data-disabled={disabled ? 'true' : 'false'}
       data-size={size}
       data-has-value={hasValue ? 'true' : 'false'}
     >
-      {injectStyles ? <style suppressHydrationWarning>{_selectCss}</style> : null}
+      {injectStyles ? (
+        <style suppressHydrationWarning>{_selectCss}</style>
+      ) : null}
       {/* Trigger */}
-      <div {...triggerRest} className="hcSelectTrigger" role="button" aria-disabled={disabled}>
+      <div
+        {...triggerRest}
+        className="hcSelectTrigger"
+        role="button"
+        aria-disabled={disabled}
+      >
         <div className="hcSelectValue">
           {!multiple && selectedOptions[0]?.iconPreview && (
             <div>{selectedOptions[0].iconPreview}</div>
@@ -72,13 +80,15 @@ export function Select(props: SelectProps) {
               style={{ backgroundColor: selectedOptions[0].colorPreview }}
             />
           )}
-          <span className="hcSelectValueText">
-            {selectedLabel}
-          </span>
+          <span className="hcSelectValueText">{selectedLabel}</span>
         </div>
         <div className="hcSelectIcons">
           {clearButton && (
-            <button {...clearButton} type="button" className="hcSelectClearButton">
+            <button
+              {...clearButton}
+              type="button"
+              className="hcSelectClearButton"
+            >
               <Icon icon={X} size="small" />
             </button>
           )}
@@ -117,9 +127,7 @@ export function Select(props: SelectProps) {
               return (
                 <div key={groupKey}>
                   {hasGroups && groupLabel && (
-                    <div className="hcSelectGroupLabel">
-                      {groupLabel}
-                    </div>
+                    <div className="hcSelectGroupLabel">{groupLabel}</div>
                   )}
 
                   {groupOptions.map((option) => {

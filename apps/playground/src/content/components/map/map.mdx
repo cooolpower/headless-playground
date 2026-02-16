@@ -1,6 +1,6 @@
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { MapCss } from '@headless/ui';
+import { MapCss } from '@repo/ui';
 import {
   DemoMapBasicProvider,
   DemoMapBasicWithControls,
@@ -24,7 +24,7 @@ Map 컴포넌트는 children을 통해 지도 콘텐츠를 받습니다. 실제 
 </DemoMapBasicProvider>
 
 ```tsx
-import { Map } from '@headless/ui';
+import { Map } from '@repo/ui';
 
 export function MyComponent() {
   return (
@@ -41,7 +41,7 @@ export function MyComponent() {
 Google Maps API와 함께 사용하는 예제입니다.
 
 ```tsx
-import { Map } from '@headless/ui';
+import { Map } from '@repo/ui';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 export function MyComponent() {
@@ -71,7 +71,7 @@ export function MyComponent() {
 Naver Maps API와 함께 사용하는 예제입니다.
 
 ```tsx
-import { Map } from '@headless/ui';
+import { Map } from '@repo/ui';
 import { useEffect, useRef } from 'react';
 
 export function MyComponent() {

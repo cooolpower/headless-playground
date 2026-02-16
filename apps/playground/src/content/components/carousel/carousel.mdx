@@ -9,7 +9,7 @@ import {
 } from './carousel.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { CarouselCss } from '@headless/ui';
+import { CarouselCss } from '@repo/ui';
 
 # Carousel
 
@@ -18,7 +18,7 @@ import { CarouselCss } from '@headless/ui';
 ## 사용법
 
 ```tsx
-import { Carousel } from '@headless/ui';
+import { Carousel } from '@repo/ui';
 
 export function MyComponent() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -142,13 +142,13 @@ const customSlides = [
 <Playground preview={<DemoCarouselWithCards />} />
 
 ```tsx
-import { Carousel } from '@headless/ui';
+import { Carousel } from '@repo/ui';
 import {
   Card,
   CardHeader,
   CardContent,
   CardFooter,
-} from '@headless/ui';
+} from '@repo/ui';
 
 const cardSlides = [
   {

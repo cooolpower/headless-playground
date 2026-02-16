@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSnackbar } from './use-snackbar';
 import { SnackbarProps } from './type-snackbar';
 import { snackbarCss as _snackbarCss } from './snackbar.styles';
+import { cx } from '../../utils';
 
 export function Snackbar({
   className,
@@ -75,7 +76,7 @@ export function Snackbar({
     <div
       role="alert"
       aria-live="polite"
-      className={className ? `hcSnackbar ${className}` : 'hcSnackbar'}
+      className={cx('hcSnackbar', className)}
       data-show-progress={showProgress && duration > 0 ? 'true' : 'false'}
       style={{
         zIndex: 9999 - index,
@@ -90,7 +91,7 @@ export function Snackbar({
         <style suppressHydrationWarning>{_snackbarCss}</style>
       ) : null}
       <div className="hcSnackbarBody">
-        <div>{message}</div>
+        <div>{message as any}</div>
         {showProgress && duration > 0 && (
           <div className="hcSnackbarProgressTrack">
             <div
@@ -100,11 +101,7 @@ export function Snackbar({
           </div>
         )}
       </div>
-      {action && (
-        <div className="hcSnackbarAction">
-          {action}
-        </div>
-      )}
+      {!!action && <div className="hcSnackbarAction">{action as any}</div>}
       {closable && onClose && (
         <button
           type="button"

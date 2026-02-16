@@ -12,14 +12,8 @@ export function Toast({
   injectStyles = true,
   ...props
 }: ToastProps) {
-  const {
-    icon,
-    placementStyles,
-    duration,
-    onClose,
-    message,
-    showProgress,
-  } = useToast({ ...props, index, maxCount });
+  const { icon, placementStyles, duration, onClose, message, showProgress } =
+    useToast({ ...props, index, maxCount });
 
   const [progress, setProgress] = useState(100);
   const startTimeRef = useRef<number>(Date.now());
@@ -79,16 +73,19 @@ export function Toast({
       data-show-progress={showProgress && duration > 0 ? 'true' : 'false'}
       style={{
         zIndex: 9999 - index,
-        paddingBottom: showProgress && duration > 0 ? 'calc(var(--spacing-base) + 0.375rem)' : undefined,
+        paddingBottom:
+          showProgress && duration > 0
+            ? 'calc(var(--spacing-base) + 0.375rem)'
+            : undefined,
         ...placementStyles,
       }}
     >
-      {injectStyles ? <style suppressHydrationWarning>{_toastCss}</style> : null}
-      {icon && (
-        <div className="hcToastIcon">{icon}</div>
-      )}
+      {injectStyles ? (
+        <style suppressHydrationWarning>{_toastCss}</style>
+      ) : null}
+      {icon && <div className="hcToastIcon">{icon}</div>}
       <div className="hcToastBody">
-        <div>{message}</div>
+        <div>{message as any}</div>
         {showProgress && duration > 0 && (
           <div className="hcToastProgressTrack">
             <div

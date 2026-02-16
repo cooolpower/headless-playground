@@ -4,6 +4,7 @@ import React, { forwardRef, useRef, useEffect } from 'react';
 //import { DrawerProps } from './drawer';
 import { useDrawer, type DrawerProps } from './use-drawer';
 import { drawerCss as _drawerCss } from './drawer.styles';
+import { cx } from '../../utils';
 
 export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
   (
@@ -124,24 +125,24 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
             {/* Drawer */}
             <div
               ref={drawerRef}
-              className={className ? `hcDrawer ${className}` : 'hcDrawer'}
+              className={cx('hcDrawer', className)}
               data-placement={placement}
               style={drawerStyle}
               role="dialog"
               aria-modal="true"
-              aria-labelledby={title ? 'drawer-title' : undefined}
+              aria-labelledby={!!title ? 'drawer-title' : undefined}
               {...props}
             >
               {/* Header */}
-              {(title || closable || extra) && (
+              {!!(title || closable || extra) && (
                 <div className="hcDrawerHeader">
-                  {title && (
+                  {!!title && (
                     <div id="drawer-title" className="hcDrawerTitle">
-                      {title}
+                      {title as any}
                     </div>
                   )}
                   <div className="hcDrawerHeaderRight">
-                    {extra}
+                    {extra as any}
                     {closable && (
                       <button
                         type="button"
@@ -157,10 +158,12 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
               )}
 
               {/* Body */}
-              <div className="hcDrawerBody">{children}</div>
+              <div className="hcDrawerBody">{children as any}</div>
 
               {/* Footer */}
-              {footer && <div className="hcDrawerFooter">{footer}</div>}
+              {!!footer && (
+                <div className="hcDrawerFooter">{footer as any}</div>
+              )}
             </div>
           </div>
         </div>

@@ -7,17 +7,14 @@ import { Icon } from '../icon/icon';
 import { useTextarea } from './use-textarea';
 import { TextareaProps } from './type-textarea';
 import { textareaCss as _textareaCss } from './textarea.styles';
+import { cx } from '../../utils';
 
 export const TextareaCss = _textareaCss;
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (props, ref) => {
-    const {
-      textareaProps,
-      wrapperProps,
-      clearButtonProps,
-      textareaRef,
-    } = useTextarea(props);
+    const { textareaProps, wrapperProps, clearButtonProps, textareaRef } =
+      useTextarea(props);
 
     const {
       className,
@@ -40,22 +37,20 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref.current = node;
         }
       },
-      [ref, textareaRef]
+      [ref, textareaRef],
     );
 
     return (
       <div
         {...wrapperProps}
-        className={['hcTextareaWrap', className].filter(Boolean).join(' ')}
+        className={cx('hcTextareaWrap', className)}
         data-disabled={disabled ? 'true' : undefined}
       >
-        {injectStyles && (
-          <style suppressHydrationWarning>{_textareaCss}</style>
-        )}
+        {injectStyles && <style suppressHydrationWarning>{_textareaCss}</style>}
         <textarea
           ref={mergedRef}
-          {...textareaProps}
-          className={['hcTextarea', textareaProps.className].filter(Boolean).join(' ')}
+          {...(textareaProps as any)}
+          className={cx('hcTextarea', textareaProps.className)}
           data-size={size}
           data-disabled={disabled ? 'true' : 'false'}
           style={{
@@ -63,7 +58,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             ...(textareaStyle || {}),
             // resize는 항상 props에서 가져온 값으로 설정 (textareaStyle에 의해 덮어씌워지지 않도록)
             // autoResize가 활성화되면 resize는 'none'으로 설정됨
-            resize: autoResize ? 'none' : (resize || 'vertical'),
+            resize: autoResize ? 'none' : resize || 'vertical',
           }}
         />
 
@@ -71,9 +66,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           <button
             {...clearButtonProps}
             type="button"
-            className={['hcTextareaClear', clearButtonClassName]
-              .filter(Boolean)
-              .join(' ')}
+            className={cx('hcTextareaClear', clearButtonClassName)}
             aria-label="텍스트 영역 지우기"
           >
             <Icon icon={X} size="small" />
@@ -81,7 +74,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Textarea.displayName = 'Textarea';

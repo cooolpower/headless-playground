@@ -10,9 +10,7 @@ import { dynamicInputCss as _dynamicInputCss } from './dynamic-input.styles';
 
 export const DynamicInputCss = _dynamicInputCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export function DynamicInput(props: DynamicInputProps) {
   const {
@@ -59,17 +57,17 @@ export function DynamicInput(props: DynamicInputProps) {
 
   return (
     <div
-      className={
-        injectStyles ? cx('hcDynamicInput', className) : className || classNames?.dynamicInput
-      }
+      className={cx('hcDynamicInput', className, classNames?.dynamicInput)}
       data-disabled={disabled ? 'true' : 'false'}
     >
-      {injectStyles && <style suppressHydrationWarning>{_dynamicInputCss}</style>}
+      {injectStyles && (
+        <style suppressHydrationWarning>{_dynamicInputCss}</style>
+      )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {inputs.map((inputValue, index) => (
           <div
             key={index}
-            className={injectStyles ? 'hcDynamicInputItem' : classNames?.inputItem}
+            className={cx('hcDynamicInputItem', classNames?.inputItem)}
             style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
             {renderInput ? (
@@ -84,7 +82,7 @@ export function DynamicInput(props: DynamicInputProps) {
                 placeholder={getPlaceholder(index)}
                 disabled={disabled}
                 size={size}
-                className={injectStyles ? 'hcDynamicInputItemInput' : classNames?.input}
+                className={cx('hcDynamicInputItemInput', classNames?.input)}
                 style={{ flex: 1 }}
               />
             )}
@@ -93,7 +91,10 @@ export function DynamicInput(props: DynamicInputProps) {
                 type="button"
                 onClick={() => handleRemoveInput(index)}
                 disabled={disabled}
-                className={injectStyles ? 'hcDynamicInputRemoveButton' : classNames?.removeButton}
+                className={cx(
+                  'hcDynamicInputRemoveButton',
+                  classNames?.removeButton,
+                )}
                 aria-label={`${index + 1}번째 입력 필드 제거`}
               >
                 <Icon icon={X} size="small" />
@@ -106,7 +107,7 @@ export function DynamicInput(props: DynamicInputProps) {
             type="button"
             onClick={handleAddInput}
             disabled={disabled}
-            className={injectStyles ? 'hcDynamicInputAddButton' : classNames?.addButton}
+            className={cx('hcDynamicInputAddButton', classNames?.addButton)}
             aria-label="입력 필드 추가"
           >
             <Icon icon={Plus} size="small" />

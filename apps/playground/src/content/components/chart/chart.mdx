@@ -4,7 +4,7 @@ Chart 컴포넌트는 데이터 시각화를 위한 차트를 표시하는 Headl
 
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { ChartCss } from '@headless/ui';
+import { ChartCss } from '@repo/ui';
 import {
   DemoChartBasicProvider,
   DemoChartBasicWithControls,
@@ -29,7 +29,7 @@ Chart 컴포넌트는 children을 통해 차트 콘텐츠를 받습니다. 실�
 </DemoChartBasicProvider>
 
 ```tsx
-import { Chart } from '@headless/ui';
+import { Chart } from '@repo/ui';
 import { Line } from 'react-chartjs-2';
 
 export function MyComponent() {
@@ -58,7 +58,7 @@ export function MyComponent() {
 <Playground preview={<DemoChartLine />} />
 
 ```tsx
-import { Chart } from '@headless/ui';
+import { Chart } from '@repo/ui';
 import { Line } from 'react-chartjs-2';
 
 const data = {
@@ -89,7 +89,7 @@ export function MyComponent() {
 <Playground preview={<DemoChartBar />} />
 
 ```tsx
-import { Chart } from '@headless/ui';
+import { Chart } from '@repo/ui';
 import { Bar } from 'react-chartjs-2';
 
 const data = {
@@ -119,7 +119,7 @@ export function MyComponent() {
 <Playground preview={<DemoChartPie />} />
 
 ```tsx
-import { Chart } from '@headless/ui';
+import { Chart } from '@repo/ui';
 import { Pie } from 'react-chartjs-2';
 
 const data = {
@@ -154,7 +154,7 @@ export function MyComponent() {
 <Playground preview={<DemoChartDoughnut />} />
 
 ```tsx
-import { Chart } from '@headless/ui';
+import { Chart } from '@repo/ui';
 import { Doughnut } from 'react-chartjs-2';
 
 const data = {
@@ -187,7 +187,7 @@ export function MyComponent() {
 <Playground preview={<DemoChartRadar />} />
 
 ```tsx
-import { Chart } from '@headless/ui';
+import { Chart } from '@repo/ui';
 import { Radar } from 'react-chartjs-2';
 
 const data = {
@@ -218,7 +218,7 @@ export function MyComponent() {
 <Playground preview={<DemoChartPolarArea />} />
 
 ```tsx
-import { Chart } from '@headless/ui';
+import { Chart } from '@repo/ui';
 import { PolarArea } from 'react-chartjs-2';
 
 const data = {

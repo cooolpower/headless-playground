@@ -12,7 +12,7 @@ import {
 } from './tree.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { TreeCss } from '@headless/ui';
+import { TreeCss } from '@repo/ui';
 
 # Tree
 
@@ -34,8 +34,8 @@ Tree 컴포넌트는 `treeData` prop을 통해 데이터를 전달받습니다.
 <Playground preview={<DemoTreeBasic />} />
 
 ```tsx
-import { Tree } from '@headless/ui';
-import type { TreeNodeData } from '@headless/ui';
+import { Tree } from '@repo/ui';
+import type { TreeNodeData } from '@repo/ui';
 
 const treeData: TreeNodeData[] = [
   {

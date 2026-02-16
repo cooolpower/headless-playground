@@ -11,9 +11,7 @@ import { dynamicTagsCss as _dynamicTagsCss } from './dynamic-tags.styles';
 
 export const DynamicTagsCss = _dynamicTagsCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export function DynamicTags(props: DynamicTagsProps) {
   const {
@@ -60,12 +58,12 @@ export function DynamicTags(props: DynamicTagsProps) {
 
   return (
     <div
-      className={
-        injectStyles ? cx('hcDynamicTags', className) : className || classNames?.dynamicTags
-      }
+      className={cx('hcDynamicTags', className, classNames?.dynamicTags)}
       data-disabled={disabled ? 'true' : 'false'}
     >
-      {injectStyles && <style suppressHydrationWarning>{_dynamicTagsCss}</style>}
+      {injectStyles && (
+        <style suppressHydrationWarning>{_dynamicTagsCss}</style>
+      )}
       <div
         style={{
           display: 'flex',
@@ -77,7 +75,7 @@ export function DynamicTags(props: DynamicTagsProps) {
         {tags.map((tag, index) => (
           <div
             key={`${tag}-${index}`}
-            className={injectStyles ? 'hcDynamicTagsTag' : classNames?.tag}
+            className={cx('hcDynamicTagsTag', classNames?.tag)}
             style={sizeStyles[size]}
           >
             {renderTag ? (
@@ -115,7 +113,9 @@ export function DynamicTags(props: DynamicTagsProps) {
         ))}
         {canAdd && (
           <div
-            className={injectStyles ? 'hcDynamicTagsTagInput' : classNames?.tagInput}
+            className={
+              injectStyles ? 'hcDynamicTagsTagInput' : classNames?.tagInput
+            }
             style={{ display: 'inline-flex' }}
           >
             <Input
@@ -127,7 +127,7 @@ export function DynamicTags(props: DynamicTagsProps) {
               placeholder={placeholder}
               disabled={disabled}
               size={size}
-              className={injectStyles ? 'hcDynamicTagsTagInput' : classNames?.tagInput}
+              className={cx('hcDynamicTagsTagInput', classNames?.tagInput)}
               style={{
                 width: '120px',
                 height: '34px',
@@ -145,7 +145,7 @@ export function DynamicTags(props: DynamicTagsProps) {
               }
             }}
             disabled={disabled || !inputValue.trim()}
-            className={injectStyles ? 'hcDynamicTagsAddButton' : classNames?.addButton}
+            className={cx('hcDynamicTagsAddButton', classNames?.addButton)}
             style={{
               border: injectStyles ? undefined : 'none',
               background: injectStyles ? undefined : 'none',

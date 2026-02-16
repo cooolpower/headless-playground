@@ -6,6 +6,8 @@ import { useAlert } from './use-alert';
 import { AlertProps } from './type-alert';
 import { alertCss as _alertCss } from './alert.styles';
 
+import { cx } from '../../utils';
+
 export const AlertCss = _alertCss;
 
 export function Alert(props: AlertProps) {
@@ -24,7 +26,7 @@ export function Alert(props: AlertProps) {
   return (
     <div
       {...containerProps}
-      className={[containerProps.className, className].filter(Boolean).join(' ')}
+      className={cx(containerProps.className, className)}
     >
       {injectStyles && <style suppressHydrationWarning>{_alertCss}</style>}
       {iconProps && icon && (
@@ -34,15 +36,15 @@ export function Alert(props: AlertProps) {
       )}
 
       <div {...contentProps} className={contentProps.className}>
-        {titleProps && title && (
+        {!!titleProps && !!title && (
           <div {...titleProps} className={titleProps.className}>
-            {title}
+            {title as any}
           </div>
         )}
 
-        {descriptionProps && description && (
+        {!!descriptionProps && !!description && (
           <div {...descriptionProps} className={descriptionProps.className}>
-            {description}
+            {description as any}
           </div>
         )}
       </div>

@@ -12,7 +12,7 @@ import {
 } from './tabs.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { TabsCss } from '@headless/ui';
+import { TabsCss } from '@repo/ui';
 
 # Tabs
 
@@ -23,8 +23,8 @@ Tabs는 여러 콘텐츠 영역을 탭으로 구분하여 표시하고 전환할
 ### 사용법
 
 ```tsx
-import { Tabs } from '@headless/ui';
-import type { TabItem } from '@headless/ui';
+import { Tabs } from '@repo/ui';
+import type { TabItem } from '@repo/ui';
 
 const items: TabItem[] = [
   {
@@ -91,7 +91,7 @@ const items: TabItem[] = [
 <Playground preview={<DemoTabsWithIcons />} />
 
 ```tsx
-import { Icon } from '@headless/ui';
+import { Icon } from '@repo/ui';
 import { Home, User, Settings } from 'lucide-react';
 
 const items: TabItem[] = [

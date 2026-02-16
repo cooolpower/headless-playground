@@ -11,7 +11,7 @@ import {
 } from './menu.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { MenuCss } from '@headless/ui';
+import { MenuCss } from '@repo/ui';
 
 # Menu
 
@@ -33,8 +33,8 @@ Menu 컴포넌트는 `items` prop을 통해 메뉴 항목을 전달받습니다.
 <Playground preview={<DemoMenuBasic />} />
 
 ```tsx
-import { Menu } from '@headless/ui';
-import type { MenuItem } from '@headless/ui';
+import { Menu } from '@repo/ui';
+import type { MenuItem } from '@repo/ui';
 import { useState } from 'react';
 
 const menuItems: MenuItem[] = [
@@ -57,8 +57,8 @@ export function MyComponent() {
 ```
 
 ```tsx
-import { Menu } from '@headless/ui';
-import type { MenuItem } from '@headless/ui';
+import { Menu } from '@repo/ui';
+import type { MenuItem } from '@repo/ui';
 
 const menuItems: MenuItem[] = [
   { key: '1', label: 'Option 1' },
@@ -87,7 +87,7 @@ export function MyComponent() {
 
 ```tsx
 import { Home, Settings, User } from 'lucide-react';
-import { Icon } from '@headless/ui';
+import { Icon } from '@repo/ui';
 
 const menuItems: MenuItem[] = [
   { key: '1', label: 'Home', icon: <Icon icon={Home} size="small" /> },
@@ -106,7 +106,7 @@ const menuItems: MenuItem[] = [
 
 ```tsx
 import { Home, Settings, Image } from 'lucide-react';
-import { Icon } from '@headless/ui';
+import { Icon } from '@repo/ui';
 
 const menuItems: MenuItem[] = [
   { key: '1', label: 'Home', icon: <Icon icon={Home} size="small" /> },
@@ -127,7 +127,7 @@ const menuItems: MenuItem[] = [
 
 ```tsx
 import { Folder } from 'lucide-react';
-import { Icon } from '@headless/ui';
+import { Icon } from '@repo/ui';
 import { useState } from 'react';
 
 const menuItems: MenuItem[] = [

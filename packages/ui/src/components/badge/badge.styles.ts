@@ -10,13 +10,13 @@ export const badgeCss = `
   --hc-badge-min-w-lg: 1.25rem;
 }
 
-.badge-container{
+.hcBadgeContainer{
   position: relative;
   display: inline-flex;
 }
 
-.badge-count,
-.badge-dot{
+.hcBadgeCount,
+.hcBadgeDot{
   position: absolute;
   top: 0;
   right: 0;
@@ -32,58 +32,58 @@ export const badgeCss = `
   box-sizing: border-box;
 }
 
-.badge-count.badge-small{
+.hcBadgeCount.hcBadge-small{
   height: var(--hc-badge-height-sm);
   min-width: var(--hc-badge-min-w-sm);
   padding: 0 var(--spacing-2xs);
 }
-.badge-count.badge-medium{
+.hcBadgeCount.hcBadge-medium{
   height: var(--hc-badge-height-md);
   min-width: var(--hc-badge-min-w-md);
   padding: 0 var(--spacing-xs);
 }
-.badge-count.badge-large{
+.hcBadgeCount.hcBadge-large{
   height: var(--hc-badge-height-lg);
   min-width: var(--hc-badge-min-w-lg);
   padding: 0 var(--spacing-sm);
 }
 
-.badge-dot{
+.hcBadgeDot{
   width: 0.5rem;
   height: 0.5rem;
   padding: 0;
   min-width: 0;
 }
-.badge-dot.badge-small{ width: 0.375rem; height: 0.375rem; }
-.badge-dot.badge-medium{ width: 0.5rem; height: 0.5rem; }
-.badge-dot.badge-large{ width: 0.625rem; height: 0.625rem; }
+.hcBadgeDot.hcBadge-small{ width: 0.375rem; height: 0.375rem; }
+.hcBadgeDot.hcBadge-medium{ width: 0.5rem; height: 0.5rem; }
+.hcBadgeDot.hcBadge-large{ width: 0.625rem; height: 0.625rem; }
 
-.badge-default{
+.hcBadge-default{
   background: var(--color-text-secondary);
   color: var(--color-text-on-primary);
   border: var(--border-width-thin) solid var(--color-border);
 }
-.badge-primary{
+.hcBadge-primary{
   background: var(--color-brand-primary);
   color: var(--color-text-on-primary);
   border: none;
 }
-.badge-success{
+.hcBadge-success{
   background: var(--color-semantic-success);
   color: var(--color-text-on-success);
   border: none;
 }
-.badge-warning{
+.hcBadge-warning{
   background: var(--color-semantic-warning);
   color: var(--color-text-on-warning);
   border: none;
 }
-.badge-danger{
+.hcBadge-danger{
   background: var(--color-semantic-error);
   color: var(--color-text-on-error);
   border: none;
 }
-.badge-info{
+.hcBadge-info{
   background: var(--color-semantic-info);
   color: var(--color-text-on-info);
   border: none;
@@ -95,7 +95,7 @@ export const badgeCss = `
   100%{ box-shadow: 0 0 0 0 transparent; }
 }
 
-.badge-processing{
+.hcBadgeProcessing{
   animation: hcBadgePulse 1.2s ease-out infinite;
 }
 `;

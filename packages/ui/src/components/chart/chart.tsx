@@ -7,9 +7,7 @@ import { chartCss as _chartCss } from './chart.styles';
 
 export const ChartCss = _chartCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export const Chart = forwardRef<HTMLDivElement, ChartProps>(
   (
@@ -23,7 +21,7 @@ export const Chart = forwardRef<HTMLDivElement, ChartProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { currentValue, handleChange } = useChart({
       value,
@@ -35,7 +33,7 @@ export const Chart = forwardRef<HTMLDivElement, ChartProps>(
     return (
       <div
         ref={ref}
-        className={injectStyles ? cx('hcChart', className) : className}
+        className={cx('hcChart', className)}
         data-disabled={disabled ? 'true' : 'false'}
         {...props}
       >
@@ -45,7 +43,7 @@ export const Chart = forwardRef<HTMLDivElement, ChartProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Chart.displayName = 'Chart';

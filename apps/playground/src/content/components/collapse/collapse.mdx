@@ -11,7 +11,7 @@ import {
 } from './collapse.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { CollapseCss } from '@headless/ui';
+import { CollapseCss } from '@repo/ui';
 
 # Collapse
 
@@ -33,7 +33,7 @@ Collapse 컴포넌트는 `Collapse.Panel`을 children으로 받습니다.
 <Playground preview={<DemoCollapseBasic />} />
 
 ```tsx
-import { Collapse } from '@headless/ui';
+import { Collapse } from '@repo/ui';
 
 export function MyComponent() {
   return (
@@ -56,7 +56,7 @@ export function MyComponent() {
 <Playground preview={<DemoCollapseAccordion />} />
 
 ```tsx
-import { Collapse } from '@headless/ui';
+import { Collapse } from '@repo/ui';
 
 export function MyComponent() {
   return (
@@ -82,7 +82,7 @@ export function MyComponent() {
 <Playground preview={<DemoCollapseDefaultActive />} />
 
 ```tsx
-import { Collapse } from '@headless/ui';
+import { Collapse } from '@repo/ui';
 
 export function MyComponent() {
   return (
@@ -109,7 +109,7 @@ export function MyComponent() {
 
 ```tsx
 import { useState } from 'react';
-import { Collapse } from '@headless/ui';
+import { Collapse } from '@repo/ui';
 
 export function MyComponent() {
   const [activeKey, setActiveKey] = useState<string[]>(['1']);
@@ -140,7 +140,7 @@ export function MyComponent() {
 <Playground preview={<DemoCollapseWithExtra />} />
 
 ```tsx
-import { Collapse } from '@headless/ui';
+import { Collapse } from '@repo/ui';
 
 export function MyComponent() {
   return (
@@ -175,7 +175,7 @@ export function MyComponent() {
 <Playground preview={<DemoCollapseDisabled />} />
 
 ```tsx
-import { Collapse } from '@headless/ui';
+import { Collapse } from '@repo/ui';
 
 export function MyComponent() {
   return (

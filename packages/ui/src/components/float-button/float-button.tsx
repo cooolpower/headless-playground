@@ -13,13 +13,15 @@ import { floatButtonCss as _floatButtonCss } from './float-button.styles';
 export const FloatButtonCss = _floatButtonCss;
 
 export function FloatButton(
-  props: UseFloatButtonProps & { children: ReactNode }
+  props: UseFloatButtonProps & { children: ReactNode },
 ) {
   const { injectStyles = true } = props;
   const floatButton = useFloatButton(props);
   return (
     <button {...floatButton}>
-      {injectStyles && <style suppressHydrationWarning>{_floatButtonCss}</style>}
+      {injectStyles && (
+        <style suppressHydrationWarning>{_floatButtonCss}</style>
+      )}
       {props.children}
     </button>
   );
@@ -55,12 +57,10 @@ export function FloatButtonGroup(props: UseFloatButtonGroupProps) {
   // 각 FloatButton에 inGroup prop을 추가
   const childrenWithInGroup = Children.map(props.children, (child) => {
     if (child && typeof child === 'object' && 'props' in child) {
-      return cloneElement(
-        child as React.ReactElement<
-          UseFloatButtonProps & { children: ReactNode }
-        >,
-        { inGroup: true, ...(injectStyles ? { injectStyles: false } : {}) }
-      );
+      return cloneElement(child as any, {
+        inGroup: true,
+        ...(injectStyles ? { injectStyles: false } : {}),
+      });
     }
     return child;
   });
@@ -68,9 +68,13 @@ export function FloatButtonGroup(props: UseFloatButtonGroupProps) {
   return (
     <div
       {...floatButtonGroup}
-      className={[floatButtonGroup.className, className].filter(Boolean).join(' ')}
+      className={[floatButtonGroup.className, className]
+        .filter(Boolean)
+        .join(' ')}
     >
-      {injectStyles && <style suppressHydrationWarning>{_floatButtonCss}</style>}
+      {injectStyles && (
+        <style suppressHydrationWarning>{_floatButtonCss}</style>
+      )}
       {childrenWithInGroup}
     </div>
   );
@@ -124,7 +128,9 @@ export function FloatButtonBackTop({
 
   return (
     <button {...buttonProps} style={{ ...buttonProps.style }}>
-      {injectStyles && <style suppressHydrationWarning>{_floatButtonCss}</style>}
+      {injectStyles && (
+        <style suppressHydrationWarning>{_floatButtonCss}</style>
+      )}
       {props.children}
     </button>
   );
