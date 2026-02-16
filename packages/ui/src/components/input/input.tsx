@@ -7,6 +7,7 @@ import { Icon } from '../icon/icon';
 import { useInput } from './use-input';
 import { InputProps } from './type-input';
 import { inputCss as _inputCss } from './input.styles';
+import { cx } from '../../utils';
 
 export function Input(props: InputProps) {
   const {
@@ -29,20 +30,26 @@ export function Input(props: InputProps) {
   } = props;
 
   const wrapperRest = { ...(wrapperProps as any), style: undefined };
-  const inputRest = { ...(inputProps as any), style: undefined, className: undefined };
+  const inputRest = {
+    ...(inputProps as any),
+    style: undefined,
+    className: undefined,
+  };
 
   return (
     <div
       {...wrapperRest}
-      className={className ? `hcInputRoot ${className}` : 'hcInputRoot'}
+      className={cx('hcInputRoot', className)}
       data-disabled={disabled ? 'true' : undefined}
       data-size={size}
       data-focused={isFocused ? 'true' : 'false'}
     >
-      {injectStyles ? <style suppressHydrationWarning>{_inputCss}</style> : null}
+      {injectStyles ? (
+        <style suppressHydrationWarning>{_inputCss}</style>
+      ) : null}
       <input
         {...inputRest}
-        className={props.inputClassName ? `hcInput ${props.inputClassName}` : 'hcInput'}
+        className={cx('hcInput', props.inputClassName)}
         style={inputStyle}
       />
 
@@ -50,11 +57,7 @@ export function Input(props: InputProps) {
         <button
           {...clearButtonProps}
           type="button"
-          className={
-            clearButtonClassName
-              ? `hcInputClearButton ${clearButtonClassName}`
-              : 'hcInputClearButton'
-          }
+          className={cx('hcInputClearButton', clearButtonClassName)}
           aria-label="Clear input"
         >
           <Icon icon={X} size="small" />
@@ -65,11 +68,7 @@ export function Input(props: InputProps) {
         <button
           {...passwordToggleProps}
           type="button"
-          className={
-            passwordToggleClassName
-              ? `hcInputPasswordToggle ${passwordToggleClassName}`
-              : 'hcInputPasswordToggle'
-          }
+          className={cx('hcInputPasswordToggle', passwordToggleClassName)}
           aria-label={showPasswordText ? 'Hide password' : 'Show password'}
         >
           <Icon icon={showPasswordText ? EyeOff : Eye} size="small" />

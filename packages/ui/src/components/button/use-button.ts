@@ -11,7 +11,9 @@ export function useButton({
   style,
   title,
   type,
-  color
+  color,
+  size,
+  loading
 }: UseButtonProps) {
   const handleClick = useCallback(() => {
     if (disabled) return;
@@ -25,8 +27,10 @@ export function useButton({
     'data-disabled': disabled ? 'true' : 'false',
     'data-button-type': type,
     'data-button-color': color,
+    'data-button-size': size,
+    'data-loading': loading ? 'true' : 'false',
     onClick: handleClick,
-    className: [style && 'hcButton', className].filter(Boolean).join(' '),
+    className: ['hcButton', loading && 'loading', className].filter(Boolean).join(' '),
     style,
     title,
   };

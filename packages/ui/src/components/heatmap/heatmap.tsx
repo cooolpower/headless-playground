@@ -7,9 +7,7 @@ import { heatmapCss as _heatmapCss } from './heatmap.styles';
 
 export const HeatmapCss = _heatmapCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export const Heatmap = forwardRef<HTMLDivElement, heatmapProps>(
   (
@@ -23,7 +21,7 @@ export const Heatmap = forwardRef<HTMLDivElement, heatmapProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { currentValue, handleChange } = useheatmap({
       value,
@@ -35,17 +33,17 @@ export const Heatmap = forwardRef<HTMLDivElement, heatmapProps>(
     return (
       <div
         ref={ref}
-        className={injectStyles ? cx('hcHeatmap', className) : className}
+        className={cx('hcHeatmap', className)}
         data-disabled={disabled ? 'true' : 'false'}
         {...props}
       >
         {injectStyles && <style suppressHydrationWarning>{_heatmapCss}</style>}
-        {children ?? (
+        {children || (
           <div>Heatmap Component - Value: {JSON.stringify(currentValue)}</div>
         )}
       </div>
     );
-  }
+  },
 );
 
 Heatmap.displayName = 'Heatmap';

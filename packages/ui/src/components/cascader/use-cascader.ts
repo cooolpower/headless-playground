@@ -100,6 +100,10 @@ export function useCascader({
       onClose?.();
     } else {
       setIsOpen(true);
+      // 열 때 값이 있으면 해당 경로를 활성 경로로 설정
+      if (value.length > 0) {
+        setActivePath(value); // 전체 경로를 활성 경로로 설정하여 현재 선택된 위치에서 탐색 시작
+      }
       onOpen?.();
     }
   }, [disabled, isOpen, onClose, onOpen]);

@@ -7,7 +7,7 @@ import {
 } from './auto-complete.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { AutocompleteCss } from '@headless/ui';
+import { AutocompleteCss } from '@repo/ui';
 
 # Auto Complete
 
@@ -25,8 +25,8 @@ Auto Complete 컴포넌트를 사용하여 자동완성 기능을 구현할 수 
 </DemoAutocompleteBasicProvider>
 
 ```tsx
-import { Autocomplete } from '@headless/ui';
-import { Input } from '@headless/ui';
+import { Autocomplete } from '@repo/ui';
+import { Input } from '@repo/ui';
 
 export function MyComponent() {
   const [value, setValue] = useState('');
@@ -57,8 +57,8 @@ export function MyComponent() {
 
 ```tsx
 import { useState } from 'react';
-import { Autocomplete } from '@headless/ui';
-import { Input } from '@headless/ui';
+import { Autocomplete } from '@repo/ui';
+import { Input } from '@repo/ui';
 
 export function MyComponent() {
   const [value, setValue] = useState('');

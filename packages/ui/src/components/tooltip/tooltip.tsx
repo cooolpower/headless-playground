@@ -4,6 +4,7 @@ import React, { forwardRef, useState, useRef } from 'react';
 import { TooltipProps } from './type-tooltip';
 import { useTooltip } from './use-tooltip';
 import { tooltipCss as _tooltipCss } from './tooltip.styles';
+import { cx } from '../../utils';
 
 export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
   (
@@ -19,7 +20,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [uncontrolledVisible, setUncontrolledVisible] = useState(false);
     const triggerRef = useRef<HTMLDivElement>(null);
@@ -38,13 +39,18 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       },
       trigger,
       placement,
-      triggerRef: triggerRef as React.RefObject<HTMLElement>,
-      tooltipRef: tooltipRef as React.RefObject<HTMLElement>,
+      triggerRef: triggerRef as any,
+      tooltipRef: tooltipRef as any,
     });
 
     return (
       <>
-        <div ref={triggerRef} className={className} {...triggerProps} {...props}>
+        <div
+          ref={triggerRef}
+          className={className}
+          {...triggerProps}
+          {...props}
+        >
           {children}
         </div>
 
@@ -52,11 +58,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
           <div
             ref={tooltipRef}
             role="tooltip"
-            className={
-              overlayClassName
-                ? `hcTooltipOverlay ${overlayClassName}`
-                : 'hcTooltipOverlay'
-            }
+            className={cx('hcTooltipOverlay', overlayClassName)}
             {...tooltipProps}
           >
             {injectStyles ? (
@@ -68,7 +70,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
         )}
       </>
     );
-  }
+  },
 );
 
 Tooltip.displayName = 'Tooltip';

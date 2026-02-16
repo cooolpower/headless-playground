@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { useRadio, useRadioGroup, RadioGroupContext } from './use-radio';
 import { RadioProps, RadioGroupProps } from './type-radio';
 import { radioCss as _radioCss } from './radio.styles';
+import { cx } from '../../utils';
 
 export const RadioCss = _radioCss;
 
@@ -18,8 +19,8 @@ export function Radio(props: RadioProps) {
 
   return (
     <label
-      className={['hcRadioLabel', className].filter(Boolean).join(' ')}
-      data-disabled={(disabled || ctx?.disabled) ? 'true' : 'false'}
+      className={cx('hcRadioLabel', className)}
+      data-disabled={disabled || ctx?.disabled ? 'true' : 'false'}
     >
       {injectStyles && <style suppressHydrationWarning>{_radioCss}</style>}
       <input {...inputProps} />
@@ -35,7 +36,7 @@ export function RadioGroup(props: RadioGroupProps) {
 
   return (
     <RadioGroupContext.Provider value={contextValue}>
-      <div className={['hcRadioGroup', className].filter(Boolean).join(' ')} role="radiogroup">
+      <div className={cx('hcRadioGroup', className)} role="radiogroup">
         {injectStyles && <style suppressHydrationWarning>{_radioCss}</style>}
         {children}
       </div>

@@ -5,6 +5,7 @@ import { useModal } from './use-modal';
 import { Button } from '../button/buttons';
 import { ModalProps } from './type-modal';
 import { modalCss as _modalCss } from './modal.styles';
+import { cx } from '../../utils';
 
 export function Modal(props: ModalProps) {
   const { maskProps, modalProps, closeButtonProps, handleConfirm } =
@@ -31,10 +32,7 @@ export function Modal(props: ModalProps) {
         aria-hidden="true"
       />
       <div className="hcModalWrap">
-        <div
-          {...(modalProps as any)}
-          className={className ? `hcModal ${className}` : 'hcModal'}
-        >
+        <div {...(modalProps as any)} className={cx('hcModal', className)}>
           {/* Header */}
           {(title || closeButtonProps) && (
             <div className="hcModalHeader">

@@ -29,7 +29,7 @@ import {
 } from './slider.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { SliderCss } from '@headless/ui';
+import { SliderCss } from '@repo/ui';
 
 # Slider
 
@@ -40,7 +40,7 @@ Slider는 사용자가 마우스나 키보드로 값을 조정할 수 있는 범
 ### 사용법
 
 ```tsx
-import { Slider } from '@headless/ui';
+import { Slider } from '@repo/ui';
 
 export function MyComponent() {
   const [value, setValue] = useState(20);
@@ -353,8 +353,8 @@ const getRailColor = (val: number) => {
 <Playground preview={<DemoSliderVerticalWithControls />} />
 
 ```tsx
-import { Input } from '@headless/ui';
-import { Icon } from '@headless/ui';
+import { Input } from '@repo/ui';
+import { Icon } from '@repo/ui';
 import { Minus, Plus } from 'lucide-react';
 
 const [value, setValue] = useState(50);
@@ -464,8 +464,8 @@ const [value, setValue] = useState(50);
 <Playground preview={<DemoSliderCustomizeHandle />} />
 
 ```tsx
-import { Input } from '@headless/ui';
-import { Icon } from '@headless/ui';
+import { Input } from '@repo/ui';
+import { Icon } from '@repo/ui';
 import { Minus, Plus } from 'lucide-react';
 
 const [value, setValue] = useState(50);

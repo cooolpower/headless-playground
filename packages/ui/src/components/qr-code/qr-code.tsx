@@ -7,11 +7,10 @@ import { qrCodeCss as _qrCodeCss } from './qr-code.styles';
 
 export const QrCodeCss = _qrCodeCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
+import { Watermark } from '../watermark/watermark';
 
-export const QrCode = forwardRef<HTMLDivElement, qrcodeProps>(
+export const QRCode = forwardRef<HTMLDivElement, qrcodeProps>(
   (
     {
       value,
@@ -19,31 +18,60 @@ export const QrCode = forwardRef<HTMLDivElement, qrcodeProps>(
       onChange,
       disabled = false,
       className,
-      injectStyles = true,
       children,
+      injectStyles = true,
+      size,
+      level,
+      margin,
+      color,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const { currentValue, handleChange } = useqrcode({
+    const { currentValue, svgData, isLoading } = useqrcode({
       value,
       defaultValue,
       onChange,
       disabled,
+      width: size,
+      errorCorrectionLevel: level,
+      margin,
+      color,
     });
 
     return (
       <div
         ref={ref}
-        className={injectStyles ? cx('hcQrCode', className) : className}
+        className={cx('hcQrCode', className)}
         data-disabled={disabled ? 'true' : 'false'}
+        data-loading={isLoading ? 'true' : 'false'}
         {...props}
       >
         {injectStyles && <style suppressHydrationWarning>{_qrCodeCss}</style>}
-        {children ?? <div>QrCode Component - Value: {JSON.stringify(currentValue)}</div>}
+        {children || (
+          <div className="hcQrCodeContent">
+            {disabled ? (
+              <Watermark text="DISABLED">
+                <div
+                  dangerouslySetInnerHTML={{ __html: svgData }}
+                  className="hcQrCodeSvg"
+                />
+              </Watermark>
+            ) : svgData ? (
+              <div
+                dangerouslySetInnerHTML={{ __html: svgData }}
+                className="hcQrCodeSvg"
+              />
+            ) : (
+              <div className="hcQrCodePlaceholder">
+                {currentValue ? 'Generating...' : 'No Value'}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
-  }
+  },
 );
 
-QrCode.displayName = 'QrCode';
+QRCode.displayName = 'QRCode';

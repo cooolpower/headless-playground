@@ -1,6 +1,4 @@
-'use client';
-
-// components/headless/alert/use-alert.ts
+import React from 'react';
 
 export interface UseAlertProps {
   type?: 'success' | 'info' | 'warning' | 'error';

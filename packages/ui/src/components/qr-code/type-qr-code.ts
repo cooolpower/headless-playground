@@ -1,22 +1,34 @@
 import type { ReactNode } from 'react';
-export interface qrcodeProps {
-  value?: any;
-  defaultValue?: any;
-  onChange?: (value: any) => void;
+import type { QRCodeRenderersOptions } from 'qrcode';
+
+export interface qrcodeProps extends QRCodeRenderersOptions {
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
   disabled?: boolean;
   className?: string;
   injectStyles?: boolean;
   children?: ReactNode;
+  size?: number;
+  level?: 'L' | 'M' | 'Q' | 'H';
+  margin?: number;
+  color?: {
+    dark?: string;
+    light?: string;
+  };
 }
 
-export interface UseqrcodeProps {
-  value?: any;
-  defaultValue?: any;
-  onChange?: (value: any) => void;
+export interface UseqrcodeProps extends QRCodeRenderersOptions {
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
   disabled?: boolean;
+  size?: number;
 }
 
 export interface UseqrcodeReturn {
-  currentValue: any;
-  handleChange: (value: any) => void;
+  currentValue: string;
+  handleChange: (value: string) => void;
+  svgData: string;
+  isLoading: boolean;
 }

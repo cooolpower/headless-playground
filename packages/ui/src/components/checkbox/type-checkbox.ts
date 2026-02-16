@@ -5,4 +5,5 @@ export interface CheckboxProps extends UseCheckboxProps {
   injectStyles?: boolean;
   className?: string;
   children?: ReactNode; // Label content
+  onClick?: (event: React.MouseEvent<HTMLLabelElement>) => void;
 }

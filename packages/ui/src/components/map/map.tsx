@@ -7,9 +7,7 @@ import { mapCss as _mapCss } from './map.styles';
 
 export const MapCss = _mapCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export const Map = forwardRef<HTMLDivElement, mapProps>(
   (
@@ -19,11 +17,11 @@ export const Map = forwardRef<HTMLDivElement, mapProps>(
       onChange,
       disabled = false,
       className,
-      injectStyles = true,
       children,
+      injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { currentValue, handleChange } = usemap({
       value,
@@ -35,15 +33,17 @@ export const Map = forwardRef<HTMLDivElement, mapProps>(
     return (
       <div
         ref={ref}
-        className={injectStyles ? cx('hcMap', className) : className}
+        className={cx('hcMap', className)}
         data-disabled={disabled ? 'true' : 'false'}
         {...props}
       >
         {injectStyles && <style suppressHydrationWarning>{_mapCss}</style>}
-        {children ?? <div>Map Component - Value: {JSON.stringify(currentValue)}</div>}
+        {children || (
+          <div>Map Component - Value: {JSON.stringify(currentValue)}</div>
+        )}
       </div>
     );
-  }
+  },
 );
 
 Map.displayName = 'Map';

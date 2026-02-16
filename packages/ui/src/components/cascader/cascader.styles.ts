@@ -85,8 +85,14 @@ export const cascaderCss = `
   transition: background-color 0.2s ease;
 }
 
+.hcCascaderOption[data-active="true"]{
+  background: var(--hc-cascader-hover);
+}
+
 .hcCascaderOption[data-selected="true"]{
   background: var(--hc-cascader-selected);
+  color: var(--color-semantic-info);
+  font-weight: var(--font-weight-medium);
 }
 
 .hcCascaderOption[data-disabled="true"]{

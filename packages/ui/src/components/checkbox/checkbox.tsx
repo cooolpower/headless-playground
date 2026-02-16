@@ -6,6 +6,7 @@ import { CheckboxProps } from './type-checkbox';
 import { checkboxCss as _checkboxCss } from './checkbox.styles';
 import { Check, Minus } from 'lucide-react';
 import { Icon } from '../icon/icon';
+import { cx } from '../../utils';
 
 export function Checkbox(props: CheckboxProps) {
   const { inputProps, checkboxProps, checkmarkProps, checked, indeterminate } =
@@ -27,11 +28,12 @@ export function Checkbox(props: CheckboxProps) {
 
   return (
     <label
-      className={className ? `hcCheckbox ${className}` : 'hcCheckbox'}
+      className={cx('hcCheckbox', className)}
       data-disabled={disabled ? 'true' : 'false'}
       data-checked={checked ? 'true' : 'false'}
       data-indeterminate={indeterminate ? 'true' : 'false'}
       data-size={size}
+      onClick={props.onClick}
     >
       {injectStyles ? (
         <style suppressHydrationWarning>{_checkboxCss}</style>
@@ -41,7 +43,7 @@ export function Checkbox(props: CheckboxProps) {
         {markRest && (
           <span {...markRest} className="hcCheckboxMark">
             {/* {indeterminate ? '−' : '✓'} */}
-            <Icon icon={indeterminate ? Minus : Check} size="xSmall"  />
+            <Icon icon={indeterminate ? Minus : Check} size="xSmall" />
           </span>
         )}
       </span>

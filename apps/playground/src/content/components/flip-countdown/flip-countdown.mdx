@@ -9,7 +9,7 @@ import {
 } from './flip-countdown.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { FlipCountdownCss } from '@headless/ui';
+import { FlipCountdownCss } from '@repo/ui';
 
 # Flip Countdown
 
@@ -18,7 +18,7 @@ Flip 애니메이션으로 카운트다운을 표시하는 컴포넌트입니다
 ### 사용법
 
 ```tsx
-import { FlipCountdown } from '@headless/ui';
+import { FlipCountdown } from '@repo/ui';
 
 export function MyComponent() {
   const targetTime = Date.now() + 10 * 1000; // 10초 후
@@ -49,7 +49,7 @@ const targetTime = Date.now() + 10 * 1000; // 10초 후
 
 ```tsx
 import { useState } from 'react';
-import { FlipCountdown } from '@headless/ui';
+import { FlipCountdown } from '@repo/ui';
 
 export function MyComponent() {
   const [seconds, setSeconds] = useState(10);
@@ -90,8 +90,8 @@ export function MyComponent() {
 <Playground preview={<DemoFlipCountdownNoInjectStyles />} />
 
 ```tsx
-import { FlipCountdown } from '@headless/ui';
-import { flipCountdownCss } from '@headless/ui';
+import { FlipCountdown } from '@repo/ui';
+import { flipCountdownCss } from '@repo/ui';
 
 export function MyComponent() {
   return (

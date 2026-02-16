@@ -21,6 +21,7 @@ const withMDX = createMDX({
 
 const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
+  transpilePackages: ["@cooolpower/headless-ui", "@repo/ui"],
   experimental: {
     webpackBuildWorker: false, // Force webpack mode for vanilla-extract compatibility
   },

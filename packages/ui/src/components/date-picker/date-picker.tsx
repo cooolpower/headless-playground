@@ -9,9 +9,7 @@ import { datePickerCss as _datePickerCss } from './date-picker.styles';
 
 export const DatePickerCss = _datePickerCss;
 
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
+import { cx } from '../../utils';
 
 export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
   (
@@ -145,49 +143,57 @@ export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
       currentDate.getMonth(),
     );
 
-    const rootClassName = injectStyles
-      ? cx('hcDatePicker', className)
-      : className;
+    const rootClassName = cx('hcDatePicker', className);
 
-    const resolvedInputWrapperClassName = injectStyles
-      ? cx('hcDatePickerInputWrapper', inputWrapperClassName)
-      : inputWrapperClassName;
+    const resolvedInputWrapperClassName = cx(
+      'hcDatePickerInputWrapper',
+      inputWrapperClassName,
+    );
 
-    const resolvedIconButtonClassName = injectStyles
-      ? cx('hcDatePickerIconButton', calendarIconButtonClassName)
-      : calendarIconButtonClassName;
+    const resolvedIconButtonClassName = cx(
+      'hcDatePickerIconButton',
+      calendarIconButtonClassName,
+    );
 
-    const resolvedPanelWrapperClassName = injectStyles
-      ? cx('hcDatePickerPanelWrapper', panelWrapperClassName)
-      : panelWrapperClassName;
+    const resolvedPanelWrapperClassName = cx(
+      'hcDatePickerPanelWrapper',
+      panelWrapperClassName,
+    );
 
-    const resolvedCalendarClassName = injectStyles
-      ? cx('hcDatePickerCalendar', calendarClassName)
-      : calendarClassName;
+    const resolvedCalendarClassName = cx(
+      'hcDatePickerCalendar',
+      calendarClassName,
+    );
 
-    const resolvedCalendarHeaderClassName = injectStyles
-      ? cx('hcDatePickerCalendarHeader', calendarHeaderClassName)
-      : calendarHeaderClassName;
+    const resolvedCalendarHeaderClassName = cx(
+      'hcDatePickerCalendarHeader',
+      calendarHeaderClassName,
+    );
 
-    const resolvedNavButtonClassName = injectStyles
-      ? cx('hcDatePickerNavButton', navButtonClassName)
-      : navButtonClassName;
+    const resolvedNavButtonClassName = cx(
+      'hcDatePickerNavButton',
+      navButtonClassName,
+    );
 
-    const resolvedMonthYearClassName = injectStyles
-      ? cx('hcDatePickerMonthYear', monthYearClassName)
-      : monthYearClassName;
+    const resolvedMonthYearClassName = cx(
+      'hcDatePickerMonthYear',
+      monthYearClassName,
+    );
 
-    const resolvedWeekHeaderClassName = injectStyles
-      ? cx('hcDatePickerWeekHeader', weekHeaderClassName)
-      : weekHeaderClassName;
+    const resolvedWeekHeaderClassName = cx(
+      'hcDatePickerWeekHeader',
+      weekHeaderClassName,
+    );
 
-    const resolvedWeekDayClassName = injectStyles
-      ? cx('hcDatePickerWeekDay', weekDayClassName)
-      : weekDayClassName;
+    const resolvedWeekDayClassName = cx(
+      'hcDatePickerWeekDay',
+      weekDayClassName,
+    );
 
-    const resolvedDateGridClassName = injectStyles
-      ? cx('hcDatePickerDateGrid', dateGridClassName)
-      : dateGridClassName;
+    const resolvedDateGridClassName = cx(
+      'hcDatePickerDateGrid',
+      dateGridClassName,
+    );
 
     return (
       <div ref={containerRef} className={rootClassName} {...props}>
@@ -199,7 +205,7 @@ export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
           data-disabled={disabled ? 'true' : undefined}
         >
           <input
-            className={injectStyles ? cx('hcDatePickerInput') : undefined}
+            className={cx('hcDatePickerInput')}
             type="text"
             value={formatDate(currentValue)}
             placeholder={placeholder}
@@ -261,12 +267,14 @@ export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
                   const isToday =
                     date.toDateString() === new Date().toDateString();
 
-                  let cellClassName = injectStyles
-                    ? 'hcDatePickerDateCell'
-                    : dateCellClassName;
+                  let cellClassName = cx(
+                    'hcDatePickerDateCell',
+                    dateCellClassName,
+                  );
 
                   if (injectStyles && dateCellClassName) {
-                    cellClassName = `${cellClassName} ${dateCellClassName}`.trim();
+                    cellClassName =
+                      `${cellClassName} ${dateCellClassName}`.trim();
                   }
 
                   if (isToday && dateCellTodayClassName) {

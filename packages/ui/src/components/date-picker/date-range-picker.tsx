@@ -90,7 +90,9 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     });
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const rootClassName = injectStyles ? cx('hcDatePicker', className) : className;
+    const rootClassName = injectStyles
+      ? cx('hcDatePicker', className)
+      : className;
     const resolvedInputWrapperClassName = injectStyles
       ? cx('hcDatePickerInputWrapper', inputWrapperClassName)
       : inputWrapperClassName;
@@ -177,15 +179,6 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
         });
       }
       if (startDate && endDate) {
-        return `${startDate.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        })} ~ ${endDate.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        })}`;
       }
       return '';
     };
@@ -332,38 +325,30 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
               const isStart = isRangeStart(date);
               const isEnd = isRangeEnd(date);
 
-              let cellClassName = injectStyles
-                ? 'hcDatePickerDateCell'
-                : dateCellClassName;
-
-              if (injectStyles && dateCellClassName) {
-                cellClassName = `${cellClassName} ${dateCellClassName}`.trim();
-              }
+              let cellClassName = cx('hcDatePickerDateCell', dateCellClassName);
 
               // 시작일 또는 종료일인 경우 포인트 색상 적용
               if (isStart || isEnd) {
                 if (dateCellSelectedClassName) {
-                  cellClassName =
-                    `${cellClassName || ''} ${dateCellSelectedClassName}`.trim();
+                  cellClassName = cx(cellClassName, dateCellSelectedClassName);
                 }
                 if (isStart && dateCellRangeStartClassName) {
-                  cellClassName =
-                    `${cellClassName || ''} ${dateCellRangeStartClassName}`.trim();
+                  cellClassName = cx(
+                    cellClassName,
+                    dateCellRangeStartClassName,
+                  );
                 }
                 if (isEnd && dateCellRangeEndClassName) {
-                  cellClassName =
-                    `${cellClassName || ''} ${dateCellRangeEndClassName}`.trim();
+                  cellClassName = cx(cellClassName, dateCellRangeEndClassName);
                 }
               } else if (inRange && dateCellInRangeClassName) {
                 // 범위 내 날짜 (시작일/종료일 제외)는 연한 배경색 적용
-                cellClassName =
-                  `${cellClassName || ''} ${dateCellInRangeClassName}`.trim();
+                cellClassName = cx(cellClassName, dateCellInRangeClassName);
               }
 
               // 오늘 날짜 스타일 (시작일/종료일이 아닌 경우에만)
               if (isToday && !isStart && !isEnd && dateCellTodayClassName) {
-                cellClassName =
-                  `${cellClassName || ''} ${dateCellTodayClassName}`.trim();
+                cellClassName = cx(cellClassName, dateCellTodayClassName);
               }
 
               return (
@@ -447,7 +432,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
           data-disabled={disabled ? 'true' : undefined}
         >
           <input
-            className={injectStyles ? 'hcDatePickerInput' : undefined}
+            className={cx('hcDatePickerInput')}
             type="text"
             value={formatRange()}
             placeholder={placeholder}
@@ -468,7 +453,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
 
         {isOpen && !disabled && (
           <div className={resolvedPanelWrapperClassName}>
-            <div className={injectStyles ? 'hcDatePickerRangePanel' : undefined}>
+            <div className={cx('hcDatePickerRangePanel')}>
               {renderCalendar(
                 leftCalendarDate,
                 goToLeftPrevMonth,

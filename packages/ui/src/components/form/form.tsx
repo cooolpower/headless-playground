@@ -14,6 +14,7 @@ import { useForm } from './use-form';
 import { Input } from '../input/input';
 import { zodSchemaToFormRules, validateWithZod } from './zod-utils';
 import { formCss as _formCss } from './form.styles';
+import { cx } from '../../utils';
 import type {
   FormProps,
   FormItemProps,
@@ -34,10 +35,6 @@ const FormStyleContext = createContext<boolean>(false);
 
 export function useFormContext(): FormContextValue | null {
   return useContext(FormContext);
-}
-
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
 }
 
 export const Form = forwardRef<HTMLFormElement, FormProps>(
@@ -98,7 +95,7 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(
         <FormStyleContext.Provider value={injectStyles}>
           <form
             ref={ref}
-            className={injectStyles ? cx('hcForm', className) : className}
+            className={cx('hcForm', className)}
             data-layout={layout}
             data-size={size}
             data-disabled={disabled ? 'true' : 'false'}
@@ -423,31 +420,20 @@ export const FormItem = forwardRef<HTMLDivElement, FormItemProps>(
     );
 
     return (
-      <div
-        ref={ref}
-        className={injectStyles ? cx('hcFormItem', className) : className}
-        {...props}
-      >
+      <div ref={ref} className={cx('hcFormItem', className)} {...props}>
         {injectStyles && !stylesInjectedByForm && (
           <style suppressHydrationWarning>{_formCss}</style>
         )}
         {label && (
-          <div
-            className={
-              injectStyles
-                ? cx('hcFormItemLabel', labelClassName)
-                : labelClassName
-            }
-          >
+          <div className={cx('hcFormItemLabel', labelClassName)}>
             <label>
               {label}
               {required && (
                 <span
-                  className={
-                    injectStyles
-                      ? cx('hcFormItemRequiredMark', requiredMarkClassName)
-                      : requiredMarkClassName
-                  }
+                  className={cx(
+                    'hcFormItemRequiredMark',
+                    requiredMarkClassName,
+                  )}
                 >
                   *
                 </span>
@@ -457,20 +443,8 @@ export const FormItem = forwardRef<HTMLDivElement, FormItemProps>(
           </div>
         )}
 
-        <div
-          className={
-            injectStyles
-              ? cx('hcFormItemInputWrapper', inputWrapperClassName)
-              : inputWrapperClassName
-          }
-        >
-          <div
-            className={
-              injectStyles
-                ? cx('hcFormItemControl', formItemControlClassName)
-                : formItemControlClassName
-            }
-          >
+        <div className={cx('hcFormItemInputWrapper', inputWrapperClassName)}>
+          <div className={cx('hcFormItemControl', formItemControlClassName)}>
             {React.Children.map(children, (child) => {
               if (React.isValidElement(child)) {
                 // Input 컴포넌트인 경우 form context와 연결
@@ -484,13 +458,11 @@ export const FormItem = forwardRef<HTMLDivElement, FormItemProps>(
                 if (isInputComponent) {
                   // Input 컴포넌트는 useInput hook을 사용하므로 value와 onChange를 직접 전달
                   const childProps = child.props as any;
-                  const wrapperClassName = [
+                  const wrapperClassName = cx(
                     childProps.className,
-                    injectStyles ? 'hcFormItemControlInput' : undefined,
+                    'hcFormItemControlInput',
                     formItemControlInputClassName,
-                  ]
-                    .filter(Boolean)
-                    .join(' ');
+                  );
 
                   // Input 요소에 직접 적용할 className (status에 따른 border 색상)
                   // status가 없으면 기본 borderColor 클래스 사용
@@ -661,14 +633,10 @@ export const FormItem = forwardRef<HTMLDivElement, FormItemProps>(
             })}
             {hasFeedback && status && (
               <span
-                className={
-                  injectStyles
-                    ? cx(
-                        'hcFormItemControlStatus',
-                        formItemControlStatusClassName,
-                      )
-                    : formItemControlStatusClassName
-                }
+                className={cx(
+                  'hcFormItemControlStatus',
+                  formItemControlStatusClassName,
+                )}
               >
                 {status === 'error' && '❌'}
                 {status === 'success' && '✅'}
@@ -679,13 +647,7 @@ export const FormItem = forwardRef<HTMLDivElement, FormItemProps>(
           </div>
 
           {(help || hasError) && (
-            <div
-              className={
-                injectStyles
-                  ? cx('hcFormItemHelp', formItemHelpClassName)
-                  : formItemHelpClassName
-              }
-            >
+            <div className={cx('hcFormItemHelp', formItemHelpClassName)}>
               {hasError ? (
                 <div className={getStatusTextClassName(status)}>
                   {fieldErrors[0]}

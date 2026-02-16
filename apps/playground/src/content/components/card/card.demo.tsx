@@ -1,19 +1,14 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-} from '@repo/ui';
+import { Card, CardHeader, CardContent, CardFooter } from '@repo/ui';
 import { Input } from '@repo/ui';
 import { Textarea } from '@repo/ui';
 import { Checkbox } from '@repo/ui';
 import { Button } from '@repo/ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './card.demo.css';
-import * as buttonStyles from '../button/button.demo.css';
+// import * as buttonStyles from '../button/button.demo.css';
 
 // Card Controls Context
 interface CardControlsContextType {
@@ -105,7 +100,6 @@ export function DemoCardBasicWithControls() {
                 <Button
                   type="secondary"
                   color="error"
-                  className={buttonStyles.demoButton}
                   onClick={() => alert('Cancel clicked!')}
                 >
                   Cancel
@@ -113,7 +107,6 @@ export function DemoCardBasicWithControls() {
                 <Button
                   type="primary"
                   color="success"
-                  className={buttonStyles.demoButton}
                   onClick={() => alert('Confirm clicked!')}
                 >
                   Confirm
@@ -248,20 +241,10 @@ export function DemoCardBasic() {
           </CardContent>
           <CardFooter>
             <div className={styles.cardActions}>
-              <Button
-                type="secondary"
-                color="error"
-                className={buttonStyles.demoButton}
-                onClick={() => {}}
-              >
+              <Button type="secondary" color="error" onClick={() => {}}>
                 Cancel
               </Button>
-              <Button
-                type="primary"
-                color="success"
-                className={buttonStyles.demoButton}
-                onClick={() => {}}
-              >
+              <Button type="primary" color="success" onClick={() => {}}>
                 Confirm
               </Button>
             </div>

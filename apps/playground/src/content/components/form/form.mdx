@@ -4,7 +4,7 @@ A form component for managing form state, validation, and submission. The Form c
 
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { FormCss } from '@headless/ui';
+import { FormCss } from '@repo/ui';
 import {
   DemoFormBasic,
   DemoFormBasicProvider,
@@ -18,8 +18,8 @@ import {
 ## Usage
 
 ```tsx
-import { Form, FormItem } from '@headless/ui';
-import { Input } from '@headless/ui';
+import { Form, FormItem } from '@repo/ui';
+import { Input } from '@repo/ui';
 
 export function MyComponent() {
   return (
@@ -255,7 +255,7 @@ const [form] = Form.useForm();
 외부에서 폼을 제어하려면 `Form.useForm()` 훅을 사용합니다:
 
 ```tsx
-import { Form } from '@headless/ui';
+import { Form } from '@repo/ui';
 
 function MyComponent() {
   const [form] = Form.useForm();

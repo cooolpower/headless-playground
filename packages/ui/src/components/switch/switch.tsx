@@ -7,6 +7,8 @@ import { useSwitch } from './use-switch';
 import { SwitchProps } from './type-switch';
 import { switchCss as _switchCss } from './switch.styles';
 
+import { cx } from '../../utils';
+
 export function Switch(props: SwitchProps) {
   const {
     inputProps,
@@ -27,12 +29,12 @@ export function Switch(props: SwitchProps) {
   const iconToShow = loading
     ? Loader2
     : checked
-      ? (checkedIcon || null)
-      : (uncheckedIcon || null);
+      ? checkedIcon || null
+      : uncheckedIcon || null;
 
   return (
     <label
-      className={className ? `hcSwitch ${className}` : 'hcSwitch'}
+      className={cx('hcSwitch', className)}
       data-checked={checked ? 'true' : 'false'}
       data-disabled={disabled ? 'true' : 'false'}
       data-loading={loading ? 'true' : 'false'}
@@ -42,7 +44,9 @@ export function Switch(props: SwitchProps) {
       style={
         {
           ...(railColor ? { '--hc-switch-rail': railColor } : null),
-          ...(railColorActive ? { '--hc-switch-rail-active': railColorActive } : null),
+          ...(railColorActive
+            ? { '--hc-switch-rail-active': railColorActive }
+            : null),
         } as React.CSSProperties
       }
     >
@@ -54,7 +58,7 @@ export function Switch(props: SwitchProps) {
         <span className="hcSwitchHandle">
           {iconToShow && (
             <Icon
-              icon={iconToShow}
+              icon={iconToShow as any}
               size="small"
               className="hcSwitchIcon"
             />

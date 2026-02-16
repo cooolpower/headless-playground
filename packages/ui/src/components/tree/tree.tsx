@@ -7,6 +7,7 @@ import { Checkbox } from '../checkbox/checkbox';
 import { TreeProps, TreeNodeData, TreeClassNames } from './type-tree';
 import { useTree } from './use-tree';
 import { treeCss as _treeCss } from './tree.styles';
+import { cx } from '../../utils';
 
 interface TreeNodeProps {
   node: TreeNodeData;
@@ -59,7 +60,7 @@ function TreeNode({
         onExpand(key, !isExpanded);
       }
     },
-    [hasChildren, key, isExpanded, onExpand]
+    [hasChildren, key, isExpanded, onExpand],
   );
 
   const handleSelect = useCallback(
@@ -69,7 +70,7 @@ function TreeNode({
         onSelect(key, !isSelected);
       }
     },
-    [isSelectable, isDisabled, key, isSelected, onSelect]
+    [isSelectable, isDisabled, key, isSelected, onSelect],
   );
 
   const handleCheck = useCallback(
@@ -78,7 +79,7 @@ function TreeNode({
         onCheck(key, checked);
       }
     },
-    [isCheckable, isDisabled, key, onCheck]
+    [isCheckable, isDisabled, key, onCheck],
   );
 
   const handleKeyDown = useCallback(
@@ -103,7 +104,7 @@ function TreeNode({
       hasChildren,
       isExpanded,
       onExpand,
-    ]
+    ],
   );
 
   // Determine default icon based on node type
@@ -113,16 +114,24 @@ function TreeNode({
     }
     // Check if node.title or node.key suggests it's an image
     const titleStr = String(node.title || node.key || '');
-    if (titleStr.toLowerCase().includes('image') || titleStr.toLowerCase().includes('img')) {
+    if (
+      titleStr.toLowerCase().includes('image') ||
+      titleStr.toLowerCase().includes('img')
+    ) {
       return <Icon icon={ImageIcon} size="small" />;
     }
     return <Icon icon={File} size="small" />;
   };
 
   return (
-    <li className={classNames?.treeNode ?? 'hcTreeNode'}>
+    <li className={cx(classNames?.treeNode, 'hcTreeNode')}>
       <div
-        className={`${classNames?.treeNodeContent ?? 'hcTreeNodeContent'} ${isSelected ? (classNames?.treeNodeSelected ?? 'hcTreeNodeSelected') : ''} ${isDisabled ? (classNames?.treeNodeDisabled ?? 'hcTreeNodeDisabled') : ''}`.trim() || undefined}
+        className={cx(
+          classNames?.treeNodeContent,
+          'hcTreeNodeContent',
+          isSelected && (classNames?.treeNodeSelected ?? 'hcTreeNodeSelected'),
+          isDisabled && (classNames?.treeNodeDisabled ?? 'hcTreeNodeDisabled'),
+        )}
         onClick={handleSelect}
         onKeyDown={handleKeyDown}
         tabIndex={isSelectable ? 0 : -1}
@@ -142,24 +151,32 @@ function TreeNode({
         )}
 
         {/* 확장/축소 아이콘 */}
-        <span className={classNames?.treeSwitcher ?? 'hcTreeSwitcher'}>
+        <span className={cx(classNames?.treeSwitcher, 'hcTreeSwitcher')}>
           {hasChildren ? (
             <button
               type="button"
               onClick={handleExpand}
               aria-label={isExpanded ? '축소' : '확장'}
-              className={`${classNames?.treeSwitcherButton ?? 'hcTreeSwitcherButton'} ${isExpanded ? (classNames?.treeSwitcherExpanded ?? 'hcTreeSwitcherExpanded') : ''}`.trim() || undefined}
+              className={cx(
+                classNames?.treeSwitcherButton,
+                'hcTreeSwitcherButton',
+                isExpanded &&
+                  (classNames?.treeSwitcherExpanded ??
+                    'hcTreeSwitcherExpanded'),
+              )}
             >
               <Icon icon={ChevronRight} size="small" />
             </button>
           ) : showLine ? (
-            <span className={classNames?.treeSwitcherLeaf ?? 'hcTreeSwitcherLeaf'} />
+            <span
+              className={cx(classNames?.treeSwitcherLeaf, 'hcTreeSwitcherLeaf')}
+            />
           ) : null}
         </span>
 
         {/* 체크박스 */}
         {isCheckable && (
-          <span className={classNames?.treeCheckbox ?? 'hcTreeCheckbox'}>
+          <span className={cx(classNames?.treeCheckbox, 'hcTreeCheckbox')}>
             <Checkbox
               checked={isChecked}
               onChange={handleCheck}
@@ -170,20 +187,23 @@ function TreeNode({
 
         {/* 아이콘 */}
         {showIcon && (
-          <span className={classNames?.treeIcon ?? 'hcTreeIcon'}>
+          <span className={cx(classNames?.treeIcon, 'hcTreeIcon')}>
             {node.icon || getDefaultIcon()}
           </span>
         )}
 
         {/* 타이틀 */}
-        <span className={classNames?.treeTitle ?? 'hcTreeTitle'}>
+        <span className={cx(classNames?.treeTitle, 'hcTreeTitle')}>
           {titleRender ? titleRender(node) : node.title}
         </span>
       </div>
 
       {/* 자식 노드들 */}
       {hasChildren && isExpanded && (
-        <ul role="group" className={classNames?.treeNodeChildren ?? 'hcTreeNodeChildren'}>
+        <ul
+          role="group"
+          className={cx(classNames?.treeNodeChildren, 'hcTreeNodeChildren')}
+        >
           {node.children!.map((child) => (
             <TreeNode
               key={child.key}
@@ -226,7 +246,7 @@ export const TreeComponent = React.forwardRef<HTMLUListElement, TreeProps>(
       classNames,
       ...treeProps
     },
-    ref
+    ref,
   ) => {
     const {
       expandedKeys,
@@ -253,7 +273,7 @@ export const TreeComponent = React.forwardRef<HTMLUListElement, TreeProps>(
           expanded,
         });
       },
-      [expandedKeys, handleExpand, treeData]
+      [expandedKeys, handleExpand, treeData],
     );
 
     const handleNodeSelect = useCallback(
@@ -266,7 +286,7 @@ export const TreeComponent = React.forwardRef<HTMLUListElement, TreeProps>(
         const node = findNode(treeData, key);
         handleSelect(newSelectedKeys, { node, selected });
       },
-      [multiple, selectedKeys, handleSelect, treeData]
+      [multiple, selectedKeys, handleSelect, treeData],
     );
 
     const handleNodeCheck = useCallback(
@@ -277,17 +297,19 @@ export const TreeComponent = React.forwardRef<HTMLUListElement, TreeProps>(
         const node = findNode(treeData, key);
         handleCheck(newCheckedKeys, { node, checked });
       },
-      [checkedKeys, handleCheck, treeData]
+      [checkedKeys, handleCheck, treeData],
     );
 
     return (
       <ul
         ref={ref}
-        className={className || classNames?.tree || 'hcTree'}
+        className={cx('hcTree', className, classNames?.tree)}
         role="tree"
         aria-multiselectable={multiple}
       >
-        {injectStyles ? <style suppressHydrationWarning>{_treeCss}</style> : null}
+        {injectStyles ? (
+          <style suppressHydrationWarning>{_treeCss}</style>
+        ) : null}
         {treeData.map((node) => (
           <TreeNode
             key={node.key}
@@ -310,13 +332,13 @@ export const TreeComponent = React.forwardRef<HTMLUListElement, TreeProps>(
         ))}
       </ul>
     );
-  }
+  },
 );
 
 // 헬퍼 함수
 function findNode(
   treeData: TreeNodeData[],
-  key: string
+  key: string,
 ): TreeNodeData | undefined {
   for (const node of treeData) {
     if (String(node.key) === key) return node;

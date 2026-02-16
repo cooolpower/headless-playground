@@ -1,121 +1,57 @@
 'use client';
 
-import { useState, createContext, useContext, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import { Controls } from '@/components/playground/controls';
-import * as styles from './button.demo.css';
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from 'lucide-react';
 import { Icon } from '@repo/ui';
-
-const STORAGE_KEY = 'headless-button-demo-state';
+import { ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from 'lucide-react';
+import { Controls } from '@/components/playground/controls';
+import { Checkbox } from '@repo/ui';
+import * as styles from './button.demo.css';
 
 // Button Controls Context
 interface ButtonControlsContextType {
+  text: string;
+  setText: (text: string) => void;
+  type: any;
+  setType: (type: any) => void;
+  color: any;
+  setColor: (color: any) => void;
   disabled: boolean;
   setDisabled: (disabled: boolean) => void;
-  buttonText: string;
-  setButtonText: (text: string) => void;
-  buttonStyle: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary';
-  setButtonStyle: (
-    style: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary',
-  ) => void;
-  buttonColor: 'info' | 'success' | 'warning' | 'error';
-  setButtonColor: (color: 'info' | 'success' | 'warning' | 'error') => void;
-  clickCount: number;
-  setClickCount: (count: number) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
   injectStyles: boolean;
-  setInjectStyles: (value: boolean) => void;
+  setInjectStyles: (injectStyles: boolean) => void;
 }
 
-const ButtonControlsContext = createContext<ButtonControlsContextType | null>(
-  null,
-);
+const ButtonControlsContext =
+  React.createContext<ButtonControlsContextType | null>(null);
 
-// Provider
 export function DemoButtonBasicProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [text, setText] = useState('클릭하세요');
+  const [type, setType] = useState('primary');
+  const [color, setColor] = useState('success');
   const [disabled, setDisabled] = useState(false);
-  const [buttonText, setButtonText] = useState('Click Me');
-  const [buttonStyle, setButtonStyle] = useState<
-    'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary'
-  >('primary');
-  const [buttonColor, setButtonColor] = useState<
-    'info' | 'success' | 'warning' | 'error'
-  >('success');
-  const [clickCount, setClickCount] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [injectStyles, setInjectStyles] = useState(true);
-
-  const isFirstSaveRunRef = useRef(true);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return; // SSR 방지
-
-    try {
-      const storedLocal = localStorage.getItem(STORAGE_KEY);
-      let parsed = null;
-
-      if (storedLocal) {
-        parsed = JSON.parse(storedLocal);
-      }
-
-      if (parsed) {
-        // localStorage 또는 cookie에서 읽은 값으로 상태를 업데이트합니다.
-        if (parsed.injectStyles !== undefined)
-          setInjectStyles(parsed.injectStyles);
-        if (parsed.disabled !== undefined) setDisabled(parsed.disabled);
-        if (parsed.buttonText !== undefined) setButtonText(parsed.buttonText);
-        if (parsed.buttonStyle !== undefined)
-          setButtonStyle(parsed.buttonStyle);
-        if (parsed.buttonColor !== undefined)
-          setButtonColor(parsed.buttonColor);
-        if (parsed.clickCount !== undefined) setClickCount(parsed.clickCount);
-      }
-    } catch (error) {
-      console.warn('Failed to load state from localStorage:', error);
-    }
-  }, []); // 빈 배열: 마운트 시 한 번만 실행
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (isFirstSaveRunRef.current) {
-      isFirstSaveRunRef.current = false;
-      return;
-    }
-
-    try {
-      const stateToSave = {
-        injectStyles,
-        disabled,
-        buttonText,
-        buttonStyle,
-        buttonColor,
-        clickCount,
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
-    } catch (error) {
-      console.warn('Failed to save state to localStorage:', error);
-    }
-  });
 
   return (
     <ButtonControlsContext.Provider
       value={{
+        text,
+        setText,
+        type,
+        setType,
+        color,
+        setColor,
         disabled,
         setDisabled,
-        buttonText,
-        setButtonText,
-        buttonStyle,
-        setButtonStyle,
-        buttonColor,
-        setButtonColor,
-        clickCount,
-        setClickCount,
+        loading,
+        setLoading,
         injectStyles,
         setInjectStyles,
       }}
@@ -125,22 +61,133 @@ export function DemoButtonBasicProvider({
   );
 }
 
-// 기본 Button (컨트롤러와 함께 사용될 컴포넌트)
 export function DemoButtonBasicWithControls() {
-  const context = useContext(ButtonControlsContext);
-  if (!context) {
-    return <div>컨트롤러를 사용하려면 Provider로 감싸야 합니다.</div>;
-  }
+  const context = React.useContext(ButtonControlsContext);
+  if (!context) return null;
+
+  const { text, type, color, disabled, loading, injectStyles } = context;
+
+  return (
+    <div className={styles.buttonWrapperClass}>
+      <Button
+        injectStyles={injectStyles}
+        type={type}
+        color={color}
+        disabled={disabled}
+        loading={loading}
+      >
+        {text}
+      </Button>
+    </div>
+  );
+}
+
+export function DemoButtonBasicControls() {
+  const context = React.useContext(ButtonControlsContext);
+  if (!context) return null;
 
   const {
+    text,
+    setText,
+    type,
+    setType,
+    color,
+    setColor,
     disabled,
-    buttonText,
-    buttonStyle,
-    buttonColor,
-    clickCount,
-    setClickCount,
+    setDisabled,
+    loading,
+    setLoading,
     injectStyles,
+    setInjectStyles,
   } = context;
+
+  return (
+    <Controls
+      items={[
+        {
+          label: 'Inject Styles',
+          control: (
+            <Checkbox
+              checked={injectStyles}
+              onChange={setInjectStyles}
+              size="small"
+            >
+              사용
+            </Checkbox>
+          ),
+        },
+        {
+          label: 'Text',
+          control: (
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              style={{ padding: '4px', width: '100%' }}
+            />
+          ),
+        },
+        {
+          label: 'Type',
+          control: (
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              style={{ padding: '4px' }}
+            >
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+              <option value="tertiary">Tertiary</option>
+              <option value="dashed">Dashed</option>
+              <option value="quaternary">Quaternary</option>
+            </select>
+          ),
+        },
+        {
+          label: 'Color',
+          control: (
+            <select
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              style={{ padding: '4px' }}
+            >
+              <option value="success">Success</option>
+              <option value="info">Info</option>
+              <option value="warning">Warning</option>
+              <option value="error">Error</option>
+            </select>
+          ),
+        },
+        {
+          label: 'States',
+          control: (
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <Checkbox checked={disabled} onChange={setDisabled} size="small">
+                Disabled
+              </Checkbox>
+              <Checkbox checked={loading} onChange={setLoading} size="small">
+                Loading
+              </Checkbox>
+            </div>
+          ),
+        },
+      ]}
+    />
+  );
+}
+
+export function DemoButtonTypes() {
+  return <DemoButtonVariants />;
+}
+
+export default function ButtonDemo() {
+  const [injectStyles, setInjectStyles] = useState(true);
+  const [clickCount, setClickCount] = useState(0);
+  const [buttonText, setButtonText] = useState('클릭하세요');
+  const [buttonStyle, setButtonStyle] = useState('primary');
+  const [buttonColor, setButtonColor] = useState('success');
+  const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getButtonStyleName = () => {
     switch (buttonStyle) {
@@ -174,167 +221,174 @@ export function DemoButtonBasicWithControls() {
     }
   };
 
-  console.log('buttonStyle', getButtonStyleName());
-
   return (
-    <div
-      className={`${styles.section} ${!injectStyles ? styles.buttonWrapperClass : ''}`}
-    >
-      <div className={styles.buttonGroup}>
-        <Button
-          injectStyles={injectStyles}
-          type={injectStyles ? undefined : getButtonStyleName()}
-          color={injectStyles ? undefined : getButtonColorName()}
-          className={injectStyles ? undefined : styles.demoButton}
-          disabled={disabled}
-          onClick={() => setClickCount(clickCount + 1)}
+    <div className={styles.demoContainer}>
+      <h1 className={styles.demoTitle}>Button Component</h1>
+
+      <div className={styles.controls}>
+        <div className={styles.controlItem}>
+          <label>
+            <input
+              type="checkbox"
+              checked={injectStyles}
+              onChange={(e) => setInjectStyles(e.target.checked)}
+            />
+            기본 스타일 주입 (injectStyles)
+          </label>
+        </div>
+        <p className={styles.controlDescription}>
+          `injectStyles` 옵션을 통해 컴포넌트 내부 CSS를 사용할지 여부를
+          결정합니다.
+        </p>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1rem',
+            marginTop: '0.5rem',
+          }}
         >
-          {buttonText}
-        </Button>
+          <div className={styles.controlItem}>
+            <label>Button Text: </label>
+            <input
+              type="text"
+              value={buttonText}
+              onChange={(e) => setButtonText(e.target.value)}
+              style={{
+                padding: '4px 8px',
+                borderRadius: '4px',
+                border: '1px solid var(--color-divider)',
+              }}
+            />
+          </div>
+
+          <div className={styles.controlItem}>
+            <label>Style: </label>
+            <select
+              value={buttonStyle}
+              onChange={(e) => setButtonStyle(e.target.value)}
+              style={{ padding: '4px' }}
+            >
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+              <option value="tertiary">Tertiary</option>
+              <option value="dashed">Dashed</option>
+              <option value="quaternary">Quaternary (Text)</option>
+            </select>
+          </div>
+
+          <div className={styles.controlItem}>
+            <label>Color: </label>
+            <select
+              value={buttonColor}
+              onChange={(e) => setButtonColor(e.target.value)}
+              style={{ padding: '4px' }}
+            >
+              <option value="success">Success</option>
+              <option value="info">Info</option>
+              <option value="warning">Warning</option>
+              <option value="error">Error</option>
+            </select>
+          </div>
+
+          <div className={styles.controlItem}>
+            <label>
+              <input
+                type="checkbox"
+                checked={disabled}
+                onChange={(e) => setDisabled(e.target.checked)}
+              />
+              Disabled
+            </label>
+            <label style={{ marginLeft: '12px' }}>
+              <input
+                type="checkbox"
+                checked={loading}
+                onChange={(e) => setLoading(e.target.checked)}
+              />
+              Loading
+            </label>
+          </div>
+        </div>
+
+        <div style={{ marginTop: '1rem' }}>
+          <Button
+            onClick={() => setClickCount(0)}
+            injectStyles={injectStyles}
+            style={{
+              width: '100%',
+            }}
+            size="small"
+          >
+            초기화
+          </Button>
+        </div>
       </div>
-      <p className={styles.discription}>클릭 횟수: {clickCount}</p>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Interactive Preview</h2>
+        <div
+          className={`${styles.section} ${!injectStyles ? styles.buttonWrapperClass : ''}`}
+        >
+          <div className={styles.buttonGroup}>
+            <Button
+              injectStyles={injectStyles}
+              type={getButtonStyleName()}
+              color={getButtonColorName()}
+              disabled={disabled}
+              loading={loading}
+              onClick={() => setClickCount(clickCount + 1)}
+            >
+              {buttonText}
+            </Button>
+          </div>
+          <p className={styles.discription}>클릭 횟수: {clickCount}</p>
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Button Variants</h2>
+        <DemoButtonVariants />
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Button Colors (Primary)</h2>
+        <DemoButtonColors />
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Button Sizes</h2>
+        <DemoButtonSize />
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Loading States</h2>
+        <DemoButtonLoading />
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Icons & Combinations</h2>
+        <DemoButtonIcon />
+        <DemoButtonWithIcon />
+        <DemoButtonRounded />
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Groups & Navigation</h2>
+        <DemoButtonGroups />
+      </div>
     </div>
   );
 }
 
-// Button Controls
-export function DemoButtonBasicControls() {
-  const context = useContext(ButtonControlsContext);
-
-  if (!context) {
-    return <div>컨트롤러를 사용하려면 Provider로 감싸야 합니다.</div>;
-  }
-
-  const {
-    disabled,
-    setDisabled,
-    buttonText,
-    setButtonText,
-    buttonStyle,
-    setButtonStyle,
-    buttonColor,
-    setButtonColor,
-    clickCount,
-    setClickCount,
-    injectStyles,
-    setInjectStyles,
-  } = context;
-
-  return (
-    <Controls
-      items={[
-        {
-          label: 'Inject Styles',
-          control: (
-            <Checkbox
-              checked={injectStyles}
-              onChange={setInjectStyles}
-              size="small"
-            >
-              사용
-            </Checkbox>
-          ),
-        },
-        {
-          label: '버튼 텍스트',
-          control: (
-            <Input
-              type="text"
-              value={buttonText}
-              onChange={setButtonText}
-              placeholder="버튼 텍스트"
-              size="small"
-            />
-          ),
-        },
-        {
-          label: '타입 (Type)',
-          control: (
-            <Select
-              options={[
-                { label: 'Primary', value: 'primary' },
-                { label: 'Secondary', value: 'secondary' },
-                { label: 'Tertiary', value: 'tertiary' },
-                { label: 'Dashed', value: 'dashed' },
-                { label: 'Quaternary', value: 'quaternary' },
-              ]}
-              value={buttonStyle}
-              onChange={(val) => {
-                if (!Array.isArray(val)) {
-                  console.log('selected style:', val);
-                  console.log('selected style:', buttonStyle);
-                  setButtonStyle(val as typeof buttonStyle);
-                }
-              }}
-              placeholder="스타일 선택"
-              size="small"
-            />
-          ),
-        },
-        {
-          label: '색상 (Color)',
-          control: (
-            <Select
-              options={[
-                { label: 'Info', value: 'info' },
-                { label: 'Success', value: 'success' },
-                { label: 'Warning', value: 'warning' },
-                { label: 'Error', value: 'error' },
-              ]}
-              value={buttonColor}
-              onChange={(val) => {
-                if (!Array.isArray(val)) {
-                  console.log('selected style:', val);
-                  console.log('selected style:', buttonColor);
-                  setButtonColor(val as typeof buttonColor);
-                }
-              }}
-              placeholder="스타일 선택"
-              size="small"
-            />
-          ),
-        },
-        {
-          label: '비활성화 (Disabled)',
-          control: (
-            <Checkbox
-              checked={disabled}
-              onChange={(checked) => setDisabled(checked)}
-              size="small"
-            >
-              비활성화
-            </Checkbox>
-          ),
-        },
-        {
-          label: '클릭 횟수 초기화',
-          control: (
-            <Button
-              onClick={() => setClickCount(0)}
-              injectStyles={injectStyles}
-              style={{
-                width: '100%',
-              }}
-              className={injectStyles ? undefined : styles.small}
-            >
-              초기화
-            </Button>
-          ),
-        },
-      ]}
-    />
-  );
-}
-
-// 기존 예제들 (props 조합으로만 차별화)
-export function DemoButtonTypes() {
+export function DemoButtonVariants() {
   return (
     <div className={styles.section}>
       <div className={styles.buttonGroup}>
         <Button
           type="primary"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Primary button clicked!')}
         >
           Primary
@@ -342,7 +396,6 @@ export function DemoButtonTypes() {
         <Button
           type="secondary"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Secondary button clicked!')}
         >
           Secondary
@@ -350,7 +403,6 @@ export function DemoButtonTypes() {
         <Button
           type="tertiary"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Tertiary button clicked!')}
         >
           Tertiary
@@ -358,7 +410,6 @@ export function DemoButtonTypes() {
         <Button
           type="dashed"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Dashed button clicked!')}
         >
           Dashed
@@ -366,7 +417,6 @@ export function DemoButtonTypes() {
         <Button
           type="quaternary"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Text button clicked!')}
         >
           Text
@@ -375,40 +425,35 @@ export function DemoButtonTypes() {
       <div className={styles.buttonGroup}>
         <Button
           type="primary"
-          color="warn"
-          className={styles.demoButton}
+          color="warning"
           onClick={() => alert('Primary button clicked!')}
         >
           Primary
         </Button>
         <Button
           type="secondary"
-          color="warn"
-          className={styles.demoButton}
+          color="warning"
           onClick={() => alert('Secondary button clicked!')}
         >
           Secondary
         </Button>
         <Button
           type="tertiary"
-          color="warn"
-          className={styles.demoButton}
+          color="warning"
           onClick={() => alert('Tertiary button clicked!')}
         >
           Tertiary
         </Button>
         <Button
           type="dashed"
-          color="warn"
-          className={styles.demoButton}
+          color="warning"
           onClick={() => alert('Dashed button clicked!')}
         >
           Dashed
         </Button>
         <Button
           type="quaternary"
-          color="warn"
-          className={styles.demoButton}
+          color="warning"
           onClick={() => alert('Text button clicked!')}
         >
           Text
@@ -418,7 +463,6 @@ export function DemoButtonTypes() {
         <Button
           type="primary"
           color="info"
-          className={styles.demoButton}
           onClick={() => alert('Primary button clicked!')}
         >
           Primary
@@ -426,7 +470,6 @@ export function DemoButtonTypes() {
         <Button
           type="secondary"
           color="info"
-          className={styles.demoButton}
           onClick={() => alert('Secondary button clicked!')}
         >
           Secondary
@@ -434,7 +477,6 @@ export function DemoButtonTypes() {
         <Button
           type="tertiary"
           color="info"
-          className={styles.demoButton}
           onClick={() => alert('Tertiary button clicked!')}
         >
           Tertiary
@@ -442,7 +484,6 @@ export function DemoButtonTypes() {
         <Button
           type="dashed"
           color="info"
-          className={styles.demoButton}
           onClick={() => alert('Dashed button clicked!')}
         >
           Dashed
@@ -450,7 +491,6 @@ export function DemoButtonTypes() {
         <Button
           type="quaternary"
           color="info"
-          className={styles.demoButton}
           onClick={() => alert('Text button clicked!')}
         >
           Text
@@ -460,7 +500,6 @@ export function DemoButtonTypes() {
         <Button
           type="primary"
           color="error"
-          className={styles.demoButton}
           onClick={() => alert('Primary button clicked!')}
         >
           Primary
@@ -468,7 +507,6 @@ export function DemoButtonTypes() {
         <Button
           type="secondary"
           color="error"
-          className={styles.demoButton}
           onClick={() => alert('Secondary button clicked!')}
         >
           Secondary
@@ -476,7 +514,6 @@ export function DemoButtonTypes() {
         <Button
           type="tertiary"
           color="error"
-          className={styles.demoButton}
           onClick={() => alert('Tertiary button clicked!')}
         >
           Tertiary
@@ -484,7 +521,6 @@ export function DemoButtonTypes() {
         <Button
           type="dashed"
           color="error"
-          className={styles.demoButton}
           onClick={() => alert('Dashed button clicked!')}
         >
           Dashed
@@ -492,7 +528,6 @@ export function DemoButtonTypes() {
         <Button
           type="quaternary"
           color="error"
-          className={styles.demoButton}
           onClick={() => alert('Text button clicked!')}
         >
           Text
@@ -509,7 +544,6 @@ export function DemoButtonColors() {
         <Button
           type="primary"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Primary button clicked!')}
         >
           Primary
@@ -517,7 +551,6 @@ export function DemoButtonColors() {
         <Button
           type="primary"
           color="info"
-          className={styles.demoButton}
           onClick={() => alert('Info button clicked!')}
         >
           Info
@@ -525,15 +558,13 @@ export function DemoButtonColors() {
         <Button
           type="primary"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Success button clicked!')}
         >
           Success
         </Button>
         <Button
           type="primary"
-          color="warn"
-          className={styles.demoButton}
+          color="warning"
           onClick={() => alert('Warning button clicked!')}
         >
           Warning
@@ -541,7 +572,6 @@ export function DemoButtonColors() {
         <Button
           type="primary"
           color="error"
-          className={styles.demoButton}
           onClick={() => alert('Error button clicked!')}
         >
           Error
@@ -566,14 +596,8 @@ export function DemoButtonDisabled() {
   return (
     <div className={styles.section}>
       <div className={styles.buttonGroup}>
-        <Button className={styles.demoButton} disabled>
-          Disabled Button
-        </Button>
-        <Button
-          className={styles.demoButton}
-          disabled
-          onClick={() => alert('This will not fire')}
-        >
+        <Button disabled>Disabled Button</Button>
+        <Button disabled onClick={() => alert('This will not fire')}>
           Disabled with Handler
         </Button>
       </div>
@@ -598,7 +622,6 @@ export function DemoButtonEvents() {
         <Button
           type="primary"
           color="success"
-          className={styles.demoButton}
           onClick={() => addLog('Clicked!')}
         >
           Interactive Button
@@ -650,7 +673,6 @@ export function DemoButtonCustom() {
         <Button
           type="primary"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Primary button clicked!')}
         >
           Primary Style
@@ -658,7 +680,6 @@ export function DemoButtonCustom() {
         <Button
           type="dashed"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Dashed button clicked!')}
         >
           Dashed Style
@@ -666,7 +687,6 @@ export function DemoButtonCustom() {
         <Button
           type="secondary"
           color="error"
-          className={styles.demoButton}
           onClick={() => alert('Error button clicked!')}
         >
           Error Style
@@ -685,7 +705,6 @@ export function DemoButtonGroups() {
         <Button
           type="secondary"
           color="error"
-          className={styles.demoButton}
           onClick={() => alert('Cancel clicked!')}
         >
           Cancel
@@ -693,7 +712,6 @@ export function DemoButtonGroups() {
         <Button
           type="primary"
           color="success"
-          className={styles.demoButton}
           onClick={() => alert('Confirm clicked!')}
         >
           Confirm
@@ -703,7 +721,6 @@ export function DemoButtonGroups() {
         <Button
           type="quaternary"
           color="success"
-          className={styles.demoButton}
           onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
         >
@@ -713,7 +730,6 @@ export function DemoButtonGroups() {
         <Button
           type="quaternary"
           color="success"
-          className={styles.demoButton}
           onClick={() => setCurrentPage(currentPage + 1)}
         >
           Next <Icon icon={ArrowRight} size="small"></Icon>
@@ -735,7 +751,7 @@ export function DemoButtonSize() {
         <Button
           type="primary"
           color="success"
-          className={`${styles.demoButton} ${styles.tiny}`}
+          size="tiny"
           onClick={() => alert('Tiny button clicked!')}
         >
           Tiny
@@ -743,7 +759,7 @@ export function DemoButtonSize() {
         <Button
           type="primary"
           color="success"
-          className={`${styles.demoButton} ${styles.small}`}
+          size="small"
           onClick={() => alert('Small button clicked!')}
         >
           Small
@@ -751,7 +767,7 @@ export function DemoButtonSize() {
         <Button
           type="primary"
           color="success"
-          className={`${styles.demoButton} ${styles.medium}`}
+          size="medium"
           onClick={() => alert('Medium button clicked!')}
         >
           Medium
@@ -759,7 +775,7 @@ export function DemoButtonSize() {
         <Button
           type="primary"
           color="success"
-          className={`${styles.demoButton} ${styles.large}`}
+          size="large"
           onClick={() => alert('Large button clicked!')}
         >
           Large
@@ -767,7 +783,7 @@ export function DemoButtonSize() {
         <Button
           type="primary"
           color="success"
-          className={`${styles.demoButton} ${styles.huge}`}
+          size="huge"
           onClick={() => alert('Huge button clicked!')}
         >
           Huge
@@ -783,7 +799,6 @@ export function DemoButtonOutline() {
       <Button
         type="secondary"
         color="success"
-        className={styles.demoButton}
         onClick={() => alert('Secondary button clicked!')}
       >
         Secondary
@@ -798,7 +813,6 @@ export function DemoButtonSecondary() {
       <Button
         type="secondary"
         color="success"
-        className={styles.demoButton}
         onClick={() => alert('Secondary button clicked!')}
       >
         Secondary
@@ -813,7 +827,6 @@ export function DemoButtonGhost() {
       <Button
         type="tertiary"
         color="success"
-        className={styles.demoButton}
         onClick={() => alert('Tertiary button clicked!')}
       >
         Tertiary
@@ -828,7 +841,6 @@ export function DemoButtonDestructive() {
       <Button
         type="tertiary"
         color="error"
-        className={styles.demoButton}
         onClick={() => alert('Error button clicked!')}
       >
         Error
@@ -843,7 +855,6 @@ export function DemoButtonLink() {
       <Button
         type="quaternary"
         color="success"
-        className={styles.demoButton}
         onClick={() => alert('Text button clicked!')}
       >
         Text
@@ -859,7 +870,6 @@ export function DemoButtonIcon() {
         <Button
           type="secondary"
           color="success"
-          className={`${styles.demoButton} ${styles.icon}`}
           onClick={() => alert('Up arrow clicked!')}
         >
           <Icon icon={ArrowUp} size="small" />
@@ -867,7 +877,6 @@ export function DemoButtonIcon() {
         <Button
           type="secondary"
           color="success"
-          className={`${styles.demoButton} ${styles.icon}`}
           onClick={() => alert('Down arrow clicked!')}
         >
           <Icon icon={ArrowDown} size="small" />
@@ -875,7 +884,6 @@ export function DemoButtonIcon() {
         <Button
           type="secondary"
           color="success"
-          className={`${styles.demoButton} ${styles.icon}`}
           onClick={() => alert('Left arrow clicked!')}
         >
           <Icon icon={ArrowLeft} size="small" />
@@ -883,7 +891,6 @@ export function DemoButtonIcon() {
         <Button
           type="secondary"
           color="success"
-          className={`${styles.demoButton} ${styles.icon}`}
           onClick={() => alert('Right arrow clicked!')}
         >
           <Icon icon={ArrowRight} size="small" />
@@ -900,7 +907,6 @@ export function DemoButtonWithIcon() {
         <Button
           type="secondary"
           color="success"
-          className={`${styles.demoButton} ${styles.withIcon}`}
           onClick={() => alert('New Branch clicked!')}
         >
           ⚡ New Branch
@@ -908,7 +914,6 @@ export function DemoButtonWithIcon() {
         <Button
           type="primary"
           color="error"
-          className={`${styles.demoButton} ${styles.withIcon}`}
           onClick={() => alert('Save clicked!')}
         >
           💾 Save
@@ -916,7 +921,6 @@ export function DemoButtonWithIcon() {
         <Button
           type="secondary"
           color="success"
-          className={`${styles.demoButton} ${styles.withIcon}`}
           onClick={() => alert('Check clicked!')}
         >
           ✓ Check
@@ -933,7 +937,8 @@ export function DemoButtonRounded() {
         <Button
           type="secondary"
           color="success"
-          className={`${styles.demoButton} ${styles.icon} ${styles.rounded}`}
+          size="medium"
+          className={styles.rounded}
           onClick={() => alert('Rounded button clicked!')}
         >
           ↑
@@ -941,7 +946,8 @@ export function DemoButtonRounded() {
         <Button
           type="primary"
           color="success"
-          className={`${styles.demoButton} ${styles.icon} ${styles.rounded}`}
+          size="medium"
+          className={styles.rounded}
           onClick={() => alert('Rounded primary clicked!')}
         >
           ✓
@@ -949,7 +955,8 @@ export function DemoButtonRounded() {
         <Button
           type="tertiary"
           color="success"
-          className={`${styles.demoButton} ${styles.icon} ${styles.rounded}`}
+          size="medium"
+          className={styles.rounded}
           onClick={() => alert('Rounded success clicked!')}
         >
           ✓
@@ -971,20 +978,20 @@ export function DemoButtonLoading() {
     <div className={styles.section}>
       <div className={styles.buttonGroup}>
         <Button
+          loading={loading}
           disabled={loading}
           onClick={handleClick}
           type="primary"
           color="success"
-          className={`${styles.demoButton} ${loading ? styles.loading : ''}`}
         >
           {loading ? 'Loading...' : 'Submit'}
         </Button>
         <Button
+          loading={loading}
           disabled={loading}
           onClick={handleClick}
           type="tertiary"
           color="success"
-          className={`${styles.demoButton} ${loading ? styles.loading : ''}`}
         >
           {loading ? 'Processing...' : 'Save'}
         </Button>

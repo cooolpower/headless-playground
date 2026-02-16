@@ -1,9 +1,5 @@
 import { style, globalStyle } from '@vanilla-extract/css';
-import { demoButton } from '../button/button.demo.css';
-
-export const demoButtons = style([
-  demoButton
-]);
+export const demoButtons = style({});
 
 export const container = style({
   display: 'flex',

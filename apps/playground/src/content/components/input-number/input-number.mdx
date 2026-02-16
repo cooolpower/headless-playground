@@ -12,7 +12,7 @@ import {
 } from './input-number.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { InputNumberCss } from '@headless/ui';
+import { InputNumberCss } from '@repo/ui';
 
 # Input Number
 
@@ -34,7 +34,7 @@ Input Number 컴포넌트를 사용하여 숫자 입력 필드를 만들 수 있
 <Playground preview={<DemoInputNumberBasic />} />
 
 ```tsx
-import { InputNumber } from '@headless/ui';
+import { InputNumber } from '@repo/ui';
 
 export function MyComponent() {
   const [value, setValue] = useState<number | undefined>(0);
