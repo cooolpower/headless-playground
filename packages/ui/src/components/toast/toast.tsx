@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useToast } from './use-toast';
 import { ToastProps } from './type-toast';
 import { toastCss as _toastCss } from './toast.styles';
+import { Ellipsis } from '../ellipsis/ellipsis';
 
 export function Toast({
   className,
@@ -12,13 +14,19 @@ export function Toast({
   injectStyles = true,
   ...props
 }: ToastProps) {
-  const { icon, placementStyles, duration, onClose, message, showProgress } =
-    useToast({ ...props, index, maxCount });
+  const {
+    icon,
+    placementStyles,
+    duration,
+    onClose,
+    message,
+    title,
+    description,
+    showProgress,
+    showClose,
+  } = useToast({ ...props, index, maxCount });
 
-  const [progress, setProgress] = useState(100);
-  const startTimeRef = useRef<number>(Date.now());
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const progressTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [progressWidth, setProgressWidth] = useState(100);
   const onCloseRef = useRef(onClose);
 
   // onClose가 변경되면 ref 업데이트
@@ -27,44 +35,45 @@ export function Toast({
   }, [onClose]);
 
   useEffect(() => {
-    if (duration > 0 && onCloseRef.current) {
-      const startTime = Date.now();
-      startTimeRef.current = startTime;
+    if (duration > 0) {
+      // 렌더링 직후 100%에서 시작해서 다음 프레임에 0%로 애니메이션 시작
+      const requestId = requestAnimationFrame(() => {
+        setProgressWidth(0);
+      });
 
-      // 프로그레스 바 업데이트
-      if (showProgress) {
-        const updateProgress = () => {
-          const elapsed = Date.now() - startTime;
-          const remaining = Math.max(0, duration - elapsed);
-          const progressPercent = (remaining / duration) * 100;
-          setProgress(progressPercent);
-
-          if (remaining <= 0) {
-            onCloseRef.current?.();
-          } else {
-            progressTimerRef.current = setTimeout(updateProgress, 16); // 약 60fps
-          }
-        };
-        progressTimerRef.current = setTimeout(updateProgress, 16);
-      } else {
-        // 프로그레스 바 없이 단순 타이머
-        timerRef.current = setTimeout(() => {
-          onCloseRef.current?.();
-        }, duration);
-      }
+      const timer = setTimeout(() => {
+        onCloseRef.current?.();
+      }, duration);
 
       return () => {
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-        }
-        if (progressTimerRef.current) {
-          clearTimeout(progressTimerRef.current);
-        }
+        cancelAnimationFrame(requestId);
+        clearTimeout(timer);
       };
     }
-  }, [duration, showProgress]); // onClose는 dependency에서 제거
+  }, [duration]);
 
-  return (
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const shouldShowClose = showClose || duration === 0;
+
+  if (!mounted) return null;
+
+  const containerId = `hcToastContainer-${props.placement || 'top'}`;
+  let container = document.getElementById(containerId);
+
+  if (!container) {
+    container = document.createElement('div');
+    container.id = containerId;
+    container.className = 'hcToastContainer';
+    container.setAttribute('data-placement', props.placement || 'top');
+    document.body.appendChild(container);
+  }
+
+  return createPortal(
     <div
       role="alert"
       aria-live="polite"
@@ -73,10 +82,6 @@ export function Toast({
       data-show-progress={showProgress && duration > 0 ? 'true' : 'false'}
       style={{
         zIndex: 9999 - index,
-        paddingBottom:
-          showProgress && duration > 0
-            ? 'calc(var(--spacing-base) + 0.375rem)'
-            : undefined,
         ...placementStyles,
       }}
     >
@@ -85,17 +90,37 @@ export function Toast({
       ) : null}
       {icon && <div className="hcToastIcon">{icon}</div>}
       <div className="hcToastBody">
-        <div>{message as any}</div>
+        {!!title && <div className="hcToastTitle">{title as any}</div>}
+        {!!description && (
+          <Ellipsis lines={2} className="hcToastDescription">
+            {description as any}
+          </Ellipsis>
+        )}
+        {!!message && <div className="hcToastMessage">{message as any}</div>}
         {showProgress && duration > 0 && (
           <div className="hcToastProgressTrack">
             <div
               className="hcToastProgressFill"
-              style={{ width: `${progress}%` }}
+              style={{
+                width: `${progressWidth}%`,
+                transition:
+                  duration > 0 ? `width ${duration}ms linear` : 'none',
+              }}
             />
           </div>
         )}
       </div>
-    </div>
+      {shouldShowClose && (
+        <button
+          className="hcToastClose"
+          onClick={() => onCloseRef.current?.()}
+          aria-label="Close"
+        >
+          ✕
+        </button>
+      )}
+    </div>,
+    container,
   );
 }
 

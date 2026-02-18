@@ -1,9 +1,427 @@
 'use client';
 
-import { useState } from 'react';
-import { Toast } from '@repo/ui';
-import { Button } from '@repo/ui';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+} from 'react';
+import { Toast, Button, Input, Checkbox } from '@repo/ui';
+import { Controls } from '@/components/playground/controls';
 import * as styles from './toast.demo.css';
+
+// Toast 컨트롤을 위한 컨텍스트 정의
+interface ToastControlsContextType {
+  title: string;
+  setTitle: (v: string) => void;
+  description: string;
+  setDescription: (v: string) => void;
+  type: 'success' | 'info' | 'warning' | 'error';
+  setType: (v: 'success' | 'info' | 'warning' | 'error') => void;
+  placement:
+    | 'top'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom'
+    | 'bottom-left'
+    | 'bottom-right';
+  setPlacement: (
+    v:
+      | 'top'
+      | 'top-left'
+      | 'top-right'
+      | 'bottom'
+      | 'bottom-left'
+      | 'bottom-right',
+  ) => void;
+  duration: number;
+  setDuration: (v: number) => void;
+  showIcon: boolean;
+  setShowIcon: (v: boolean) => void;
+  showProgress: boolean;
+  setShowProgress: (v: boolean) => void;
+  showClose: boolean;
+  setShowClose: (v: boolean) => void;
+  maxCount: number;
+  setMaxCount: (v: number) => void;
+}
+
+const ToastControlsContext = createContext<
+  ToastControlsContextType | undefined
+>(undefined);
+
+export function ToastControlsProvider({ children }: { children: ReactNode }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [title, setTitle] = useState('알림 타이틀');
+  const [description, setDescription] = useState(
+    '이것은 토스트 알림의 상세 설명글입니다. 2줄이 넘어가면 말줄임표가 표시되는지 확인해 보세요.\n이것은 개행 테스트를 위한 두 번째 줄입니다.',
+  );
+  const [type, setType] = useState<'success' | 'info' | 'warning' | 'error'>(
+    'info',
+  );
+  const [placement, setPlacement] = useState<
+    'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right'
+  >('top-right');
+  const [duration, setDuration] = useState(3000);
+  const [showIcon, setShowIcon] = useState(true);
+  const [showProgress, setShowProgress] = useState(true);
+  const [showClose, setShowClose] = useState(false);
+  const [maxCount, setMaxCount] = useState(5);
+
+  // 로컬 스토리지에서 상태 복원
+  useEffect(() => {
+    const saved = localStorage.getItem('hc-toast-demo-settings');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.title) setTitle(parsed.title);
+        if (parsed.description) setDescription(parsed.description);
+        if (parsed.type) setType(parsed.type);
+        if (parsed.placement) setPlacement(parsed.placement);
+        if (parsed.duration !== undefined) setDuration(parsed.duration);
+        if (parsed.showIcon !== undefined) setShowIcon(parsed.showIcon);
+        if (parsed.showProgress !== undefined)
+          setShowProgress(parsed.showProgress);
+        if (parsed.showClose !== undefined) setShowClose(parsed.showClose);
+        if (parsed.maxCount !== undefined) setMaxCount(parsed.maxCount);
+      } catch (e) {
+        console.error('Failed to parse toast settings', e);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // 상태 변경 시 로컬 스토리지 저장
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem(
+        'hc-toast-demo-settings',
+        JSON.stringify({
+          title,
+          description,
+          type,
+          placement,
+          duration,
+          showIcon,
+          showProgress,
+          showClose,
+          maxCount,
+        }),
+      );
+    }
+  }, [
+    title,
+    description,
+    type,
+    placement,
+    duration,
+    showIcon,
+    showProgress,
+    showClose,
+    maxCount,
+    isLoaded,
+  ]);
+
+  return (
+    <ToastControlsContext.Provider
+      value={{
+        title,
+        setTitle,
+        description,
+        setDescription,
+        type,
+        setType,
+        placement,
+        setPlacement,
+        duration,
+        setDuration,
+        showIcon,
+        setShowIcon,
+        showProgress,
+        setShowProgress,
+        showClose,
+        setShowClose,
+        maxCount,
+        setMaxCount,
+      }}
+    >
+      {children}
+    </ToastControlsContext.Provider>
+  );
+}
+
+export function ToastInteractiveControls() {
+  const context = useContext(ToastControlsContext);
+  if (!context) return null;
+
+  const {
+    title,
+    setTitle,
+    description,
+    setDescription,
+    type,
+    setType,
+    placement,
+    setPlacement,
+    duration,
+    setDuration,
+    showIcon,
+    setShowIcon,
+    showProgress,
+    setShowProgress,
+    showClose,
+    setShowClose,
+    maxCount,
+    setMaxCount,
+  } = context;
+
+  return (
+    <Controls
+      items={[
+        {
+          label: '타이틀 (Title)',
+          control: (
+            <Input
+              value={title}
+              onChange={(v) => setTitle(v)}
+              placeholder="알림 타이틀을 입력하세요"
+            />
+          ),
+        },
+        {
+          label: '설명 (Description)',
+          control: (
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="알림 상세 내용을 입력하세요"
+              style={{
+                width: '100%',
+                minHeight: '80px',
+                padding: '8px',
+                fontSize: '13px',
+                borderRadius: '4px',
+                border: '1px solid var(--color-divider)',
+                background: 'transparent',
+                resize: 'vertical',
+                color: 'inherit',
+              }}
+            />
+          ),
+        },
+        {
+          label: '타입 (Type)',
+          control: (
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {(['info', 'success', 'warning', 'error'] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setType(t)}
+                  className={
+                    type === t
+                      ? styles.activeControlButton
+                      : styles.controlButton
+                  }
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          ),
+        },
+        {
+          label: '위치 (Placement)',
+          control: (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '4px',
+              }}
+            >
+              {(
+                [
+                  'top-left',
+                  'top',
+                  'top-right',
+                  'bottom-left',
+                  'bottom',
+                  'bottom-right',
+                ] as const
+              ).map((p) => (
+                <button
+                  key={p}
+                  onClick={() => setPlacement(p)}
+                  className={
+                    placement === p
+                      ? styles.activeControlButton
+                      : styles.controlButton
+                  }
+                  style={{ fontSize: '10px' }}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          ),
+        },
+        {
+          label: '지속 시간 (Duration, ms)',
+          control: (
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <input
+                type="range"
+                min="0"
+                max="10000"
+                step="500"
+                value={duration}
+                onChange={(e) => setDuration(Number(e.target.value))}
+                style={{ flex: 1 }}
+              />
+              <span style={{ fontSize: '11px', minWidth: '45px' }}>
+                {duration === 0 ? '영구' : `${duration}ms`}
+              </span>
+            </div>
+          ),
+        },
+        {
+          label: '표시 설정 (Display)',
+          control: (
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <Checkbox checked={showIcon} onChange={setShowIcon}>
+                아이콘
+              </Checkbox>
+              <Checkbox checked={showProgress} onChange={setShowProgress}>
+                프로그레스
+              </Checkbox>
+              <Checkbox checked={showClose} onChange={setShowClose}>
+                닫기 버튼
+              </Checkbox>
+            </div>
+          ),
+        },
+        {
+          label: '최대 표시 개수 (Max Count)',
+          control: (
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <input
+                type="number"
+                min="1"
+                max="10"
+                value={maxCount}
+                onChange={(e) => setMaxCount(Number(e.target.value))}
+                style={{
+                  width: '50px',
+                  padding: '2px 4px',
+                  borderRadius: '4px',
+                  border: '1px solid var(--color-divider)',
+                  background: 'transparent',
+                }}
+              />
+            </div>
+          ),
+        },
+      ]}
+    />
+  );
+}
+
+export function DemoToastBasicWithControls() {
+  const context = useContext(ToastControlsContext);
+  if (!context) return null;
+
+  const {
+    title,
+    description,
+    type,
+    placement,
+    duration,
+    showIcon,
+    showProgress,
+    showClose,
+    maxCount,
+  } = context;
+
+  const [toasts, setToasts] = useState<
+    Array<{
+      id: number;
+      title?: string;
+      description?: string;
+      type: any;
+      placement: any;
+      duration: number;
+      showIcon: boolean;
+      showProgress: boolean;
+      showClose: boolean;
+    }>
+  >([]);
+
+  const triggerToast = useCallback(() => {
+    const id = Date.now();
+    setToasts((prev) => {
+      const newList = [
+        ...prev,
+        {
+          id,
+          title,
+          description,
+          type,
+          placement,
+          duration,
+          showIcon,
+          showProgress,
+          showClose,
+        },
+      ];
+      console.log(
+        'Toast triggered (interactive):',
+        newList[newList.length - 1],
+      );
+      return newList.slice(-maxCount);
+    });
+  }, [
+    title,
+    description,
+    type,
+    placement,
+    duration,
+    showIcon,
+    showProgress,
+    showClose,
+    maxCount,
+  ]);
+
+  const removeToast = useCallback((id: number) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  return (
+    <div className={styles.container}>
+      <button className={styles.primaryButton} onClick={triggerToast}>
+        Show Toast
+      </button>
+
+      {toasts.map((t, index) => (
+        <Toast
+          key={t.id}
+          title={t.title}
+          description={t.description}
+          type={t.type}
+          placement={t.placement}
+          duration={t.duration}
+          showIcon={t.showIcon}
+          showProgress={t.showProgress}
+          showClose={t.showClose}
+          index={index}
+          maxCount={maxCount}
+          onClose={() => removeToast(t.id)}
+        />
+      ))}
+    </div>
+  );
+}
 
 export function DemoToastBasic() {
   const [toasts, setToasts] = useState<
@@ -34,6 +452,7 @@ export function DemoToastBasic() {
           showProgress: options?.showProgress,
         },
       ];
+      console.log(`Toast show (${type}):`, message);
       // maxCount를 초과하면 가장 오래된 것부터 제거
       return newToasts.slice(-maxCount);
     });
