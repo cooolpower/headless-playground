@@ -33,6 +33,10 @@ export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
       dateCellClassName,
       dateCellTodayClassName,
       dateCellSelectedClassName,
+      size = 'medium',
+      brandColor,
+      minDate,
+      maxDate,
       injectStyles = true,
       ...props
     },
@@ -86,8 +90,45 @@ export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
       });
     };
 
+    // 달력 날짜 비활성화 여부 확인
+    const isDateDisabled = (date: Date) => {
+      if (!date) return false;
+      const d = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+      ).getTime();
+
+      // Ensure minDate/maxDate are Date objects (safety for and-ed environments)
+      const _minDate =
+        minDate instanceof Date ? minDate : minDate ? new Date(minDate) : null;
+      const _maxDate =
+        maxDate instanceof Date ? maxDate : maxDate ? new Date(maxDate) : null;
+
+      if (_minDate && !isNaN(_minDate.getTime())) {
+        const min = new Date(
+          _minDate.getFullYear(),
+          _minDate.getMonth(),
+          _minDate.getDate(),
+        ).getTime();
+        if (d < min) return true;
+      }
+
+      if (_maxDate && !isNaN(_maxDate.getTime())) {
+        const max = new Date(
+          _maxDate.getFullYear(),
+          _maxDate.getMonth(),
+          _maxDate.getDate(),
+        ).getTime();
+        if (d > max) return true;
+      }
+
+      return false;
+    };
+
     // 달력 날짜 선택
     const handleDateSelect = (date: Date) => {
+      if (isDateDisabled(date)) return;
       handleChange(date);
       setIsOpen(false);
     };
@@ -195,14 +236,25 @@ export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
       dateGridClassName,
     );
 
+    const brandStyles = brandColor
+      ? ({ '--hc-date-picker-brand': brandColor } as React.CSSProperties)
+      : undefined;
+
     return (
-      <div ref={containerRef} className={rootClassName} {...props}>
+      <div
+        ref={containerRef}
+        className={rootClassName}
+        data-size={size}
+        style={brandStyles}
+        {...props}
+      >
         {injectStyles && (
           <style suppressHydrationWarning>{_datePickerCss}</style>
         )}
         <div
           className={resolvedInputWrapperClassName}
           data-disabled={disabled ? 'true' : undefined}
+          onClick={() => !disabled && setIsOpen(!isOpen)}
         >
           <input
             className={cx('hcDatePickerInput')}
@@ -211,11 +263,9 @@ export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
             placeholder={placeholder}
             readOnly
             disabled={disabled}
-            onClick={() => !disabled && setIsOpen(!isOpen)}
           />
           <button
             type="button"
-            onClick={() => !disabled && setIsOpen(!isOpen)}
             disabled={disabled}
             aria-label="달력 열기"
             className={resolvedIconButtonClassName}
@@ -267,31 +317,25 @@ export const DatePicker = forwardRef<HTMLDivElement, datepickerProps>(
                   const isToday =
                     date.toDateString() === new Date().toDateString();
 
+                  const isDisabled = isDateDisabled(date);
+
                   let cellClassName = cx(
                     'hcDatePickerDateCell',
+                    isToday && 'hcDatePickerDateCellToday',
+                    isSelected && 'hcDatePickerDateCellSelected',
+                    (!isCurrentMonth || isDisabled) &&
+                      'hcDatePickerDateCellDisabled',
                     dateCellClassName,
+                    isToday && dateCellTodayClassName,
+                    isSelected && dateCellSelectedClassName,
                   );
-
-                  if (injectStyles && dateCellClassName) {
-                    cellClassName =
-                      `${cellClassName} ${dateCellClassName}`.trim();
-                  }
-
-                  if (isToday && dateCellTodayClassName) {
-                    cellClassName =
-                      `${cellClassName || ''} ${dateCellTodayClassName}`.trim();
-                  }
-                  if (isSelected && dateCellSelectedClassName) {
-                    cellClassName =
-                      `${cellClassName || ''} ${dateCellSelectedClassName}`.trim();
-                  }
 
                   return (
                     <button
                       type="button"
                       key={index}
                       onClick={() => handleDateSelect(date)}
-                      disabled={!isCurrentMonth}
+                      disabled={!isCurrentMonth || isDisabled}
                       className={cellClassName}
                     >
                       {date.getDate()}
