@@ -1,10 +1,220 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { DynamicTags } from '@repo/ui';
 import { Icon } from '@repo/ui';
+import { Controls } from '@/components/playground/controls';
+import { Checkbox } from '@repo/ui';
 import * as styles from './dynamic-tags.demo.css';
+
+const STORAGE_KEY = 'headless-dynamic-tags-demo-state';
+
+// DynamicTags Controls Context
+interface DynamicTagsControlsContextType {
+  max: number | undefined;
+  setMax: (max: number | undefined) => void;
+  disabled: boolean;
+  setDisabled: (value: boolean) => void;
+  size: 'small' | 'medium' | 'large';
+  setSize: (size: 'small' | 'medium' | 'large') => void;
+  placeholder: string;
+  setPlaceholder: (placeholder: string) => void;
+  injectStyles: boolean;
+  setInjectStyles: (value: boolean) => void;
+}
+
+const DynamicTagsControlsContext =
+  createContext<DynamicTagsControlsContextType | null>(null);
+
+const getInitialState = () => {
+  const defaultState = {
+    max: undefined as number | undefined,
+    disabled: false,
+    size: 'medium' as const,
+    placeholder: '태그를 입력하세요',
+    injectStyles: true,
+  };
+
+  if (typeof window === 'undefined') return defaultState;
+
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return { ...defaultState, ...parsed };
+    }
+  } catch (error) {
+    console.warn('Failed to load state from localStorage:', error);
+  }
+
+  return defaultState;
+};
+
+export function DemoDynamicTagsBasicProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const initialState = getInitialState();
+  const [max, setMax] = useState(initialState.max);
+  const [disabled, setDisabled] = useState(initialState.disabled);
+  const [size, setSize] = useState(initialState.size);
+  const [placeholder, setPlaceholder] = useState(initialState.placeholder);
+  const [injectStyles, setInjectStyles] = useState(initialState.injectStyles);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const stateToSave = {
+        max,
+        disabled,
+        size,
+        placeholder,
+        injectStyles,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+    } catch (error) {
+      console.warn('Failed to save state to localStorage:', error);
+    }
+  }, [max, disabled, size, placeholder, injectStyles]);
+
+  return (
+    <DynamicTagsControlsContext.Provider
+      value={{
+        max,
+        setMax,
+        disabled,
+        setDisabled,
+        size,
+        setSize,
+        placeholder,
+        setPlaceholder,
+        injectStyles,
+        setInjectStyles,
+      }}
+    >
+      {children}
+    </DynamicTagsControlsContext.Provider>
+  );
+}
+
+export function DemoDynamicTagsBasicWithControls() {
+  const context = useContext(DynamicTagsControlsContext);
+  const [tags, setTags] = useState<string[]>(['Tag1', 'Tag2']);
+
+  if (!context) return <DemoDynamicTagsBasic />;
+
+  const { max, disabled, size, placeholder, injectStyles } = context;
+
+  return (
+    <div className={styles.container}>
+      <DynamicTags
+        value={tags}
+        onChange={setTags}
+        max={max}
+        disabled={disabled}
+        size={size}
+        placeholder={placeholder}
+        injectStyles={injectStyles}
+        classNames={{
+          dynamicTags: styles.dynamicTags,
+          tag: styles.tag,
+          tagInput: styles.tagInput,
+          addButton: styles.addButton,
+        }}
+      />
+      <div className={styles.valueDisplay}>값: {JSON.stringify(tags)}</div>
+    </div>
+  );
+}
+
+export function DemoDynamicTagsBasicControls() {
+  const context = useContext(DynamicTagsControlsContext);
+
+  if (!context) return null;
+
+  const {
+    max,
+    setMax,
+    disabled,
+    setDisabled,
+    size,
+    setSize,
+    placeholder,
+    setPlaceholder,
+    injectStyles,
+    setInjectStyles,
+  } = context;
+
+  return (
+    <Controls
+      items={[
+        {
+          label: 'Inject Styles',
+          control: (
+            <Checkbox
+              checked={injectStyles}
+              onChange={setInjectStyles}
+              size="small"
+            >
+              사용
+            </Checkbox>
+          ),
+        },
+        {
+          label: 'Size',
+          control: (
+            <select
+              value={size}
+              onChange={(e) => setSize(e.target.value as any)}
+              style={{ padding: '4px' }}
+            >
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          ),
+        },
+        {
+          label: 'Max Tags',
+          control: (
+            <input
+              type="number"
+              value={max ?? ''}
+              onChange={(e) =>
+                setMax(e.target.value ? Number(e.target.value) : undefined)
+              }
+              placeholder="무제한"
+              min={1}
+              style={{ padding: '4px', width: '80px' }}
+            />
+          ),
+        },
+        {
+          label: 'Placeholder',
+          control: (
+            <input
+              type="text"
+              value={placeholder}
+              onChange={(e) => setPlaceholder(e.target.value)}
+              style={{ padding: '4px', width: '100%' }}
+            />
+          ),
+        },
+        {
+          label: 'Disabled',
+          control: (
+            <Checkbox checked={disabled} onChange={setDisabled} size="small">
+              비활성화
+            </Checkbox>
+          ),
+        },
+      ]}
+    />
+  );
+}
 
 // 기본 Dynamic Tags 예제
 export function DemoDynamicTagsBasic() {

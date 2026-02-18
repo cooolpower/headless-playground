@@ -3,6 +3,9 @@ import { CssSnippet } from '@/components/playground/css-snippet';
 import { DynamicTagsCss } from '@repo/ui';
 import {
   DemoDynamicTagsBasic,
+  DemoDynamicTagsBasicWithControls,
+  DemoDynamicTagsBasicControls,
+  DemoDynamicTagsBasicProvider,
   DemoDynamicTagsMax,
   DemoDynamicTagsDisabled,
   DemoDynamicTagsSizes,
@@ -12,7 +15,18 @@ import {
 
 # Dynamic Tags
 
-Dynamic Tags는 사용자가 태그를 동적으로 추가하거나 제거할 수 있는 컴포넌트입니다.
+Dynamic Tags는 사용자가 태그를 동적으로 추가하거나 제거할 수 있는 공간입니다.
+
+## 기본 사용법 (인터랙티브)
+
+아래 예제에서 Dynamic Tags의 다양한 설정을 실시간으로 변경해 볼 수 있습니다. 설정은 로컬스토리지에 저장되어 페이지를 새로고침해도 유지됩니다.
+
+<DemoDynamicTagsBasicProvider>
+  <Playground
+    preview={<DemoDynamicTagsBasicWithControls />}
+    controls={<DemoDynamicTagsBasicControls />}
+  />
+</DemoDynamicTagsBasicProvider>
 
 ## 기본 사용법
 

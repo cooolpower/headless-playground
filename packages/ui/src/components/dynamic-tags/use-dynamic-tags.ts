@@ -11,6 +11,7 @@ export interface UseDynamicTagsProps {
   onCreate?: (tag: string) => void | boolean | Promise<void | boolean>;
   onRemove?: (tag: string, index: number) => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
+  injectStyles?: boolean;
 }
 
 export interface UseDynamicTagsReturn {
