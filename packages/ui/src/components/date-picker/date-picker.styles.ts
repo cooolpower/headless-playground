@@ -3,21 +3,36 @@ export const datePickerCss = `
   position: relative;
   width: max-content;
   color: var(--color-text);
+  font-family: inherit;
+  --hc-date-picker-brand: var(--color-brand-primary);
+  --hc-date-picker-brand-text: var(--color-text-on-primary);
 }
 
 .hcDatePickerInputWrapper {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
   border: 1px solid var(--color-divider);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.hcDatePickerInputWrapper:hover:not([data-disabled="true"]) {
+  border-color: var(--hc-date-picker-brand);
+}
+
+.hcDatePickerInputWrapper:focus-within:not([data-disabled="true"]) {
+  border-color: var(--hc-date-picker-brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--hc-date-picker-brand), transparent 80%);
 }
 
 .hcDatePickerInputWrapper[data-disabled="true"] {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  background: var(--color-background);
 }
 
 .hcDatePickerInput {
@@ -25,26 +40,46 @@ export const datePickerCss = `
   outline: none;
   background: transparent;
   color: inherit;
-  padding: 0.5rem 0.75rem;
-  min-width: 10.5rem;
   font-size: 0.875rem;
+  width: 100%;
+  cursor: pointer;
+  height: 100%;
+}
+
+.hcDatePickerInput:disabled {
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.hcDatePicker[data-size="small"] .hcDatePickerInputWrapper {
+  height: 2rem;
+  font-size: 0.8125rem;
+}
+.hcDatePicker[data-size="medium"] .hcDatePickerInputWrapper {
+  height: 2.5rem;
+  font-size: 0.875rem;
+}
+.hcDatePicker[data-size="large"] .hcDatePickerInputWrapper {
+  height: 3rem;
+  font-size: 1rem;
 }
 
 .hcDatePickerIconButton {
   border: none;
   background: transparent;
-  color: inherit;
-  border-radius: var(--radius-md);
-  width: 2rem;
-  height: 2rem;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-sm);
+  width: 1.5rem;
+  height: 1.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: color 0.2s;
 }
 
 .hcDatePickerIconButton:hover {
-  background: var(--color-surface-hover);
+  color: var(--color-text);
 }
 
 .hcDatePickerPanelWrapper {
@@ -52,123 +87,168 @@ export const datePickerCss = `
   top: calc(100% + 0.5rem);
   left: 0;
   z-index: 1000;
+  animation: hcDatePickerFadeIn 0.2s ease-out;
+}
+
+@keyframes hcDatePickerFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .hcDatePickerCalendar {
   border: 1px solid var(--color-divider);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-xl);
   overflow: hidden;
-  width: 18.5rem;
+  width: 18rem;
+  user-select: none;
 }
 
 .hcDatePickerCalendarHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
   padding: 0.75rem;
-  border-bottom: 1px solid var(--color-divider);
-  background: var(--color-background);
+  border-bottom: 1px solid var(--color-divider-subtle);
 }
 
 .hcDatePickerNavButton {
-  border: 1px solid var(--color-divider);
-  background: var(--color-surface);
-  color: var(--color-text);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
   border-radius: var(--radius-md);
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .hcDatePickerNavButton:hover {
   background: var(--color-surface-hover);
+  color: var(--color-text);
 }
 
 .hcDatePickerMonthYear {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-text-heading);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
 }
 
 .hcDatePickerWeekHeader {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 0.5rem 0.5rem 0.25rem;
+  padding: 0.5rem 0.75rem 0.25rem;
 }
 
 .hcDatePickerWeekDay {
   text-align: center;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text-secondary);
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hcDatePickerDateGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0.25rem;
-  padding: 0.5rem;
+  padding: 0.25rem 0.75rem 0.75rem;
 }
 
 .hcDatePickerDateCell {
   border: none;
   background: transparent;
-  color: inherit;
+  color: var(--color-text);
   border-radius: var(--radius-md);
-  padding: 0.5rem 0;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
+  position: relative;
+  transition: all 0.2s;
 }
 
 .hcDatePickerDateCell:hover:not(:disabled) {
   background: var(--color-surface-hover);
 }
 
+.hcDatePickerDateCellDisabled,
 .hcDatePickerDateCell:disabled {
-  opacity: 0.35;
+  color: var(--color-text-dimmed) !important;
   cursor: not-allowed;
+  opacity: 0.4;
+  background: transparent !important;
 }
 
 .hcDatePickerDateCellToday {
-  outline: 1px solid var(--color-brand-primary);
-  outline-offset: -1px;
+  color: var(--hc-date-picker-brand);
+  font-weight: 700;
+}
+
+.hcDatePickerDateCellToday::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--hc-date-picker-brand);
 }
 
 .hcDatePickerDateCellSelected {
-  background: var(--color-brand-primary);
-  color: var(--color-text-on-primary);
+  background: var(--hc-date-picker-brand) !important;
+  color: var(--hc-date-picker-brand-text) !important;
+  font-weight: 600;
 }
 
-/* Range (single input range picker) */
+.hcDatePickerDateCellSelected.hcDatePickerDateCellToday::after {
+  background: var(--hc-date-picker-brand-text);
+}
+
+/* Range Picker Specific */
 .hcDatePickerRangePanel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-xl);
+  display: flex;
   background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+
+.hcDatePickerRangePanel .hcDatePickerCalendar {
+  border: none;
+  box-shadow: none;
+}
+
+.hcDatePickerRangePanel .hcDatePickerCalendar:first-child {
+  border-right: 1px solid var(--color-divider-subtle);
 }
 
 .hcDatePickerDateCellInRange {
-  background: var(--color-surface-hover);
+  background: color-mix(in srgb, var(--hc-date-picker-brand), transparent 90%);
+  border-radius: 0;
+}
+
+.hcDatePickerDateCellInRange:hover {
+  background: color-mix(in srgb, var(--hc-date-picker-brand), transparent 80%);
 }
 
 .hcDatePickerDateCellRangeStart {
-  background: var(--color-brand-primary);
-  color: var(--color-text-on-primary);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .hcDatePickerDateCellRangeEnd {
-  background: var(--color-brand-primary);
-  color: var(--color-text-on-primary);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 `;
 

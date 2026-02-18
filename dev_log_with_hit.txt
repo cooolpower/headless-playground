@@ -1,0 +1,25 @@
+
+> playground@0.1.0 dev /Users/james/work/headless-playground/apps/playground
+> next dev
+
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/james/work/pnpm-lock.yaml as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * /Users/james/work/headless-playground/pnpm-lock.yaml
+
+ ⚠ Port 3000 is in use by process 10188, using available port 3001 instead.
+   ▲ Next.js 15.5.9
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.65:3001
+   - Experiments (use with caution):
+     ⨯ webpackBuildWorker
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 1427ms
+ ○ Compiling /components/[slug] ...
+ ✓ Compiled /components/[slug] in 2.1s (5324 modules)
+ GET /components/date-picker 200 in 2996ms
+[?25h

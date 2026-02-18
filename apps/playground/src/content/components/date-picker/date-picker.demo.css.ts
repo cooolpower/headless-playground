@@ -417,8 +417,8 @@ export const dateCell = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: 'var(--spacing-3xl)',
-  height: 'var(--spacing-3xl)',
+  // width: 'var(--spacing-3xl)',
+  // height: 'var(--spacing-3xl)',
   fontSize: 'var(--font-size-xs)',
 
   selectors: {

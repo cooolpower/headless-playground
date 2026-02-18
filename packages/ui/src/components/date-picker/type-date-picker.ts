@@ -20,7 +20,11 @@ export interface datepickerProps {
   dateCellClassName?: string;
   dateCellTodayClassName?: string;
   dateCellSelectedClassName?: string;
+  size?: 'small' | 'medium' | 'large';
+  brandColor?: string;
   injectStyles?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export interface UsedatepickerProps {

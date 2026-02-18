@@ -12,16 +12,30 @@ import * as styles from './date-picker.demo.css';
 interface DatePickerControlsContextType {
   value: Date | null;
   setValue: (value: Date | null) => void;
+  rangeValue: [Date | null, Date | null] | null;
+  setRangeValue: (value: [Date | null, Date | null] | null) => void;
+  type: 'single' | 'range';
+  setType: (type: 'single' | 'range') => void;
   disabled: boolean;
   setDisabled: (disabled: boolean) => void;
   placeholder: string;
   setPlaceholder: (placeholder: string) => void;
+  size: 'small' | 'medium' | 'large';
+  setSize: (size: 'small' | 'medium' | 'large') => void;
+  brandColor: string;
+  setBrandColor: (color: string) => void;
   injectStyles: boolean;
   setInjectStyles: (value: boolean) => void;
+  minDate: Date | null;
+  setMinDate: (date: Date | null) => void;
+  maxDate: Date | null;
+  setMaxDate: (date: Date | null) => void;
 }
 
 const DatePickerControlsContext =
   createContext<DatePickerControlsContextType | null>(null);
+
+const STORAGE_KEY = 'headless-date-picker-demo-state';
 
 // Provider
 export function DemoDatePickerBasicProvider({
@@ -29,22 +43,93 @@ export function DemoDatePickerBasicProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [value, setValue] = useState<Date | null>(null);
+  const [rangeValue, setRangeValue] = useState<
+    [Date | null, Date | null] | null
+  >(null);
+  const [type, setType] = useState<'single' | 'range'>('single');
   const [disabled, setDisabled] = useState(false);
   const [placeholder, setPlaceholder] = useState('날짜를 선택하세요');
+  const [size, setSize] = useState<'small' | 'medium' | 'large'>('medium');
+  const [brandColor, setBrandColor] = useState('#eab308'); // Default yellow
   const [injectStyles, setInjectStyles] = useState(true);
+  const [minDate, setMinDate] = useState<Date | null>(null);
+  const [maxDate, setMaxDate] = useState<Date | null>(null);
+
+  // Load from LocalStorage
+  React.useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setDisabled(parsed.disabled ?? false);
+        setPlaceholder(parsed.placeholder ?? '날짜를 선택하세요');
+        setSize(parsed.size ?? 'medium');
+        setBrandColor(parsed.brandColor ?? '#eab308');
+        setInjectStyles(parsed.injectStyles ?? true);
+        setType(parsed.type ?? 'single');
+        setMinDate(parsed.minDate ? new Date(parsed.minDate) : null);
+        setMaxDate(parsed.maxDate ? new Date(parsed.maxDate) : null);
+      } catch (e) {
+        console.error('Failed to parse saved state', e);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save to LocalStorage
+  React.useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          disabled,
+          placeholder,
+          size,
+          brandColor,
+          injectStyles,
+          type,
+          minDate: minDate ? minDate.toISOString() : null,
+          maxDate: maxDate ? maxDate.toISOString() : null,
+        }),
+      );
+    }
+  }, [
+    disabled,
+    placeholder,
+    size,
+    brandColor,
+    injectStyles,
+    type,
+    isLoaded,
+    minDate,
+    maxDate,
+  ]);
 
   return (
     <DatePickerControlsContext.Provider
       value={{
         value,
         setValue,
+        rangeValue,
+        setRangeValue,
+        type,
+        setType,
         disabled,
         setDisabled,
         placeholder,
         setPlaceholder,
+        size,
+        setSize,
+        brandColor,
+        setBrandColor,
         injectStyles,
         setInjectStyles,
+        minDate,
+        setMinDate,
+        maxDate,
+        setMaxDate,
       }}
     >
       {children}
@@ -59,32 +144,78 @@ export function DemoDatePickerBasicWithControls() {
     return <div>컨트롤러를 사용하려면 Provider로 감싸야 합니다.</div>;
   }
 
-  const { value, setValue, disabled, placeholder, injectStyles } = context;
+  const {
+    value,
+    setValue,
+    rangeValue,
+    setRangeValue,
+    type,
+    disabled,
+    placeholder,
+    size,
+    brandColor,
+    injectStyles,
+    minDate,
+    maxDate,
+  } = context;
+
+  const commonProps = {
+    disabled,
+    placeholder:
+      type === 'range' ? '날짜 범위를 선택하세요' : '날짜를 선택하세요',
+    size,
+    brandColor,
+    injectStyles,
+    minDate: minDate || undefined,
+    maxDate: maxDate || undefined,
+    className: injectStyles ? undefined : styles.datepicker,
+    inputWrapperClassName: injectStyles ? undefined : styles.inputWrapper,
+    calendarIconButtonClassName: injectStyles
+      ? undefined
+      : styles.calendarIconButton,
+    panelWrapperClassName: injectStyles ? undefined : styles.panelWrapper,
+    calendarClassName: injectStyles ? undefined : styles.calendar,
+    dateCellClassName: injectStyles ? undefined : styles.dateCell,
+    dateCellTodayClassName: injectStyles ? undefined : styles.dateCellToday,
+    dateCellSelectedClassName: injectStyles
+      ? undefined
+      : styles.dateCellSelected,
+  };
 
   return (
     <div className={styles.container}>
-      <DatePicker
-        value={value}
-        onChange={setValue}
-        disabled={disabled}
-        placeholder={placeholder}
-        injectStyles={injectStyles}
-        className={injectStyles ? undefined : styles.datepicker}
-        inputWrapperClassName={injectStyles ? undefined : styles.inputWrapper}
-        calendarIconButtonClassName={
-          injectStyles ? undefined : styles.calendarIconButton
-        }
-        panelWrapperClassName={injectStyles ? undefined : styles.panelWrapper}
-        calendarClassName={injectStyles ? undefined : styles.calendar}
-        dateCellClassName={injectStyles ? undefined : styles.dateCell}
-        dateCellTodayClassName={injectStyles ? undefined : styles.dateCellToday}
-        dateCellSelectedClassName={
-          injectStyles ? undefined : styles.dateCellSelected
-        }
-      />
+      {type === 'single' ? (
+        <DatePicker value={value} onChange={setValue} {...commonProps} />
+      ) : (
+        <DateRangePicker
+          value={rangeValue}
+          onChange={setRangeValue}
+          {...(commonProps as any)}
+          dateCellInRangeClassName={
+            injectStyles ? undefined : styles.dateCellInRange
+          }
+          dateCellRangeStartClassName={
+            injectStyles ? undefined : styles.dateCellRangeStart
+          }
+          dateCellRangeEndClassName={
+            injectStyles ? undefined : styles.dateCellRangeEnd
+          }
+        />
+      )}
       <div className={styles.rangeInfo}>
         <div className={styles.rangeValue}>
-          선택된 날짜: {value ? value.toLocaleDateString('ko-KR') : '없음'}
+          {type === 'single' ? (
+            <>
+              선택된 날짜: {value ? value.toLocaleDateString('ko-KR') : '없음'}
+            </>
+          ) : (
+            <>
+              선택된 기간:{' '}
+              {rangeValue?.[0] && rangeValue?.[1]
+                ? `${rangeValue[0].toLocaleDateString('ko-KR')} ~ ${rangeValue[1].toLocaleDateString('ko-KR')}`
+                : '없음'}
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -102,17 +233,78 @@ export function DemoDatePickerBasicControls() {
   const {
     value,
     setValue,
+    type,
+    setType,
     disabled,
     setDisabled,
     placeholder,
     setPlaceholder,
+    size,
+    setSize,
+    brandColor,
+    setBrandColor,
     injectStyles,
     setInjectStyles,
+    minDate,
+    setMinDate,
+    maxDate,
+    setMaxDate,
   } = context;
 
   return (
     <Controls
       items={[
+        {
+          label: 'Type (타입)',
+          control: (
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {(['single', 'range'] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setType(t)}
+                  style={{
+                    padding: '4px 8px',
+                    fontSize: '12px',
+                    borderRadius: '4px',
+                    border: '1px solid var(--color-divider)',
+                    background:
+                      type === t ? 'var(--color-brand-primary)' : 'transparent',
+                    color: type === t ? 'white' : 'inherit',
+                    cursor: 'pointer',
+                    textTransform: 'capitalize',
+                  }}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          ),
+        },
+        {
+          label: '크기 (Size)',
+          control: (
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {(['small', 'medium', 'large'] as const).map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setSize(s)}
+                  style={{
+                    padding: '4px 8px',
+                    fontSize: '12px',
+                    borderRadius: '4px',
+                    border: '1px solid var(--color-divider)',
+                    background:
+                      size === s ? 'var(--color-brand-primary)' : 'transparent',
+                    color: size === s ? 'white' : 'inherit',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          ),
+        },
         {
           label: 'Inject Styles',
           control: (
@@ -126,15 +318,26 @@ export function DemoDatePickerBasicControls() {
           ),
         },
         {
-          label: '선택된 날짜 (Value)',
+          label: '포인트 컬러 (Brand)',
           control: (
-            <Input
-              type="date"
-              value={value ? value.toISOString().split('T')[0] : ''}
-              onChange={(val) => setValue(val ? new Date(val) : null)}
-              placeholder="날짜 선택"
-              size="small"
-            />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <input
+                type="color"
+                value={brandColor}
+                onChange={(e) => setBrandColor(e.target.value)}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  padding: '0',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                }}
+              />
+              <span style={{ fontSize: '12px', opacity: 0.7 }}>
+                {brandColor.toUpperCase()}
+              </span>
+            </div>
           ),
         },
         {
@@ -150,15 +353,75 @@ export function DemoDatePickerBasicControls() {
           ),
         },
         {
-          label: 'Placeholder',
+          label: '선택 제한 (Range Limit)',
           control: (
-            <Input
-              type="text"
-              value={placeholder}
-              onChange={setPlaceholder}
-              placeholder="Placeholder 텍스트"
-              size="small"
-            />
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+            >
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {[
+                  { label: '제한 없음', min: null, max: null },
+                  {
+                    label: '오늘부터 가능',
+                    min: new Date(),
+                    max: null,
+                  },
+                  {
+                    label: '최대 3개월',
+                    min: null,
+                    max: new Date(
+                      new Date().setMonth(new Date().getMonth() + 3),
+                    ),
+                  },
+                ].map((p, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setMinDate(p.min);
+                      setMaxDate(p.max);
+                    }}
+                    style={{
+                      padding: '4px 8px',
+                      fontSize: '11px',
+                      borderRadius: '4px',
+                      border: '1px solid var(--color-divider)',
+                      background: 'transparent',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: '4px', fontSize: '11px' }}>
+                <div style={{ flex: 1 }}>
+                  <span>Min:</span>
+                  <input
+                    type="date"
+                    value={minDate ? minDate.toISOString().split('T')[0] : ''}
+                    onChange={(e) =>
+                      setMinDate(
+                        e.target.value ? new Date(e.target.value) : null,
+                      )
+                    }
+                    style={{ width: '100%', padding: '2px' }}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <span>Max:</span>
+                  <input
+                    type="date"
+                    value={maxDate ? maxDate.toISOString().split('T')[0] : ''}
+                    onChange={(e) =>
+                      setMaxDate(
+                        e.target.value ? new Date(e.target.value) : null,
+                      )
+                    }
+                    style={{ width: '100%', padding: '2px' }}
+                  />
+                </div>
+              </div>
+            </div>
           ),
         },
       ]}

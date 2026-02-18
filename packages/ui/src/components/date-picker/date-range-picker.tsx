@@ -35,6 +35,10 @@ export interface DateRangePickerProps {
   dateCellInRangeClassName?: string;
   dateCellRangeStartClassName?: string;
   dateCellRangeEndClassName?: string;
+  size?: 'small' | 'medium' | 'large';
+  brandColor?: string;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
@@ -63,6 +67,10 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       dateCellInRangeClassName,
       dateCellRangeStartClassName,
       dateCellRangeEndClassName,
+      size = 'medium',
+      brandColor,
+      minDate,
+      maxDate,
       ...props
     },
     ref,
@@ -90,39 +98,47 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     });
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const rootClassName = injectStyles
-      ? cx('hcDatePicker', className)
-      : className;
-    const resolvedInputWrapperClassName = injectStyles
-      ? cx('hcDatePickerInputWrapper', inputWrapperClassName)
-      : inputWrapperClassName;
-    const resolvedIconButtonClassName = injectStyles
-      ? cx('hcDatePickerIconButton', calendarIconButtonClassName)
-      : calendarIconButtonClassName;
-    const resolvedPanelWrapperClassName = injectStyles
-      ? cx('hcDatePickerPanelWrapper', panelWrapperClassName)
-      : panelWrapperClassName;
-    const resolvedCalendarClassName = injectStyles
-      ? cx('hcDatePickerCalendar', calendarClassName)
-      : calendarClassName;
-    const resolvedCalendarHeaderClassName = injectStyles
-      ? cx('hcDatePickerCalendarHeader', calendarHeaderClassName)
-      : calendarHeaderClassName;
-    const resolvedNavButtonClassName = injectStyles
-      ? cx('hcDatePickerNavButton', navButtonClassName)
-      : navButtonClassName;
-    const resolvedMonthYearClassName = injectStyles
-      ? cx('hcDatePickerMonthYear', monthYearClassName)
-      : monthYearClassName;
-    const resolvedWeekHeaderClassName = injectStyles
-      ? cx('hcDatePickerWeekHeader', weekHeaderClassName)
-      : weekHeaderClassName;
-    const resolvedWeekDayClassName = injectStyles
-      ? cx('hcDatePickerWeekDay', weekDayClassName)
-      : weekDayClassName;
-    const resolvedDateGridClassName = injectStyles
-      ? cx('hcDatePickerDateGrid', dateGridClassName)
-      : dateGridClassName;
+    const rootClassName = cx('hcDatePicker', className);
+    const resolvedInputWrapperClassName = cx(
+      'hcDatePickerInputWrapper',
+      inputWrapperClassName,
+    );
+    const resolvedIconButtonClassName = cx(
+      'hcDatePickerIconButton',
+      calendarIconButtonClassName,
+    );
+    const resolvedPanelWrapperClassName = cx(
+      'hcDatePickerPanelWrapper',
+      panelWrapperClassName,
+    );
+    const resolvedCalendarClassName = cx(
+      'hcDatePickerCalendar',
+      calendarClassName,
+    );
+    const resolvedCalendarHeaderClassName = cx(
+      'hcDatePickerCalendarHeader',
+      calendarHeaderClassName,
+    );
+    const resolvedNavButtonClassName = cx(
+      'hcDatePickerNavButton',
+      navButtonClassName,
+    );
+    const resolvedMonthYearClassName = cx(
+      'hcDatePickerMonthYear',
+      monthYearClassName,
+    );
+    const resolvedWeekHeaderClassName = cx(
+      'hcDatePickerWeekHeader',
+      weekHeaderClassName,
+    );
+    const resolvedWeekDayClassName = cx(
+      'hcDatePickerWeekDay',
+      weekDayClassName,
+    );
+    const resolvedDateGridClassName = cx(
+      'hcDatePickerDateGrid',
+      dateGridClassName,
+    );
 
     // value가 변경되면 내부 상태 업데이트
     useEffect(() => {
@@ -164,27 +180,65 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     // 날짜 범위 포맷팅
     const formatRange = (): string => {
       if (!startDate && !endDate) return '';
-      if (startDate && !endDate) {
-        return startDate.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        });
-      }
-      if (!startDate && endDate) {
-        return endDate.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        });
-      }
-      if (startDate && endDate) {
-      }
+      const start = startDate
+        ? startDate.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          })
+        : '';
+      const end = endDate
+        ? endDate.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          })
+        : '';
+
+      if (start && end) return `${start} ~ ${end}`;
+      if (start) return `${start} ~`;
+      if (end) return `~ ${end}`;
       return '';
+    };
+
+    const isDateDisabled = (date: Date) => {
+      if (!date) return false;
+      const d = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+      ).getTime();
+
+      // Ensure minDate/maxDate are Date objects
+      const _minDate =
+        minDate instanceof Date ? minDate : minDate ? new Date(minDate) : null;
+      const _maxDate =
+        maxDate instanceof Date ? maxDate : maxDate ? new Date(maxDate) : null;
+
+      if (_minDate && !isNaN(_minDate.getTime())) {
+        const min = new Date(
+          _minDate.getFullYear(),
+          _minDate.getMonth(),
+          _minDate.getDate(),
+        ).getTime();
+        if (d < min) return true;
+      }
+
+      if (_maxDate && !isNaN(_maxDate.getTime())) {
+        const max = new Date(
+          _maxDate.getFullYear(),
+          _maxDate.getMonth(),
+          _maxDate.getDate(),
+        ).getTime();
+        if (d > max) return true;
+      }
+
+      return false;
     };
 
     // 날짜 선택 핸들러
     const handleDateSelect = (date: Date) => {
+      if (isDateDisabled(date)) return;
       if (selectingStart || !startDate) {
         // 시작일 선택
         const newStartDate = date;
@@ -259,7 +313,10 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     // 날짜가 범위 내에 있는지 확인
     const isInRange = (date: Date): boolean => {
       if (!startDate || !endDate) return false;
-      return date >= startDate && date <= endDate;
+      const d = new Date(date.toDateString()).getTime();
+      const s = new Date(startDate.toDateString()).getTime();
+      const e = new Date(endDate.toDateString()).getTime();
+      return d > s && d < e;
     };
 
     const isRangeStart = (date: Date): boolean => {
@@ -325,38 +382,31 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
               const isStart = isRangeStart(date);
               const isEnd = isRangeEnd(date);
 
-              let cellClassName = cx('hcDatePickerDateCell', dateCellClassName);
+              const isDisabled = isDateDisabled(date);
 
-              // 시작일 또는 종료일인 경우 포인트 색상 적용
-              if (isStart || isEnd) {
-                if (dateCellSelectedClassName) {
-                  cellClassName = cx(cellClassName, dateCellSelectedClassName);
-                }
-                if (isStart && dateCellRangeStartClassName) {
-                  cellClassName = cx(
-                    cellClassName,
-                    dateCellRangeStartClassName,
-                  );
-                }
-                if (isEnd && dateCellRangeEndClassName) {
-                  cellClassName = cx(cellClassName, dateCellRangeEndClassName);
-                }
-              } else if (inRange && dateCellInRangeClassName) {
-                // 범위 내 날짜 (시작일/종료일 제외)는 연한 배경색 적용
-                cellClassName = cx(cellClassName, dateCellInRangeClassName);
-              }
-
-              // 오늘 날짜 스타일 (시작일/종료일이 아닌 경우에만)
-              if (isToday && !isStart && !isEnd && dateCellTodayClassName) {
-                cellClassName = cx(cellClassName, dateCellTodayClassName);
-              }
+              const cellClassName = cx(
+                'hcDatePickerDateCell',
+                isToday && 'hcDatePickerDateCellToday',
+                (isStart || isEnd) && 'hcDatePickerDateCellSelected',
+                inRange && 'hcDatePickerDateCellInRange',
+                isStart && 'hcDatePickerDateCellRangeStart',
+                isEnd && 'hcDatePickerDateCellRangeEnd',
+                (!isCurrentMonth || isDisabled) &&
+                  'hcDatePickerDateCellDisabled',
+                dateCellClassName,
+                isToday && dateCellTodayClassName,
+                (isStart || isEnd) && dateCellSelectedClassName,
+                inRange && dateCellInRangeClassName,
+                isStart && dateCellRangeStartClassName,
+                isEnd && dateCellRangeEndClassName,
+              );
 
               return (
                 <button
                   type="button"
                   key={index}
                   onClick={() => handleDateSelect(date)}
-                  disabled={!isCurrentMonth}
+                  disabled={!isCurrentMonth || isDisabled}
                   className={cellClassName}
                 >
                   {date.getDate()}
@@ -421,8 +471,18 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       );
     };
 
+    const brandStyles = brandColor
+      ? ({ '--hc-date-picker-brand': brandColor } as React.CSSProperties)
+      : undefined;
+
     return (
-      <div ref={containerRef} className={rootClassName} {...props}>
+      <div
+        ref={containerRef}
+        className={rootClassName}
+        data-size={size}
+        style={brandStyles}
+        {...props}
+      >
         {injectStyles && (
           <style suppressHydrationWarning>{_datePickerCss}</style>
         )}
@@ -430,6 +490,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
         <div
           className={resolvedInputWrapperClassName}
           data-disabled={disabled ? 'true' : undefined}
+          onClick={() => !disabled && setIsOpen(!isOpen)}
         >
           <input
             className={cx('hcDatePickerInput')}
@@ -438,11 +499,9 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
             placeholder={placeholder}
             readOnly
             disabled={disabled}
-            onClick={() => !disabled && setIsOpen(!isOpen)}
           />
           <button
             type="button"
-            onClick={() => !disabled && setIsOpen(!isOpen)}
             disabled={disabled}
             aria-label="달력 열기"
             className={resolvedIconButtonClassName}
