@@ -8,8 +8,46 @@ export const toastCss = `
   --hc-toast-accent: var(--color-brand-primary);
 }
 
-.hcToast{
+.hcToastContainer{
   position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  pointer-events: none;
+  max-width: 100vw;
+  padding: var(--spacing-base);
+}
+
+.hcToastContainer[data-placement^="top"] {
+  top: 0;
+  flex-direction: column;
+}
+
+.hcToastContainer[data-placement^="bottom"] {
+  bottom: 0;
+  flex-direction: column-reverse;
+}
+
+.hcToastContainer[data-placement$="left"] {
+  left: 0;
+  align-items: flex-start;
+}
+
+.hcToastContainer[data-placement$="right"] {
+  right: 0;
+  align-items: flex-end;
+}
+
+.hcToastContainer[data-placement="top"],
+.hcToastContainer[data-placement="bottom"] {
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+}
+
+.hcToast{
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--spacing-base);
@@ -23,8 +61,9 @@ export const toastCss = `
   min-width: 18.75rem;
   max-width: 31.25rem;
   box-shadow: var(--hc-toast-shadow);
-  transition: top 0.3s ease, bottom 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   overflow: hidden;
+  pointer-events: auto;
 }
 
 .hcToast[data-type="success"]{
@@ -63,6 +102,21 @@ export const toastCss = `
   min-width: 0;
   display: flex;
   flex-direction: column;
+  gap: 2px;
+}
+
+.hcToastTitle {
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-tight);
+}
+
+.hcToastDescription {
+  font-size: var(--font-size-sm);
+  color: inherit;
+  opacity: 0.9;
+  white-space: pre-wrap;
+  line-height: var(--line-height-relaxed);
 }
 
 .hcToastProgressTrack{
@@ -80,7 +134,30 @@ export const toastCss = `
   height: 100%;
   width: 100%;
   background: var(--hc-toast-accent);
-  transition: width 0.05s linear;
+}
+
+.hcToastClose{
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: inherit;
+  opacity: 0.6;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.hcToastClose:hover{
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.hcToast[data-type] .hcToastClose:hover{
+  background: rgba(255, 255, 255, 0.2);
 }
 `;
 

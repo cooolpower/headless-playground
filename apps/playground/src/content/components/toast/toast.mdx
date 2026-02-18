@@ -5,6 +5,9 @@ import {
   DemoToastDuration,
   DemoToastMaxCount,
   DemoToastWithProgress,
+  DemoToastBasicWithControls,
+  ToastInteractiveControls,
+  ToastControlsProvider,
 } from './toast.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
@@ -39,6 +42,17 @@ export function MyComponent() {
 ```
 
 ### 예제
+
+#### 인터랙티브 플레이그라운드
+
+다양한 옵션을 조합하여 Toast의 동작을 실시간으로 확인해보세요. 모든 설정은 브라우저에 저장됩니다.
+
+<ToastControlsProvider>
+  <Playground
+    preview={<DemoToastBasicWithControls />}
+    controls={<ToastInteractiveControls />}
+  />
+</ToastControlsProvider>
 
 #### 기본 Toast
 
