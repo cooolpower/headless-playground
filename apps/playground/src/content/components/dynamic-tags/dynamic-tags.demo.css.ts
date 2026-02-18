@@ -93,3 +93,15 @@ export const addButton = style({
     opacity: 0.5,
   },
 });
+
+export const dynamicTagsWrapperClass = style({
+
+});
+
+export const dynamicTagsWrapper = style({
+
+});
+
+export const dynamicTagsText = style({
+
+});

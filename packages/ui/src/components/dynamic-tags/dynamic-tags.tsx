@@ -86,27 +86,6 @@ export function DynamicTags(props: DynamicTagsProps) {
                 closable={!disabled}
               >
                 {tag}
-                {!disabled && (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRemoveTag(index);
-                    }}
-                    style={{
-                      marginLeft: '4px',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      padding: '0',
-                    }}
-                    aria-label={`${tag} 태그 제거`}
-                  >
-                    <Icon icon={X} size="small" />
-                  </button>
-                )}
               </Tag>
             )}
           </div>
