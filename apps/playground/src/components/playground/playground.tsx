@@ -23,14 +23,8 @@ export function Playground({
         children: (
           <>
             {(preview.props as any).children}
-            <div
-            className={styles.grid}
-            >
-              <div
-                className={styles.interactionSection}
-              >
-                {controls}
-              </div>
+            <div className={styles.grid}>
+              <div className={styles.interactionSection}>{controls}</div>
             </div>
           </>
         ),
@@ -43,17 +37,13 @@ export function Playground({
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: wrappedControls ? '1fr 300px' : '1fr',
+        gridTemplateColumns: wrappedControls ? '1fr 400px' : '1fr',
         gap: '24px',
       }}
     >
-      <div className={styles.interactionSection}>
-        {wrappedPreview}
-      </div>
+      <div className={styles.interactionSection}>{wrappedPreview}</div>
       {wrappedControls && (
-        <div className={styles.interactionSection}>
-          {wrappedControls}
-        </div>
+        <div className={styles.interactionSection}>{wrappedControls}</div>
       )}
     </div>
   );

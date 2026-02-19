@@ -39,7 +39,7 @@ export const buttonCss = `
   --button-hue: var(--color-success);
 }
 .hcButton[data-button-color="success"] { --button-hue: var(--color-success); }
-.hcButton[data-button-color="warn"] { --button-hue: var(--color-warning); }
+.hcButton[data-button-color="warning"] { --button-hue: var(--color-warning); }
 .hcButton[data-button-color="info"] { --button-hue: var(--color-info); }
 .hcButton[data-button-color="error"] { --button-hue: var(--color-error); }
 

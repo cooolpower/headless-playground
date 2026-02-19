@@ -5,7 +5,7 @@ export const sectionBorder = createVar();
 
 export const grid = style({
   display: 'grid',
-  gridTemplateColumns: '1fr 300px',
+  gridTemplateColumns: '1fr 400px',
   gap: '24px',
   marginTop: '24px',
 });

@@ -66,25 +66,25 @@ export const toastCss = `
   pointer-events: auto;
 }
 
-.hcToast[data-type="success"]{
+.hcToast[data-color="success"]{
   --hc-toast-bg: var(--color-semantic-success);
   --hc-toast-border: var(--color-semantic-success-hover);
   --hc-toast-text: var(--color-text-on-success);
   --hc-toast-accent: var(--color-text-on-success);
 }
-.hcToast[data-type="info"]{
+.hcToast[data-color="info"]{
   --hc-toast-bg: var(--color-semantic-info);
   --hc-toast-border: var(--color-semantic-info-hover);
   --hc-toast-text: var(--color-text-on-info);
   --hc-toast-accent: var(--color-text-on-info);
 }
-.hcToast[data-type="warning"]{
+.hcToast[data-color="warning"]{
   --hc-toast-bg: var(--color-semantic-warning);
   --hc-toast-border: var(--color-semantic-warning-hover);
   --hc-toast-text: var(--color-text-on-warning);
   --hc-toast-accent: var(--color-text-on-warning);
 }
-.hcToast[data-type="error"]{
+.hcToast[data-color="error"]{
   --hc-toast-bg: var(--color-semantic-error);
   --hc-toast-border: var(--color-semantic-error-hover);
   --hc-toast-text: var(--color-text-on-error);
@@ -156,7 +156,7 @@ export const toastCss = `
   background: rgba(0, 0, 0, 0.05);
 }
 
-.hcToast[data-type] .hcToastClose:hover{
+.hcToast[data-color] .hcToastClose:hover{
   background: rgba(255, 255, 255, 0.2);
 }
 `;

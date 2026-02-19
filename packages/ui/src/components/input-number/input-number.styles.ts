@@ -21,6 +21,7 @@ export const inputNumberCss = `
   padding: 0 0.75rem;
   min-width: 7rem;
   font-size: inherit;
+  text-align: center;
 }
 
 .hcInputNumberButton {
@@ -28,10 +29,12 @@ export const inputNumberCss = `
   background: var(--color-surface);
   color: inherit;
   width: 2.25rem;
+  height: 2.25rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  text-align: center;
 }
 
 .hcInputNumberButton:hover {
