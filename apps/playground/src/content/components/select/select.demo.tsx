@@ -10,10 +10,7 @@ import {
   useMemo,
 } from 'react';
 import { Select } from '@repo/ui';
-import type {
-  SelectOption,
-  SelectValue,
-} from '@repo/ui';
+import type { SelectOption, SelectValue } from '@repo/ui';
 import { Tag } from '@repo/ui';
 import { Icon } from '@repo/ui';
 import { Check, Loader2, Star } from 'lucide-react';
@@ -133,7 +130,7 @@ export function DemoSelectBasic({
   const [toasts, setToasts] = useState<
     Array<{
       id: string;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -143,7 +140,7 @@ export function DemoSelectBasic({
   const toastIdCounterRef = useRef(0);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -153,7 +150,7 @@ export function DemoSelectBasic({
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -207,7 +204,8 @@ export function DemoSelectBasic({
           <Toast
             key={toast.id}
             message={toast.message}
-            type={toast.type}
+            //type={toast.type}
+            color={toast.color}
             onClose={() => removeToast(toast.id)}
             duration={toast.duration ?? 2500}
             index={index}
@@ -419,7 +417,7 @@ export function DemoSelectDefaultValue() {
   const [toasts, setToasts] = useState<
     Array<{
       id: string;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -429,7 +427,7 @@ export function DemoSelectDefaultValue() {
   const toastIdCounterRef = useRef(0);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -439,7 +437,7 @@ export function DemoSelectDefaultValue() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -482,7 +480,8 @@ export function DemoSelectDefaultValue() {
           <Toast
             key={toast.id}
             message={toast.message}
-            type={toast.type}
+            //type={toast.type}
+            color={toast.color}
             onClose={() => removeToast(toast.id)}
             duration={toast.duration ?? 2500}
             index={index}
@@ -522,7 +521,7 @@ export function DemoSelectClearable() {
   const [toasts, setToasts] = useState<
     Array<{
       id: string;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -532,7 +531,7 @@ export function DemoSelectClearable() {
   const toastIdCounterRef = useRef(0);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -542,7 +541,7 @@ export function DemoSelectClearable() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -590,7 +589,7 @@ export function DemoSelectClearable() {
           <Toast
             key={toast.id}
             message={toast.message}
-            type={toast.type}
+            color={toast.color}
             onClose={() => removeToast(toast.id)}
             duration={toast.duration ?? 2500}
             index={index}
@@ -609,7 +608,7 @@ export function DemoSelectSearchable() {
   const [toasts, setToasts] = useState<
     Array<{
       id: string;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -619,7 +618,7 @@ export function DemoSelectSearchable() {
   const toastIdCounterRef = useRef(0);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -629,7 +628,7 @@ export function DemoSelectSearchable() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -673,7 +672,7 @@ export function DemoSelectSearchable() {
           <Toast
             key={toast.id}
             message={toast.message}
-            type={toast.type}
+            color={toast.color}
             onClose={() => removeToast(toast.id)}
             duration={toast.duration ?? 2500}
             index={index}
@@ -719,7 +718,7 @@ export function DemoSelectDisabledOptions() {
   const [toasts, setToasts] = useState<
     Array<{
       id: string;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -729,7 +728,7 @@ export function DemoSelectDisabledOptions() {
   const toastIdCounterRef = useRef(0);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -739,7 +738,7 @@ export function DemoSelectDisabledOptions() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -782,7 +781,7 @@ export function DemoSelectDisabledOptions() {
           <Toast
             key={toast.id}
             message={toast.message}
-            type={toast.type}
+            color={toast.color}
             onClose={() => removeToast(toast.id)}
             duration={toast.duration ?? 2500}
             index={index}
@@ -801,7 +800,7 @@ export function DemoSelectMultiple() {
   const [toasts, setToasts] = useState<
     Array<{
       id: string;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -811,7 +810,7 @@ export function DemoSelectMultiple() {
   const toastIdCounterRef = useRef(0);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -822,7 +821,7 @@ export function DemoSelectMultiple() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -889,7 +888,7 @@ export function DemoSelectMultiple() {
           <Toast
             key={toast.id}
             message={toast.message}
-            type={toast.type}
+            color={toast.color}
             onClose={() => removeToast(toast.id)}
             duration={toast.duration ?? 2500}
             index={index}
@@ -972,7 +971,7 @@ export function DemoSelectCustomOption() {
   const [toasts, setToasts] = useState<
     Array<{
       id: string;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -982,7 +981,7 @@ export function DemoSelectCustomOption() {
   const toastIdCounterRef = useRef(0);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -992,7 +991,7 @@ export function DemoSelectCustomOption() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -1043,7 +1042,7 @@ export function DemoSelectCustomOption() {
           <Toast
             key={toast.id}
             message={toast.message}
-            type={toast.type}
+            color={toast.color}
             onClose={() => removeToast(toast.id)}
             duration={toast.duration ?? 2500}
             index={index}
@@ -1063,7 +1062,7 @@ export function DemoSelectTag() {
   const [toasts, setToasts] = useState<
     Array<{
       id: string;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -1073,7 +1072,7 @@ export function DemoSelectTag() {
   const toastIdCounterRef = useRef(0);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -1083,7 +1082,7 @@ export function DemoSelectTag() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -1149,7 +1148,7 @@ export function DemoSelectTag() {
           <Toast
             key={toast.id}
             message={toast.message}
-            type={toast.type}
+            color={toast.color}
             onClose={() => removeToast(toast.id)}
             duration={toast.duration ?? 2500}
             index={index}

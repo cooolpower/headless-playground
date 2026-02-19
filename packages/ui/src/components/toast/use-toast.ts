@@ -4,7 +4,8 @@ export interface UseToastProps {
   message?: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  type?: 'success' | 'info' | 'warning' | 'error';
+  type?: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary';
+  color?: 'success' | 'info' | 'warning' | 'error';
   duration?: number; // milliseconds, 0 means never auto-close
   onClose?: () => void;
   placement?: 'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right';
@@ -17,7 +18,8 @@ export function useToast({
   message,
   title,
   description,
-  type = 'info',
+  type = 'primary',
+  color = 'info',
   duration = 3000,
   onClose,
   placement = 'top',
@@ -31,7 +33,7 @@ export function useToast({
   const getIcon = () => {
     if (!showIcon) return null;
 
-    switch (type) {
+    switch (color) {
       case 'success':
         return '✅';
       case 'error':
@@ -69,7 +71,7 @@ export function useToast({
       },
     };
 
-    return baseStyles[type];
+    return baseStyles[color];
   };
 
   const getPlacementStyles = () => {

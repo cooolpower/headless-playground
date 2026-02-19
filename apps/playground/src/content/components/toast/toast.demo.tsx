@@ -8,7 +8,15 @@ import {
   useCallback,
   ReactNode,
 } from 'react';
-import { Toast, Button, Input, Checkbox } from '@repo/ui';
+import {
+  Toast,
+  Button,
+  Input,
+  Checkbox,
+  Slider,
+  Textarea,
+  InputNumber,
+} from '@repo/ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './toast.demo.css';
 
@@ -18,8 +26,12 @@ interface ToastControlsContextType {
   setTitle: (v: string) => void;
   description: string;
   setDescription: (v: string) => void;
-  type: 'success' | 'info' | 'warning' | 'error';
-  setType: (v: 'success' | 'info' | 'warning' | 'error') => void;
+  type: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary';
+  setType: (
+    v: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary',
+  ) => void;
+  color: 'success' | 'info' | 'warning' | 'error';
+  setColor: (v: 'success' | 'info' | 'warning' | 'error') => void;
   placement:
     | 'top'
     | 'top-left'
@@ -46,6 +58,8 @@ interface ToastControlsContextType {
   setShowClose: (v: boolean) => void;
   maxCount: number;
   setMaxCount: (v: number) => void;
+  injectStyles: boolean;
+  setInjectStyles: (v: boolean) => void;
 }
 
 const ToastControlsContext = createContext<
@@ -58,8 +72,11 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
   const [description, setDescription] = useState(
     '이것은 토스트 알림의 상세 설명글입니다. 2줄이 넘어가면 말줄임표가 표시되는지 확인해 보세요.\n이것은 개행 테스트를 위한 두 번째 줄입니다.',
   );
-  const [type, setType] = useState<'success' | 'info' | 'warning' | 'error'>(
-    'info',
+  const [type, setType] = useState<
+    'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary'
+  >('primary');
+  const [color, setColor] = useState<'success' | 'info' | 'warning' | 'error'>(
+    'success',
   );
   const [placement, setPlacement] = useState<
     'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right'
@@ -69,6 +86,7 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
   const [showProgress, setShowProgress] = useState(true);
   const [showClose, setShowClose] = useState(false);
   const [maxCount, setMaxCount] = useState(5);
+  const [injectStyles, setInjectStyles] = useState(true);
 
   // 로컬 스토리지에서 상태 복원
   useEffect(() => {
@@ -79,6 +97,7 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
         if (parsed.title) setTitle(parsed.title);
         if (parsed.description) setDescription(parsed.description);
         if (parsed.type) setType(parsed.type);
+        if (parsed.color) setColor(parsed.color);
         if (parsed.placement) setPlacement(parsed.placement);
         if (parsed.duration !== undefined) setDuration(parsed.duration);
         if (parsed.showIcon !== undefined) setShowIcon(parsed.showIcon);
@@ -86,6 +105,8 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
           setShowProgress(parsed.showProgress);
         if (parsed.showClose !== undefined) setShowClose(parsed.showClose);
         if (parsed.maxCount !== undefined) setMaxCount(parsed.maxCount);
+        if (parsed.injectStyles !== undefined)
+          setInjectStyles(parsed.injectStyles);
       } catch (e) {
         console.error('Failed to parse toast settings', e);
       }
@@ -102,12 +123,14 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
           title,
           description,
           type,
+          color,
           placement,
           duration,
           showIcon,
           showProgress,
           showClose,
           maxCount,
+          injectStyles,
         }),
       );
     }
@@ -115,12 +138,14 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
     title,
     description,
     type,
+    color,
     placement,
     duration,
     showIcon,
     showProgress,
     showClose,
     maxCount,
+    injectStyles,
     isLoaded,
   ]);
 
@@ -133,6 +158,8 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
         setDescription,
         type,
         setType,
+        color,
+        setColor,
         placement,
         setPlacement,
         duration,
@@ -145,6 +172,8 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
         setShowClose,
         maxCount,
         setMaxCount,
+        injectStyles,
+        setInjectStyles,
       }}
     >
       {children}
@@ -161,8 +190,8 @@ export function ToastInteractiveControls() {
     setTitle,
     description,
     setDescription,
-    type,
-    setType,
+    color,
+    setColor,
     placement,
     setPlacement,
     duration,
@@ -175,6 +204,8 @@ export function ToastInteractiveControls() {
     setShowClose,
     maxCount,
     setMaxCount,
+    injectStyles,
+    setInjectStyles,
   } = context;
 
   return (
@@ -193,40 +224,31 @@ export function ToastInteractiveControls() {
         {
           label: '설명 (Description)',
           control: (
-            <textarea
+            <Textarea
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={setDescription}
               placeholder="알림 상세 내용을 입력하세요"
-              style={{
-                width: '100%',
+              textareaStyle={{
                 minHeight: '80px',
-                padding: '8px',
                 fontSize: '13px',
-                borderRadius: '4px',
-                border: '1px solid var(--color-divider)',
-                background: 'transparent',
-                resize: 'vertical',
-                color: 'inherit',
               }}
             />
           ),
         },
         {
-          label: '타입 (Type)',
+          label: '색상 (Color)',
           control: (
             <div style={{ display: 'flex', gap: '4px' }}>
               {(['info', 'success', 'warning', 'error'] as const).map((t) => (
-                <button
+                <Button
                   key={t}
-                  onClick={() => setType(t)}
-                  className={
-                    type === t
-                      ? styles.activeControlButton
-                      : styles.controlButton
-                  }
+                  onClick={() => setColor(t)}
+                  type={'primary'}
+                  color={color === t ? 'success' : 'info'}
+                  size="small"
                 >
                   {t}
-                </button>
+                </Button>
               ))}
             </div>
           ),
@@ -251,18 +273,16 @@ export function ToastInteractiveControls() {
                   'bottom-right',
                 ] as const
               ).map((p) => (
-                <button
+                <Button
                   key={p}
                   onClick={() => setPlacement(p)}
-                  className={
-                    placement === p
-                      ? styles.activeControlButton
-                      : styles.controlButton
-                  }
-                  style={{ fontSize: '10px' }}
+                  type={placement === p ? 'primary' : 'tertiary'}
+                  style={{ fontSize: 'var(--font-size-sm, 14px)' }}
+                  color="info"
+                  size="small"
                 >
                   {p}
-                </button>
+                </Button>
               ))}
             </div>
           ),
@@ -270,15 +290,13 @@ export function ToastInteractiveControls() {
         {
           label: '지속 시간 (Duration, ms)',
           control: (
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <input
-                type="range"
-                min="0"
-                max="10000"
-                step="500"
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <Slider
+                min={0}
+                max={10000}
+                step={500}
                 value={duration}
-                onChange={(e) => setDuration(Number(e.target.value))}
-                style={{ flex: 1 }}
+                onChange={(v) => setDuration(Array.isArray(v) ? v[0] : v)}
               />
               <span style={{ fontSize: '11px', minWidth: '45px' }}>
                 {duration === 0 ? '영구' : `${duration}ms`}
@@ -289,7 +307,13 @@ export function ToastInteractiveControls() {
         {
           label: '표시 설정 (Display)',
           control: (
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '12px',
+              }}
+            >
               <Checkbox checked={showIcon} onChange={setShowIcon}>
                 아이콘
               </Checkbox>
@@ -299,6 +323,9 @@ export function ToastInteractiveControls() {
               <Checkbox checked={showClose} onChange={setShowClose}>
                 닫기 버튼
               </Checkbox>
+              <Checkbox checked={injectStyles} onChange={setInjectStyles}>
+                스타일 주입
+              </Checkbox>
             </div>
           ),
         },
@@ -306,19 +333,12 @@ export function ToastInteractiveControls() {
           label: '최대 표시 개수 (Max Count)',
           control: (
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <input
-                type="number"
-                min="1"
-                max="10"
+              <InputNumber
+                min={1}
+                max={10}
                 value={maxCount}
-                onChange={(e) => setMaxCount(Number(e.target.value))}
-                style={{
-                  width: '50px',
-                  padding: '2px 4px',
-                  borderRadius: '4px',
-                  border: '1px solid var(--color-divider)',
-                  background: 'transparent',
-                }}
+                onChange={(v) => setMaxCount(v ?? 5)}
+                size="small"
               />
             </div>
           ),
@@ -335,13 +355,14 @@ export function DemoToastBasicWithControls() {
   const {
     title,
     description,
-    type,
+    color,
     placement,
     duration,
     showIcon,
     showProgress,
     showClose,
     maxCount,
+    injectStyles,
   } = context;
 
   const [toasts, setToasts] = useState<
@@ -349,12 +370,13 @@ export function DemoToastBasicWithControls() {
       id: number;
       title?: string;
       description?: string;
-      type: any;
+      color: any;
       placement: any;
       duration: number;
       showIcon: boolean;
       showProgress: boolean;
       showClose: boolean;
+      injectStyles: boolean;
     }>
   >([]);
 
@@ -367,12 +389,13 @@ export function DemoToastBasicWithControls() {
           id,
           title,
           description,
-          type,
+          color,
           placement,
           duration,
           showIcon,
           showProgress,
           showClose,
+          injectStyles,
         },
       ];
       console.log(
@@ -384,7 +407,7 @@ export function DemoToastBasicWithControls() {
   }, [
     title,
     description,
-    type,
+    color,
     placement,
     duration,
     showIcon,
@@ -399,16 +422,20 @@ export function DemoToastBasicWithControls() {
 
   return (
     <div className={styles.container}>
-      <button className={styles.primaryButton} onClick={triggerToast}>
+      <Button
+        type="primary"
+        onClick={triggerToast}
+        style={{ width: 'fit-content' }}
+      >
         Show Toast
-      </button>
+      </Button>
 
       {toasts.map((t, index) => (
         <Toast
           key={t.id}
           title={t.title}
           description={t.description}
-          type={t.type}
+          color={t.color}
           placement={t.placement}
           duration={t.duration}
           showIcon={t.showIcon}
@@ -416,6 +443,7 @@ export function DemoToastBasicWithControls() {
           showClose={t.showClose}
           index={index}
           maxCount={maxCount}
+          injectStyles={t.injectStyles}
           onClose={() => removeToast(t.id)}
         />
       ))}
@@ -427,7 +455,7 @@ export function DemoToastBasic() {
   const [toasts, setToasts] = useState<
     Array<{
       id: number;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -436,7 +464,7 @@ export function DemoToastBasic() {
   const maxCount = 5; // 최대 5개까지 표시
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -446,13 +474,13 @@ export function DemoToastBasic() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
         },
       ];
-      console.log(`Toast show (${type}):`, message);
+      console.log(`Toast show (${color}):`, message);
       // maxCount를 초과하면 가장 오래된 것부터 제거
       return newToasts.slice(-maxCount);
     });
@@ -466,19 +494,33 @@ export function DemoToastBasic() {
     <div className={styles.container}>
       <div className={styles.buttonGroup}>
         <Button
+          type="primary"
+          color="success"
           onClick={() =>
             showToast('success', '작업이 성공적으로 완료되었습니다!')
           }
         >
           Success Toast
         </Button>
-        <Button onClick={() => showToast('info', '정보 메시지입니다.')}>
+        <Button
+          type="primary"
+          color="info"
+          onClick={() => showToast('info', '정보 메시지입니다.')}
+        >
           Info Toast
         </Button>
-        <Button onClick={() => showToast('warning', '경고 메시지입니다.')}>
+        <Button
+          type="primary"
+          color="warning"
+          onClick={() => showToast('warning', '경고 메시지입니다.')}
+        >
           Warning Toast
         </Button>
-        <Button onClick={() => showToast('error', '오류가 발생했습니다.')}>
+        <Button
+          type="primary"
+          color="error"
+          onClick={() => showToast('error', '오류가 발생했습니다.')}
+        >
           Error Toast
         </Button>
       </div>
@@ -486,7 +528,8 @@ export function DemoToastBasic() {
         <Toast
           key={toast.id}
           message={toast.message}
-          type={toast.type}
+          type={'primary'}
+          color={toast.color}
           onClose={() => removeToast(toast.id)}
           duration={toast.duration ?? 3000}
           index={index}
@@ -502,7 +545,8 @@ export function DemoToastWithProgress() {
   const [toasts, setToasts] = useState<
     Array<{
       id: number;
-      type: 'success' | 'info' | 'warning' | 'error';
+      //type: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -511,7 +555,7 @@ export function DemoToastWithProgress() {
   const maxCount = 5;
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -521,7 +565,7 @@ export function DemoToastWithProgress() {
         ...prev,
         {
           id,
-          type,
+          color,
           message,
           duration: options?.duration,
           showProgress: options?.showProgress,
@@ -573,7 +617,7 @@ export function DemoToastWithProgress() {
         <Toast
           key={toast.id}
           message={toast.message}
-          type={toast.type}
+          color={toast.color}
           onClose={() => removeToast(toast.id)}
           duration={toast.duration ?? 3000}
           index={index}
@@ -589,17 +633,17 @@ export function DemoToastWithIcon() {
   const [toasts, setToasts] = useState<
     Array<{
       id: number;
-      type: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error';
       message: string;
     }>
   >([]);
 
   const showToast = (
-    type: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error',
     message: string,
   ) => {
     const id = Date.now();
-    setToasts((prev) => [...prev, { id, type, message }]);
+    setToasts((prev) => [...prev, { id, color, message }]);
   };
 
   const removeToast = (id: number) => {
@@ -610,6 +654,8 @@ export function DemoToastWithIcon() {
     <div className={styles.container}>
       <div className={styles.buttonGroup}>
         <Button
+          type="primary"
+          color="success"
           onClick={() =>
             showToast('success', '데이터가 성공적으로 저장되었습니다.')
           }
@@ -617,14 +663,22 @@ export function DemoToastWithIcon() {
           Success with Icon
         </Button>
         <Button
+          type="primary"
+          color="info"
           onClick={() => showToast('info', '새로운 업데이트가 있습니다.')}
         >
           Info with Icon
         </Button>
-        <Button onClick={() => showToast('warning', '입력을 확인해주세요.')}>
+        <Button
+          type="primary"
+          color="warning"
+          onClick={() => showToast('warning', '입력을 확인해주세요.')}
+        >
           Warning with Icon
         </Button>
         <Button
+          type="primary"
+          color="error"
           onClick={() => showToast('error', '서버에 연결할 수 없습니다.')}
         >
           Error with Icon
@@ -634,7 +688,7 @@ export function DemoToastWithIcon() {
         <Toast
           key={toast.id}
           message={toast.message}
-          type={toast.type}
+          color={toast.color}
           showIcon
           onClose={() => removeToast(toast.id)}
           duration={3000}
@@ -818,7 +872,7 @@ export function DemoToastMaxCount() {
         <Toast
           key={toast.id}
           message={toast.message}
-          type="info"
+          color="info"
           onClose={() => removeToast(toast.id)}
           duration={3000}
           index={index}

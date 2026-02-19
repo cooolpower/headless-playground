@@ -48,7 +48,7 @@ export const tagCss = `
   border: none;
 }
 .hcTag[data-variant="warning"]{
-  background: oklch(0.83 0.13 var(--color-warn));
+  background: oklch(0.83 0.13 var(--color-warning));
   color: var(--color-text-on-warning);
   border: none;
 }

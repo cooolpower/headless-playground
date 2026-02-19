@@ -205,7 +205,7 @@
   --color-tertiary: 168;
 
   --color-success: 168;
-  --color-warn: 82;
+  --color-warning: 82;
   --color-error: 20;
   --color-info: 231;
 
@@ -260,10 +260,10 @@
   --color-semantic-success-disabled: oklch(0.83 0.13 calc(var(--color-success)) / 0.4);
   /* Success Pressed - #5acea7 */
 
-  --color-semantic-warning: oklch(0.83 0.13 calc(var(--color-warn)));
-  --color-semantic-warning-hover: oklch(0.86 0.11 calc(var(--color-warn) + 1.67));
-  --color-semantic-warning-active: oklch(0.77 0.12 calc(var(--color-warn) + 1.19));
-  --color-semantic-warning-disabled: oklch(0.83 0.13 calc(var(--color-warn)) / 0.4);
+  --color-semantic-warning: oklch(0.83 0.13 calc(var(--color-warning)));
+  --color-semantic-warning-hover: oklch(0.86 0.11 calc(var(--color-warning) + 1.67));
+  --color-semantic-warning-active: oklch(0.77 0.12 calc(var(--color-warning) + 1.19));
+  --color-semantic-warning-disabled: oklch(0.83 0.13 calc(var(--color-warning)) / 0.4);
   /* Warning Pressed - #e6c260 */
 
   --color-semantic-error: oklch(0.71 0.13 20.77);

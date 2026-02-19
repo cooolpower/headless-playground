@@ -52,6 +52,24 @@ export function Toast({
     }
   }, [duration]);
 
+  // 스타일 주입 (한 번만, injectStyles 값에 따라 추가/제거)
+  useEffect(() => {
+    const styleId = 'hc-toast-styles';
+    if (injectStyles) {
+      if (!document.getElementById(styleId)) {
+        const styleElement = document.createElement('style');
+        styleElement.id = styleId;
+        styleElement.textContent = _toastCss;
+        document.head.appendChild(styleElement);
+      }
+    } else {
+      const styleElement = document.getElementById(styleId);
+      if (styleElement) {
+        styleElement.remove();
+      }
+    }
+  }, [injectStyles]);
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -69,6 +87,10 @@ export function Toast({
     container = document.createElement('div');
     container.id = containerId;
     container.className = 'hcToastContainer';
+    // 스타일 주입 여부와 관계없이 컨테이너는 기본 위치를 잡아야 하므로 인라인 스타일로 보강
+    container.style.position = 'fixed';
+    container.style.zIndex = '10000';
+    container.style.pointerEvents = 'none';
     container.setAttribute('data-placement', props.placement || 'top');
     document.body.appendChild(container);
   }
@@ -79,15 +101,13 @@ export function Toast({
       aria-live="polite"
       className={className ? `hcToast ${className}` : 'hcToast'}
       data-type={props.type ?? 'info'}
+      data-color={props.color ?? 'info'}
       data-show-progress={showProgress && duration > 0 ? 'true' : 'false'}
       style={{
-        zIndex: 9999 - index,
+        zIndex: 10001 - index,
         ...placementStyles,
       }}
     >
-      {injectStyles ? (
-        <style suppressHydrationWarning>{_toastCss}</style>
-      ) : null}
       {icon && <div className="hcToastIcon">{icon}</div>}
       <div className="hcToastBody">
         {!!title && <div className="hcToastTitle">{title as any}</div>}

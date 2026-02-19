@@ -86,7 +86,7 @@ globalStyle(`${tagWrapper}:has(.hcTag[data-variant="success"])`, {
 
 globalStyle(`${tagWrapper}:has(.hcTag[data-variant="warning"])`, {
   vars: {
-    [tagBackgroundColor]: `oklch(0.83 0.13 var(--color-warn))`,
+    [tagBackgroundColor]: `oklch(0.83 0.13 var(--color-warning))`,
   },
 });
 
