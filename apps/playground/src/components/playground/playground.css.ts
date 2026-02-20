@@ -26,7 +26,7 @@ globalStyle('[data-theme="dark"]', {
 
 globalStyle('[data-theme="light"]', {
   vars: {
-    [sectionBg]: 'oklch(0.98 0 0)',
-    [sectionBorder]: 'oklch(0.2 0.0 0 / 0.15)',
+    [sectionBg]: 'oklch(1 0 0)',
+    [sectionBorder]: 'oklch(0.92 0 0)',
   },
 });

@@ -8,6 +8,7 @@ import { SwitchProps } from './type-switch';
 import { switchCss as _switchCss } from './switch.styles';
 
 import { cx } from '../../utils';
+import { useStyles } from '../../hooks/use-styles';
 
 export function Switch(props: SwitchProps) {
   const {
@@ -32,6 +33,9 @@ export function Switch(props: SwitchProps) {
       ? checkedIcon || null
       : uncheckedIcon || null;
 
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-switch-styles', _switchCss, injectStyles);
+
   return (
     <label
       className={cx('hcSwitch', className)}
@@ -50,9 +54,6 @@ export function Switch(props: SwitchProps) {
         } as React.CSSProperties
       }
     >
-      {injectStyles ? (
-        <style suppressHydrationWarning>{_switchCss}</style>
-      ) : null}
       <input {...inputProps} className="hcSwitchInput" />
       <span className="hcSwitchRail">
         <span className="hcSwitchHandle">

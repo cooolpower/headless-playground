@@ -5,6 +5,7 @@ import { TooltipProps } from './type-tooltip';
 import { useTooltip } from './use-tooltip';
 import { tooltipCss as _tooltipCss } from './tooltip.styles';
 import { cx } from '../../utils';
+import { useStyles } from '../../hooks/use-styles';
 
 export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
   (
@@ -43,6 +44,9 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
       tooltipRef: tooltipRef as any,
     });
 
+    // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+    useStyles('hc-tooltip-styles', _tooltipCss, injectStyles);
+
     return (
       <>
         <div
@@ -61,9 +65,6 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
             className={cx('hcTooltipOverlay', overlayClassName)}
             {...tooltipProps}
           >
-            {injectStyles ? (
-              <style suppressHydrationWarning>{_tooltipCss}</style>
-            ) : null}
             <div className="hcTooltipArrow" aria-hidden="true" />
             <div className="hcTooltipCard">{content}</div>
           </div>

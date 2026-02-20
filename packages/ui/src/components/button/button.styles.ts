@@ -4,7 +4,7 @@ export const buttonCss = `
   align-items: center;
   justify-content: center;
   gap: var(--spacing-button-icon-text, 8px);
-  border-radius: 3px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: var(--font-size-sm, 14px);
   font-weight: 400;
@@ -38,12 +38,66 @@ export const buttonCss = `
 .hcButton {
   --button-hue: var(--color-success);
 }
+.hcButton[data-button-color="default"] { --button-hue: var(--color-default); }
+.hcButton[data-button-color="defaultActive"] { --button-hue: var(--color-defaultActive); }
 .hcButton[data-button-color="success"] { --button-hue: var(--color-success); }
 .hcButton[data-button-color="warning"] { --button-hue: var(--color-warning); }
 .hcButton[data-button-color="info"] { --button-hue: var(--color-info); }
 .hcButton[data-button-color="error"] { --button-hue: var(--color-error); }
 
 /* Type Variants */
+.hcButton[data-button-type="default"] {
+  background-color: oklch(1 0 calc(var(--button-hue) * 0) / 0);
+  color: oklch(1 0 calc(var(--button-hue) * 0));
+  border: 1px solid oklch(0.92 0 calc(var(--button-hue) * 0) / 0.15);
+}
+.hcButton[data-button-type="default"]:hover {
+  background-color: oklch(1 0 calc(var(--button-hue) * 0) / 0.07);
+}
+[data-theme="light"] .hcButton[data-button-type="default"] {
+  background-color: oklch(0.97 0 calc(var(--button-hue) * 0));
+  color: oklch(0.14 0 calc(var(--button-hue) * 0));
+  border: 1px solid oklch(0.92 0 calc(var(--button-hue) * 0));
+}
+[data-theme="light"] .hcButton[data-button-type="default"]:hover {
+  background-color: oklch(0.97 0 calc(var(--button-hue) * 0) / 0.87);
+}
+
+
+.hcButton[data-button-color="default"][data-button-type="primary"],
+.hcButton[data-button-color="default"][data-button-type="secondary"],
+.hcButton[data-button-color="default"][data-button-type="tertiary"],
+.hcButton[data-button-color="default"][data-button-type="dashed"],
+.hcButton[data-button-color="default"][data-button-type="quaternary"] {
+  background-color: oklch(1 0 calc(var(--button-hue) * 0) / 0);
+  color: oklch(1 0 calc(var(--button-hue) * 0));
+  //color: oklch(0.83 0.13 var(--button-hue));
+}
+.hcButton[data-button-color="default"][data-button-type="primary"]:hover,
+.hcButton[data-button-color="default"][data-button-type="secondary"]:hover,
+.hcButton[data-button-color="default"][data-button-type="tertiary"]:hover,
+.hcButton[data-button-color="default"][data-button-type="dashed"]:hover,
+.hcButton[data-button-color="default"][data-button-type="quaternary"]:hover {
+  background-color: oklch(1 0 calc(var(--button-hue) * 0) / 0.07);
+}
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="primary"],
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="secondary"],
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="tertiary"],
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="dashed"],
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="quaternary"] {
+  background-color: oklch(1 0 calc(var(--button-hue) * 0) / 0.07);
+  color: oklch(0.14 0 calc(var(--button-hue) * 0));
+  border: 1px solid oklch(0.92 0 calc(var(--button-hue) * 0));
+}
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="primary"]:hover,
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="secondary"]:hover,
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="tertiary"]:hover,
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="dashed"]:hover,
+[data-theme="light"] .hcButton[data-button-color="default"][data-button-type="quaternary"]:hover {
+  background-color: oklch(0.97 0 calc(var(--button-hue) * 0));
+}
+
+
 .hcButton[data-button-type="primary"] {
   background-color: oklch(0.83 0.13 var(--button-hue));
   color: oklch(0.1 0.12 var(--button-hue));
@@ -88,11 +142,11 @@ export const buttonCss = `
 }
 
 /* Size Variants */
-.hcButton[data-button-size="tiny"] { height: 22px; padding: 0 8px; font-size: 12px; border-radius: 2px; }
-.hcButton[data-button-size="small"] { height: 1.75rem; padding: 0 12px; font-size: 0.8125rem; border-radius: 3px; }
-.hcButton[data-button-size="medium"] { height: var(--spacing-2xl, 34px); padding: 0 14px; font-size: var(--font-size-sm, 14px); border-radius: 3px; }
-.hcButton[data-button-size="large"] { height: 2.25rem; padding: 0 16px; font-size: var(--font-size-sm, 14px); border-radius: 4px; }
-.hcButton[data-button-size="huge"] { height: 40px; padding: 0 20px; font-size: 0.9375rem; border-radius: 4px; }
+.hcButton[data-button-size="tiny"] { height: 22px; padding: 0 8px; font-size: 12px; border-radius: 8px; }
+.hcButton[data-button-size="small"] { height: 1.75rem; padding: 0 12px; font-size: 0.8125rem; border-radius: 8px; }
+.hcButton[data-button-size="medium"] { height: var(--spacing-2xl, 34px); padding: 0 14px; font-size: var(--font-size-sm, 14px); border-radius: 8px; }
+.hcButton[data-button-size="large"] { height: 2.25rem; padding: 0 16px; font-size: var(--font-size-sm, 14px); border-radius: 8px; }
+.hcButton[data-button-size="huge"] { height: 40px; padding: 0 20px; font-size: 0.9375rem; border-radius: 8px; }
 
 /* Loading State */
 .hcButton.loading {

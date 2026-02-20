@@ -6,6 +6,7 @@ import { X } from 'lucide-react';
 import { Icon } from '../icon/icon';
 import { useTag, type UseTagProps } from './use-tag';
 import { tagCss as _tagCss } from './tag.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 export const TagCss = _tagCss;
 
@@ -21,9 +22,9 @@ function injectTagStyles() {
 export function Tag(props: UseTagProps & { children: ReactNode }) {
   const { closable, onClose, disabled, injectStyles = true, className } = props;
   const tag = useTag(props);
-  useEffect(() => {
-    if (injectStyles) injectTagStyles();
-  }, [injectStyles]);
+
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-tag-styles', _tagCss, injectStyles);
 
   return (
     <>

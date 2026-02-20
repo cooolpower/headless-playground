@@ -4,12 +4,16 @@
 import { useProgress } from './use-progress';
 import { ProgressProps } from './type-progress';
 import { progressCss as _progressCss } from './progress.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 export const ProgressCss = _progressCss;
 
 export function Progress(props: ProgressProps) {
   const { injectStyles = true, className } = props;
   const progress = useProgress(props);
+
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-progress-styles', _progressCss, injectStyles);
 
   if (progress.type === 'line') {
     return (
@@ -19,7 +23,6 @@ export function Progress(props: ProgressProps) {
           .filter(Boolean)
           .join(' ')}
       >
-        {injectStyles && <style suppressHydrationWarning>{_progressCss}</style>}
         <div {...progress.outerProps}>
           <div {...progress.innerProps} />
           {progress.textProps && (
@@ -37,7 +40,6 @@ export function Progress(props: ProgressProps) {
           .filter(Boolean)
           .join(' ')}
       >
-        {injectStyles && <style suppressHydrationWarning>{_progressCss}</style>}
         <svg {...progress.svgProps}>
           <circle {...progress.trailProps} />
           <circle {...progress.circleProps} />

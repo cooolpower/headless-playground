@@ -200,3 +200,6 @@ export type * from './components/transfer/type-transfer';
 export type * from './components/tree/type-tree';
 export type * from './components/tree-select/type-tree-select';
 export type * from './components/upload/type-upload';
+export { useStyles } from './hooks/use-styles';
+export { injectTheme, injectComponentStyles, removeStyles } from './utils/style-injector';
+export { defaultThemeCss } from './styles/theme.styles';

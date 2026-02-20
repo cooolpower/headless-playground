@@ -6,6 +6,7 @@ import { useToast } from './use-toast';
 import { ToastProps } from './type-toast';
 import { toastCss as _toastCss } from './toast.styles';
 import { Ellipsis } from '../ellipsis/ellipsis';
+import { useStyles } from '../../hooks/use-styles';
 
 export function Toast({
   className,
@@ -52,23 +53,8 @@ export function Toast({
     }
   }, [duration]);
 
-  // 스타일 주입 (한 번만, injectStyles 값에 따라 추가/제거)
-  useEffect(() => {
-    const styleId = 'hc-toast-styles';
-    if (injectStyles) {
-      if (!document.getElementById(styleId)) {
-        const styleElement = document.createElement('style');
-        styleElement.id = styleId;
-        styleElement.textContent = _toastCss;
-        document.head.appendChild(styleElement);
-      }
-    } else {
-      const styleElement = document.getElementById(styleId);
-      if (styleElement) {
-        styleElement.remove();
-      }
-    }
-  }, [injectStyles]);
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-toast-styles', _toastCss, injectStyles);
 
   const [mounted, setMounted] = useState(false);
 

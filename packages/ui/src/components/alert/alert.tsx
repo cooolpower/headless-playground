@@ -5,6 +5,7 @@ import React from 'react';
 import { useAlert } from './use-alert';
 import { AlertProps } from './type-alert';
 import { alertCss as _alertCss } from './alert.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 import { cx } from '../../utils';
 
@@ -23,12 +24,14 @@ export function Alert(props: AlertProps) {
 
   const { className, title, description, injectStyles = true } = props;
 
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-alert-styles', _alertCss, injectStyles);
+
   return (
     <div
       {...containerProps}
       className={cx(containerProps.className, className)}
     >
-      {injectStyles && <style suppressHydrationWarning>{_alertCss}</style>}
       {iconProps && icon && (
         <div {...iconProps} className={iconProps.className}>
           {icon}

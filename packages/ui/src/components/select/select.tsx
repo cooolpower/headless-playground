@@ -7,6 +7,7 @@ import { useSelect, type SelectOption } from './use-select';
 import { SelectProps } from './type-select';
 import { selectCss as _selectCss } from './select.styles';
 import { cx } from '../../utils';
+import { useStyles } from '../../hooks/use-styles';
 
 export function Select(props: SelectProps) {
   const {
@@ -51,6 +52,9 @@ export function Select(props: SelectProps) {
   const searchInput = searchInputProps as any;
   const clearButton = clearButtonProps as any;
 
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-select-styles', _selectCss, injectStyles);
+
   return (
     <div
       {...containerRest}
@@ -60,9 +64,6 @@ export function Select(props: SelectProps) {
       data-size={size}
       data-has-value={hasValue ? 'true' : 'false'}
     >
-      {injectStyles ? (
-        <style suppressHydrationWarning>{_selectCss}</style>
-      ) : null}
       {/* Trigger */}
       <div
         {...triggerRest}
