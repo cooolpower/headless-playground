@@ -5,8 +5,8 @@ import {
   Nanum_Gothic,
   Nanum_Gothic_Coding,
 } from 'next/font/google';
-import '../styles/tokens.css';
-import './globals.css';
+import '../styles/vars.css.ts';
+import '../styles/global.css.ts';
 
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';

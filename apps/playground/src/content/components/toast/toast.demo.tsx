@@ -243,8 +243,8 @@ export function ToastInteractiveControls() {
                 <Button
                   key={t}
                   onClick={() => setColor(t)}
-                  type={'primary'}
-                  color={color === t ? 'success' : 'info'}
+                  type={color === t ? 'default' : 'tertiary'}
+                  color="default"
                   size="small"
                 >
                   {t}
@@ -276,9 +276,11 @@ export function ToastInteractiveControls() {
                 <Button
                   key={p}
                   onClick={() => setPlacement(p)}
-                  type={placement === p ? 'primary' : 'tertiary'}
-                  style={{ fontSize: 'var(--font-size-sm, 14px)' }}
-                  color="info"
+                  type={placement === p ? 'default' : 'tertiary'}
+                  style={{
+                    fontSize: 'var(--font-size-sm, 12px)',
+                  }}
+                  color="default"
                   size="small"
                 >
                   {p}
@@ -443,7 +445,7 @@ export function DemoToastBasicWithControls() {
           showClose={t.showClose}
           index={index}
           maxCount={maxCount}
-          injectStyles={t.injectStyles}
+          injectStyles={injectStyles}
           onClose={() => removeToast(t.id)}
         />
       ))}
@@ -452,6 +454,8 @@ export function DemoToastBasicWithControls() {
 }
 
 export function DemoToastBasic() {
+  const context = useContext(ToastControlsContext);
+  const injectStyles = context?.injectStyles ?? true;
   const [toasts, setToasts] = useState<
     Array<{
       id: number;
@@ -496,6 +500,7 @@ export function DemoToastBasic() {
         <Button
           type="primary"
           color="success"
+          injectStyles={injectStyles}
           onClick={() =>
             showToast('success', '작업이 성공적으로 완료되었습니다!')
           }
@@ -505,6 +510,7 @@ export function DemoToastBasic() {
         <Button
           type="primary"
           color="info"
+          injectStyles={injectStyles}
           onClick={() => showToast('info', '정보 메시지입니다.')}
         >
           Info Toast
@@ -512,6 +518,7 @@ export function DemoToastBasic() {
         <Button
           type="primary"
           color="warning"
+          injectStyles={injectStyles}
           onClick={() => showToast('warning', '경고 메시지입니다.')}
         >
           Warning Toast
@@ -519,6 +526,7 @@ export function DemoToastBasic() {
         <Button
           type="primary"
           color="error"
+          injectStyles={injectStyles}
           onClick={() => showToast('error', '오류가 발생했습니다.')}
         >
           Error Toast
@@ -535,6 +543,7 @@ export function DemoToastBasic() {
           index={index}
           maxCount={maxCount}
           showProgress={toast.showProgress ?? false}
+          injectStyles={injectStyles}
         />
       ))}
     </div>
@@ -542,6 +551,8 @@ export function DemoToastBasic() {
 }
 
 export function DemoToastWithProgress() {
+  const context = useContext(ToastControlsContext);
+  const injectStyles = context?.injectStyles ?? true;
   const [toasts, setToasts] = useState<
     Array<{
       id: number;
@@ -583,6 +594,9 @@ export function DemoToastWithProgress() {
     <div className={styles.container}>
       <div className={styles.buttonGroup}>
         <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
           onClick={() =>
             showToast('success', '프로그레스 바가 있는 Toast', {
               duration: 3000,
@@ -593,6 +607,9 @@ export function DemoToastWithProgress() {
           Success with Progress
         </Button>
         <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
           onClick={() =>
             showToast('info', '5초 후 사라집니다', {
               duration: 5000,
@@ -603,6 +620,9 @@ export function DemoToastWithProgress() {
           Info with Progress (5초)
         </Button>
         <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
           onClick={() =>
             showToast('warning', '3초 후 사라집니다', {
               duration: 3000,
@@ -623,6 +643,7 @@ export function DemoToastWithProgress() {
           index={index}
           maxCount={maxCount}
           showProgress={toast.showProgress ?? true}
+          injectStyles={injectStyles}
         />
       ))}
     </div>
@@ -630,6 +651,8 @@ export function DemoToastWithProgress() {
 }
 
 export function DemoToastWithIcon() {
+  const context = useContext(ToastControlsContext);
+  const injectStyles = context?.injectStyles ?? true;
   const [toasts, setToasts] = useState<
     Array<{
       id: number;
@@ -656,6 +679,7 @@ export function DemoToastWithIcon() {
         <Button
           type="primary"
           color="success"
+          injectStyles={injectStyles}
           onClick={() =>
             showToast('success', '데이터가 성공적으로 저장되었습니다.')
           }
@@ -665,6 +689,7 @@ export function DemoToastWithIcon() {
         <Button
           type="primary"
           color="info"
+          injectStyles={injectStyles}
           onClick={() => showToast('info', '새로운 업데이트가 있습니다.')}
         >
           Info with Icon
@@ -672,6 +697,7 @@ export function DemoToastWithIcon() {
         <Button
           type="primary"
           color="warning"
+          injectStyles={injectStyles}
           onClick={() => showToast('warning', '입력을 확인해주세요.')}
         >
           Warning with Icon
@@ -679,6 +705,7 @@ export function DemoToastWithIcon() {
         <Button
           type="primary"
           color="error"
+          injectStyles={injectStyles}
           onClick={() => showToast('error', '서버에 연결할 수 없습니다.')}
         >
           Error with Icon
@@ -694,6 +721,7 @@ export function DemoToastWithIcon() {
           duration={3000}
           index={index}
           maxCount={5}
+          injectStyles={injectStyles}
         />
       ))}
     </div>
@@ -701,6 +729,8 @@ export function DemoToastWithIcon() {
 }
 
 export function DemoToastPlacement() {
+  const context = useContext(ToastControlsContext);
+  const injectStyles = context?.injectStyles ?? true;
   const [toasts, setToasts] = useState<
     Array<{
       id: number;
@@ -736,28 +766,52 @@ export function DemoToastPlacement() {
   return (
     <div className={styles.container}>
       <div className={styles.buttonGroup}>
-        <Button onClick={() => showToast('top', '상단 중앙에 표시됩니다.')}>
-          Top Center
-        </Button>
         <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
           onClick={() => showToast('top-left', '상단 왼쪽에 표시됩니다.')}
         >
           Top Left
         </Button>
         <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('top', '상단 중앙에 표시됩니다.')}
+        >
+          Top Center
+        </Button>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
           onClick={() => showToast('top-right', '상단 오른쪽에 표시됩니다.')}
         >
           Top Right
         </Button>
-        <Button onClick={() => showToast('bottom', '하단 중앙에 표시됩니다.')}>
-          Bottom Center
-        </Button>
+      </div>
+      <div className={styles.buttonGroup}>
         <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
           onClick={() => showToast('bottom-left', '하단 왼쪽에 표시됩니다.')}
         >
           Bottom Left
         </Button>
         <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('bottom', '하단 중앙에 표시됩니다.')}
+        >
+          Bottom Center
+        </Button>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
           onClick={() => showToast('bottom-right', '하단 오른쪽에 표시됩니다.')}
         >
           Bottom Right
@@ -779,6 +833,7 @@ export function DemoToastPlacement() {
             duration={3000}
             index={index}
             maxCount={5}
+            injectStyles={injectStyles}
           />
         );
       })}
@@ -787,6 +842,8 @@ export function DemoToastPlacement() {
 }
 
 export function DemoToastDuration() {
+  const context = useContext(ToastControlsContext);
+  const injectStyles = context?.injectStyles ?? true;
   const [toasts, setToasts] = useState<
     Array<{ id: number; duration: number; message: string }>
   >([]);
@@ -803,16 +860,36 @@ export function DemoToastDuration() {
   return (
     <div className={styles.container}>
       <div className={styles.buttonGroup}>
-        <Button onClick={() => showToast(1000, '1초 후 자동으로 사라집니다.')}>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast(1000, '1초 후 자동으로 사라집니다.')}
+        >
           1초
         </Button>
-        <Button onClick={() => showToast(3000, '3초 후 자동으로 사라집니다.')}>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast(3000, '3초 후 자동으로 사라집니다.')}
+        >
           3초
         </Button>
-        <Button onClick={() => showToast(5000, '5초 후 자동으로 사라집니다.')}>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast(5000, '5초 후 자동으로 사라집니다.')}
+        >
           5초
         </Button>
-        <Button onClick={() => showToast(0, '자동으로 사라지지 않습니다.')}>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast(0, '자동으로 사라지지 않습니다.')}
+        >
           영구
         </Button>
       </div>
@@ -824,6 +901,7 @@ export function DemoToastDuration() {
           onClose={() => removeToast(toast.id)}
           index={index}
           maxCount={5}
+          injectStyles={injectStyles}
         />
       ))}
     </div>
@@ -831,6 +909,8 @@ export function DemoToastDuration() {
 }
 
 export function DemoToastMaxCount() {
+  const context = useContext(ToastControlsContext);
+  const injectStyles = context?.injectStyles ?? true;
   const [toasts, setToasts] = useState<Array<{ id: number; message: string }>>(
     [],
   );
@@ -852,11 +932,46 @@ export function DemoToastMaxCount() {
   return (
     <div className={styles.container}>
       <div className={styles.buttonGroup}>
-        <Button onClick={() => showToast('Toast 1')}>Toast 1</Button>
-        <Button onClick={() => showToast('Toast 2')}>Toast 2</Button>
-        <Button onClick={() => showToast('Toast 3')}>Toast 3</Button>
-        <Button onClick={() => showToast('Toast 4')}>Toast 4</Button>
-        <Button onClick={() => showToast('Toast 5')}>Toast 5</Button>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('Toast 1')}
+        >
+          Toast 1
+        </Button>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('Toast 2')}
+        >
+          Toast 2
+        </Button>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('Toast 3')}
+        >
+          Toast 3
+        </Button>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('Toast 4')}
+        >
+          Toast 4
+        </Button>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('Toast 5')}
+        >
+          Toast 5
+        </Button>
       </div>
       <p
         style={{
@@ -877,6 +992,7 @@ export function DemoToastMaxCount() {
           duration={3000}
           index={index}
           maxCount={maxCount}
+          injectStyles={injectStyles}
         />
       ))}
     </div>

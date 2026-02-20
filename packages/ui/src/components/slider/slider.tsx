@@ -5,6 +5,7 @@ import { useSlider, type SliderMark } from './use-slider';
 import { SliderProps } from './type-slider';
 import { Icon } from '../icon/icon';
 import { sliderCss as _sliderCss } from './slider.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 export function Slider(props: SliderProps) {
   const {
@@ -118,6 +119,9 @@ export function Slider(props: SliderProps) {
   const trackRest = { ...(trackProps as any), style: undefined };
   const fillRest = { ...(fillProps as any) };
 
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-slider-styles', _sliderCss, injectStyles);
+
   return (
     <div
       {...containerRest}
@@ -132,7 +136,6 @@ export function Slider(props: SliderProps) {
         } as React.CSSProperties
       }
     >
-      {injectStyles ? <style suppressHydrationWarning>{_sliderCss}</style> : null}
       <div {...trackRest} className="hcSliderTrack">
         <div {...fillRest} className="hcSliderFill" />
         {/* Marks */}

@@ -7,6 +7,7 @@ import { checkboxCss as _checkboxCss } from './checkbox.styles';
 import { Check, Minus } from 'lucide-react';
 import { Icon } from '../icon/icon';
 import { cx } from '../../utils';
+import { useStyles } from '../../hooks/use-styles';
 
 export function Checkbox(props: CheckboxProps) {
   const { inputProps, checkboxProps, checkmarkProps, checked, indeterminate } =
@@ -26,6 +27,9 @@ export function Checkbox(props: CheckboxProps) {
     ? { ...(checkmarkProps as any), style: undefined }
     : null;
 
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-checkbox-styles', _checkboxCss, injectStyles);
+
   return (
     <label
       className={cx('hcCheckbox', className)}
@@ -35,9 +39,6 @@ export function Checkbox(props: CheckboxProps) {
       data-size={size}
       onClick={props.onClick}
     >
-      {injectStyles ? (
-        <style suppressHydrationWarning>{_checkboxCss}</style>
-      ) : null}
       <input {...inputRest} className="hcCheckboxInput" />
       <span {...boxRest} className="hcCheckboxBox">
         {markRest && (

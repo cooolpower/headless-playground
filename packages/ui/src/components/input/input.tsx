@@ -8,6 +8,7 @@ import { useInput } from './use-input';
 import { InputProps } from './type-input';
 import { inputCss as _inputCss } from './input.styles';
 import { cx } from '../../utils';
+import { useStyles } from '../../hooks/use-styles';
 
 export function Input(props: InputProps) {
   const {
@@ -36,6 +37,9 @@ export function Input(props: InputProps) {
     className: undefined,
   };
 
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-input-styles', _inputCss, injectStyles);
+
   return (
     <div
       {...wrapperRest}
@@ -44,9 +48,6 @@ export function Input(props: InputProps) {
       data-size={size}
       data-focused={isFocused ? 'true' : 'false'}
     >
-      {injectStyles ? (
-        <style suppressHydrationWarning>{_inputCss}</style>
-      ) : null}
       <input
         {...inputRest}
         className={cx('hcInput', props.inputClassName)}

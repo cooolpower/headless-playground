@@ -8,6 +8,7 @@ import { useTextarea } from './use-textarea';
 import { TextareaProps } from './type-textarea';
 import { textareaCss as _textareaCss } from './textarea.styles';
 import { cx } from '../../utils';
+import { useStyles } from '../../hooks/use-styles';
 
 export const TextareaCss = _textareaCss;
 
@@ -40,13 +41,15 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       [ref, textareaRef],
     );
 
+    // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+    useStyles('hc-textarea-styles', _textareaCss, injectStyles);
+
     return (
       <div
         {...wrapperProps}
         className={cx('hcTextareaWrap', className)}
         data-disabled={disabled ? 'true' : undefined}
       >
-        {injectStyles && <style suppressHydrationWarning>{_textareaCss}</style>}
         <textarea
           ref={mergedRef}
           {...(textareaProps as any)}

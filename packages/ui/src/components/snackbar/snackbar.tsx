@@ -5,6 +5,7 @@ import { useSnackbar } from './use-snackbar';
 import { SnackbarProps } from './type-snackbar';
 import { snackbarCss as _snackbarCss } from './snackbar.styles';
 import { cx } from '../../utils';
+import { useStyles } from '../../hooks/use-styles';
 
 export function Snackbar({
   className,
@@ -13,6 +14,9 @@ export function Snackbar({
   injectStyles = true,
   ...props
 }: SnackbarProps) {
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-snackbar-styles', _snackbarCss, injectStyles);
+
   const {
     placementStyles,
     duration,
@@ -87,9 +91,6 @@ export function Snackbar({
         ...placementStyles,
       }}
     >
-      {injectStyles ? (
-        <style suppressHydrationWarning>{_snackbarCss}</style>
-      ) : null}
       <div className="hcSnackbarBody">
         <div>{message as any}</div>
         {showProgress && duration > 0 && (

@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { BadgeProps } from './type-badge';
 import { useBadge } from './use-badge';
 import { badgeCss as _badgeCss } from './badge.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 export const BadgeCss = _badgeCss;
 
@@ -71,9 +72,8 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       ...(isCustomColor && { backgroundColor: color }),
     };
 
-    const styleTag = injectStyles ? (
-      <style suppressHydrationWarning>{_badgeCss}</style>
-    ) : null;
+    // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+    useStyles('hc-badge-styles', _badgeCss, injectStyles);
 
     const badgeElement = (
       <span ref={ref} className={badgeClassName} style={customStyle} {...props}>
@@ -82,17 +82,11 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     );
 
     if (!hasChildren) {
-      return shouldDisplay ? (
-        <>
-          {styleTag}
-          {badgeElement}
-        </>
-      ) : null;
+      return shouldDisplay ? <>{badgeElement}</> : null;
     }
 
     return (
       <span className="hcBadgeContainer">
-        {styleTag}
         {children}
         {shouldDisplay && badgeElement}
       </span>

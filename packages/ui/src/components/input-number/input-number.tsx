@@ -6,6 +6,7 @@ import { Icon } from '../icon/icon';
 import { useInputNumber } from './use-input-number';
 import { InputNumberProps } from './type-input-number';
 import { inputNumberCss as _inputNumberCss } from './input-number.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 export const InputNumberCss = _inputNumberCss;
 
@@ -35,8 +36,10 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
+    // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+    useStyles('hc-input-number-styles', _inputNumberCss, injectStyles);
     // Remove children from props to prevent React error (input is a void element)
     const { children, ...inputProps } = props as any;
     const {
@@ -83,17 +86,11 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
     // 아이콘 크기는 Progress 데모와 동일하게 'small'로 고정
     const iconSize = 'small';
 
-    const rootClassName = [
-      'hcInputNumber',
-      className,
-    ]
+    const rootClassName = ['hcInputNumber', className]
       .filter(Boolean)
       .join(' ');
 
-    const resolvedInputClassName = [
-      'hcInputNumberInput',
-      inputClassName,
-    ]
+    const resolvedInputClassName = ['hcInputNumberInput', inputClassName]
       .filter(Boolean)
       .join(' ');
 
@@ -118,9 +115,6 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
         data-disabled={disabled ? 'true' : 'false'}
         data-readonly={readonly ? 'true' : 'false'}
       >
-        {injectStyles && (
-          <style suppressHydrationWarning>{_inputNumberCss}</style>
-        )}
         {controls && (
           <button
             type="button"
@@ -165,7 +159,7 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 InputNumber.displayName = 'InputNumber';
