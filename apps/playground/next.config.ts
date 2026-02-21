@@ -4,6 +4,7 @@ import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
 import createMDX from "@next/mdx";
 import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
 
 const withVanillaExtract = createVanillaExtractPlugin()
 
@@ -11,11 +12,14 @@ const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [[rehypePrettyCode, {
-      theme: 'github-dark', // 다크 모드 색상 조합을 모든 테마에서 사용
-      keepBackground: false,
-      defaultLang: 'plaintext',
-    }]],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypePrettyCode, {
+        theme: 'github-dark', // 다크 모드 색상 조합을 모든 테마에서 사용
+        keepBackground: false,
+        defaultLang: 'plaintext',
+      }]
+    ],
   },
 });
 

@@ -56,7 +56,6 @@ const COMPONENT_REGISTRY = {
     { slug: 'tree-select', label: 'Tree Select' },
     { slug: 'chart', label: 'Chart' },
     { slug: 'heatmap', label: 'Heatmap' },
-    { slug: 'map', label: 'Map' },
   ] as ComponentItem[],
   Navigation: [
     { slug: 'menu', label: 'Menu' },

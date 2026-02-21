@@ -60,7 +60,8 @@ const DOCS = {
   menu: () => import('@/content/components/menu/menu.mdx'),
   pagination: () => import('@/content/components/pagination/pagination.mdx'),
   steps: () => import('@/content/components/steps/steps.mdx'),
-  'loading-bar': () => import('@/content/components/loading-bar/loading-bar.mdx'),
+  'loading-bar': () =>
+    import('@/content/components/loading-bar/loading-bar.mdx'),
   'input-number': () =>
     import('@/content/components/input-number/input-number.mdx'),
   'time-picker': () =>
@@ -81,7 +82,6 @@ const DOCS = {
   heatmap: () => import('@/content/components/heatmap/heatmap.mdx'),
   'data-table': () => import('@/content/components/data-table/data-table.mdx'),
   chart: () => import('@/content/components/chart/chart.mdx'),
-  map: () => import('@/content/components/map/map.mdx'),
   'dynamic-tags': () =>
     import('@/content/components/dynamic-tags/dynamic-tags.mdx'),
   'dynamic-input': () =>
@@ -168,7 +168,6 @@ const DEMOS = {
   heatmap: () => import('@/content/components/heatmap/heatmap.demo'),
   'data-table': () => import('@/content/components/data-table/data-table.demo'),
   chart: () => import('@/content/components/chart/chart.demo'),
-  map: () => import('@/content/components/map/map.demo'),
   'dynamic-tags': () =>
     import('@/content/components/dynamic-tags/dynamic-tags.demo'),
   'dynamic-input': () =>
@@ -176,6 +175,9 @@ const DEMOS = {
   toast: () => import('@/content/components/toast/toast.demo'),
   snackbar: () => import('@/content/components/snackbar/snackbar.demo'),
 } as const;
+
+import { getToc } from '@/utils/toc';
+import { TableOfContents } from '@/components/layout/toc';
 
 export default async function ComponentDocPage({
   params,
@@ -193,11 +195,16 @@ export default async function ComponentDocPage({
   const demoImporter = DEMOS[slug as keyof typeof DEMOS];
   const demoModule = demoImporter ? await demoImporter() : {};
 
+  const tocItems = getToc(slug);
+
   return (
     <>
       <div className={styles.main}>
-        <div className={styles.mainDoc} suppressHydrationWarning>
-          <Doc components={{ Playground, ...demoModule }} />
+        <div className={styles.contentWrapper}>
+          <div className={styles.mainDoc} suppressHydrationWarning>
+            <Doc components={{ Playground, ...demoModule }} />
+          </div>
+          <TableOfContents items={tocItems} />
         </div>
         <Footer />
       </div>
