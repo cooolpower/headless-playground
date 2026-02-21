@@ -73,71 +73,71 @@ globalStyle('ul, ol', {
 
 // .mainDoc
 globalStyle('.mainDoc', {
-  maxWidth: '100%',
+  maxWidth: '1000px',
   width: '100%',
-  lineHeight: 'var(--line-height-relaxed)',
+  lineHeight: 1.7,
   color: 'var(--color-text)',
+  paddingBottom: 'var(--spacing-4xl)',
 });
 
 globalStyle('.mainDoc h1', {
-  fontSize: 'var(--font-size-4xl)',
-  fontWeight: 'var(--font-weight-bold)',
+  fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+  fontWeight: 800,
   marginBottom: 'var(--spacing-xl)',
   marginTop: 0,
-  lineHeight: 'var(--line-height-tight)',
+  lineHeight: 1.1,
+  letterSpacing: '-0.04em',
   color: 'var(--color-text-heading)',
 });
 
 globalStyle('.mainDoc h2', {
   fontSize: 'var(--font-size-3xl)',
-  fontWeight: 'var(--font-weight-semibold)',
-  marginTop: 'var(--spacing-2xl)',
-  marginBottom: 'var(--spacing-base)',
-  lineHeight: 'var(--line-height-snug)',
+  fontWeight: 700,
+  marginTop: 'var(--spacing-4xl)',
+  marginBottom: 'var(--spacing-lg)',
+  lineHeight: 1.2,
+  letterSpacing: '-0.02em',
   color: 'var(--color-text-heading)',
+  borderBottom: '1px solid var(--color-divider)',
+  paddingBottom: 'var(--spacing-sm)',
 });
 
 globalStyle('.mainDoc h3', {
   fontSize: 'var(--font-size-2xl)',
-  fontWeight: 'var(--font-weight-semibold)',
-  marginTop: 'var(--spacing-xl)',
+  fontWeight: 600,
+  marginTop: 'var(--spacing-3xl)',
   marginBottom: 'var(--spacing-md)',
-  lineHeight: 'var(--line-height-snug)',
-  color: 'var(--color-text-heading)',
-});
-
-globalStyle('.mainDoc h4', {
-  fontSize: 'var(--font-size-xl)',
-  fontWeight: 'var(--font-weight-semibold)',
-  marginTop: 'var(--spacing-lg)',
-  marginBottom: 'var(--spacing-sm)',
-  lineHeight: 'var(--line-height-normal)',
+  lineHeight: 1.3,
+  letterSpacing: '-0.01em',
   color: 'var(--color-text-heading)',
 });
 
 globalStyle('.mainDoc p', {
-  marginBottom: 'var(--spacing-base)',
-  lineHeight: 'var(--line-height-relaxed)',
+  marginBottom: 'var(--spacing-lg)',
+  fontSize: '1.05rem',
+  color: 'var(--color-text-secondary)',
 });
 
-globalStyle('.mainDoc code', {
+globalStyle('.mainDoc code:not(pre code)', {
   backgroundColor: 'var(--color-surface)',
-  padding: 'var(--spacing-xs) var(--spacing-sm)',
-  borderRadius: 'var(--radius-sm)',
+  color: 'var(--color-brand-primary)',
+  padding: '0.2em 0.4em',
+  borderRadius: 'var(--radius-md)',
   fontSize: '0.9em',
-  fontFamily: 'var(--font-family-nanumGothicCoding)',
-  border: 'var(--border-width-thin) solid var(--color-border)',
+  fontFamily: 'var(--font-family-mono)',
+  border: '1px solid var(--color-divider)',
+  fontWeight: 500,
 });
 
 globalStyle('.mainDoc pre', {
   backgroundColor: 'var(--color-surface)',
-  padding: 'var(--spacing-base)',
-  borderRadius: 'var(--radius-lg)',
-  border: 'var(--border-width-thin) solid var(--color-border)',
+  padding: 'var(--spacing-xl)',
+  borderRadius: 'var(--radius-xl)',
+  border: '1px solid var(--color-border)',
+  boxShadow: 'var(--shadow-lg)',
   overflowX: 'auto',
-  margin: 'var(--spacing-xl) 0',
-  fontSize: 'var(--font-size-sm)',
-  lineHeight: 'var(--line-height-normal)',
+  margin: 'var(--spacing-2xl) 0',
+  fontSize: 'var(--font-size-md)',
 });
 
 globalStyle('.mainDoc pre code', {

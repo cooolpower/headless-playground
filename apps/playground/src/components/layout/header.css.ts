@@ -7,6 +7,9 @@ export const header = style({
   padding: '1rem',
   backgroundColor: 'var(--background)',
   borderBottom: '1px solid var(--border-color)',
+  position: 'sticky',
+  top: 0,
+  zIndex: 1,
 });
 
 export const headerLogo = style({

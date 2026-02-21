@@ -9,7 +9,6 @@ interface ComponentItem {
   label: string;
 }
 
-// 컴포넌트 레지스트리 패턴 - 카테고리별로 그룹화
 const COMPONENT_REGISTRY = {
   'Basic Components': [
     { slug: 'alert', label: 'Alert' },
@@ -104,11 +103,11 @@ export function Sidebar() {
 
   return (
     <aside className={styles.sidebar} data-sidebar>
-      <nav className={styles.sidebarNav}>
+      <nav className={styles.navGroup}>
         {Object.entries(COMPONENT_REGISTRY).map(([category, components]) => (
-          <div key={category} className={styles.sidebarNavContent}>
-            <h2 className={styles.sidebarNavListTitle}>{category}</h2>
-            <ul className={styles.sidebarNavList}>
+          <div key={category}>
+            <h2 className={styles.categoryTitle}>{category}</h2>
+            <ul className={styles.navList}>
               {[...components]
                 .sort((a, b) => a.label.localeCompare(b.label))
                 .map(({ slug, label }) => {
@@ -116,15 +115,14 @@ export function Sidebar() {
                   const isActive = pathname === href;
 
                   return (
-                    <li key={slug} className={styles.sidebarNavListItem}>
+                    <li key={slug} className={styles.navItem}>
                       <Link
                         href={href}
-                        className={`block rounded-md px-3 py-2 text-sm transition-colors ${
-                          isActive
-                            ? 'bg-neutral-900 text-white'
-                            : 'text-neutral-700 hover:bg-neutral-200'
-                        }`}
+                        className={
+                          isActive ? styles.activeNavLink : styles.navLink
+                        }
                       >
+                        {isActive && <div className={styles.activeDot} />}
                         {label}
                       </Link>
                     </li>
