@@ -3,13 +3,14 @@
 // components/headless/dropdown/dropdown.tsx
 import React, { createContext, useContext } from 'react';
 import { useDropdown } from './use-dropdown';
-import type {
+import {
   DropdownProps,
   DropdownTriggerProps,
   DropdownMenuProps,
   DropdownItemProps,
 } from './type-dropdown';
 import { dropdownCss as _dropdownCss } from './dropdown.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 type DropdownContextValue = ReturnType<typeof useDropdown>;
 const DropdownContext = createContext<DropdownContextValue | null>(null);
@@ -22,15 +23,19 @@ export function Dropdown({
 }: DropdownProps) {
   const dropdown = useDropdown({ ...props, children });
 
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-dropdown-styles', _dropdownCss, injectStyles);
+
   return (
     <DropdownContext.Provider value={dropdown}>
       <div
         {...dropdown.containerProps}
-        className={className ? `${dropdown.containerProps.className} ${className}` : dropdown.containerProps.className}
+        className={
+          className
+            ? `${dropdown.containerProps.className} ${className}`
+            : dropdown.containerProps.className
+        }
       >
-        {injectStyles ? (
-          <style suppressHydrationWarning>{_dropdownCss}</style>
-        ) : null}
         {children}
       </div>
     </DropdownContext.Provider>
@@ -50,7 +55,9 @@ export function DropdownTrigger({
       {...ctx.triggerProps}
       type="button"
       aria-disabled={disabled ? 'true' : undefined}
-      className={className ? `hcDropdownTrigger ${className}` : 'hcDropdownTrigger'}
+      className={
+        className ? `hcDropdownTrigger ${className}` : 'hcDropdownTrigger'
+      }
       onClick={disabled ? undefined : ctx.triggerProps.onClick}
     >
       {children}
@@ -65,7 +72,11 @@ export function DropdownMenu({ children, className }: DropdownMenuProps) {
   return (
     <div
       {...ctx.menuProps}
-      className={className ? `${ctx.menuProps.className} ${className}` : ctx.menuProps.className}
+      className={
+        className
+          ? `${ctx.menuProps.className} ${className}`
+          : ctx.menuProps.className
+      }
     >
       {children}
     </div>
