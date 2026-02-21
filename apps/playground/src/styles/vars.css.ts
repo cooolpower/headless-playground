@@ -511,6 +511,19 @@ createGlobalTheme(':root', vars, {
   logoInvert: 'invert(1)',
 });
 
+// 2.1 Legacy Variable Mapping (Compatibility Patch)
+globalStyle(':root', {
+  vars: {
+    '--background': vars.color.background,
+    '--background-body': vars.color.background,
+    '--border-color': vars.color.border,
+    '--foreground': vars.color['text-heading'],
+    '--text-primary': vars.color.text,
+    '--text-secondary': vars.color['text-secondary'],
+    '--logoInvert': vars.logoInvert,
+  },
+});
+
 // 3. 라이트 테마 값 정의
 const lightColors = {
   // Neutral Colors (Inverted)
@@ -587,6 +600,14 @@ const assignLightVars = {
       },
       lightExtras
     ),
+    // Re-apply legacy mapping to ensure sync after light colors overwrite
+    '--background': lightColors.background,
+    '--background-body': lightColors.background,
+    '--border-color': lightColors.border,
+    '--foreground': lightColors['text-heading'],
+    '--text-primary': lightColors.text,
+    '--text-secondary': lightColors['text-secondary'],
+    '--logoInvert': lightExtras.logoInvert,
   },
 };
 
