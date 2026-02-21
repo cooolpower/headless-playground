@@ -76,8 +76,7 @@ export * from './components/list/list';
 export * from './components/list/use-list';
 export * from './components/loading-bar/loading-bar';
 export * from './components/loading-bar/use-loading-bar';
-export * from './components/map/map';
-export * from './components/map/use-map';
+
 export * from './components/mention/mention';
 export * from './components/mention/use-mention';
 export * from './components/menu/menu';
@@ -174,7 +173,7 @@ export type * from './components/input/type-input';
 export type * from './components/input-number/type-input-number';
 export type * from './components/list/type-list';
 export type * from './components/loading-bar/type-loading-bar';
-export type * from './components/map/type-map';
+
 export type * from './components/mention/type-mention';
 export type * from './components/menu/type-menu';
 export type * from './components/modal/type-modal';
