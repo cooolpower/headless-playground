@@ -387,13 +387,19 @@ export function DemoDynamicTagsCustomRender() {
               display: 'inline-flex',
               alignItems: 'center',
               padding: '4px 12px',
-              backgroundColor: 'var(--color-brand-primary)',
+              //backgroundColor: 'var(--color-brand-primary)',
               color: 'var(--color-text-on-primary)',
               borderRadius: '4px',
               fontSize: '14px',
             }}
           >
-            {tag}
+            <span
+              style={{
+                color: 'inherit',
+              }}
+            >
+              {tag}
+            </span>
             <button
               type="button"
               onClick={() => {
@@ -422,6 +428,53 @@ export function DemoDynamicTagsCustomRender() {
           addButton: styles.addButton,
         }}
       />
+    </div>
+  );
+}
+
+// 스타일 커스텀 예제
+export function DemoDynamicTagsStyles() {
+  const [tags, setTags] = useState<string[]>(['Styled1', 'Styled2']);
+
+  return (
+    <div className={styles.container}>
+      <DynamicTags
+        value={tags}
+        onChange={setTags}
+        // style={{
+        //   border: '2px dashed var(--color-brand-primary)',
+        //   padding: '12px',
+        //   borderRadius: '8px',
+        //   backgroundColor: 'var(--color-surface-hover)',
+        // }}
+        styles={{
+          container: {
+            gap: '12px',
+          },
+          tag: {
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: 'var(--color-brand-primary)',
+            color: 'white',
+            borderRadius: '8px',
+            border: 'none',
+            padding: '10px var(--spacing-sm)',
+          },
+          tagInput: {
+            width: '100%',
+            borderBottom: '2px solid var(--color-brand-primary)',
+          },
+          addButton: {
+            backgroundColor: 'var(--color-brand-primary)',
+            color: 'white',
+            padding: '8px',
+            borderRadius: '50%',
+          },
+        }}
+      />
+      <div className={styles.valueDisplay}>
+        style & styles props를 사용한 커스텀 스타일링
+      </div>
     </div>
   );
 }

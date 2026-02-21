@@ -32,4 +32,13 @@ export interface DynamicTagsProps {
   placeholder?: string;
   /** 입력 필드 크기 */
   size?: 'custom' | 'small' | 'medium' | 'large';
+  /** 루트 요소 스타일 */
+  style?: React.CSSProperties;
+  /** 내부 요소별 스타일 */
+  styles?: {
+    container?: React.CSSProperties;
+    tag?: React.CSSProperties;
+    tagInput?: React.CSSProperties;
+    addButton?: React.CSSProperties;
+  };
 }

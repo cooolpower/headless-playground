@@ -120,6 +120,7 @@ export const vars = createGlobalThemeContract(
       xl: 'shadow-xl',
       '2xl': 'shadow-2xl',
       inner: 'shadow-inner',
+      glow: 'shadow-glow',
       none: 'shadow-none',
     },
     color: {
@@ -249,6 +250,7 @@ export const vars = createGlobalThemeContract(
     fontFamily: {
       nanumGothic: 'font-family-nanumGothic',
       nanumGothicCoding: 'font-family-nanumGothicCoding',
+      pretendard: 'font-family-pretendard',
       sans: 'font-family-sans',
       mono: 'font-family-mono',
     },
@@ -375,6 +377,7 @@ createGlobalTheme(':root', vars, {
     xl: '0 20px 25px oklch(0% 0 0 / 0.1), 0 10px 10px oklch(0% 0 0 / 0.04)',
     '2xl': '0 25px 50px oklch(0% 0 0 / 0.25)',
     inner: 'inset 0 2px 4px oklch(0% 0 0 / 0.06)',
+    glow: '0 0 20px oklch(0.83 0.13 168 / 0.15)', // 브랜드 컬러 글로우 추가
     none: 'none',
   },
   color: {
@@ -497,6 +500,8 @@ createGlobalTheme(':root', vars, {
   fontFamily: {
     nanumGothic: "'Nanum Gothic', sans-serif",
     nanumGothicCoding: "'Nanum Gothic Coding', sans-serif",
+    pretendard:
+      "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif",
     sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
     mono: "'Geist Mono', 'SF Mono', monospace",
   },

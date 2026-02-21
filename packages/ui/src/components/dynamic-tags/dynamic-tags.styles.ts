@@ -6,6 +6,11 @@ export const dynamicTagsCss = `
   align-items: center;
 }
 
+.hcDynamicTagsTagWrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
 .hcDynamicTagsTag {
   display: inline-flex;
   border: 1px solid var(--color-button-border);

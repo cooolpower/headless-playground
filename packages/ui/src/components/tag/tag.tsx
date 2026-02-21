@@ -20,7 +20,14 @@ function injectTagStyles() {
 }
 
 export function Tag(props: UseTagProps & { children: ReactNode }) {
-  const { closable, onClose, disabled, injectStyles = true, className } = props;
+  const {
+    closable,
+    onClose,
+    disabled,
+    injectStyles = true,
+    className,
+    style,
+  } = props;
   const tag = useTag(props);
 
   // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
@@ -34,6 +41,7 @@ export function Tag(props: UseTagProps & { children: ReactNode }) {
         className={['hcTag', className, tag.className]
           .filter(Boolean)
           .join(' ')}
+        style={style}
       >
         {props.children}
         {closable && (
