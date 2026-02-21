@@ -28,6 +28,7 @@ export function Input(props: InputProps) {
     inputStyle,
     size = 'medium',
     injectStyles = true,
+    style,
   } = props;
 
   const wrapperRest = { ...(wrapperProps as any), style: undefined };
@@ -47,6 +48,7 @@ export function Input(props: InputProps) {
       data-disabled={disabled ? 'true' : undefined}
       data-size={size}
       data-focused={isFocused ? 'true' : 'false'}
+      style={{ ...wrapperProps.style, ...style }}
     >
       <input
         {...inputRest}

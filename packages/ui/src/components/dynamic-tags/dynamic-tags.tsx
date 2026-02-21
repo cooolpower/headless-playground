@@ -28,6 +28,8 @@ export function DynamicTags(props: DynamicTagsProps) {
     renderTag,
     placeholder = '태그를 입력하세요',
     size = 'medium',
+    style,
+    styles,
   } = props;
 
   const {
@@ -60,6 +62,7 @@ export function DynamicTags(props: DynamicTagsProps) {
     <div
       className={cx('hcDynamicTags', className, classNames?.dynamicTags)}
       data-disabled={disabled ? 'true' : 'false'}
+      style={style}
     >
       {injectStyles && (
         <style suppressHydrationWarning>{_dynamicTagsCss}</style>
@@ -70,13 +73,14 @@ export function DynamicTags(props: DynamicTagsProps) {
           flexWrap: 'wrap',
           gap: '8px',
           alignItems: 'center',
+          ...styles?.container,
         }}
       >
         {tags.map((tag, index) => (
           <div
             key={`${tag}-${index}`}
-            className={cx('hcDynamicTagsTag', classNames?.tag)}
-            style={sizeStyles[size]}
+            className={cx('hcDynamicTagsTagWrapper', classNames?.tag)}
+            style={{ ...sizeStyles[size], ...(renderTag ? styles?.tag : {}) }}
           >
             {renderTag ? (
               renderTag(tag, index)
@@ -84,6 +88,7 @@ export function DynamicTags(props: DynamicTagsProps) {
               <Tag
                 onClose={disabled ? undefined : () => handleRemoveTag(index)}
                 closable={!disabled}
+                style={styles?.tag}
               >
                 {tag}
               </Tag>
@@ -107,6 +112,7 @@ export function DynamicTags(props: DynamicTagsProps) {
               disabled={disabled}
               size={size}
               className={cx('hcDynamicTagsTagInput', classNames?.tagInput)}
+              inputStyle={styles?.tagInput}
               style={{
                 width: '120px',
                 height: '34px',
@@ -128,6 +134,7 @@ export function DynamicTags(props: DynamicTagsProps) {
             style={{
               border: injectStyles ? undefined : 'none',
               background: injectStyles ? undefined : 'none',
+              ...styles?.addButton,
             }}
             aria-label="태그 추가"
           >

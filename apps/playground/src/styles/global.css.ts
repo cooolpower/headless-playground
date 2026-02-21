@@ -17,23 +17,31 @@ globalKeyframes('badge-processing', {
 /* ============================================
    Base Styles (base.css)
    ============================================ */
-globalStyle('html, body', {
+globalStyle('body', {
   maxWidth: '100vw',
-  overflowX: 'hidden', // overflow: hidden includes both, but usually we want x hidden
+  overflowX: 'hidden',
   height: '100%',
+  backgroundImage: `
+    linear-gradient(to bottom, transparent, var(--color-background) 800px),
+    linear-gradient(to right, var(--color-divider) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-divider) 1px, transparent 1px)
+  `,
+  backgroundSize: '100% 100%, 40px 40px, 40px 40px',
+  backgroundAttachment: 'fixed',
 });
 
 globalStyle('body', {
   color: 'var(--color-text)',
   background: 'var(--color-background)',
-  fontFamily: 'var(--font-family-nanumGothic)',
+  fontFamily: 'var(--font-family-pretendard)',
   fontSize: 'var(--font-size-base)',
   lineHeight: 'var(--line-height-normal)',
   WebkitFontSmoothing: 'antialiased',
   MozOsxFontSmoothing: 'grayscale',
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'hidden', // Original base.css had overflow: hidden on body
+  // overflow: hidden; // 가로/세로 모두 숨기는 대신 가로만 숨기고 나머지는 자동
+  overflowY: 'auto',
 });
 
 globalStyle('*', {

@@ -11,6 +11,7 @@ import {
   DemoDynamicTagsSizes,
   DemoDynamicTagsHandlers,
   DemoDynamicTagsCustomRender,
+  DemoDynamicTagsStyles,
 } from './dynamic-tags.demo';
 
 # Dynamic Tags
@@ -129,6 +130,37 @@ export function MyComponent() {
 />
 ```
 
+## 커스텀 스타일링
+
+`style`과 `styles` prop을 사용하여 컴포넌트와 내부 요소들의 스타일을 직접 제어할 수 있습니다.
+
+<Playground preview={<DemoDynamicTagsStyles />} />
+
+```tsx
+<DynamicTags
+  value={tags}
+  onChange={setTags}
+  style={{
+    border: '2px dashed var(--color-brand-primary)',
+    padding: '12px',
+    borderRadius: '8px',
+  }}
+  styles={{
+    container: { gap: '12px' },
+    tag: {
+      backgroundColor: 'var(--color-brand-primary)',
+      color: 'white',
+      borderRadius: '20px',
+    },
+    addButton: {
+      backgroundColor: 'var(--color-brand-primary)',
+      color: 'white',
+      borderRadius: '50%',
+    },
+  }}
+/>
+```
+
 ## API
 
 ### DynamicTags Props
@@ -146,8 +178,10 @@ export function MyComponent() {
 | classNames   | 내부 요소들에 적용할 클래스명 | `object`                                                                      | -                     |
 | renderTag    | 커스텀 렌더 함수              | `(tag: string, index: number) => ReactNode`                                   | -                     |
 | placeholder  | 입력 필드 플레이스홀더        | `string`                                                                      | `'태그를 입력하세요'` |
-| size         | 입력 필드 크기                | `'small' \| 'medium' \| 'large'`                                              | `'medium'`            |
+| size         | 입력 필드 크기                | `'small' \| 'medium' \| 'large' \| 'custom'`                                  | `'medium'`            |
 | injectStyles | 기본 스타일 주입 여부         | `boolean`                                                                     | `true`                |
+| style        | 루트 요소 스타일              | `React.CSSProperties`                                                         | -                     |
+| styles       | 내부 요소별 스타일            | `object`                                                                      | -                     |
 
 ## 기본 스타일(CSS) (Inject Styles)
 
