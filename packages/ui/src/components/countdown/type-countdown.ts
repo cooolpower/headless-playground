@@ -9,6 +9,7 @@ export interface CountdownProps extends UseCountdownProps {
     hours: number;
     minutes: number;
     seconds: number;
+    milliseconds: number;
     total: number;
   }) => ReactNode;
 }

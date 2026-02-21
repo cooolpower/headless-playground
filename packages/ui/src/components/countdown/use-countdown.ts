@@ -29,6 +29,12 @@ export interface UseCountdownProps {
    * 카운트다운 완료 시 표시할 내용 (ReactNode)
    */
   finishedContent?: React.ReactNode;
+  /**
+   * 밀리초 정밀도 (0-3). 0이면 초 단위, 3이면 밀리초 3자리까지 표시.
+   * Naive UI의 Precision 기능과 동일.
+   * @default 0
+   */
+  precision?: 0 | 1 | 2 | 3;
 }
 
 export interface TimeLeft {
@@ -36,6 +42,7 @@ export interface TimeLeft {
   hours: number;
   minutes: number;
   seconds: number;
+  milliseconds: number;
   total: number; // 밀리초 단위
 }
 
@@ -50,6 +57,7 @@ function calculateTimeLeft(target: number): TimeLeft {
       hours: 0,
       minutes: 0,
       seconds: 0,
+      milliseconds: 0,
       total: 0,
     };
   }
@@ -58,12 +66,14 @@ function calculateTimeLeft(target: number): TimeLeft {
   const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+  const milliseconds = difference % 1000;
 
   return {
     days,
     hours,
     minutes,
     seconds,
+    milliseconds,
     total: difference,
   };
 }
@@ -76,6 +86,7 @@ export function useCountdown(props: UseCountdownProps) {
     format = 'HH:mm:ss',
     formatType = 'time',
     finishedContent,
+    precision = 0,
   } = props;
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => {
     const target = typeof targetTime === 'number' ? targetTime : targetTime.getTime();
@@ -92,50 +103,51 @@ export function useCountdown(props: UseCountdownProps) {
 
   const formatTime = useCallback(
     (time: TimeLeft): string => {
-      const { days, hours, minutes, seconds, total } = time;
+      const { days, hours, minutes, seconds, milliseconds, total } = time;
+
+      // 밀리초 접미사 생성
+      const msStr = precision > 0
+        ? '.' + String(milliseconds).padStart(3, '0').slice(0, precision)
+        : '';
 
       if (formatType === 'number') {
-        // 총 초 단위로 표시
         const totalSeconds = Math.floor(total / 1000);
-        return String(totalSeconds);
+        return String(totalSeconds) + msStr;
       }
 
       if (formatType === 'temperature') {
-        // 온도 형식으로 표시 (예: 25°C)
         const totalSeconds = Math.floor(total / 1000);
         return `${totalSeconds}°C`;
       }
 
       if (formatType === 'custom') {
-        // 사용자 정의 포맷 (format 문자열을 그대로 사용)
         return format;
       }
 
       // 기본 time 포맷
+      let result: string;
       if (format.includes('DD')) {
-        return format
+        result = format
           .replace('DD', String(days).padStart(2, '0'))
           .replace('HH', String(hours).padStart(2, '0'))
           .replace('mm', String(minutes).padStart(2, '0'))
           .replace('ss', String(seconds).padStart(2, '0'));
-      }
-
-      if (format.includes('HH')) {
-        return format
+      } else if (format.includes('HH')) {
+        result = format
           .replace('HH', String(hours).padStart(2, '0'))
           .replace('mm', String(minutes).padStart(2, '0'))
           .replace('ss', String(seconds).padStart(2, '0'));
-      }
-
-      if (format.includes('mm')) {
-        return format
+      } else if (format.includes('mm')) {
+        result = format
           .replace('mm', String(minutes).padStart(2, '0'))
           .replace('ss', String(seconds).padStart(2, '0'));
+      } else {
+        result = format.replace('ss', String(seconds).padStart(2, '0'));
       }
 
-      return format.replace('ss', String(seconds).padStart(2, '0'));
+      return result + msStr;
     },
-    [format, formatType]
+    [format, formatType, precision]
   );
 
   useEffect(() => {
@@ -159,7 +171,8 @@ export function useCountdown(props: UseCountdownProps) {
       return;
     }
 
-    // 1초마다 업데이트
+    // precision에 따라 업데이트 주기 결정
+    const intervalMs = precision > 0 ? 16 : 1000;
     intervalRef.current = setInterval(() => {
       const newTimeLeft = calculateTimeLeft(target);
       setTimeLeft(newTimeLeft);
@@ -171,7 +184,7 @@ export function useCountdown(props: UseCountdownProps) {
         }
         onFinishRef.current?.();
       }
-    }, 1000);
+    }, intervalMs);
 
     return () => {
       if (intervalRef.current) {

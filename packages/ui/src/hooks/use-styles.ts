@@ -14,14 +14,10 @@ export function useStyles(id: string, css: string, injectStyles: boolean = true)
       injectTheme();
       // 2. 컴포넌트 개별 스타일 주입
       injectComponentStyles(id, css);
-    } else {
-      // 주입 해제 시 테마(참조 감소) 및 컴포넌트 스타일 제거
-      removeTheme();
-      removeStyles(id);
     }
 
     return () => {
-      // Unmount 시 주입된 스타일 정리
+      // Unmount 시 혹은 injectStyles가 false가 될 시 주입된 스타일 정리
       if (injectStyles) {
         removeTheme();
         removeStyles(id);

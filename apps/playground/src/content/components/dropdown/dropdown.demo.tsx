@@ -74,6 +74,8 @@ export function DemoDropdownBasicWithControls() {
 
 // With Icons Demo
 export function DemoDropdownWithIcons() {
+  const ctx = useContext(DropdownControlsContext);
+  const injectStyles = ctx?.injectStyles ?? true;
   const [selectedItem, setSelectedItem] = useState<string>('');
 
   const handleItemClick = (item: string) => {
@@ -82,7 +84,7 @@ export function DemoDropdownWithIcons() {
 
   return (
     <div className={styles.section}>
-      <Dropdown className={styles.dropdownWrapper}>
+      <Dropdown injectStyles={injectStyles} className={styles.dropdownWrapper}>
         <DropdownTrigger className={styles.triggerButton}>
           <span className={styles.icon}>⚙️</span>
           Settings
@@ -114,6 +116,8 @@ export function DemoDropdownWithIcons() {
 
 // With Disabled Items Demo
 export function DemoDropdownWithDisabled() {
+  const ctx = useContext(DropdownControlsContext);
+  const injectStyles = ctx?.injectStyles ?? true;
   const [selectedItem, setSelectedItem] = useState<string>('');
 
   const handleItemClick = (item: string) => {
@@ -122,7 +126,7 @@ export function DemoDropdownWithDisabled() {
 
   return (
     <div className={styles.section}>
-      <Dropdown className={styles.dropdownWrapper}>
+      <Dropdown injectStyles={injectStyles} className={styles.dropdownWrapper}>
         <DropdownTrigger className={styles.triggerButton}>
           User Actions
           <span className={styles.arrow}>▼</span>

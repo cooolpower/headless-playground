@@ -2,19 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { Countdown } from '../countdown/countdown';
-import type {
-  FlipCountdownProps,
-  FlipCountdownLabels,
-} from './type-flip-countdown';
+import { FlipCountdownProps, FlipCountdownLabels } from './type-flip-countdown';
 import { flipCountdownCss as _flipCountdownCss } from './flip-countdown.styles';
+import { useStyles } from '../../hooks/use-styles';
 
-// SDK/사용자에게도 기본 스타일을 노출하기 위해 re-export 합니다.
-// - injectStyles=true(default)면 컴포넌트가 내부에서 주입
-// - injectStyles=false면 사용자가 원하는 위치에서 한 번만 주입 가능
-export const flipCountdownCss = _flipCountdownCss;
-// sdk/src/index.ts 자동 생성 로직이 PascalCase export만 수집하는 규칙을 가지고 있어,
-// SDK 루트 export에서도 접근 가능하도록 PascalCase alias를 추가합니다.
 export const FlipCountdownCss = _flipCountdownCss;
+export const flipCountdownCss = _flipCountdownCss;
 
 function safeLabel(
   labels: FlipCountdownLabels | undefined,
@@ -168,7 +161,11 @@ export function FlipCountdown(props: FlipCountdownProps) {
     digitSize = 'md',
     injectStyles = true,
     className,
+    precision = 0,
   } = props;
+
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-flip-countdown-styles', _flipCountdownCss, injectStyles);
 
   const showDays = mode === 'time' && format.includes('DD');
   const showHours = mode === 'time' && format.includes('HH');
@@ -181,6 +178,7 @@ export function FlipCountdown(props: FlipCountdownProps) {
       hours: safeLabel(labels, 'hours', '시'),
       minutes: safeLabel(labels, 'minutes', '분'),
       seconds: safeLabel(labels, 'seconds', '초'),
+      milliseconds: safeLabel(labels, 'milliseconds', '.'),
       number: safeLabel(labels, 'number', '초'),
     }),
     [labels],
@@ -188,22 +186,46 @@ export function FlipCountdown(props: FlipCountdownProps) {
 
   return (
     <div className={className}>
-      {injectStyles && (
-        <style suppressHydrationWarning>{flipCountdownCss}</style>
-      )}
-
       <div className="hcFlipRoot">
-        <Countdown targetTime={targetTime} active={active}>
-          {({ days, hours, minutes, seconds, total }) => {
+        <Countdown
+          targetTime={targetTime}
+          active={active}
+          injectStyles={injectStyles}
+          precision={precision}
+        >
+          {({ days, hours, minutes, seconds, milliseconds, total }) => {
+            const msStr =
+              precision > 0
+                ? String(milliseconds).padStart(3, '0').slice(0, precision)
+                : '';
+
             if (mode === 'number') {
               const totalSeconds = Math.max(0, Math.floor(total / 1000));
               return (
-                <FlipNumber
-                  label={resolvedLabels.number}
-                  value={totalSeconds}
-                  minDigits={Math.max(1, minDigits)}
-                  digitSize={digitSize}
-                />
+                <>
+                  <FlipNumber
+                    label={resolvedLabels.number}
+                    value={totalSeconds}
+                    minDigits={Math.max(1, minDigits)}
+                    digitSize={digitSize}
+                  />
+                  {precision > 0 && (
+                    <>
+                      <div
+                        className="hcFlipSeparator"
+                        style={{ alignSelf: 'flex-end', marginBottom: '8px' }}
+                      >
+                        {resolvedLabels.milliseconds}
+                      </div>
+                      <FlipNumber
+                        label=""
+                        value={Number(msStr)}
+                        minDigits={precision}
+                        digitSize={digitSize}
+                      />
+                    </>
+                  )}
+                </>
               );
             }
 
@@ -236,6 +258,22 @@ export function FlipCountdown(props: FlipCountdownProps) {
                     value={seconds}
                     digitSize={digitSize}
                   />
+                )}
+                {precision > 0 && (
+                  <>
+                    <div
+                      className="hcFlipSeparator"
+                      style={{ alignSelf: 'flex-end', marginBottom: '8px' }}
+                    >
+                      {resolvedLabels.milliseconds}
+                    </div>
+                    <FlipNumber
+                      label=""
+                      value={Number(msStr)}
+                      minDigits={precision}
+                      digitSize={digitSize}
+                    />
+                  </>
                 )}
               </>
             );

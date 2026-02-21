@@ -16,7 +16,7 @@ import { Select } from '@repo/ui';
 import { Checkbox } from '@repo/ui';
 import { DatePicker } from '@repo/ui';
 import { Controls } from '@/components/playground/controls';
-import { Icon } from '@repo/ui';
+import { Icon, FlipCountdown, RollingCountdown } from '@repo/ui';
 import {
   CheckCircle,
   X,
@@ -36,6 +36,7 @@ import {
   CountdownInteractiveControls,
   CountdownInteractivePreview,
   CountdownInteractiveProvider,
+  CountdownInteractiveContext,
 } from '@/content/recipes/countdown';
 
 function DemoCountdownBasicProviderLegacy({
@@ -309,6 +310,8 @@ export function DemoCountdownBasicProvider({
 
 // 기본 Countdown (컨트롤러 없이)
 export function DemoCountdownBasic() {
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
   const [mounted, setMounted] = useState(false);
   const [targetTime, setTargetTime] = useState(0);
 
@@ -321,7 +324,7 @@ export function DemoCountdownBasic() {
     return (
       <div className={styles.section}>
         <div className={styles.content}>
-          <div style={{ fontVariantNumeric: 'tabular-nums' }}>00:00:10</div>
+          <div className={styles.countdownDisplay}>00:00:10</div>
         </div>
       </div>
     );
@@ -330,7 +333,152 @@ export function DemoCountdownBasic() {
   return (
     <div className={styles.section}>
       <div className={styles.content}>
-        <Countdown targetTime={targetTime} />
+        <div className={styles.countdownDisplay}>
+          <Countdown targetTime={targetTime} injectStyles={injectStyles} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Flip Countdown 예제
+export function DemoFlipCountdown() {
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
+  const [targetTime, setTargetTime] = useState(0);
+
+  useEffect(() => {
+    setTargetTime(Date.now() + 24 * 60 * 60 * 1000 + 5 * 1000); // 1일 5초 후
+  }, []);
+
+  return (
+    <div className={styles.section}>
+      <div className={styles.content}>
+        <FlipCountdown
+          targetTime={targetTime}
+          injectStyles={injectStyles}
+          digitSize="md"
+        />
+      </div>
+    </div>
+  );
+}
+
+// Rolling Countdown 예제
+export function DemoRollingCountdown() {
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
+  const [targetTime, setTargetTime] = useState(0);
+
+  useEffect(() => {
+    setTargetTime(Date.now() + 10 * 60 * 1000 + 30 * 1000); // 10분 30초 후
+  }, []);
+
+  return (
+    <div className={styles.section}>
+      <div className={styles.content}>
+        <div className={styles.countdownDisplay}>
+          <RollingCountdown
+            targetTime={targetTime}
+            injectStyles={injectStyles}
+            size="lg"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Precision 예제 (Naive UI 스타일)
+export function DemoCountdownPrecision() {
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
+  const [targetTime, setTargetTime] = useState(0);
+
+  useEffect(() => {
+    setTargetTime(Date.now() + 30 * 1000); // 30초 후
+  }, []);
+
+  if (!targetTime) return null;
+
+  return (
+    <div className={styles.section}>
+      <div
+        className={styles.content}
+        style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span
+            style={{
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--color-text-secondary)',
+              minWidth: '90px',
+            }}
+          >
+            precision=0
+          </span>
+          <div className={styles.countdownDisplay}>
+            <Countdown
+              targetTime={targetTime}
+              injectStyles={injectStyles}
+              precision={0}
+            />
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span
+            style={{
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--color-text-secondary)',
+              minWidth: '90px',
+            }}
+          >
+            precision=1
+          </span>
+          <div className={styles.countdownDisplay}>
+            <Countdown
+              targetTime={targetTime}
+              injectStyles={injectStyles}
+              precision={1}
+            />
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span
+            style={{
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--color-text-secondary)',
+              minWidth: '90px',
+            }}
+          >
+            precision=2
+          </span>
+          <div className={styles.countdownDisplay}>
+            <Countdown
+              targetTime={targetTime}
+              injectStyles={injectStyles}
+              precision={2}
+            />
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span
+            style={{
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--color-text-secondary)',
+              minWidth: '90px',
+            }}
+          >
+            precision=3
+          </span>
+          <div className={styles.countdownDisplay}>
+            <Countdown
+              targetTime={targetTime}
+              injectStyles={injectStyles}
+              precision={3}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -964,6 +1112,9 @@ export function DemoCountdownFormat() {
     setTargetTime3(now + 10000); // 10초 후
   }, []);
 
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
+
   if (!mounted) {
     return (
       <div className={styles.section}>
@@ -979,9 +1130,21 @@ export function DemoCountdownFormat() {
   return (
     <div className={styles.section}>
       <div className={styles.content}>
-        <Countdown targetTime={targetTime1} format="HH:mm:ss" />
-        <Countdown targetTime={targetTime2} format="mm:ss" />
-        <Countdown targetTime={targetTime3} format="ss" />
+        <Countdown
+          targetTime={targetTime1}
+          format="HH:mm:ss"
+          injectStyles={injectStyles}
+        />
+        <Countdown
+          targetTime={targetTime2}
+          format="mm:ss"
+          injectStyles={injectStyles}
+        />
+        <Countdown
+          targetTime={targetTime3}
+          format="ss"
+          injectStyles={injectStyles}
+        />
       </div>
     </div>
   );
@@ -997,6 +1160,9 @@ export function DemoCountdownActive() {
     setMounted(true);
     setTargetTime(Date.now() + 10 * 1000); // 10초 후
   }, []);
+
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
 
   if (!mounted) {
     return (
@@ -1014,7 +1180,11 @@ export function DemoCountdownActive() {
   return (
     <div className={styles.section}>
       <div className={styles.content}>
-        <Countdown targetTime={targetTime} active={active} />
+        <Countdown
+          targetTime={targetTime}
+          active={active}
+          injectStyles={injectStyles}
+        />
         <div className={styles.buttonGroup}>
           <Button onClick={() => setActive(!active)}>
             {active ? '일시정지' : '재개'}
@@ -1035,6 +1205,9 @@ export function DemoCountdownOnFinish() {
     setMounted(true);
     setTargetTime(Date.now() + 5 * 1000); // 5초 후
   }, []);
+
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
 
   if (!mounted) {
     return (
@@ -1059,6 +1232,7 @@ export function DemoCountdownOnFinish() {
           <Countdown
             targetTime={targetTime}
             onFinish={() => setFinished(true)}
+            injectStyles={injectStyles}
           />
         )}
       </div>
@@ -1075,6 +1249,9 @@ export function DemoCountdownCustomRender() {
     setMounted(true);
     setTargetTime(Date.now() + 86400 * 1000); // 1일 후
   }, []);
+
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
 
   if (!mounted) {
     return (
@@ -1107,7 +1284,7 @@ export function DemoCountdownCustomRender() {
     <div className={styles.section}>
       <div className={styles.content}>
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <Countdown targetTime={targetTime}>
+          <Countdown targetTime={targetTime} injectStyles={injectStyles}>
             {({ days, hours, minutes, seconds }) => (
               <>
                 <div className={styles.countdownCard}>
@@ -1145,6 +1322,9 @@ export function DemoCountdownWithDays() {
     setTargetTime(Date.now() + 2 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000); // 2일 3시간 후
   }, []);
 
+  const context = useContext(CountdownInteractiveContext);
+  const injectStyles = context?.injectStyles ?? true;
+
   if (!mounted) {
     return (
       <div className={styles.section}>
@@ -1158,7 +1338,11 @@ export function DemoCountdownWithDays() {
   return (
     <div className={styles.section}>
       <div className={styles.content}>
-        <Countdown targetTime={targetTime} format="DD:HH:mm:ss" />
+        <Countdown
+          targetTime={targetTime}
+          format="DD:HH:mm:ss"
+          injectStyles={injectStyles}
+        />
       </div>
     </div>
   );

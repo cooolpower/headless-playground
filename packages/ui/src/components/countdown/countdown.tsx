@@ -3,28 +3,28 @@
 import { useCountdown } from './use-countdown';
 import { CountdownProps } from './type-countdown';
 import { countdownCss as _countdownCss } from './countdown.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 export const CountdownCss = _countdownCss;
-
-function cx(...parts: Array<string | undefined | null | false>) {
-  return parts.filter(Boolean).join(' ');
-}
 
 export function Countdown(props: CountdownProps) {
   const { timeLeft, formatted, isFinished, finishedContent } =
     useCountdown(props);
   const { className, children, injectStyles = true } = props;
+
+  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
+  useStyles('hc-countdown-styles', _countdownCss, injectStyles);
+
   const resolvedClassName = injectStyles
-    ? cx('hcCountdown', className)
+    ? className
+      ? `hcCountdown ${className}`
+      : 'hcCountdown'
     : className;
 
   // 완료되었고 finishedContent가 있으면 표시
   if (isFinished && finishedContent) {
     return (
       <div className={resolvedClassName} suppressHydrationWarning>
-        {injectStyles && (
-          <style suppressHydrationWarning>{_countdownCss}</style>
-        )}
         {finishedContent}
       </div>
     );
@@ -33,9 +33,6 @@ export function Countdown(props: CountdownProps) {
   if (children) {
     return (
       <div className={resolvedClassName} suppressHydrationWarning>
-        {injectStyles && (
-          <style suppressHydrationWarning>{_countdownCss}</style>
-        )}
         {children(timeLeft)}
       </div>
     );
@@ -43,7 +40,6 @@ export function Countdown(props: CountdownProps) {
 
   return (
     <div className={resolvedClassName} suppressHydrationWarning>
-      {injectStyles && <style suppressHydrationWarning>{_countdownCss}</style>}
       {formatted}
     </div>
   );

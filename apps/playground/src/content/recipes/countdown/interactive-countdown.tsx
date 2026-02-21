@@ -17,7 +17,7 @@ import { Select } from '@repo/ui';
 import { Checkbox } from '@repo/ui';
 import { DatePicker } from '@repo/ui';
 import { Controls } from '@/components/playground/controls';
-import { Icon } from '@repo/ui';
+import { Icon, RollingCountdown } from '@repo/ui';
 import type { SelectOption } from '@repo/ui';
 import type { CountdownFormatType } from '@repo/ui';
 import { FlipCountdown } from '@repo/ui';
@@ -74,6 +74,34 @@ function describeArc(
   startAngle: number,
   endAngle: number,
 ) {
+  // 0도이면 빈 경로 반환
+  if (endAngle - startAngle <= 0) return '';
+  // 360도(원 전체)이면 두 개의 반원으로 처리
+  if (endAngle - startAngle >= 360) {
+    const mid = polarToCartesian(x, y, radius, startAngle + 180);
+    const end = polarToCartesian(x, y, radius, startAngle);
+    return [
+      'M',
+      end.x,
+      end.y,
+      'A',
+      radius,
+      radius,
+      0,
+      1,
+      0,
+      mid.x,
+      mid.y,
+      'A',
+      radius,
+      radius,
+      0,
+      1,
+      0,
+      end.x,
+      end.y,
+    ].join(' ');
+  }
   const start = polarToCartesian(x, y, radius, endAngle);
   const end = polarToCartesian(x, y, radius, startAngle);
   const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
@@ -103,23 +131,39 @@ function mapNumber(
 }
 
 function SVGCircle({ radius }: { radius: number }) {
+  const arcPath = describeArc(50, 50, 44, 0, radius);
   return (
     <svg
       className={styles.countdownSvg}
+      viewBox="0 0 100 100"
       style={{
         position: 'absolute',
         top: 0,
         left: 0,
-        width: '100px',
-        height: '100px',
+        width: '100%',
+        height: '100%',
       }}
     >
-      <path
+      {/* 트랙(배경 원) */}
+      <circle
+        cx="50"
+        cy="50"
+        r="44"
         fill="none"
-        stroke="var(--color-brand-primary)"
+        stroke="var(--color-border)"
         strokeWidth="4"
-        d={describeArc(50, 50, 48, 0, radius)}
+        opacity="0.3"
       />
+      {/* 진행 아크 */}
+      {arcPath && (
+        <path
+          fill="none"
+          stroke="var(--color-brand-primary)"
+          strokeWidth="4"
+          strokeLinecap="round"
+          d={arcPath}
+        />
+      )}
     </svg>
   );
 }
@@ -137,8 +181,10 @@ interface CountdownInteractiveContextType {
   setTargetTimeOfDay: (value: string) => void;
   targetDate: Date | null;
   setTargetDate: (date: Date | null) => void;
-  layout: 'default' | 'custom' | 'circular' | 'flip';
-  setLayout: (layout: 'default' | 'custom' | 'circular' | 'flip') => void;
+  layout: 'default' | 'custom' | 'circular' | 'flip' | 'rolling';
+  setLayout: (
+    layout: 'default' | 'custom' | 'circular' | 'flip' | 'rolling',
+  ) => void;
   flipDigitSize: 'sm' | 'md' | 'lg' | 'xl';
   setFlipDigitSize: (size: 'sm' | 'md' | 'lg' | 'xl') => void;
   showFinishedContent: boolean;
@@ -153,14 +199,19 @@ interface CountdownInteractiveContextType {
   setFinishedIconColor: (color: string) => void;
   finishedIcon: string;
   setFinishedIcon: (icon: string) => void;
+  injectStyles: boolean;
+  setInjectStyles: (inject: boolean) => void;
+  precision: 0 | 1 | 2 | 3;
+  setPrecision: (p: 0 | 1 | 2 | 3) => void;
 }
 
-const CountdownInteractiveContext =
+export const CountdownInteractiveContext =
   createContext<CountdownInteractiveContextType | null>(null);
 
 type CountdownPreset =
   | 'duration_time'
   | 'duration_number'
+  | 'duration_precise'
   | 'time_time'
   | 'date_time';
 
@@ -168,6 +219,7 @@ function getPresetConfig(preset: CountdownPreset): {
   targetMode: 'duration' | 'time' | 'date';
   formatType: CountdownFormatType;
   format: string;
+  precision: 0 | 1 | 2 | 3;
 } {
   switch (preset) {
     case 'duration_number':
@@ -175,14 +227,37 @@ function getPresetConfig(preset: CountdownPreset): {
         targetMode: 'duration',
         formatType: 'number',
         format: 'HH:mm:ss',
+        precision: 0,
+      };
+    case 'duration_precise':
+      return {
+        targetMode: 'duration',
+        formatType: 'number',
+        format: 'HH:mm:ss',
+        precision: 2,
       };
     case 'time_time':
-      return { targetMode: 'time', formatType: 'time', format: 'HH:mm:ss' };
+      return {
+        targetMode: 'time',
+        formatType: 'time',
+        format: 'HH:mm:ss',
+        precision: 0,
+      };
     case 'date_time':
-      return { targetMode: 'date', formatType: 'time', format: 'DD:HH:mm:ss' };
+      return {
+        targetMode: 'date',
+        formatType: 'time',
+        format: 'DD:HH:mm:ss',
+        precision: 0,
+      };
     case 'duration_time':
     default:
-      return { targetMode: 'duration', formatType: 'time', format: 'HH:mm:ss' };
+      return {
+        targetMode: 'duration',
+        formatType: 'time',
+        format: 'HH:mm:ss',
+        precision: 0,
+      };
   }
 }
 
@@ -213,7 +288,7 @@ export function CountdownInteractiveProvider({
   const [targetTimeOfDay, setTargetTimeOfDay] = useState('12:00');
   const [targetDate, setTargetDate] = useState<Date | null>(null);
   const [layout, setLayout] = useState<
-    'default' | 'custom' | 'circular' | 'flip'
+    'default' | 'custom' | 'circular' | 'flip' | 'rolling'
   >('default');
   const [flipDigitSize, setFlipDigitSize] = useState<'sm' | 'md' | 'lg' | 'xl'>(
     'md',
@@ -229,6 +304,14 @@ export function CountdownInteractiveProvider({
     'var(--color-semantic-success)',
   );
   const [finishedIcon, setFinishedIcon] = useState('checkCircle');
+  const [injectStyles, setInjectStyles] = useState(true);
+  const [precision, setPrecision] = useState<0 | 1 | 2 | 3>(0);
+
+  // 프리셋 변경 시 precision 연동
+  useEffect(() => {
+    const config = getPresetConfig(preset);
+    setPrecision(config.precision);
+  }, [preset]);
 
   const restart = useCallback(() => {
     setRunId((prev) => prev + 1);
@@ -265,6 +348,10 @@ export function CountdownInteractiveProvider({
       setFinishedIconColor,
       finishedIcon,
       setFinishedIcon,
+      injectStyles,
+      setInjectStyles,
+      precision,
+      setPrecision,
     }),
     [
       seconds,
@@ -282,6 +369,8 @@ export function CountdownInteractiveProvider({
       finishedTextColor,
       finishedIconColor,
       finishedIcon,
+      injectStyles,
+      precision,
     ],
   );
 
@@ -318,6 +407,8 @@ export function CountdownInteractivePreview() {
     finishedTextColor,
     finishedIconColor,
     finishedIcon,
+    injectStyles,
+    precision,
   } = context;
 
   const { targetMode, formatType, format } = getPresetConfig(preset);
@@ -329,9 +420,10 @@ export function CountdownInteractivePreview() {
     const now = new Date();
 
     if (targetMode === 'duration') {
-      // 남은 초 계산이 floor 기반이라, 렌더링 지연(ms)로 인해 바로 99로 보일 수 있습니다.
-      // duration은 UX 상 "입력한 초부터 시작"하는 게 자연스러워서 1초 범위로 보정합니다.
-      setTargetTime(now.getTime() + seconds * 1000 + 999);
+      // precision이 0일 때는 초 단위를 자연스럽게 보여주기 위해 999ms 패딩을 추가합니다.
+      // precision이 0보다 크면 실제 초를 더 정확하게 보여주기 위해 패딩을 제거하거나 최소화합니다.
+      const padding = precision === 0 ? 999 : 0;
+      setTargetTime(now.getTime() + seconds * 1000 + padding);
       return;
     }
 
@@ -435,6 +527,8 @@ export function CountdownInteractivePreview() {
     format,
     formatType,
     finishedContent,
+    injectStyles,
+    precision,
   };
 
   const targetInfo =
@@ -499,8 +593,21 @@ export function CountdownInteractivePreview() {
       <div className={styles.section}>
         <div className={styles.content}>
           {targetInfo}
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <Countdown {...countdownProps}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '1.5rem',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+            }}
+          >
+            <Countdown
+              targetTime={targetTime}
+              active={active}
+              format={format}
+              formatType={formatType}
+              injectStyles={injectStyles}
+            >
               {({ days, hours, minutes, seconds: secs }) => {
                 const daysRadius = mapNumber(days, 30, 0, 0, 360);
                 const hoursRadius = mapNumber(hours, 24, 0, 0, 360);
@@ -511,29 +618,116 @@ export function CountdownInteractivePreview() {
                   <>
                     <div className={styles.countdownCircularItem}>
                       <SVGCircle radius={daysRadius} />
-                      <div className={styles.countdownValue}>{days}</div>
-                      <div className={styles.countdownLabel}>일</div>
+                      <div
+                        style={{
+                          fontSize: 'var(--font-size-xl)',
+                          fontWeight: 700,
+                          color: 'var(--color-text-heading)',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {days}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 'var(--font-size-xs)',
+                          color: 'var(--color-text-secondary)',
+                          marginTop: '2px',
+                        }}
+                      >
+                        일
+                      </div>
                     </div>
                     <div className={styles.countdownCircularItem}>
                       <SVGCircle radius={hoursRadius} />
-                      <div className={styles.countdownValue}>{hours}</div>
-                      <div className={styles.countdownLabel}>시</div>
+                      <div
+                        style={{
+                          fontSize: 'var(--font-size-xl)',
+                          fontWeight: 700,
+                          color: 'var(--color-text-heading)',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {hours}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 'var(--font-size-xs)',
+                          color: 'var(--color-text-secondary)',
+                          marginTop: '2px',
+                        }}
+                      >
+                        시
+                      </div>
                     </div>
                     <div className={styles.countdownCircularItem}>
                       <SVGCircle radius={minutesRadius} />
-                      <div className={styles.countdownValue}>{minutes}</div>
-                      <div className={styles.countdownLabel}>분</div>
+                      <div
+                        style={{
+                          fontSize: 'var(--font-size-xl)',
+                          fontWeight: 700,
+                          color: 'var(--color-text-heading)',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {minutes}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 'var(--font-size-xs)',
+                          color: 'var(--color-text-secondary)',
+                          marginTop: '2px',
+                        }}
+                      >
+                        분
+                      </div>
                     </div>
                     <div className={styles.countdownCircularItem}>
                       <SVGCircle radius={secondsRadius} />
-                      <div className={styles.countdownValue}>{secs}</div>
-                      <div className={styles.countdownLabel}>초</div>
+                      <div
+                        style={{
+                          fontSize: 'var(--font-size-xl)',
+                          fontWeight: 700,
+                          color: 'var(--color-text-heading)',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {secs}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 'var(--font-size-xs)',
+                          color: 'var(--color-text-secondary)',
+                          marginTop: '2px',
+                        }}
+                      >
+                        초
+                      </div>
                     </div>
                   </>
                 );
               }}
             </Countdown>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (layout === 'rolling') {
+    return (
+      <div className={styles.section}>
+        <div className={styles.content}>
+          {targetInfo}
+          <RollingCountdown
+            targetTime={targetTime}
+            active={active}
+            injectStyles={injectStyles}
+            format={format}
+            formatType={formatType}
+            precision={precision}
+            size={flipDigitSize}
+          />
         </div>
       </div>
     );
@@ -560,6 +754,7 @@ export function CountdownInteractivePreview() {
           <FlipCountdown
             targetTime={targetTime}
             active={active}
+            injectStyles={injectStyles}
             mode={formatType === 'number' ? 'number' : 'time'}
             format={format}
             minDigits={Math.max(2, String(seconds).length)}
@@ -582,7 +777,9 @@ export function CountdownInteractivePreview() {
     <div className={styles.section}>
       <div className={styles.content}>
         {targetInfo}
-        <Countdown {...countdownProps} />
+        <div className={styles.countdownDisplay}>
+          <Countdown {...countdownProps} />
+        </div>
       </div>
     </div>
   );
@@ -620,6 +817,8 @@ export function CountdownInteractiveControls() {
     setFinishedIconColor,
     finishedIcon,
     setFinishedIcon,
+    injectStyles,
+    setInjectStyles,
   } = context;
 
   const { targetMode } = getPresetConfig(preset);
@@ -635,6 +834,14 @@ export function CountdownInteractiveControls() {
     { label: '커스텀 렌더 (Custom Render)', value: 'custom' },
     { label: '원형 진행 표시 (Circular)', value: 'circular' },
     { label: '플립 카운트다운 (Flip)', value: 'flip' },
+    { label: '롤링 카운트다운 (Rolling)', value: 'rolling' },
+  ];
+
+  const precisionOptions: SelectOption[] = [
+    { label: '0 (초 단위)', value: '0' },
+    { label: '1 (100ms)', value: '1' },
+    { label: '2 (10ms)', value: '2' },
+    { label: '3 (1ms)', value: '3' },
   ];
 
   const flipDigitSizeOptions: SelectOption[] = [
@@ -647,6 +854,7 @@ export function CountdownInteractiveControls() {
   const presetOptions: SelectOption[] = [
     { label: 'Duration · HH:mm:ss', value: 'duration_time' },
     { label: 'Duration · total seconds', value: 'duration_number' },
+    { label: 'Precise Duration (0.01s)', value: 'duration_precise' },
     { label: 'Next time (HH:mm) · HH:mm:ss', value: 'time_time' },
     { label: 'Date (end of day) · DD:HH:mm:ss', value: 'date_time' },
   ];
@@ -654,6 +862,18 @@ export function CountdownInteractiveControls() {
   return (
     <Controls
       items={[
+        {
+          label: '스타일 주입 (Inject Styles)',
+          control: (
+            <Checkbox
+              checked={injectStyles}
+              onChange={(checked) => setInjectStyles(checked)}
+              size="small"
+            >
+              기본 스타일 주입
+            </Checkbox>
+          ),
+        },
         {
           label: '초 (Seconds)',
           control: (
@@ -768,7 +988,23 @@ export function CountdownInteractiveControls() {
               }}
               placeholder="플립 숫자 크기"
               size="small"
-              disabled={layout !== 'flip'}
+              disabled={layout !== 'flip' && layout !== 'rolling'}
+            />
+          ),
+        },
+        {
+          label: '정밀도 (Precision)',
+          control: (
+            <Select
+              options={precisionOptions}
+              value={String(context.precision)}
+              onChange={(val) => {
+                if (!Array.isArray(val) && typeof val === 'string') {
+                  context.setPrecision(Number(val) as 0 | 1 | 2 | 3);
+                }
+              }}
+              placeholder="정밀도 선택"
+              size="small"
             />
           ),
         },

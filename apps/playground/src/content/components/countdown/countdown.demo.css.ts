@@ -38,7 +38,6 @@ export const countdownDisplay = style({
   fontSize: 'var(--font-size-2xl)',
   fontWeight: 'var(--font-weight-semibold)',
   color: 'var(--color-text)',
-  fontVariantNumeric: 'tabular-nums',
 });
 
 export const countdownCard = style({
@@ -77,18 +76,18 @@ export const countdownCircularItem = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '100px',
-  height: '100px',
-  paddingTop: '10px',
-  lineHeight: '30px',
+  width: '110px',
+  height: '110px',
+  gap: '2px',
 });
 
 export const countdownSvg = style({
   position: 'absolute',
   top: 0,
   left: 0,
-  width: '100px',
-  height: '100px',
+  width: '100%',
+  height: '100%',
+  pointerEvents: 'none',
 });
 
 // 플립 애니메이션 keyframes (CodePen 스타일 - Quart.easeOut)
