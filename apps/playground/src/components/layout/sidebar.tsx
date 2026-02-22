@@ -4,12 +4,20 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as styles from './sidebar.css';
 
-interface ComponentItem {
+export interface ComponentItem {
   slug: string;
   label: string;
+  type?: 'doc' | 'component';
 }
 
-const COMPONENT_REGISTRY = {
+export const DOCS_REGISTRY: Record<string, ComponentItem[]> = {
+  'Getting Started': [
+    { slug: 'introduction', label: 'Introduction', type: 'doc' },
+    { slug: 'installation', label: 'Installation', type: 'doc' },
+  ],
+};
+
+export const COMPONENTS_REGISTRY: Record<string, ComponentItem[]> = {
   'Basic Components': [
     { slug: 'alert', label: 'Alert' },
     { slug: 'avatar', label: 'Avatar' },
@@ -21,7 +29,7 @@ const COMPONENT_REGISTRY = {
     { slug: 'progress', label: 'Progress' },
     { slug: 'tag', label: 'Tag' },
     { slug: 'typography', label: 'Typography' },
-  ] as ComponentItem[],
+  ],
   'Form Components': [
     { slug: 'input', label: 'Input' },
     { slug: 'textarea', label: 'Textarea' },
@@ -44,7 +52,7 @@ const COMPONENT_REGISTRY = {
     { slug: 'upload', label: 'Upload' },
     { slug: 'dynamic-tags', label: 'Dynamic Tags' },
     { slug: 'dynamic-input', label: 'Dynamic Input' },
-  ] as ComponentItem[],
+  ],
   'Data Display': [
     { slug: 'list', label: 'List' },
     { slug: 'table', label: 'Table' },
@@ -56,12 +64,12 @@ const COMPONENT_REGISTRY = {
     { slug: 'tree-select', label: 'Tree Select' },
     { slug: 'chart', label: 'Chart' },
     { slug: 'heatmap', label: 'Heatmap' },
-  ] as ComponentItem[],
+  ],
   Navigation: [
     { slug: 'menu', label: 'Menu' },
     { slug: 'pagination', label: 'Pagination' },
     { slug: 'steps', label: 'Steps' },
-  ] as ComponentItem[],
+  ],
   Feedback: [
     { slug: 'modal', label: 'Modal' },
     { slug: 'drawer', label: 'Drawer' },
@@ -72,45 +80,54 @@ const COMPONENT_REGISTRY = {
     { slug: 'snackbar', label: 'Snackbar' },
     { slug: 'loading-bar', label: 'Loading Bar' },
     { slug: 'empty', label: 'Empty' },
-  ] as ComponentItem[],
+  ],
   'Date & Time': [
     { slug: 'calendar', label: 'Calendar' },
     { slug: 'date-picker', label: 'Date Picker' },
     { slug: 'time-picker', label: 'Time Picker' },
-  ] as ComponentItem[],
+  ],
   Layout: [
     { slug: 'page-header', label: 'Page Header' },
     { slug: 'float-button', label: 'Float Button' },
     { slug: 'watermark', label: 'Watermark' },
-  ] as ComponentItem[],
+  ],
   Media: [
     { slug: 'carousel', label: 'Carousel' },
     { slug: 'image', label: 'Image' },
     { slug: 'ellipsis', label: 'Ellipsis' },
     { slug: 'gradient-text', label: 'Gradient Text' },
     { slug: 'qr-code', label: 'QR Code' },
-  ] as ComponentItem[],
+  ],
   Other: [
     { slug: 'collapse', label: 'Collapse' },
     { slug: 'color-picker', label: 'Color Picker' },
     { slug: 'mention', label: 'Mention' },
-  ] as ComponentItem[],
-} as const;
+  ],
+};
 
-export function Sidebar() {
+interface SidebarProps {
+  registry: Record<string, ComponentItem[]>;
+}
+
+export function Sidebar({ registry }: SidebarProps) {
   const pathname = usePathname();
 
   return (
     <aside className={styles.sidebar} data-sidebar>
       <nav className={styles.navGroup}>
-        {Object.entries(COMPONENT_REGISTRY).map(([category, components]) => (
+        {Object.entries(registry).map(([category, components]) => (
           <div key={category}>
             <h2 className={styles.categoryTitle}>{category}</h2>
             <ul className={styles.navList}>
               {[...components]
-                .sort((a, b) => a.label.localeCompare(b.label))
-                .map(({ slug, label }) => {
-                  const href = `/components/${slug}`;
+                .sort((a, b) => {
+                  // Getting Started 카테고리는 정렬하지 않고 원본 순서 유지
+                  if (category === 'Getting Started') return 0;
+                  return a.label.localeCompare(b.label);
+                })
+                .map(({ slug, label, type }) => {
+                  const basePath = type === 'doc' ? '/docs' : '/components';
+                  const href = `${basePath}/${slug}`;
                   const isActive = pathname === href;
 
                   return (
