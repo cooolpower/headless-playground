@@ -5,10 +5,10 @@ export interface UseToastProps {
   title?: React.ReactNode;
   description?: React.ReactNode;
   type?: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary';
-  color?: 'success' | 'info' | 'warning' | 'error';
+  color?: 'success' | 'info' | 'warning' | 'error' | 'theme';
   duration?: number; // milliseconds, 0 means never auto-close
   onClose?: () => void;
-  placement?: 'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right';
+  placement?: 'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right' | 'center';
   showIcon?: boolean;
   showProgress?: boolean; // 프로그레스 바 표시 여부
   showClose?: boolean; // 닫기 버튼 표시 여부
@@ -68,6 +68,13 @@ export function useToast({
         backgroundColor: 'var(--color-semantic-info)',
         borderColor: 'var(--color-semantic-info-hover)',
         color: 'var(--color-text-on-info)',
+      },
+      theme: {
+        // className mapping이 toast.styles.ts에서 `--hc-toast-*` 로 덮어쓰므로
+        // 여기서 명시적인 인라인 스타일을 강제할 필요는 적지만, 구색을 맞춥니다.
+        backgroundColor: 'var(--color-text)',
+        borderColor: 'var(--color-text)',
+        color: 'var(--color-background)',
       },
     };
 
