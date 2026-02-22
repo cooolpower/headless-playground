@@ -113,3 +113,11 @@ export function TableOfContents({ items }: TableOfContentsProps) {
     </aside>
   );
 }
+
+import { useToc } from './toc-context';
+
+export function TocSidebar() {
+  const { items } = useToc();
+  if (!items || items.length === 0) return null;
+  return <TableOfContents items={items} />;
+}

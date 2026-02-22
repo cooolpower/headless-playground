@@ -1,0 +1,37 @@
+# Theming (CSS Variables)
+
+`@repo/ui`는 **Vanilla-Extract**를 기반으로 설계되어 완벽한 타입 안정성과 제로 런타임 오버헤드를 가지는 동시에, 모든 테마 요소를 **표준 CSS 변수(Variables)** 로 쉽게 제어할 수 있도록 개방해 두었습니다.
+
+기본적으로 제공되는 `defaultThemeCss` 외에도 다양한 방식으로 여러분의 브랜딩 컬러 및 스타일을 적용할 수 있습니다.
+
+## 1. 글로벌 테마 주입 원리
+
+저희 라이브러리의 모든 컴포넌트는 내부에 하드코딩된 색상 HEX 값이 아닌 로컬 `vars` 객체를 참조하도록 설계되어 있습니다. 이 객체는 런타임에 글로벌 `:root` 또는 특정 DOM 노드의 CSS 변수(`--color-brand-primary` 등)로 대체됩니다.
+
+## 2. 기본 테마 변수 재정의 (Overriding)
+
+가장 간단한 테마 맞춤 설정 방법은 글로벌 CSS에서 `:root` 선택자를 통해 일부 변수만 덮어쓰는(Overriding) 방식입니다.
+
+```css
+/* app/global.css */
+
+:root {
+  /* 글로벌 폰트 패밀리 변경 */
+  --font-family-sans: 'Inter', -apple-system, sans-serif;
+
+  /* 메인 브랜드 컬러 변경 (기존 Blue -> Purple 계열) */
+  --color-brand-primary: #8a2be2;
+  --color-brand-primary-hover: #7b2cbf;
+  --color-brand-primary-active: #5a189a;
+
+  /* 글로벌 둥근 모서리 강도 조절 */
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+```
+
+제공된 `defaultThemeCss` 속성들이 먼저 렌더링되고, 위와 같이 재정의된 속성들이 이를 덮어쓰게 되어 안전하고 점진적인 커스터마이징이 가능합니다.
+
+## 3. 완전한 커스텀 테마 생성 (Vanilla Extract 권장)
+
+Vanilla-Extract를 사용하는 Next.js 프로젝트에서는 `createGlobalTheme`를 사용하면 완벽한 자동완성의 이점을 얻으면서도 완벽한 커스텀 테마 Contract를 작성할 수 있습니다.

@@ -11,6 +11,9 @@ export const mainContent = style({
 
 export const mainContentInner = style({
   flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
   padding: `var(--spacing-xl) var(--spacing-4xl) var(--spacing-4xl) calc(var(--spacing-4xl))`,
   maxWidth: '1200px',
   margin: '0 auto',

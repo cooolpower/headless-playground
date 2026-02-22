@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation';
 import { Playground } from '@/components/playground/playground';
 import { Footer } from '@/components/layout/footer';
 import { getToc } from '@/utils/toc';
-import { TableOfContents } from '@/components/layout/toc';
+import { TocUpdater } from '@/components/layout/toc-context';
+import { Prose } from '@/components/layout/prose';
 import * as styles from './page.css';
 
 const COMPONENTS = {
@@ -193,15 +194,13 @@ export default async function ComponentDocPage({
 
   return (
     <>
-      <div className={styles.main}>
-        <div className={styles.contentWrapper}>
-          <div className={styles.mainDoc} suppressHydrationWarning>
-            <Doc components={{ Playground, ...demoModule }} />
-          </div>
-          <TableOfContents items={tocItems} />
-        </div>
-        <Footer />
+      <TocUpdater items={tocItems} />
+      <div className={styles.mainDoc} suppressHydrationWarning>
+        <Prose>
+          <Doc components={{ Playground, ...demoModule }} />
+        </Prose>
       </div>
+      <Footer />
     </>
   );
 }

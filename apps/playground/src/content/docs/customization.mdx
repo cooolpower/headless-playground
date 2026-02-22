@@ -1,0 +1,34 @@
+# Customization (Headless Mode)
+
+자체적으로 디자인 시스템을 보유하고 있거나, Tailwind CSS와 같은 외부 유틸리티 클래스 라이브러리를 선호하는 분들을 위해 `@repo/ui`의 강력한 **Headless 옵션**을 소개합니다.
+
+## `injectStyles` 비활성화
+
+라이브러리의 모든 컴포넌트는 내부적으로 `injectStyles`라는 Props를 제공하거나 Context 레벨에서 주입받을 수 있도록 설계되었습니다.
+
+특정 컴포넌트, 혹은 전체 Provider에 `injectStyles={false}`를 전달하면 **해당 컴포넌트의 모든 Vanilla Extract 스타일 시트와 CSS 변수가 렌더링되지 않습니다.**
+
+```tsx
+import { Button } from '@repo/ui/button';
+
+export function CustomButton() {
+  return (
+    // injectStyles를 false로 주면 기본 디자인이 완전히 벗겨집니다.
+    // 오직 접근성(A11y) 구조와 상호작용 로직 패턴명만 유지됩니다.
+    <Button
+      injectStyles={false}
+      className="bg-red-500 hover:bg-red-600 text-white rounded-full"
+    >
+      Tailwind 버튼
+    </Button>
+  );
+}
+```
+
+## 장점
+
+1. **제로번들 오버헤드**: 불필요한 디폴트 CSS가 로드되지 않아 페이지가 무거워지지 않습니다.
+2. **논리 분리**: WAI-ARIA 접근성, 키보드 이벤트, Focus 상태 관리 등의 까다로운 로직은 `@repo/ui`에 온전히 일임할 수 있습니다.
+3. **디자인 자유도**: Tailwind, Styled-components, Emotion 등 어떤 스타일 도구와도 마찰 없이 결합됩니다.
+
+이처럼 `@repo/ui`는 단순한 퍼블리싱 키트를 넘어, 복잡한 로직을 해결해 주는 훌륭한 "Headless Foundation"으로서의 역할도 톡톡히 수행합니다.
