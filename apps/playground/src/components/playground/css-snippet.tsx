@@ -1,4 +1,5 @@
 import * as styles from './css-snippet.css';
+import { CopyButton } from '@/components/ui/copy-button';
 
 export function CssSnippet({
   css,
@@ -11,6 +12,7 @@ export function CssSnippet({
     <div className={styles.root}>
       <div className={styles.header}>
         <h3 className={styles.title}>{title}</h3>
+        <CopyButton value={css} />
       </div>
       <pre className={styles.pre}>
         <code>{css}</code>
@@ -18,4 +20,3 @@ export function CssSnippet({
     </div>
   );
 }
-

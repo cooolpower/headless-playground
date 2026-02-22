@@ -9,7 +9,7 @@ export const header = style({
   borderBottom: '1px solid var(--border-color)',
   position: 'sticky',
   top: 0,
-  zIndex: 1,
+  zIndex: 11,
 });
 
 export const headerLogo = style({

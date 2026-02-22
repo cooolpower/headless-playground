@@ -15,6 +15,11 @@ export const DOCS_REGISTRY: Record<string, ComponentItem[]> = {
     { slug: 'introduction', label: 'Introduction', type: 'doc' },
     { slug: 'installation', label: 'Installation', type: 'doc' },
   ],
+  'Core Concepts': [
+    { slug: 'theming', label: 'Theming', type: 'doc' },
+    { slug: 'dark-mode', label: 'Dark Mode', type: 'doc' },
+    { slug: 'customization', label: 'Customization', type: 'doc' },
+  ],
 };
 
 export const COMPONENTS_REGISTRY: Record<string, ComponentItem[]> = {

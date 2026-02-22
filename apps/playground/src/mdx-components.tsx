@@ -6,6 +6,11 @@
 //   break under RSC).
 // - Keep this module lightweight and server-compatible.
 
+import { Pre } from '@/components/mdx/pre';
+
 export function useMDXComponents(components: Record<string, unknown> = {}) {
-  return components;
+  return {
+    pre: Pre,
+    ...components,
+  };
 }
