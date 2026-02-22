@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import * as styles from './toc.css';
 import { TocItem } from '@/utils/toc';
 import clsx from 'clsx';
@@ -11,6 +11,8 @@ interface TableOfContentsProps {
 
 export function TableOfContents({ items }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('');
+  const isClickScrolling = useRef(false);
+  const clickScrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const headingElements: Record<string, IntersectionObserverEntry> = {};
@@ -20,7 +22,9 @@ export function TableOfContents({ items }: TableOfContentsProps) {
         headingElements[entry.target.id] = entry;
       });
 
-      // 화면에 보이는 요소들 중 가장 위에 있는 것을 찾음
+      // 스크롤 이동 중에는 옵저버 업데이트 무시
+      if (isClickScrolling.current) return;
+
       const visibleHeadings = Object.values(headingElements).filter(
         (entry) => entry.isIntersecting,
       );
@@ -36,19 +40,49 @@ export function TableOfContents({ items }: TableOfContentsProps) {
     };
 
     const observer = new IntersectionObserver(callback, {
-      rootMargin: '-80px 0% -40% 0%',
-      threshold: [0, 1],
+      rootMargin: '-80px 0px -40% 0px',
+      threshold: 0,
     });
 
     items.forEach((item) => {
       const element = document.getElementById(item.id);
-      if (element) observer.observe(element);
+      if (element) {
+        // 기존 상태 초기화 보장
+        headingElements[item.id] = {
+          target: element,
+          isIntersecting: false,
+          boundingClientRect: element.getBoundingClientRect(),
+        } as unknown as IntersectionObserverEntry;
+        observer.observe(element);
+      }
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
+    };
   }, [items]);
 
   if (items.length === 0) return null;
+
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+  ) => {
+    e.preventDefault();
+    isClickScrolling.current = true;
+    setActiveId(id);
+
+    document.getElementById(id)?.scrollIntoView({
+      behavior: 'smooth',
+    });
+    window.history.pushState(null, '', `#${id}`);
+
+    if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
+    clickScrollTimeout.current = setTimeout(() => {
+      isClickScrolling.current = false;
+    }, 800); // 부드러운 스크롤 애니메이션 소요 시간에 맞춰 800ms 무시
+  };
 
   return (
     <aside className={styles.tocWrapper}>
@@ -57,7 +91,11 @@ export function TableOfContents({ items }: TableOfContentsProps) {
         {items.map((item) => (
           <li
             key={item.id}
-            className={clsx(styles.tocItem, item.level === 3 && styles.subItem)}
+            className={clsx(
+              styles.tocItem,
+              item.level === 3 && styles.subItem,
+              item.level === 4 && styles.subSubItem,
+            )}
           >
             <a
               href={`#${item.id}`}
@@ -65,14 +103,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
                 styles.tocLink,
                 activeId === item.id && styles.activeLink,
               )}
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById(item.id)?.scrollIntoView({
-                  behavior: 'smooth',
-                });
-                setActiveId(item.id);
-                window.history.pushState(null, '', `#${item.id}`);
-              }}
+              onClick={(e) => handleLinkClick(e, item.id)}
             >
               {item.text}
             </a>

@@ -97,16 +97,11 @@ export function DemoRadioBasicWithControls() {
           value={value}
           onChange={setValue}
           disabled={disabled}
+          size={size}
         >
-          <Radio value="option1" size={size}>
-            {option1Label}
-          </Radio>
-          <Radio value="option2" size={size}>
-            {option2Label}
-          </Radio>
-          <Radio value="option3" size={size}>
-            {option3Label}
-          </Radio>
+          <Radio value="option1">{option1Label}</Radio>
+          <Radio value="option2">{option2Label}</Radio>
+          <Radio value="option3">{option3Label}</Radio>
         </RadioGroup>
         <p className={styles.status}>선택된 값: {value}</p>
       </div>

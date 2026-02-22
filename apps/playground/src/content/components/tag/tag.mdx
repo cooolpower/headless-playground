@@ -85,6 +85,22 @@ import { TagCss } from '@repo/ui';
 </div>
 ```
 
+### API Reference
+
+#### Tag Props
+
+| Property     | Type                                                          | Default     | Description                |
+| ------------ | ------------------------------------------------------------- | ----------- | -------------------------- |
+| children     | `ReactNode`                                                   | -           | 레이블 콘텐츠              |
+| variant      | `'default' \| 'primary' \| 'success' \| 'warning' \| 'error'` | `'default'` | 태그의 스타일 종류         |
+| size         | `'small' \| 'medium' \| 'large'`                              | `'medium'`  | 태그 크기                  |
+| closable     | `boolean`                                                     | `false`     | 닫기 아이콘 표시 여부      |
+| onClose      | `() => void`                                                  | -           | 닫기 아이콘 클릭 시 콜백   |
+| disabled     | `boolean`                                                     | `false`     | 비활성화 여부              |
+| injectStyles | `boolean`                                                     | `true`      | 기본 스타일(CSS) 주입 여부 |
+| className    | `string`                                                      | -           | 추가 CSS 클래스            |
+| style        | `React.CSSProperties`                                         | -           | 인라인 스타일              |
+
 ### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={TagCss} title="TagCss" />
