@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
-
 import { Playground } from '@/components/playground/playground';
 import { Footer } from '@/components/layout/footer';
+import { getToc } from '@/utils/toc';
+import { TableOfContents } from '@/components/layout/toc';
 import * as styles from './page.css';
 
-const DOCS = {
+const COMPONENTS = {
   button: () => import('@/content/components/button/button.mdx'),
   card: () => import('@/content/components/card/card.mdx'),
   divider: () => import('@/content/components/divider/divider.mdx'),
@@ -176,9 +177,6 @@ const DEMOS = {
   snackbar: () => import('@/content/components/snackbar/snackbar.demo'),
 } as const;
 
-import { getToc } from '@/utils/toc';
-import { TableOfContents } from '@/components/layout/toc';
-
 export default async function ComponentDocPage({
   params,
 }: {
@@ -186,15 +184,11 @@ export default async function ComponentDocPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-
-  const docImporter = DOCS[slug as keyof typeof DOCS];
-  if (!docImporter) notFound();
-
-  const Doc = (await docImporter()).default;
-
+  const componentImporter = COMPONENTS[slug as keyof typeof COMPONENTS];
+  if (!componentImporter) notFound();
+  const Doc = (await componentImporter()).default;
   const demoImporter = DEMOS[slug as keyof typeof DEMOS];
   const demoModule = demoImporter ? await demoImporter() : {};
-
   const tocItems = getToc(slug);
 
   return (

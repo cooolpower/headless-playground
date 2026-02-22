@@ -10,7 +10,19 @@ export interface TocItem {
 
 export function getToc(slug: string): TocItem[] {
   try {
-    const filePath = path.join(process.cwd(), 'src/content/components', slug, `${slug}.mdx`);
+    // 1. 컴포넌트 경로 시도
+    let filePath = path.join(
+      process.cwd(),
+      'src/content/components',
+      slug,
+      `${slug}.mdx`
+    );
+
+    // 2. 만약 해당 컴포넌트 경로 파일이 없다면 docs 경로 시도
+    if (!fs.existsSync(filePath)) {
+      filePath = path.join(process.cwd(), 'src/content/docs', `${slug}.mdx`);
+    }
+
     if (!fs.existsSync(filePath)) {
       return [];
     }

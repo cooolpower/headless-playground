@@ -1,0 +1,77 @@
+# Installation
+
+`@repo/ui`(`@cooolpower/headless-ui`)를 설치하고, 내 프로젝트에 테마를 적용하는 방법을 알아봅니다.
+
+## 1. 패키지 설치
+
+NPM, Yarn, 혹은 PNPM을 사용하여 패키지를 설치합니다.
+
+```bash
+# pnpm
+pnpm add @cooolpower/headless-ui
+
+# npm
+npm install @cooolpower/headless-ui
+
+# yarn
+yarn add @cooolpower/headless-ui
+```
+
+## 2. 기본 CSS 테마 주입하기 (필수)
+
+UI 컴포넌트들은 **사전 정의된 CSS 변수(Variables)** 를 통해 디자인과 색상을 결정합니다.
+따라서, 앱의 최상단(Root Layout)이나 메인 엔트리 파일에서 기준이 되는 **기본 뼈대 테마 변수**를 브라우저에 한 번 주입해주어야 합니다.
+
+### React / Next.js의 경우 (권장)
+
+가장 간단한 방법은 패키지에서 내보내고 있는 `defaultThemeCss` 텍스트를 최상단 `<head>`에 넣어주는 것입니다.
+
+```tsx
+// app/layout.tsx
+import { defaultThemeCss } from '@cooolpower/headless-ui';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ko">
+      <head>
+        {/* 모든 컴포넌트가 참조할 전역 테마 변수를 삽입합니다 */}
+        <style dangerouslySetInnerHTML={{ __html: defaultThemeCss }} />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+> 위 과정을 완료하면 이 Playground 사이트와 100% 동일한 색상, 크기, 여백 상태가 적용됩니다!
+
+## 3. 사용할 컴포넌트 불러오기
+
+이제 컴포넌트를 자유롭게 가져와서 사용하시면 됩니다. 각각의 컴포넌트는 자신이 사용될 때 자동으로 필요한 스타일을 브라우저에 동적으로 삽입하므로 번거롭지 않습니다.
+
+```tsx
+import { Button, Toast, Timeline } from '@cooolpower/headless-ui';
+
+export function MyComponent() {
+  return (
+    <div>
+      <Button color="primary">Welcome</Button>
+    </div>
+  );
+}
+```
+
+## 컴포넌트 스타일 완전 커스텀하기 (Optional)
+
+만약 패키지에 포함된 고정 스타일을 전혀 쓰고 싶지 않다면, 각 컴포넌트에 포함된 `injectStyles={false}` props를 전달하면 됩니다. 그 후, 클래스 이름에 맞춰 자신만의 CSS를 연결하여 순수한 커스텀 요소로 활용할 수도 있습니다!
+
+```tsx
+// 기본으로 깔리는 ButtonCss를 브라우저에 심지 않고, 내가 만든 CSS만 씁니다.
+<Button injectStyles={false} className="my-custom-button-class">
+  Custom Button
+</Button>
+```

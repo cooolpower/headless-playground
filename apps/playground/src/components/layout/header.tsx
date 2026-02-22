@@ -20,8 +20,11 @@ export function Header() {
           </Link>
         </div>
         <nav className={styles.headerNav}>
-          <Link href="/components/button" className={styles.navLink}>
+          <Link href="/docs/introduction" className={styles.navLink}>
             Docs
+          </Link>
+          <Link href="/components/alert" className={styles.navLink}>
+            Components
           </Link>
           <a
             href="https://github.com"
