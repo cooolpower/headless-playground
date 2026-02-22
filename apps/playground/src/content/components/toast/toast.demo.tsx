@@ -30,15 +30,16 @@ interface ToastControlsContextType {
   setType: (
     v: 'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary',
   ) => void;
-  color: 'success' | 'info' | 'warning' | 'error';
-  setColor: (v: 'success' | 'info' | 'warning' | 'error') => void;
+  color: 'success' | 'info' | 'warning' | 'error' | 'theme';
+  setColor: (v: 'success' | 'info' | 'warning' | 'error' | 'theme') => void;
   placement:
     | 'top'
     | 'top-left'
     | 'top-right'
     | 'bottom'
     | 'bottom-left'
-    | 'bottom-right';
+    | 'bottom-right'
+    | 'center';
   setPlacement: (
     v:
       | 'top'
@@ -46,7 +47,8 @@ interface ToastControlsContextType {
       | 'top-right'
       | 'bottom'
       | 'bottom-left'
-      | 'bottom-right',
+      | 'bottom-right'
+      | 'center',
   ) => void;
   duration: number;
   setDuration: (v: number) => void;
@@ -75,12 +77,18 @@ export function ToastControlsProvider({ children }: { children: ReactNode }) {
   const [type, setType] = useState<
     'primary' | 'secondary' | 'tertiary' | 'dashed' | 'quaternary'
   >('primary');
-  const [color, setColor] = useState<'success' | 'info' | 'warning' | 'error'>(
-    'success',
-  );
+  const [color, setColor] = useState<
+    'success' | 'info' | 'warning' | 'error' | 'theme'
+  >('theme');
   const [placement, setPlacement] = useState<
-    'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right'
-  >('top-right');
+    | 'top'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'center'
+  >('bottom-right');
   const [duration, setDuration] = useState(3000);
   const [showIcon, setShowIcon] = useState(true);
   const [showProgress, setShowProgress] = useState(true);
@@ -238,18 +246,20 @@ export function ToastInteractiveControls() {
         {
           label: '색상 (Color)',
           control: (
-            <div style={{ display: 'flex', gap: '4px' }}>
-              {(['info', 'success', 'warning', 'error'] as const).map((t) => (
-                <Button
-                  key={t}
-                  onClick={() => setColor(t)}
-                  type={color === t ? 'default' : 'tertiary'}
-                  color="default"
-                  size="small"
-                >
-                  {t}
-                </Button>
-              ))}
+            <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+              {(['info', 'success', 'warning', 'error', 'theme'] as const).map(
+                (t) => (
+                  <Button
+                    key={t}
+                    onClick={() => setColor(t)}
+                    type={color === t ? 'default' : 'tertiary'}
+                    color="default"
+                    size="small"
+                  >
+                    {t}
+                  </Button>
+                ),
+              )}
             </div>
           ),
         },
@@ -271,6 +281,7 @@ export function ToastInteractiveControls() {
                   'bottom-left',
                   'bottom',
                   'bottom-right',
+                  'center',
                 ] as const
               ).map((p) => (
                 <Button
@@ -279,6 +290,7 @@ export function ToastInteractiveControls() {
                   type={placement === p ? 'default' : 'tertiary'}
                   style={{
                     fontSize: 'var(--font-size-sm, 12px)',
+                    gridColumn: p === 'center' ? '1 / -1' : 'auto',
                   }}
                   color="default"
                   size="small"
@@ -459,7 +471,7 @@ export function DemoToastBasic() {
   const [toasts, setToasts] = useState<
     Array<{
       id: number;
-      color: 'success' | 'info' | 'warning' | 'error';
+      color: 'success' | 'info' | 'warning' | 'error' | 'theme';
       message: string;
       duration?: number;
       showProgress?: boolean;
@@ -468,7 +480,7 @@ export function DemoToastBasic() {
   const maxCount = 5; // 최대 5개까지 표시
 
   const showToast = (
-    color: 'success' | 'info' | 'warning' | 'error',
+    color: 'success' | 'info' | 'warning' | 'error' | 'theme',
     message: string,
     options?: { duration?: number; showProgress?: boolean },
   ) => {
@@ -530,6 +542,14 @@ export function DemoToastBasic() {
           onClick={() => showToast('error', '오류가 발생했습니다.')}
         >
           Error Toast
+        </Button>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('theme', '테마 색상 메시지입니다.')}
+        >
+          Theme Toast
         </Button>
       </div>
       {toasts.map((toast, index) => (
@@ -740,7 +760,8 @@ export function DemoToastPlacement() {
         | 'top-right'
         | 'bottom'
         | 'bottom-left'
-        | 'bottom-right';
+        | 'bottom-right'
+        | 'center';
       message: string;
     }>
   >([]);
@@ -752,7 +773,8 @@ export function DemoToastPlacement() {
       | 'top-right'
       | 'bottom'
       | 'bottom-left'
-      | 'bottom-right',
+      | 'bottom-right'
+      | 'center',
     message: string,
   ) => {
     const id = Date.now();
@@ -789,6 +811,16 @@ export function DemoToastPlacement() {
           onClick={() => showToast('top-right', '상단 오른쪽에 표시됩니다.')}
         >
           Top Right
+        </Button>
+      </div>
+      <div className={styles.buttonGroup} style={{ justifyContent: 'center' }}>
+        <Button
+          type="primary"
+          color="default"
+          injectStyles={injectStyles}
+          onClick={() => showToast('center', '정중앙에 표시됩니다.')}
+        >
+          Center
         </Button>
       </div>
       <div className={styles.buttonGroup}>

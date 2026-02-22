@@ -46,6 +46,14 @@ export const toastCss = `
   align-items: center;
 }
 
+.hcToastContainer[data-placement="center"] {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: center;
+}
+
 .hcToast{
   position: relative;
   display: flex;
@@ -89,6 +97,12 @@ export const toastCss = `
   --hc-toast-border: var(--color-semantic-error-hover);
   --hc-toast-text: var(--color-text-on-error);
   --hc-toast-accent: var(--color-text-on-error);
+}
+.hcToast[data-color="theme"]{
+  --hc-toast-bg: var(--color-text);
+  --hc-toast-border: var(--color-text);
+  --hc-toast-text: var(--color-background);
+  --hc-toast-accent: var(--color-background);
 }
 
 .hcToastIcon{
