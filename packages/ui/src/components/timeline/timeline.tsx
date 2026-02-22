@@ -11,7 +11,7 @@ function cx(...parts: Array<string | undefined | null | false>) {
 }
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({
-  color = 'blue',
+  color = 'default',
   dot,
   label,
   children,
@@ -49,7 +49,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
           <div
             className={cx(
               'hcTimelineItemDescription',
-              classNames?.itemDescription
+              classNames?.itemDescription,
             )}
           >
             {children}
@@ -74,7 +74,7 @@ export const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const renderItems = () => {
       let itemList: TimelineItemProps[] = [];
@@ -107,7 +107,12 @@ export const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
           return {
             isLast: index === childArray.length - 1 && !pending,
             classNames,
-            position: mode === 'alternate' ? (index % 2 === 0 ? 'left' : 'right') : mode,
+            position:
+              mode === 'alternate'
+                ? index % 2 === 0
+                  ? 'left'
+                  : 'right'
+                : mode,
           };
         });
       }
@@ -129,11 +134,7 @@ export const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
       }
 
       return itemList.map((item, index) => (
-        <TimelineItem
-          key={item.key || index}
-          {...item}
-          injectStyles={false}
-        />
+        <TimelineItem key={item.key || index} {...item} injectStyles={false} />
       ));
     };
 
@@ -148,7 +149,7 @@ export const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
         {renderItems()}
       </div>
     );
-  }
+  },
 );
 
 Timeline.displayName = 'Timeline';
