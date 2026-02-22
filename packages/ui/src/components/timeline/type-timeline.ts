@@ -35,7 +35,7 @@ export interface TimelineItem {
 
 export type TimelineMode = 'left' | 'alternate' | 'right';
 
-export type TimelineItemColor = 'blue' | 'red' | 'green' | 'gray';
+export type TimelineItemColor = 'default' | 'success' | 'warning' | 'error' | 'info' | 'blue' | 'red' | 'green' | 'gray';
 
 export interface TimelineItemProps extends TimelineItem {
   isLast?: boolean;
