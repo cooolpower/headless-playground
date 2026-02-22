@@ -32,9 +32,7 @@ export function MyComponent() {
 }
 ```
 
-### 예제
-
-#### 기본 Badge (인터랙티브)
+### 인터랙티브 예제
 
 <DemoBadgeBasicProvider>
   <Playground
@@ -42,6 +40,8 @@ export function MyComponent() {
     controls={<DemoBadgeBasicControls />}
   />
 </DemoBadgeBasicProvider>
+
+### 예제
 
 #### 기본 Badge
 
@@ -147,18 +147,23 @@ const [count, setCount] = useState(5);
 
 #### Badge Props
 
-| Property     | Type               | Default     | Description                    |
-| ------------ | ------------------ | ----------- | ------------------------------ |
-| children     | `ReactNode`        | -           | Badge를 첨부할 요소            |
-| count        | `number \| string` | -           | Badge에 표시할 숫자            |
-| dot          | `boolean`          | `false`     | 숫자 대신 점 표시 여부         |
-| showZero     | `boolean`          | `false`     | count가 0일 때 Badge 표시 여부 |
-| maxCount     | `number`           | `99`        | 최대 표시 숫자                 |
-| color        | `BadgeColor`       | `'default'` | Badge 색상                     |
-| size         | `BadgeSize`        | `'medium'`  | Badge 크기                     |
-| processing   | `boolean`          | `false`     | 처리 중 애니메이션 표시 여부   |
-| injectStyles | `boolean`          | `true`      | 기본 스타일(CSS) 주입 여부     |
-| className    | `string`           | -           | 커스텀 CSS 클래스              |
+| Property        | Type                                        | Default     | Description                    |
+| --------------- | ------------------------------------------- | ----------- | ------------------------------ |
+| children        | `ReactNode`                                 | -           | Badge를 첨부할 요소            |
+| count           | `number \| string`                          | -           | Badge에 표시할 숫자            |
+| dot             | `boolean`                                   | `false`     | 숫자 대신 점 표시 여부         |
+| showZero        | `boolean`                                   | `false`     | count가 0일 때 Badge 표시 여부 |
+| maxCount        | `number`                                    | `99`        | 최대 표시 숫자                 |
+| color           | `BadgeColor \| string`                      | `'default'` | Badge 색상                     |
+| size            | `BadgeSize`                                 | `'medium'`  | Badge 크기                     |
+| processing      | `boolean`                                   | `false`     | 처리 중 애니메이션 표시 여부   |
+| backgroundColor | `string`                                    | -           | 배지의 커스텀 배경색           |
+| textColor       | `string`                                    | -           | 배지의 커스텀 텍스트 색상      |
+| borderWidth     | `string`                                    | -           | 배지의 테두리 두께             |
+| borderColor     | `string`                                    | -           | 배지의 테두리 색상             |
+| borderStyle     | `'none' \| 'solid' \| 'dashed' \| 'dotted'` | -           | 배지의 테두리 스타일           |
+| injectStyles    | `boolean`                                   | `true`      | 기본 스타일(CSS) 주입 여부     |
+| className       | `string`                                    | -           | 커스텀 CSS 클래스              |
 
 #### BadgeColor
 

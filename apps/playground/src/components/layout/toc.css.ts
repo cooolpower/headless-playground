@@ -69,3 +69,7 @@ export const activeLink = style({
 export const subItem = style({
   paddingLeft: vars.spacing.xl,
 });
+
+export const subSubItem = style({
+  paddingLeft: vars.spacing['2xl'],
+});

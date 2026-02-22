@@ -39,9 +39,7 @@ import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
 import { RadioCss } from '@repo/ui';
 
-### 예제
-
-#### 기본 Radio (인터랙티브)
+### 인터랙티브 예제
 
 <DemoRadioBasicProvider>
   <Playground
@@ -49,6 +47,8 @@ import { RadioCss } from '@repo/ui';
     controls={<DemoRadioBasicControls />}
   />
 </DemoRadioBasicProvider>
+
+### 예제
 
 #### 기본 Radio
 
@@ -168,16 +168,18 @@ const [value, setValue] = useState('option1');
 
 #### Radio Props
 
-| Property     | Type                                | Default    | Description                |
-| ------------ | ----------------------------------- | ---------- | -------------------------- |
-| value        | `string \| number`                  | -          | Radio 값                   |
-| disabled     | `boolean`                           | `false`    | 비활성화 여부              |
-| name         | `string`                            | -          | Radio 그룹 이름            |
-| onChange     | `(value: string \| number) => void` | -          | 값 변경 핸들러             |
-| size         | `'small' \| 'medium' \| 'large'`    | `'medium'` | 크기                       |
-| injectStyles | `boolean`                           | `true`     | 기본 스타일(CSS) 주입 여부 |
-| className    | `string`                            | -          | 추가 CSS 클래스            |
-| children     | `ReactNode`                         | -          | 라벨 콘텐츠                |
+| Property       | Type                                | Default    | Description                |
+| -------------- | ----------------------------------- | ---------- | -------------------------- |
+| value          | `string \| number`                  | -          | Radio 값                   |
+| checked        | `boolean`                           | -          | 제어되는 선택 상태         |
+| defaultChecked | `boolean`                           | `false`    | 기본 선택 상태             |
+| disabled       | `boolean`                           | `false`    | 비활성화 여부              |
+| name           | `string`                            | -          | Radio 그룹 이름            |
+| onChange       | `(value: string \| number) => void` | -          | 값 변경 핸들러             |
+| size           | `'small' \| 'medium' \| 'large'`    | `'medium'` | 크기                       |
+| injectStyles   | `boolean`                           | `true`     | 기본 스타일(CSS) 주입 여부 |
+| className      | `string`                            | -          | 추가 CSS 클래스            |
+| children       | `ReactNode`                         | -          | 라벨 콘텐츠                |
 
 #### RadioGroup Props
 

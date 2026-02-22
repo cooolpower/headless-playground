@@ -195,6 +195,7 @@ const targetTime = Date.now() + 2 * 24 * 60 * 60 * 1000; // 2일 후
 | format          | `string`                                          | `'HH:mm:ss'` | 시간 포맷 (HH:mm:ss, mm:ss, ss, DD:HH:mm:ss)                                                      |
 | formatType      | `'time' \| 'number' \| 'temperature' \| 'custom'` | `'time'`     | 포맷 타입 (`time`: 시간 포맷, `number`: 총 초, `temperature`: °C, `custom`: format 문자열 그대로) |
 | finishedContent | `ReactNode`                                       | -            | 카운트다운 완료 시 표시할 내용 (있으면 formatted/children 대신 우선 표시)                         |
+| precision       | `0 \| 1 \| 2 \| 3`                                | `0`          | 밀리초 정밀도 자릿수 (0이면 초 단위, 3이면 3자리)                                                 |
 | className       | `string`                                          | -            | 추가 CSS 클래스                                                                                   |
 | injectStyles    | `boolean`                                         | `true`       | 기본 스타일 주입 여부                                                                             |
 | children        | `(timeLeft: TimeLeft) => ReactNode`               | -            | 커스텀 렌더링 함수                                                                                |

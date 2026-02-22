@@ -28,7 +28,7 @@ export function getToc(slug: string): TocItem[] {
       }
       if (inCodeBlock) return;
 
-      const match = line.match(/^(#{2,3})\s+(.*)$/);
+      const match = line.match(/^(#{2,4})\s+(.*)$/);
       if (match) {
         const level = match[1].length;
         const text = match[2].trim();

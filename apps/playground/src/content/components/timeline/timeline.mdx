@@ -19,10 +19,7 @@ import { TimelineCss } from '@repo/ui';
 ### 사용법
 
 ```tsx
-import {
-  Timeline,
-  TimelineItem,
-} from '@repo/ui';
+import { Timeline, TimelineItem } from '@repo/ui';
 
 export function MyComponent() {
   return (
@@ -138,14 +135,14 @@ export function MyComponent() {
 
 #### TimelineItem
 
-| Property | Type                                   | Default  | Description                       |
-| -------- | -------------------------------------- | -------- | --------------------------------- |
-| key      | `string \| number`                     | -        | 고유 키                           |
-| color    | `'blue' \| 'red' \| 'green' \| 'gray'` | `'blue'` | Dot 색상                          |
-| dot      | `ReactNode`                            | -        | 커스텀 dot 요소                   |
-| label    | `ReactNode`                            | -        | 항목 레이블                       |
-| children | `ReactNode`                            | -        | 항목 콘텐츠                       |
-| position | `'left' \| 'right'`                    | -        | 항목 위치 (mode가 alternate일 때) |
+| Property | Type                                                                                               | Default     | Description                       |
+| -------- | -------------------------------------------------------------------------------------------------- | ----------- | --------------------------------- |
+| key      | `string \| number`                                                                                 | -           | 고유 키                           |
+| color    | `'default' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'blue' \| 'red' \| 'green' \| 'gray'` | `'default'` | Dot 색상                          |
+| dot      | `ReactNode`                                                                                        | -           | 커스텀 dot 요소                   |
+| label    | `ReactNode`                                                                                        | -           | 항목 레이블                       |
+| children | `ReactNode`                                                                                        | -           | 항목 콘텐츠                       |
+| position | `'left' \| 'right'`                                                                                | -           | 항목 위치 (mode가 alternate일 때) |
 
 #### TimelineClassNames
 
