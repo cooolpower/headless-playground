@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect, createContext, useContext } from 'react';
-import { Carousel } from '@repo/ui';
+import { Carousel } from '@cooolpower/headless-ui';
 import {
   Card,
   CardHeader,
   CardContent,
   CardFooter,
-} from '@repo/ui';
+} from '@cooolpower/headless-ui';
 import * as styles from './carousel.demo.css';
 import * as cardStyles from '../card/card.demo.css';
 

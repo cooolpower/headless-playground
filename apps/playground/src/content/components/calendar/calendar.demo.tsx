@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, createContext, useContext } from 'react';
-import { Calendar } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Calendar } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import type { SelectOption } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './calendar.demo.css';
 
 // Calendar Controls Context

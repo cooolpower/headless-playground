@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
-import { Chart } from '@repo/ui';
+import { Chart } from '@cooolpower/headless-ui';
 import {
   Chart as ChartJS,
   CategoryScale,

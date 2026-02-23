@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, createContext, useContext, useEffect } from 'react';
-import { Tabs } from '@repo/ui';
-import type { TabItem } from '@repo/ui';
-import { Icon } from '@repo/ui';
+import { Tabs } from '@cooolpower/headless-ui';
+import type { TabItem } from '@cooolpower/headless-ui';
+import { Icon } from '@cooolpower/headless-ui';
 import { Home, Settings, User, FileText } from 'lucide-react';
 import { Controls } from '@/components/playground/controls';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import type { SelectOption } from '@repo/ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './tabs.demo.css';
 
 // Tabs Controls Context

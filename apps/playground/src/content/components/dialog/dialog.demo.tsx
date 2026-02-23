@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, createContext, useContext } from 'react';
-import { Dialog } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Textarea } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Dialog } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Textarea } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './dialog.demo.css';
 

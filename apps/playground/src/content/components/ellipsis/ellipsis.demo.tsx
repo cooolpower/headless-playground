@@ -1,10 +1,10 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { Ellipsis } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Textarea } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Ellipsis } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Textarea } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './ellipsis.demo.css';
 

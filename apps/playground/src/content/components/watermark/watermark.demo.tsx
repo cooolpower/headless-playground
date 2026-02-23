@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { Watermark } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Watermark } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './watermark.demo.css';
 
 type WatermarkControlsContextType = {

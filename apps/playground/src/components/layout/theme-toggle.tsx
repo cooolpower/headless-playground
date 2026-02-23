@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
-import { Icon } from '@repo/ui';
+import { Icon } from '@cooolpower/headless-ui';
 import * as styles from './theme-toggle.css';
 
 export function ThemeToggle() {

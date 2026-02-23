@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from '@repo/ui';
-import { Icon } from '@repo/ui';
+import { Button } from '@cooolpower/headless-ui';
+import { Icon } from '@cooolpower/headless-ui';
 import { ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from 'lucide-react';
 import { Controls } from '@/components/playground/controls';
-import { Checkbox } from '@repo/ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './button.demo.css';
 
 // Button Controls Context

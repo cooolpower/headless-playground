@@ -4,7 +4,7 @@ import {
   Title,
   Text,
   Paragraph,
-} from '@repo/ui';
+} from '@cooolpower/headless-ui';
 import * as styles from './typography.demo.css';
 
 export function DemoTypographyTitles() {

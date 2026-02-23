@@ -2,13 +2,13 @@
 
 import React, { createContext, useContext, useState } from 'react';
 import { CheckCircle2, Clock, AlertTriangle, Info, Circle } from 'lucide-react';
-import { Icon } from '@repo/ui';
-import { Timeline, TimelineItem } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Icon } from '@cooolpower/headless-ui';
+import { Timeline, TimelineItem } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import type { SelectOption } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './timeline.demo.css';
 
 interface TimelineControlsContextType {

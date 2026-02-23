@@ -2,20 +2,20 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-import { FlipCountdown } from '@repo/ui';
-import { flipCountdownCss } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
+import { FlipCountdown } from '@cooolpower/headless-ui';
+import { flipCountdownCss } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './flip-countdown.demo.css';
 
-import type { SelectOption } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import type {
   FlipCountdownDigitSize,
   FlipCountdownMode,
-} from '@repo/ui';
+} from '@cooolpower/headless-ui';
 
 function useMounted() {
   const [mounted, setMounted] = useState(false);

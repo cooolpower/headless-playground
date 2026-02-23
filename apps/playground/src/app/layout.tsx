@@ -10,6 +10,7 @@ import '../styles/global.css.ts';
 
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { GlobalToastProvider } from '@/components/layout/global-toast-provider';
 
 import * as styles from './layout.css';
 
@@ -66,8 +67,10 @@ export default function RootLayout({
         className={`${nanumGothic.variable} ${nanumGothicCoding.variable} flex min-h-screen flex-col font-sans antialiased`}
         suppressHydrationWarning
       >
-        <Header />
-        <div className={styles.main}>{children}</div>
+        <GlobalToastProvider>
+          <Header />
+          <div className={styles.main}>{children}</div>
+        </GlobalToastProvider>
       </body>
     </html>
   );

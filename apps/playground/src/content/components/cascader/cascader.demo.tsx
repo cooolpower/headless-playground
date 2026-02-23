@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, createContext, useContext, useMemo } from 'react';
-import { Cascader } from '@repo/ui';
-import type { CascaderOption } from '@repo/ui';
+import { Cascader } from '@cooolpower/headless-ui';
+import type { CascaderOption } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import type { SelectOption } from '@repo/ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './cascader.demo.css';
 
 // 샘플 데이터

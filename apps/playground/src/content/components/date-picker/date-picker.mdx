@@ -10,7 +10,7 @@ import {
 } from './date-picker.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { DatePickerCss } from '@repo/ui';
+import { DatePickerCss } from '@cooolpower/headless-ui';
 
 # Date Picker
 
@@ -23,7 +23,7 @@ import { DatePickerCss } from '@repo/ui';
 가장 기본적인 날짜 선택 방식입니다.
 
 ```tsx
-import { DatePicker } from '@repo/ui';
+import { DatePicker } from '@cooolpower/headless-ui';
 
 export function SingleDatePickerDemo() {
   const [date, setDate] = useState<Date | null>(null);
@@ -45,7 +45,7 @@ export function SingleDatePickerDemo() {
 시작일과 종료일 범위를 하나의 필드에서 선택할 때 사용합니다.
 
 ```tsx
-import { DateRangePicker } from '@repo/ui';
+import { DateRangePicker } from '@cooolpower/headless-ui';
 
 export function DateRangePickerDemo() {
   const [range, setRange] = useState<[Date | null, Date | null] | null>(null);

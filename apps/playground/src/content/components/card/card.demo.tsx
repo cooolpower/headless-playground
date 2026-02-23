@@ -1,11 +1,11 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { Card, CardHeader, CardContent, CardFooter } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Textarea } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import { Button } from '@repo/ui';
+import { Card, CardHeader, CardContent, CardFooter } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Textarea } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './card.demo.css';
 // import * as buttonStyles from '../button/button.demo.css';

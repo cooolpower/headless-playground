@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { Table } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Table } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './table.demo.css';
 

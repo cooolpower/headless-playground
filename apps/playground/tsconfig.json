@@ -27,10 +27,10 @@
       "@/*": [
         "./src/*"
       ],
-      "@repo/ui": [
+      "@cooolpower/headless-ui": [
         "../../packages/ui/src/index.ts"
       ],
-      "@repo/ui/*": [
+      "@cooolpower/headless-ui/*": [
         "../../packages/ui/src/*"
       ]
     }

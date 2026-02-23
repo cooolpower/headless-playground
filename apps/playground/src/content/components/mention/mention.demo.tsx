@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mention } from '@repo/ui';
-import { MentionOption } from '@repo/ui';
+import { Mention } from '@cooolpower/headless-ui';
+import { MentionOption } from '@cooolpower/headless-ui';
 import * as styles from './mention.demo.css';
 
 // 사용자 목록 데이터

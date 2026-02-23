@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { GradientText } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { GradientText } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './gradient-text.demo.css';
 
 type GradientTextControlsContextType = {

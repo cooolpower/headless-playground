@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, createContext, useContext } from 'react';
-import { DatePicker } from '@repo/ui';
-import { DateRangePicker } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { DatePicker } from '@cooolpower/headless-ui';
+import { DateRangePicker } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './date-picker.demo.css';
 

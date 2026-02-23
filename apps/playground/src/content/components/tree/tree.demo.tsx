@@ -2,11 +2,11 @@
 
 import React, { useState, createContext, useContext } from 'react';
 import { Folder, File, Image as ImageIcon } from 'lucide-react';
-import { Icon } from '@repo/ui';
-import { Tree } from '@repo/ui';
-import type { TreeNodeData } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import { Button } from '@repo/ui';
+import { Icon } from '@cooolpower/headless-ui';
+import { Tree } from '@cooolpower/headless-ui';
+import type { TreeNodeData } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './tree.demo.css';
 

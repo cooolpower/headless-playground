@@ -16,7 +16,7 @@ import {
   Slider,
   Textarea,
   InputNumber,
-} from '@repo/ui';
+} from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './toast.demo.css';
 

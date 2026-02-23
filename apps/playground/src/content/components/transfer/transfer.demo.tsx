@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, createContext, useContext } from 'react';
-import { Transfer } from '@repo/ui';
-import type { TransferItem } from '@repo/ui';
+import { Transfer } from '@cooolpower/headless-ui';
+import type { TransferItem } from '@cooolpower/headless-ui';
 import * as styles from './transfer.demo.css';
 import { Controls } from '@/components/playground/controls';
-import { Checkbox } from '@repo/ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 
 const mockData: TransferItem[] = [
   { key: '1', title: '항목 1', description: '첫 번째 항목 설명' },

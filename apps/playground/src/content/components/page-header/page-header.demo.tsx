@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { PageHeader } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { PageHeader } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './page-header.demo.css';
 
 type PageHeaderControlsContextType = {

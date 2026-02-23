@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, createContext, useContext } from 'react';
-import { Popover } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Textarea } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Button } from '@repo/ui';
+import { Popover } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Textarea } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import type { SelectOption } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './popover.demo.css';
 
 // Popover Controls Context

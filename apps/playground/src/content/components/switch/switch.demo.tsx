@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, createContext, useContext, useMemo } from 'react';
-import { Switch } from '@repo/ui';
+import { Switch } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Check, X, Moon, Sun, Wifi, WifiOff } from 'lucide-react';
-import type { SelectOption } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './switch.demo.css';
 
 // Switch Controls Context

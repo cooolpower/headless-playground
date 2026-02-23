@@ -276,7 +276,7 @@ export default function Home() {
             <span className={styles.syntaxKeyword}>import</span> {'{'}{' '}
             <span className={styles.syntaxComponent}>Button</span> {'}'}{' '}
             <span className={styles.syntaxKeyword}>from</span>{' '}
-            <span className={styles.syntaxString}>'@repo/ui'</span>;<br />
+            <span className={styles.syntaxString}>'@cooolpower/headless-ui'</span>;<br />
             <br />
             <span className={styles.syntaxKeyword}>
               export default function

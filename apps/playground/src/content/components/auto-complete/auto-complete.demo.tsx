@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, createContext, useContext } from 'react';
-import { Autocomplete } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Autocomplete } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './auto-complete.demo.css';
 

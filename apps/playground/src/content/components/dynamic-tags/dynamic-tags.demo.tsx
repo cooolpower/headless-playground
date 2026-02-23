@@ -2,10 +2,10 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { DynamicTags } from '@repo/ui';
-import { Icon } from '@repo/ui';
+import { DynamicTags } from '@cooolpower/headless-ui';
+import { Icon } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Checkbox } from '@repo/ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './dynamic-tags.demo.css';
 
 const STORAGE_KEY = 'headless-dynamic-tags-demo-state';

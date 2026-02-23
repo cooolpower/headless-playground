@@ -2,15 +2,15 @@
 
 import React, { useState, createContext, useContext } from 'react';
 import { Home, Settings, User, FileText, Image, Folder } from 'lucide-react';
-import { Icon } from '@repo/ui';
-import { Menu } from '@repo/ui';
-import type { MenuItem } from '@repo/ui';
-import { Select } from '@repo/ui';
+import { Icon } from '@cooolpower/headless-ui';
+import { Menu } from '@cooolpower/headless-ui';
+import type { MenuItem } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import type { SelectOption } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './menu.demo.css';
 import * as treeStyles from '../tree/tree.demo.css';
-import { Checkbox } from '@repo/ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 
 const basicMenuItems: MenuItem[] = [
   { key: '1', label: 'Option 1' },

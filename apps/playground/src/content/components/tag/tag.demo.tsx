@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, createContext, useContext, useMemo } from 'react';
-import { Tag } from '@repo/ui';
+import { Tag } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Input } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import { Select } from '@repo/ui';
-import type { SelectOption } from '@repo/ui';
-import { Icon } from '@repo/ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
+import { Icon } from '@cooolpower/headless-ui';
 import {
   X,
   Star,

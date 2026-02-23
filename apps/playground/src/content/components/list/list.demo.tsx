@@ -1,8 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useMemo, useState } from 'react';
-import { List } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { List } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './list.demo.css';
 

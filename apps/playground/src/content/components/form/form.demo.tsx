@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useCallback, createContext, useContext } from 'react';
-import { type FormErrors } from '@repo/ui';
-import { Form, FormItem } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { type FormErrors } from '@cooolpower/headless-ui';
+import { Form, FormItem } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './form.demo.css';
 

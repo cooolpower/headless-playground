@@ -16,6 +16,12 @@ export const defaultThemeCss = `
   --radius-base: 0.375rem;
   --radius-xl: 0.5rem;
 
+  /* Border Width */
+  --border-width-none: 0;
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+
   /* Typography */
   /* 폰트 (Typography) */
   --font-family-nanumGothic: 'Nanum Gothic', sans-serif;
@@ -98,5 +104,6 @@ export const defaultThemeCss = `
   --color-text-on-error: oklch(100% 0 0);
   --color-background-disabled: oklch(96% 0 0);
   --color-text-disabled: oklch(68% 0 0);
+  --hc-date-picker-brand: var(--color-brand-primary);
 }
 `;

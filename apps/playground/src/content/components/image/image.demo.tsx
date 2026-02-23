@@ -8,12 +8,12 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { Image } from '@repo/ui';
+import { Image } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import type { SelectOption } from '@repo/ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './image.demo.css';
 
 const STORAGE_KEY = 'headless-image-demo-state';

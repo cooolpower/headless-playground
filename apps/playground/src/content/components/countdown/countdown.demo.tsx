@@ -9,14 +9,14 @@ import {
   useRef,
   useCallback,
 } from 'react';
-import { Countdown } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import { DatePicker } from '@repo/ui';
+import { Countdown } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import { DatePicker } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Icon, FlipCountdown, RollingCountdown } from '@repo/ui';
+import { Icon, FlipCountdown, RollingCountdown } from '@cooolpower/headless-ui';
 import {
   CheckCircle,
   X,
@@ -29,8 +29,8 @@ import {
   Trophy,
   Sparkles,
 } from 'lucide-react';
-import type { SelectOption } from '@repo/ui';
-import type { CountdownFormatType } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
+import type { CountdownFormatType } from '@cooolpower/headless-ui';
 import * as styles from './countdown.demo.css';
 import {
   CountdownInteractiveControls,

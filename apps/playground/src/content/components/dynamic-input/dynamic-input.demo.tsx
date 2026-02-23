@@ -1,10 +1,10 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { DynamicInput } from '@repo/ui';
-import { Input } from '@repo/ui';
+import { DynamicInput } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Checkbox } from '@repo/ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './dynamic-input.demo.css';
 
 const STORAGE_KEY = 'headless-dynamic-input-demo-state';

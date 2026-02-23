@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Snackbar } from '@repo/ui';
-import { Button } from '@repo/ui';
+import { Snackbar } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
 import * as styles from './snackbar.demo.css';
 
 export function DemoSnackbarBasic() {

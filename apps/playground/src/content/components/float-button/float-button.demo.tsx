@@ -5,8 +5,8 @@ import {
   FloatButton,
   FloatButtonGroup,
   FloatButtonBackTop,
-} from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+} from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './float-button.demo.css';
 
 type FloatButtonControlsContextType = {

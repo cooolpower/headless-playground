@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, createContext, useContext } from 'react';
-import { Breadcrumb } from '@repo/ui';
-import type { BreadcrumbItem } from '@repo/ui';
-import { Icon } from '@repo/ui';
+import { Breadcrumb } from '@cooolpower/headless-ui';
+import type { BreadcrumbItem } from '@cooolpower/headless-ui';
+import { Icon } from '@cooolpower/headless-ui';
 import { Home, FileText, Folder } from 'lucide-react';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import type { SelectOption } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './breadcrumb.demo.css';
 
 // Breadcrumb Controls Context

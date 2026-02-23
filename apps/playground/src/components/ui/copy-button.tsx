@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { Check, Copy } from 'lucide-react';
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/styles/vars.css';
+import { useGlobalToast } from '@/components/layout/global-toast-provider';
 
 // Styles (could be moved to a separate .css.ts file for better separation)
 import * as styles from './copy-button.css';
@@ -15,12 +16,22 @@ interface CopyButtonProps {
 
 export function CopyButton({ value, className }: CopyButtonProps) {
   const [isCopied, setIsCopied] = useState(false);
+  const { toast } = useGlobalToast();
 
   const copy = useCallback(async () => {
     if (!value) return;
     try {
       await navigator.clipboard.writeText(value);
       setIsCopied(true);
+
+      toast({
+        color: 'theme',
+        placement: 'center',
+        message: '클립보드에 복사되었습니다.',
+        duration: 2000,
+        showIcon: false,
+      });
+
       setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy text', err);

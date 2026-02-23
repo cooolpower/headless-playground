@@ -12,7 +12,7 @@ import {
 } from './drawer.demo';
 import { Playground } from '@/components/playground/playground';
 import { CssSnippet } from '@/components/playground/css-snippet';
-import { DrawerCss } from '@repo/ui';
+import { DrawerCss } from '@cooolpower/headless-ui';
 
 # Drawer
 
@@ -35,8 +35,8 @@ Drawer를 사용하려면 `open`과 `onOpenChange` prop을 통해 상태를 제�
 
 ```tsx
 import { useState } from 'react';
-import { Drawer } from '@repo/ui';
-import { Button } from '@repo/ui';
+import { Drawer } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
 
 export function MyComponent() {
   const [open, setOpen] = useState(false);

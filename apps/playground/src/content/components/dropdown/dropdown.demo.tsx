@@ -6,8 +6,8 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+} from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './dropdown.css';
 

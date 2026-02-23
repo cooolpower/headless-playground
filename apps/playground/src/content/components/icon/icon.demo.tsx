@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
-import { Icon } from '@repo/ui';
+import { Icon } from '@cooolpower/headless-ui';
 import * as styles from './icon.demo.css';
 import {
   Home,

@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, createContext, useContext } from 'react';
-import { Checkbox } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Input } from '@repo/ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import type { SelectOption } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './checkbox.demo.css';
 
 // Checkbox Controls Context

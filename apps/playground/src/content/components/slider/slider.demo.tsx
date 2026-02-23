@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, createContext, useContext, useMemo, useEffect } from 'react';
-import { Slider } from '@repo/ui';
-import type { SliderMark } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import { Icon } from '@repo/ui';
-import type { SelectOption } from '@repo/ui';
+import { Slider } from '@cooolpower/headless-ui';
+import type { SliderMark } from '@cooolpower/headless-ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
+import { Icon } from '@cooolpower/headless-ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import {
   Volume2,
   VolumeX,

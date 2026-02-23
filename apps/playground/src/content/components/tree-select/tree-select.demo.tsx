@@ -7,15 +7,15 @@ import React, {
   useRef,
   useEffect,
 } from 'react';
-import type { TreeNodeData } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import type { TreeNodeData } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Icon } from '@repo/ui';
+import { Icon } from '@cooolpower/headless-ui';
 import { ChevronUp, ChevronDown } from 'lucide-react';
-import { Tree } from '@repo/ui';
+import { Tree } from '@cooolpower/headless-ui';
 import * as styles from './tree-select.demo.css';
 import * as treeStyles from '../tree/tree.demo.css';
-import { TreeSelect } from '@repo/ui';
+import { TreeSelect } from '@cooolpower/headless-ui';
 
 function findNode(data: TreeNodeData[], key: string): TreeNodeData | null {
   for (const node of data) {

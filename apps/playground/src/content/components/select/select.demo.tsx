@@ -9,14 +9,14 @@ import {
   useContext,
   useMemo,
 } from 'react';
-import { Select } from '@repo/ui';
-import type { SelectOption, SelectValue } from '@repo/ui';
-import { Tag } from '@repo/ui';
-import { Icon } from '@repo/ui';
+import { Select } from '@cooolpower/headless-ui';
+import type { SelectOption, SelectValue } from '@cooolpower/headless-ui';
+import { Tag } from '@cooolpower/headless-ui';
+import { Icon } from '@cooolpower/headless-ui';
 import { Check, Loader2, Star } from 'lucide-react';
-import { Toast } from '@repo/ui';
+import { Toast } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import { Checkbox } from '@repo/ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import * as styles from './select.demo.css';
 
 // Select Controls Context

@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, createContext, useContext } from 'react';
-import { Upload } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Icon } from '@repo/ui';
+import { Upload } from '@cooolpower/headless-ui';
+import { Button } from '@cooolpower/headless-ui';
+import { Icon } from '@cooolpower/headless-ui';
 import {
   Upload as UploadIcon,
   X,
@@ -11,11 +11,11 @@ import {
   Image as ImageIcon,
   Download,
 } from 'lucide-react';
-import { Input } from '@repo/ui';
-import { Select } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Input } from '@cooolpower/headless-ui';
+import { Select } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
-import type { SelectOption } from '@repo/ui';
+import type { SelectOption } from '@cooolpower/headless-ui';
 import * as styles from './upload.demo.css';
 // import * as buttonStyle from '../button/button.demo.css';
 

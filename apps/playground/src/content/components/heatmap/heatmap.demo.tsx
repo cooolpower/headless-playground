@@ -1,8 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useState } from 'react';
-import { Heatmap } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
+import { Heatmap } from '@cooolpower/headless-ui';
+import { Checkbox } from '@cooolpower/headless-ui';
 import { Controls } from '@/components/playground/controls';
 import * as styles from './heatmap.demo.css';
 
