@@ -29,7 +29,7 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
       listType = 'text',
       injectStyles = true,
     },
-    ref
+    ref,
   ) => {
     const { fileList, upload, remove } = useUpload({
       accept,
@@ -62,7 +62,7 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
           }
         }
       },
-      [upload]
+      [upload],
     );
 
     const handleClick = useCallback(() => {
@@ -79,7 +79,7 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
           setIsDragging(true);
         }
       },
-      [disabled]
+      [disabled],
     );
 
     const handleDragLeave = useCallback((e: React.DragEvent) => {
@@ -101,7 +101,7 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
           await upload(file);
         }
       },
-      [disabled, upload]
+      [disabled, upload],
     );
 
     const handleDownload = useCallback(
@@ -119,7 +119,7 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
           URL.revokeObjectURL(url);
         }
       },
-      [onDownload]
+      [onDownload],
     );
 
     const renderFileList = () => {
@@ -127,7 +127,13 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
 
       if (listType === 'picture-card') {
         return (
-          <div className={classNames?.fileList ? `hcUploadFileGrid ${classNames.fileList}` : 'hcUploadFileGrid'}>
+          <div
+            className={
+              classNames?.fileList
+                ? `hcUploadFileGrid ${classNames.fileList}`
+                : 'hcUploadFileGrid'
+            }
+          >
             {fileList.map((file) => (
               <div
                 key={file.uid}
@@ -149,9 +155,7 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
                   </div>
                 )}
                 {file.status === 'uploading' && (
-                  <div className="hcUploadUploadingOverlay">
-                    Uploading...
-                  </div>
+                  <div className="hcUploadUploadingOverlay">Uploading...</div>
                 )}
                 <button
                   type="button"
@@ -174,26 +178,60 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
 
       if (listType === 'picture') {
         return (
-          <div className={classNames?.fileList ? `hcUploadFileList ${classNames.fileList}` : 'hcUploadFileList'}>
+          <div
+            className={
+              classNames?.fileList
+                ? `hcUploadFileList ${classNames.fileList}`
+                : 'hcUploadFileList'
+            }
+          >
             {fileList.map((file) => (
               <div
                 key={file.uid}
-                className={classNames?.fileItem ? `hcUploadFileItemRow ${classNames.fileItem}` : 'hcUploadFileItemRow'}
+                className={
+                  classNames?.fileItem
+                    ? `hcUploadFileItemRow ${classNames.fileItem}`
+                    : 'hcUploadFileItemRow'
+                }
               >
                 {file.thumbUrl || file.url ? (
-                  <span className={classNames?.thumbnail ? `hcUploadThumbnail ${classNames.thumbnail}` : 'hcUploadThumbnail'}>
+                  <span
+                    className={
+                      classNames?.thumbnail
+                        ? `hcUploadThumbnail ${classNames.thumbnail}`
+                        : 'hcUploadThumbnail'
+                    }
+                  >
                     <img src={file.thumbUrl || file.url} alt={file.name} />
                   </span>
                 ) : (
-                  <div className={classNames?.thumbnail ? `hcUploadThumbnail ${classNames.thumbnail}` : 'hcUploadThumbnail'}>
+                  <div
+                    className={
+                      classNames?.thumbnail
+                        ? `hcUploadThumbnail ${classNames.thumbnail}`
+                        : 'hcUploadThumbnail'
+                    }
+                  >
                     <Icon icon={ImageIcon} size="small" />
                   </div>
                 )}
                 <div className="hcUploadFileMeta">
-                  <span className={classNames?.fileName ? `hcUploadFileName ${classNames.fileName}` : 'hcUploadFileName'}>
+                  <span
+                    className={
+                      classNames?.fileName
+                        ? `hcUploadFileName ${classNames.fileName}`
+                        : 'hcUploadFileName'
+                    }
+                  >
                     {file.name}
                   </span>
-                  <span className={classNames?.fileSize ? `hcUploadFileSize ${classNames.fileSize}` : 'hcUploadFileSize'}>
+                  <span
+                    className={
+                      classNames?.fileSize
+                        ? `hcUploadFileSize ${classNames.fileSize}`
+                        : 'hcUploadFileSize'
+                    }
+                  >
                     {file.size ? `${(file.size / 1024).toFixed(2)} KB` : ''}
                     {file.status === 'uploading' && ' - Uploading...'}
                     {file.status === 'error' && ' - Error'}
@@ -231,15 +269,44 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
 
       // Default: text list
       return (
-        <div className={classNames?.fileList ? `hcUploadFileList ${classNames.fileList}` : 'hcUploadFileList'}>
+        <div
+          className={
+            classNames?.fileList
+              ? `hcUploadFileList ${classNames.fileList}`
+              : 'hcUploadFileList'
+          }
+        >
           {fileList.map((file) => (
-            <div key={file.uid} className={classNames?.fileItem}>
-              <span className={classNames?.fileName}>{file.name}</span>
-              <span className={classNames?.fileSize}>
-                {file.size ? `(${(file.size / 1024).toFixed(2)} KB)` : ''}
-                {file.status === 'uploading' && ' - Uploading...'}
-                {file.status === 'error' && ' - Error'}
-              </span>
+            <div
+              key={file.uid}
+              className={
+                classNames?.fileItem
+                  ? `hcUploadFileItemRow ${classNames.fileItem}`
+                  : 'hcUploadFileItemRow'
+              }
+            >
+              <div className="hcUploadFileMeta">
+                <span
+                  className={
+                    classNames?.fileName
+                      ? `hcUploadFileName ${classNames.fileName}`
+                      : 'hcUploadFileName'
+                  }
+                >
+                  {file.name}
+                </span>
+                <span
+                  className={
+                    classNames?.fileSize
+                      ? `hcUploadFileSize ${classNames.fileSize}`
+                      : 'hcUploadFileSize'
+                  }
+                >
+                  {file.size ? `(${(file.size / 1024).toFixed(2)} KB)` : ''}
+                  {file.status === 'uploading' && ' - Uploading...'}
+                  {file.status === 'error' && ' - Error'}
+                </span>
+              </div>
               {onDownload && file.status === 'done' && (
                 <button
                   type="button"
@@ -288,7 +355,9 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        {injectStyles ? <style suppressHydrationWarning>{_uploadCss}</style> : null}
+        {injectStyles ? (
+          <style suppressHydrationWarning>{_uploadCss}</style>
+        ) : null}
         <input
           ref={inputRef}
           type="file"
@@ -318,7 +387,7 @@ const UploadComponent = forwardRef<HTMLDivElement, UploadProps>(
         {renderFileList()}
       </div>
     );
-  }
+  },
 );
 
 UploadComponent.displayName = 'Upload';

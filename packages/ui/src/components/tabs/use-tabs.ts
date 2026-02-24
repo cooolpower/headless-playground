@@ -144,8 +144,9 @@ export function useTabs({
     position: 'top' | 'bottom' | 'left' | 'right',
     tabType: 'line' | 'card' | 'button',
   ) => {
+    if (tabType === 'card') return {}; // 카드 타입일 때는 바 자체에 보더를 주지 않고 개별 탭과 컨텐츠 보더가 만남
     if (tabType !== 'line') return {};
-    
+
     switch (position) {
       case 'top':
         return { borderBottom: 'var(--border-width-thin) solid var(--color-border)' };
@@ -219,31 +220,35 @@ export function useTabs({
   ) => {
     const isCardType = tabType === 'card';
     const isLineType = tabType === 'line';
-    const isNotLast = currentIndex < totalItems - 1;
+
+    if (isCardType && isActive) {
+      switch (position) {
+        case 'top': return { marginBottom: '-1px', zIndex: 1 };
+        case 'bottom': return { marginTop: '-1px', zIndex: 1 };
+        case 'left': return { marginRight: '-1px', zIndex: 1 };
+        case 'right': return { marginLeft: '-1px', zIndex: 1 };
+      }
+    }
 
     switch (position) {
       case 'top':
       case 'bottom':
         return {
-          marginRight: isCardType && isNotLast ? '4px' : '0',
-          marginBottom: isActive && isLineType ? '-1px' : '0',
+          marginBottom: isLineType && isActive ? '-1px' : '0',
         };
       case 'left':
       case 'right':
         return {
-          marginBottom: isCardType && isNotLast ? '4px' : '0',
-          marginRight: isActive && isLineType ? '-1px' : '0',
+          marginRight: isLineType && isActive ? '-1px' : '0',
         };
       default:
-        return {
-          marginRight: '0',
-          marginBottom: '0',
-        };
+        return {};
     }
   };
 
   const tabBarStyle = {
     display: 'flex',
+    gap: '0',
     flexDirection: getTabBarFlexDirection(tabPosition),
     ...getTabBarWidth(tabPosition),
     ...getTabBarBorder(tabPosition, type),
@@ -291,8 +296,19 @@ export function useTabs({
         alignItems: 'center',
         justifyContent: 'center',
         ...(tabPosition === 'top' || tabPosition === 'bottom'
-          ? { height: currentSize.tabHeight }
-          : { width: '100%', minHeight: currentSize.tabHeight }),
+          ? {
+              height: type === 'card' && item.key !== activeKey
+                ? `calc(${currentSize.tabHeight} - 1px)`
+                : currentSize.tabHeight,
+              alignSelf: tabPosition === 'top' ? 'flex-end' : 'flex-start'
+            }
+          : {
+              width: type === 'card' && item.key !== activeKey
+                ? `calc(100% - 1px)`
+                : '100%',
+              minHeight: currentSize.tabHeight,
+              alignSelf: tabPosition === 'left' ? 'flex-end' : 'flex-start'
+            }),
         padding: currentSize.padding,
         fontSize: currentSize.fontSize,
         fontWeight: item.key === activeKey ? '600' : '400',
@@ -307,13 +323,15 @@ export function useTabs({
         backgroundColor:
           item.key === activeKey && type === 'button'
             ? 'var(--color-semantic-info)'
-            : 'transparent',
+            : type === 'card' && item.key === activeKey
+              ? 'var(--color-surface)'
+              : 'transparent',
         ...(type === 'card'
           ? {
-              borderTop: 'var(--border-width-thin) solid var(--color-border)',
-              borderLeft: 'var(--border-width-thin) solid var(--color-border)',
-              borderRight: 'var(--border-width-thin) solid var(--color-border)',
-              borderBottom: 'none',
+              borderTop: tabPosition === 'bottom' && item.key === activeKey ? 'none' : 'var(--border-width-thin) solid var(--color-border)',
+              borderRight: tabPosition === 'left' && item.key === activeKey ? 'none' : 'var(--border-width-thin) solid var(--color-border)',
+              borderBottom: tabPosition === 'top' && item.key === activeKey ? 'none' : 'var(--border-width-thin) solid var(--color-border)',
+              borderLeft: tabPosition === 'right' && item.key === activeKey ? 'none' : 'var(--border-width-thin) solid var(--color-border)',
             }
           : {}),
         ...(item.key === activeKey && type === 'line'
@@ -350,37 +368,16 @@ export function useTabs({
         padding: '16px',
         flex: 1,
         ...(type === 'card'
-          ? tabPosition === 'top'
-            ? {
-                borderTop: 'none',
-                borderRight: 'var(--border-width-thin) solid var(--color-border)',
-                borderBottom: 'var(--border-width-thin) solid var(--color-border)',
-                borderLeft: 'var(--border-width-thin) solid var(--color-border)',
-                borderRadius: `0 ${defaultRadius} ${defaultRadius} ${defaultRadius}`,
-              }
-            : tabPosition === 'bottom'
-              ? {
-                  borderTop: 'var(--border-width-thin) solid var(--color-border)',
-                  borderRight: 'var(--border-width-thin) solid var(--color-border)',
-                  borderBottom: 'none',
-                  borderLeft: 'var(--border-width-thin) solid var(--color-border)',
-                  borderRadius: `${defaultRadius} ${defaultRadius} 0 0`,
-                }
-              : tabPosition === 'left'
-                ? {
-                    borderTop: 'var(--border-width-thin) solid var(--color-border)',
-                    borderRight: 'none',
-                    borderBottom: 'var(--border-width-thin) solid var(--color-border)',
-                    borderLeft: 'var(--border-width-thin) solid var(--color-border)',
-                    borderRadius: `0 ${defaultRadius} ${defaultRadius} 0`,
-                  }
-                : {
-                    borderTop: 'var(--border-width-thin) solid var(--color-border)',
-                    borderRight: 'var(--border-width-thin) solid var(--color-border)',
-                    borderBottom: 'var(--border-width-thin) solid var(--color-border)',
-                    borderLeft: 'none',
-                    borderRadius: `${defaultRadius} 0 0 ${defaultRadius}`,
-                  }
+          ? {
+              borderTop: tabPosition === 'top' ? 'none' : 'var(--border-width-thin) solid var(--color-border)',
+              borderRight: tabPosition === 'right' ? 'none' : 'var(--border-width-thin) solid var(--color-border)',
+              borderBottom: tabPosition === 'bottom' ? 'none' : 'var(--border-width-thin) solid var(--color-border)',
+              borderLeft: tabPosition === 'left' ? 'none' : 'var(--border-width-thin) solid var(--color-border)',
+              ...(tabPosition === 'top' ? { borderRadius: `0 0 ${defaultRadius} ${defaultRadius}` } : {}),
+              ...(tabPosition === 'bottom' ? { borderRadius: `${defaultRadius} ${defaultRadius} 0 0` } : {}),
+              ...(tabPosition === 'left' ? { borderRadius: `0 ${defaultRadius} ${defaultRadius} 0` } : {}),
+              ...(tabPosition === 'right' ? { borderRadius: `${defaultRadius} 0 0 ${defaultRadius}` } : {}),
+            }
           : tabPosition === 'top'
             ? {
                 borderTop: 'var(--border-width-thin) solid var(--color-border)',

@@ -15,6 +15,7 @@ export const tabsCss = `
   display: flex;
   gap: var(--spacing-xs);
 }
+.hcTabs[data-type="card"] .hcTabsBar{ gap: 0; }
 .hcTabs[data-position="left"] .hcTabsBar,
 .hcTabs[data-position="right"] .hcTabsBar{
   flex-direction: column;

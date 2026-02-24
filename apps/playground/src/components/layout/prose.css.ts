@@ -3,7 +3,7 @@ import { vars } from '@/styles/vars.css';
 
 export const prose = style({
   width: '100%',
-  maxWidth: '800px', // 최적의 가독성을 위한 너비 제한
+  //maxWidth: '800px', // 최적의 가독성을 위한 너비 제한
   color: vars.color.text,
   fontSize: vars.fontSize.base,
   lineHeight: 1.7,

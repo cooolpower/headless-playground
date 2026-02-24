@@ -110,6 +110,14 @@ export const uploadCss = `
   display: flex;
   align-items: center;
   gap: var(--spacing-base);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.hcUploadFileItemRow:hover{
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-hover);
 }
 
 .hcUploadThumbnail{
