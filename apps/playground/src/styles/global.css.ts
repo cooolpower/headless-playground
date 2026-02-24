@@ -170,6 +170,7 @@ globalStyle('.mainDoc blockquote', {
 // Global Headings
 globalStyle('h1, h2, h3, h4, h5, h6', {
   color: 'var(--color-text-heading)',
+  scrollMarginTop: '96px',
 });
 
 globalStyle('p, li', {

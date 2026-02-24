@@ -118,6 +118,8 @@ import { useToc } from './toc-context';
 
 export function TocSidebar() {
   const { items } = useToc();
-  if (!items || items.length === 0) return null;
+  if (!items || items.length === 0) {
+    return <aside className={styles.tocWrapper} />;
+  }
   return <TableOfContents items={items} />;
 }

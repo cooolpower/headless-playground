@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
+import path from 'path';
 
 import createMDX from "@next/mdx";
 import remarkGfm from "remark-gfm";
@@ -25,10 +26,17 @@ const withMDX = createMDX({
 
 const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
-  transpilePackages: ["@repo/ui", "lucide-react"],
+  transpilePackages: ["@repo/ui", "@cooolpower/headless-ui", "lucide-react"],
   experimental: {
     optimizePackageImports: ["lucide-react"],
-    webpackBuildWorker: false, // Force webpack mode for vanilla-extract compatibility
+    webpackBuildWorker: false,
+  },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@cooolpower/headless-ui': path.resolve(__dirname, '../../packages/ui'),
+    };
+    return config;
   },
 };
 

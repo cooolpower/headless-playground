@@ -18,7 +18,6 @@ export const cardCss = `
 
 .hcCardHeader{
   padding: var(--spacing-lg) var(--spacing-lg) 0;
-  // border-bottom: var(--border-width-thin) solid var(--color-divider);
 }
 
 .hcCardContent{

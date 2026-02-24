@@ -21,14 +21,40 @@ npm install @cooolpower/headless-ui
 yarn add @cooolpower/headless-ui
 ```
 
-## 2. 기본 CSS 테마 주입하기 (필수)
+## 2. 스타일 적용하기 (필수)
 
 UI 컴포넌트들은 **사전 정의된 CSS 변수(Variables)** 를 통해 디자인과 색상을 결정합니다.
-따라서, 앱의 최상단(Root Layout)이나 메인 엔트리 파일에서 기준이 되는 **기본 뼈대 테마 변수**를 브라우저에 한 번 주입해주어야 합니다.
+아래 두 가지 방법 중 하나를 선택하여 스타일을 적용합니다.
 
-### React / Next.js의 경우 (권장)
+### 방법 A: 통합 CSS 임포트 (권장)
 
-가장 간단한 방법은 패키지에서 내보내고 있는 `defaultThemeCss` 텍스트를 최상단 `<head>`에 넣어주는 것입니다.
+패키지에서 제공하는 `styles.css`를 임포트하면 **테마 변수 + 모든 컴포넌트 스타일**이 한 번에 적용됩니다.
+페이지 로드 시 스타일이 즉시 반영되므로 **FOUC(깜빡임 현상)가 발생하지 않습니다.**
+
+```tsx
+// app/layout.tsx
+import '@cooolpower/headless-ui/styles.css';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ko">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+> [!TIP]
+> 이 방법을 사용하면 각 컴포넌트의 `injectStyles` prop을 `false`로 설정해도 스타일이 정상 적용됩니다.
+
+### 방법 B: 테마 변수만 주입 (동적 스타일)
+
+테마 변수만 직접 주입하고, 컴포넌트 스타일은 각 컴포넌트가 렌더링될 때 동적으로 삽입하는 방식입니다.
+번들 크기를 최소화하고 싶을 때 유용합니다.
 
 ```tsx
 // app/layout.tsx
@@ -42,7 +68,6 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        {/* 모든 컴포넌트가 참조할 전역 테마 변수를 삽입합니다 */}
         <style dangerouslySetInnerHTML={{ __html: defaultThemeCss }} />
       </head>
       <body>{children}</body>
@@ -51,7 +76,8 @@ export default function RootLayout({
 }
 ```
 
-> 위 과정을 완료하면 이 Playground 사이트와 100% 동일한 색상, 크기, 여백 상태가 적용됩니다!
+> [!NOTE]
+> 방법 B는 컴포넌트가 클라이언트에서 마운트될 때 스타일을 삽입하므로, 초기 로드 시 짧은 FOUC가 발생할 수 있습니다.
 
 ## 3. 사용할 컴포넌트 불러오기
 
