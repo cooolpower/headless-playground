@@ -7,7 +7,7 @@ import {
 } from 'next/font/google';
 import '../styles/vars.css.ts';
 import '../styles/global.css.ts';
-import '@cooolpower/headless-ui/dist/styles.css';
+import '@cooolpower/headless-ui/styles.css';
 
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';

@@ -1,6 +1,6 @@
 'use client';
 
-// components/headless/breadcrumb/breadcrumb.tsx
+import React from 'react';
 import { useBreadcrumb, type BreadcrumbItem } from './use-breadcrumb';
 import { BreadcrumbProps } from './type-breadcrumb';
 import { breadcrumbCss as _breadcrumbCss } from './breadcrumb.styles';
@@ -34,9 +34,11 @@ export function Breadcrumb(props: BreadcrumbProps) {
           return (
             <li key={index} className="hcBreadcrumbLi">
               <span {...getItemProps(item, index, isLast)}>
-                {'icon' in item && item.icon && (
-                  <span className="hcBreadcrumbIcon">{item.icon}</span>
-                )}
+                {'icon' in item && item.icon ? (
+                  <span className="hcBreadcrumbIcon">
+                    {item.icon as React.ReactNode}
+                  </span>
+                ) : null}
                 {item.title}
               </span>
 

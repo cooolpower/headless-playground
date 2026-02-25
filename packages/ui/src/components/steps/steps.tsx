@@ -6,7 +6,7 @@ import { stepsCss as _stepsCss } from './steps.styles';
 
 export const StepsCss = _stepsCss;
 
-export const Step: React.FC<StepProps> = ({
+export function Step({
   title,
   description,
   icon,
@@ -18,7 +18,7 @@ export const Step: React.FC<StepProps> = ({
   size = 'medium',
   onClick,
   injectStyles = true,
-}) => {
+}: StepProps): React.ReactElement {
   const getStatusIcon = () => {
     if (icon) return icon;
 
@@ -64,7 +64,7 @@ export const Step: React.FC<StepProps> = ({
       {!isLast && <div className="hcStepTail" />}
     </div>
   );
-};
+}
 
 export const Steps = forwardRef<HTMLDivElement, StepsProps>(
   (
@@ -79,7 +79,7 @@ export const Steps = forwardRef<HTMLDivElement, StepsProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div
@@ -119,7 +119,7 @@ export const Steps = forwardRef<HTMLDivElement, StepsProps>(
         })}
       </div>
     );
-  }
+  },
 );
 
 Steps.displayName = 'Steps';

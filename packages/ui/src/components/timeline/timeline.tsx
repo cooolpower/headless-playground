@@ -10,7 +10,7 @@ function cx(...parts: Array<string | undefined | null | false>) {
   return parts.filter(Boolean).join(' ');
 }
 
-export const TimelineItem: React.FC<TimelineItemProps> = ({
+export function TimelineItem({
   color = 'default',
   dot,
   label,
@@ -20,7 +20,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
   className,
   classNames,
   injectStyles = true,
-}) => {
+}: TimelineItemProps): React.ReactElement {
   const defaultDot = <div className={cx('hcTimelineDot', classNames?.dot)} />;
 
   return (
@@ -58,7 +58,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
   (

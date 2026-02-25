@@ -7,13 +7,7 @@
 
 **A high-performance, accessible, and fully customizable headless UI library for React.**
 
-- 패키지 이름을 내부/외부 모두 `@cooolpower/headless-ui`로 통일했습니다.
-
-### 테마 시스템 (CSS Variables)
-
-- `defaultThemeCss`에서 누락되었던 테두리 두께 변수(`--border-width-thin`, `--border-width-medium`, `--border-width-thick`)를 추가했습니다.
-- 이를 통해 `Input`, `Select`, `Card` 등 테두리 변수를 사용하는 모든 컴포넌트의 스타일이 올바르게 적용되도록 수정했습니다.
-  `@cooolpower/headless-ui` provides a set of 57+ unstyled components and hooks, giving you complete control over your UI's appearance while handling all the complex logic, state management, and accessibility requirements.
+`@cooolpower/headless-ui` provides a set of 57+ unstyled components and hooks, giving you complete control over your UI's appearance while handling all the complex logic, state management, and accessibility requirements.
 
 ---
 

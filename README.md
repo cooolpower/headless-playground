@@ -8,8 +8,8 @@ Style-agnostic, accessible, and high-performance React components.\
 Focus on your design, let us handle the logic.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
-[![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![Vanilla Extract](https://img.shields.io/badge/Vanilla%20Extract-CSS-DB7093?logo=css3&logoColor=white)](https://vanilla-extract.style/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](LICENSE)
 [![Components](https://img.shields.io/badge/Components-70%2B-7c3aed)](https://github.com/cooolpower/headless-playground)
@@ -149,9 +149,9 @@ export function MyComponent() {
 
 <table>
   <tr>
-    <td align="center" width="80"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="36" /><br /><sub>Next.js 15</sub></td>
+    <td align="center" width="80"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="36" /><br /><sub>Next.js 16</sub></td>
     <td align="center" width="80"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="36" /><br /><sub>TypeScript</sub></td>
-    <td align="center" width="80"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="36" /><br /><sub>React 18</sub></td>
+    <td align="center" width="80"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="36" /><br /><sub>React 19</sub></td>
     <td align="center" width="80"><img src="https://vanilla-extract.style/favicon-32x32.png" width="36" /><br /><sub>Vanilla Extract</sub></td>
     <td align="center" width="80"><img src="https://mdxjs.com/icon.svg" width="36" /><br /><sub>MDX</sub></td>
     <td align="center" width="80"><img src="https://shiki.style/logo.svg" width="36" /><br /><sub>Shiki</sub></td>
@@ -160,7 +160,7 @@ export function MyComponent() {
 
 | Layer             | Technology                            |
 | ----------------- | ------------------------------------- |
-| **Framework**     | Next.js 15 (App Router)               |
+| **Framework**     | Next.js 16 (App Router)               |
 | **Language**      | TypeScript (strict mode)              |
 | **Monorepo**      | pnpm workspaces                       |
 | **Styling**       | Vanilla Extract + CSS Custom Props    |

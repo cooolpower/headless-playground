@@ -22,10 +22,17 @@ export const headerLogoLink = style({
   display: 'flex',
   alignItems: 'center',
   gap: '0.5rem',
+  paddingLeft: '1rem',
 });
 
 export const headerLogoImage = style({
   filter: 'var(--logoInvert)',
+
+});
+
+export const headerLogoText = style({
+  display: 'flex',
+  flexDirection: 'column',
 });
 
 export const headerContent = style({

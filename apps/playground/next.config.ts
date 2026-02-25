@@ -29,14 +29,6 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@repo/ui", "@cooolpower/headless-ui", "lucide-react"],
   experimental: {
     optimizePackageImports: ["lucide-react"],
-    webpackBuildWorker: false,
-  },
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@cooolpower/headless-ui': path.resolve(__dirname, '../../packages/ui'),
-    };
-    return config;
   },
 };
 

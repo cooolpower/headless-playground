@@ -13,9 +13,9 @@ export default defineConfig({
 
   sourcemap: true,
 
-  clean: false,
+  clean: true,
   treeshake: true,
   minify: false,
   external: ['react', 'react-dom'],
-  onSuccess: 'sed -i "" "1s/^/\'use client\';\\n/" dist/index.mjs && sed -i "" "1s/^/\'use client\';\\n/" dist/index.js',
+  onSuccess: 'tsx scripts/generate-css.ts && sed -i "" "1s/^/\'use client\';\\n/" dist/index.mjs && sed -i "" "1s/^/\'use client\';\\n/" dist/index.js',
 });

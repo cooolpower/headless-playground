@@ -4,12 +4,12 @@ import { descriptionsCss as _descriptionsCss } from './descriptions.styles';
 
 export const DescriptionsCss = _descriptionsCss;
 
-export const DescriptionsItem: React.FC<DescriptionsItemProps> = ({
+export function DescriptionsItem({
   label,
   children,
   span = 1,
   className,
-}) => {
+}: DescriptionsItemProps): React.ReactElement {
   return (
     <div
       className={['hcDescriptionsItem', className].filter(Boolean).join(' ')}
@@ -19,7 +19,7 @@ export const DescriptionsItem: React.FC<DescriptionsItemProps> = ({
       <div className="hcDescriptionsValue">{children}</div>
     </div>
   );
-};
+}
 
 export const Descriptions = forwardRef<HTMLDivElement, DescriptionsProps>(
   (
@@ -36,7 +36,7 @@ export const Descriptions = forwardRef<HTMLDivElement, DescriptionsProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     // column 값 처리
     const gridColumns = typeof column === 'number' ? column : column.md || 3;
@@ -94,7 +94,7 @@ export const Descriptions = forwardRef<HTMLDivElement, DescriptionsProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 Descriptions.displayName = 'Descriptions';

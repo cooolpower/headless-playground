@@ -15,7 +15,7 @@ export const progressCss = `
 
 .hcProgress[data-size="small"] .hcProgressLineOuter{ height: var(--size-sm); }
 .hcProgress[data-size="medium"] .hcProgressLineOuter{ height: var(--size-md); }
-.hcProgress[data-size="large"] .hcProgressLineOuter{ height: var(-size-base); }
+.hcProgress[data-size="large"] .hcProgressLineOuter{ height: var(--size-base); }
 
 .hcProgressLineInner{
   height: 10px;
@@ -25,7 +25,7 @@ export const progressCss = `
 }
 .hcProgress[data-size="small"] .hcProgressLineInner{ height: var(--size-sm); }
 .hcProgress[data-size="medium"] .hcProgressLineInner{ height: var(--size-md); }
-.hcProgress[data-size="large"] .hcProgressLineInner{ height: var(-size-base); }
+.hcProgress[data-size="large"] .hcProgressLineInner{ height: var(--size-base); }
 
 .hcProgressLineText{
   position: absolute;
