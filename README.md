@@ -1,128 +1,62 @@
-# Headless UI Playground
+<div align="center">
 
-A **Headless UI Component Library & Playground** built with **Next.js**, **TypeScript**, **MDX**, and **pnpm monorepo**.
+# @cooolpower/headless-ui
 
-**70+ behavior-first UI components** — inspired by **Naive UI** and **shadcn/ui** — designed with accessibility, composability, and headless architecture in mind.
+**Ultimate Headless Experience for Next.js**
 
----
+Style-agnostic, accessible, and high-performance React components.\
+Focus on your design, let us handle the logic.
 
-## ✨ What is this?
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Vanilla Extract](https://img.shields.io/badge/Vanilla%20Extract-CSS-DB7093?logo=css3&logoColor=white)](https://vanilla-extract.style/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](LICENSE)
+[![Components](https://img.shields.io/badge/Components-70%2B-7c3aed)](https://github.com/cooolpower/headless-playground)
+[![pnpm](https://img.shields.io/badge/pnpm-workspace-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
+[![Zero Runtime](https://img.shields.io/badge/CSS-Zero%20Runtime-0ea5e9)](https://vanilla-extract.style/)
 
-This repository is a monorepo containing:
-
-- **`@cooolpower/headless-ui`** — A headless React component library with 70+ components
-- **`playground`** — An interactive documentation site with live component demos
-
-Each component:
-
-- Exposes **behavior and accessibility**, not opinionated styles
-- Supports **controlled & uncontrolled patterns**
-- Ships with **optional default CSS** (`injectStyles` prop)
-- Can be **interactively tested** directly in the browser
-- Is documented using **MDX**, combining explanation + live examples
+</div>
 
 ---
 
-## 🧠 Key Concepts
+<div align="center">
 
-- Headless component architecture (logic / style separation)
-- Accessibility (ARIA roles, keyboard navigation, focus management)
-- Controlled vs uncontrolled state patterns
-- Composition-first API design
-- MDX-based component documentation with interactive playground
-- Dark mode & theming via CSS custom properties
+![Headless UI Playground - Landing Page](docs/images/hero-light.png)
 
----
+</div>
 
-## 🛠 Tech Stack
+## ✨ Features
 
-| Layer           | Technology                           |
-| --------------- | ------------------------------------ |
-| **Framework**   | Next.js 15 (App Router)              |
-| **Language**    | TypeScript (strict mode)             |
-| **Monorepo**    | pnpm workspaces                      |
-| **Styling**     | Vanilla Extract + CSS Custom Props   |
-| **Docs**        | MDX (`@next/mdx`, rehype, remark)    |
-| **Code Blocks** | Shiki (rehype-pretty-code)           |
-| **Build**       | tsup (library), Next.js (playground) |
-| **Deployment**  | Vercel                               |
+- 🧩 **70+ Headless Components** — Logic-first, style-agnostic design
+- ♿ **Accessible** — ARIA roles, keyboard navigation, focus management
+- 🎨 **Optional Default Styles** — Toggle with `injectStyles` prop
+- 🌗 **Dark Mode** — CSS custom properties based theming
+- 📦 **Zero Config** — Just import and use, no setup required
+- 🔒 **TypeScript Strict** — Full type safety with no `any`
+- 🧪 **Interactive Playground** — Live preview with control panels
+- 📖 **MDX Documentation** — Code examples + live demos in one place
 
 ---
 
-## 📁 Project Structure
+## 📸 Screenshots
 
-```txt
-headless-playground/
-├─ apps/
-│  └─ playground/                  # Next.js documentation site
-│     └─ src/
-│        ├─ app/                   # App Router pages & layouts
-│        │  └─ (docs)/components/  # Component doc pages
-│        ├─ components/
-│        │  ├─ layout/             # Sidebar, Header, Footer, TOC
-│        │  └─ playground/         # Interactive preview & controls
-│        ├─ content/components/    # MDX docs + demo files
-│        │  ├─ badge/
-│        │  │  ├─ badge.mdx
-│        │  │  ├─ badge.demo.tsx
-│        │  │  └─ badge.demo.css.ts
-│        │  └─ ...
-│        └─ styles/                # Global styles (Vanilla Extract)
-│
-├─ packages/
-│  └─ ui/                          # @cooolpower/headless-ui
-│     └─ src/components/
-│        ├─ badge/
-│        │  ├─ badge.tsx           # Component
-│        │  ├─ badge.styles.ts     # Default CSS
-│        │  ├─ type-badge.ts       # Type definitions
-│        │  └─ use-badge.ts        # Hook (logic)
-│        └─ ...
-│
-├─ pnpm-workspace.yaml
-└─ package.json
-```
+<table>
+  <tr>
+    <td width="50%">
+      <img src="docs/images/component-dark.png" alt="Component Documentation - Dark Mode" />
+      <p align="center"><sub><b>Component Documentation (Dark Mode)</b></sub></p>
+    </td>
+    <td width="50%">
+      <img src="docs/images/playground-demo.png" alt="Interactive Playground" />
+      <p align="center"><sub><b>Interactive Playground with Controls</b></sub></p>
+    </td>
+  </tr>
+</table>
 
 ---
 
-## 🧩 Components (70+)
-
-| Category           | Components                                                                                                |
-| ------------------ | --------------------------------------------------------------------------------------------------------- |
-| **Basic**          | Alert, Avatar, Badge, Button, Card, Divider, Icon, Progress, Tag, Typography                              |
-| **Form**           | Input, Textarea, InputNumber, AutoComplete, Cascader, Checkbox, Radio, Switch, Select, Slider, Form, Rate |
-| **Data Display**   | List, Table, DataTable, Descriptions, Statistic, Timeline, Tree, TreeSelect, Chart, Heatmap               |
-| **Navigation**     | Tabs, Breadcrumb, Dropdown, Menu, Pagination, Steps                                                       |
-| **Feedback**       | Modal, Drawer, Dialog, Popover, Tooltip, Toast, Snackbar, LoadingBar, Empty                               |
-| **Date & Time**    | Calendar, DatePicker, TimePicker, Countdown, FlipCountdown                                                |
-| **Layout**         | PageHeader, FloatButton, Watermark                                                                        |
-| **Media**          | Carousel, Image, Ellipsis, GradientText, QRCode                                                           |
-| **Advanced Input** | DynamicTags, DynamicInput, Transfer, Upload, ColorPicker, Mention                                         |
-| **Other**          | Collapse                                                                                                  |
-
-Each component page includes:
-
-- Usage explanation & code examples
-- Interactive playground (preview + control panel)
-- API reference table
-- Accessibility notes
-- Default CSS snippet (toggleable via `injectStyles`)
-
----
-
-## 🧪 Playground
-
-The playground allows you to:
-
-- See component behavior in **real time**
-- Toggle props via **interactive control panels**
-- Switch between **default styles** and **custom styles** (`injectStyles` toggle)
-- Persist control state across page refreshes (localStorage)
-- View **dark mode / light mode** with full theme support
-
----
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ```bash
 # Install dependencies
@@ -131,17 +65,13 @@ pnpm install
 # Build the UI library
 pnpm --filter @cooolpower/headless-ui build
 
-# Start development server
+# Start dev server
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the playground.
+Open **[http://localhost:3000](http://localhost:3000)** to view the playground.
 
-### Using the library in another project
-
-```bash
-pnpm add @cooolpower/headless-ui
-```
+### Usage
 
 ```tsx
 import { Badge } from '@cooolpower/headless-ui';
@@ -158,6 +88,128 @@ export function MyComponent() {
 
 ---
 
+## 🧩 Components
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Components</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Basic</b></td>
+      <td>Alert · Avatar · Badge · Button · Card · Divider · Icon · Progress · Tag · Typography</td>
+    </tr>
+    <tr>
+      <td><b>Form</b></td>
+      <td>Input · Textarea · InputNumber · AutoComplete · Cascader · Checkbox · Radio · Switch · Select · Slider · Form · Rate</td>
+    </tr>
+    <tr>
+      <td><b>Data Display</b></td>
+      <td>List · Table · DataTable · Descriptions · Statistic · Timeline · Tree · TreeSelect · Chart · Heatmap</td>
+    </tr>
+    <tr>
+      <td><b>Navigation</b></td>
+      <td>Tabs · Breadcrumb · Dropdown · Menu · Pagination · Steps</td>
+    </tr>
+    <tr>
+      <td><b>Feedback</b></td>
+      <td>Modal · Drawer · Dialog · Popover · Tooltip · Toast · Snackbar · LoadingBar · Empty</td>
+    </tr>
+    <tr>
+      <td><b>Date &amp; Time</b></td>
+      <td>Calendar · DatePicker · TimePicker · Countdown · FlipCountdown</td>
+    </tr>
+    <tr>
+      <td><b>Layout</b></td>
+      <td>PageHeader · FloatButton · Watermark</td>
+    </tr>
+    <tr>
+      <td><b>Media</b></td>
+      <td>Carousel · Image · Ellipsis · GradientText · QRCode</td>
+    </tr>
+    <tr>
+      <td><b>Advanced Input</b></td>
+      <td>DynamicTags · DynamicInput · Transfer · Upload · ColorPicker · Mention</td>
+    </tr>
+    <tr>
+      <td><b>Other</b></td>
+      <td>Collapse</td>
+    </tr>
+  </tbody>
+</table>
+
+> Each component includes: **Usage examples** · **Interactive playground** · **API reference** · **Accessibility notes** · **Default CSS snippet**
+
+---
+
+## 🛠 Tech Stack
+
+<table>
+  <tr>
+    <td align="center" width="80"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="36" /><br /><sub>Next.js 15</sub></td>
+    <td align="center" width="80"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="36" /><br /><sub>TypeScript</sub></td>
+    <td align="center" width="80"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="36" /><br /><sub>React 18</sub></td>
+    <td align="center" width="80"><img src="https://vanilla-extract.style/favicon-32x32.png" width="36" /><br /><sub>Vanilla Extract</sub></td>
+    <td align="center" width="80"><img src="https://mdxjs.com/icon.svg" width="36" /><br /><sub>MDX</sub></td>
+    <td align="center" width="80"><img src="https://shiki.style/logo.svg" width="36" /><br /><sub>Shiki</sub></td>
+  </tr>
+</table>
+
+| Layer             | Technology                            |
+| ----------------- | ------------------------------------- |
+| **Framework**     | Next.js 15 (App Router)               |
+| **Language**      | TypeScript (strict mode)              |
+| **Monorepo**      | pnpm workspaces                       |
+| **Styling**       | Vanilla Extract + CSS Custom Props    |
+| **Documentation** | MDX + rehype-pretty-code (Shiki)      |
+| **Build**         | tsup (library) · Next.js (playground) |
+| **Deployment**    | Vercel                                |
+
+---
+
+## 📁 Project Structure
+
+```
+headless-playground/
+├─ apps/
+│  └─ playground/                  # Next.js documentation site
+│     └─ src/
+│        ├─ app/                   # App Router pages & layouts
+│        ├─ components/            # Layout, Playground UI
+│        ├─ content/components/    # MDX docs + demo files
+│        └─ styles/                # Vanilla Extract global styles
+│
+├─ packages/
+│  └─ ui/                          # @cooolpower/headless-ui
+│     └─ src/components/
+│        ├─ badge/
+│        │  ├─ badge.tsx           # Component
+│        │  ├─ badge.styles.ts     # Default CSS (optional)
+│        │  ├─ type-badge.ts       # Type definitions
+│        │  └─ use-badge.ts        # Hook (logic)
+│        └─ ... (70+ components)
+│
+├─ pnpm-workspace.yaml
+└─ package.json
+```
+
+---
+
+## 🧠 Design Philosophy
+
+| Principle          | Description                                             |
+| ------------------ | ------------------------------------------------------- |
+| **Headless First** | Components expose behavior, not styles                  |
+| **Opt-in Styling** | Default CSS via `injectStyles` — override with your own |
+| **Composition**    | Small, composable APIs over monolithic configs          |
+| **Accessibility**  | ARIA, keyboard nav, focus trap built-in                 |
+| **Type Safety**    | TypeScript strict, no `any`, explicit return types      |
+
+---
+
 ## 📦 Why not Storybook?
 
 This project intentionally avoids Storybook to:
@@ -165,22 +217,10 @@ This project intentionally avoids Storybook to:
 - Demonstrate understanding of component documentation internals
 - Control rendering and routing via Next.js App Router
 - Integrate documentation directly with the app
-- Explore MDX-driven UI patterns with custom playground
-
----
-
-## 🎯 Goal of This Project
-
-This project is designed as a **frontend engineering portfolio**, focusing on:
-
-- Clear separation of logic and presentation
-- Scalable component APIs with TypeScript strict mode
-- Real-world accessibility considerations
-- Dark mode & theming architecture
-- Developer experience and documentation
+- Explore MDX-driven UI patterns with a custom playground
 
 ---
 
 ## 📄 License
 
-MIT
+MIT © [cooolpower](https://github.com/cooolpower)
