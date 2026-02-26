@@ -358,7 +358,7 @@ export default function Home() {
           Join thousands of developers building beautiful, accessible apps with
           our headless components.
         </p>
-        <Link href="/components/button" className={styles.primaryBtn}>
+        <Link href="/components/alert" className={styles.primaryBtn}>
           Start for Free <ArrowRight size={20} />
         </Link>
       </section>
