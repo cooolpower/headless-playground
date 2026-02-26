@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "pnpm --filter playground dev",
-    "build": "pnpm --filter playground build",
+    "build": "pnpm -r build",
+    "build:playground": "pnpm --filter playground build",
     "start": "pnpm --filter playground start",
-    "lint": "pnpm --filter playground lint",
+    "lint": "pnpm -r lint",
+    "lint:playground": "pnpm --filter playground lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md,mdx}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md,mdx}\"",
-    "type-check": "pnpm --filter playground type-check"
+    "type-check": "pnpm -r type-check",
+    "type-check:playground": "pnpm --filter playground type-check"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
