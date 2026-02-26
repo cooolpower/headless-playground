@@ -1,9 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+// --- CSS Generator Logic ---
+
 const STYLES_DIR = path.resolve(__dirname, '../src/components');
 const THEME_FILE = path.resolve(__dirname, '../src/styles/theme.styles.ts');
-const OUTPUT_FILE = path.resolve(__dirname, '../dist/styles.css');
+const OUTPUT_CSS = path.resolve(__dirname, '../dist/styles.css');
 
 function sanitizeCss(raw: string): string {
   return raw
@@ -28,6 +30,7 @@ function extractThemeCss(filePath: string): string {
 
 function findAllStyleFiles(dir: string): string[] {
   const results: string[] = [];
+  if (!fs.existsSync(dir)) return results;
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
   for (const entry of entries) {
@@ -42,17 +45,17 @@ function findAllStyleFiles(dir: string): string[] {
   return results.sort();
 }
 
-function main(): void {
+function generateUnifiedCss(): void {
   const styleFiles = findAllStyleFiles(STYLES_DIR);
   const cssChunks: string[] = [];
 
-  // 1. 테마 CSS (최상단)
+  // 1. Theme CSS
   const themeCss = extractThemeCss(THEME_FILE);
   if (themeCss) {
     cssChunks.push(`/* ========== Theme Variables ========== */\n${themeCss}`);
   }
 
-  // 2. 컴포넌트 CSS
+  // 2. Component CSS
   for (const file of styleFiles) {
     const componentName = path.basename(path.dirname(file));
     const css = extractCssFromFile(file);
@@ -61,8 +64,7 @@ function main(): void {
     }
   }
 
-  // dist 디렉토리 확인
-  const distDir = path.dirname(OUTPUT_FILE);
+  const distDir = path.dirname(OUTPUT_CSS);
   if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir, { recursive: true });
   }
@@ -70,16 +72,43 @@ function main(): void {
   const header = `/**
  * @cooolpower/headless-ui - Unified Styles
  * Auto-generated. Do not edit manually.
- * Import this file to apply all component styles without FOUC.
- *
- * Usage:
- *   import '@cooolpower/headless-ui/styles.css';
  */\n\n`;
 
-  fs.writeFileSync(OUTPUT_FILE, header + cssChunks.join('\n\n'), 'utf-8');
+  fs.writeFileSync(OUTPUT_CSS, header + cssChunks.join('\n\n'), 'utf-8');
+  const sizeKB = (fs.statSync(OUTPUT_CSS).size / 1024).toFixed(1);
+  console.log(`✅ Generated styles.css (${sizeKB} KB)`);
+}
 
-  const sizeKB = (fs.statSync(OUTPUT_FILE).size / 1024).toFixed(1);
-  console.log(`✅ Generated styles.css (${sizeKB} KB) with ${cssChunks.length} sections`);
+// --- Directive Injection Logic ---
+
+function injectUseClient(filePath: string): void {
+  if (!fs.existsSync(filePath)) {
+    console.warn(`⚠️ Warning: ${filePath} not found, skipping 'use client' injection.`);
+    return;
+  }
+
+  const content = fs.readFileSync(filePath, 'utf-8');
+  if (!content.startsWith("'use client';")) {
+    fs.writeFileSync(filePath, `'use client';\n${content}`, 'utf-8');
+    console.log(`✅ Prepended 'use client' to ${path.basename(filePath)}`);
+  }
+}
+
+// --- Run ---
+
+function main(): void {
+  try {
+    generateUnifiedCss();
+    
+    const distPath = path.resolve(__dirname, '../dist');
+    injectUseClient(path.join(distPath, 'index.js'));
+    injectUseClient(path.join(distPath, 'index.mjs'));
+    
+    console.log('🚀 Post-build processing completed successfully.');
+  } catch (error) {
+    console.error('❌ Post-build processing failed:', error);
+    process.exit(1);
+  }
 }
 
 main();

@@ -17,5 +17,5 @@ export default defineConfig({
   treeshake: true,
   minify: false,
   external: ['react', 'react-dom'],
-  onSuccess: 'tsx scripts/generate-css.ts && sed -i "" "1s/^/\'use client\';\\n/" dist/index.mjs && sed -i "" "1s/^/\'use client\';\\n/" dist/index.js',
+  onSuccess: 'tsx scripts/post-build.ts',
 });
