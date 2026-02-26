@@ -160,6 +160,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           <div
             className="hcDialogWrap"
             data-centered={centered ? 'true' : 'false'}
+            data-backdrop="true"
           >
             <div
               ref={dialogRef}

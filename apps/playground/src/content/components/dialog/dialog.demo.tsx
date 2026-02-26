@@ -94,7 +94,9 @@ export function DemoDialogBasicWithControls() {
       className={!injectStyles ? styles.dialogWrapperClass : ''}
       style={{ padding: '2rem', textAlign: 'center' }}
     >
-      <Button onClick={() => setOpen(true)}>Open Dialog</Button>
+      <Button type="primary" color="success" onClick={() => setOpen(true)}>
+        Open Dialog
+      </Button>
       <Dialog
         open={open}
         onOpenChange={setOpen}
@@ -241,7 +243,9 @@ export function DemoDialogBasic() {
 
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <Button onClick={() => setOpen(true)}>Open Dialog</Button>
+      <Button type="primary" color="success" onClick={() => setOpen(true)}>
+        Open Dialog
+      </Button>
       <Dialog
         open={open}
         onOpenChange={setOpen}
@@ -263,7 +267,9 @@ export function DemoDialogWithFooter() {
 
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <Button onClick={() => setOpen(true)}>Open Dialog with Footer</Button>
+      <Button type="primary" color="success" onClick={() => setOpen(true)}>
+        Open Dialog with Footer
+      </Button>
       <Dialog
         open={open}
         onOpenChange={setOpen}
@@ -275,10 +281,15 @@ export function DemoDialogWithFooter() {
               display: 'flex',
               justifyContent: 'flex-end',
               gap: '0.5rem',
+              padding: '0.6rem',
             }}
           >
-            <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <Button onClick={handleConfirm}>Confirm</Button>
+            <Button type="secondary" color="error" onClick={handleConfirm}>
+              Cancel
+            </Button>
+            <Button type="primary" color="success" onClick={handleConfirm}>
+              Confirm
+            </Button>
           </div>
         }
       />
@@ -292,7 +303,9 @@ export function DemoDialogCentered() {
 
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <Button onClick={() => setOpen(true)}>Open Centered Dialog</Button>
+      <Button type="primary" color="success" onClick={() => setOpen(true)}>
+        Open Centered Dialog
+      </Button>
       <Dialog
         open={open}
         onOpenChange={setOpen}
@@ -310,7 +323,9 @@ export function DemoDialogCustomSize() {
 
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <Button onClick={() => setOpen(true)}>Open Large Dialog</Button>
+      <Button type="primary" color="success" onClick={() => setOpen(true)}>
+        Open Large Dialog
+      </Button>
       <Dialog
         open={open}
         onOpenChange={setOpen}
@@ -339,7 +354,9 @@ export function DemoDialogWithLoading() {
 
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <Button onClick={() => setOpen(true)}>Open Dialog with Loading</Button>
+      <Button type="primary" color="success" onClick={() => setOpen(true)}>
+        Open Dialog with Loading
+      </Button>
       <Dialog
         open={open}
         onOpenChange={setOpen}

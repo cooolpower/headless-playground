@@ -43,6 +43,12 @@ export const dialogCss = `
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  animation: hcDialogIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes hcDialogIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .hcDialogHeader{
@@ -56,7 +62,7 @@ export const dialogCss = `
 
 .hcDialogTitle{
   font-weight: 600;
-  color: var(--color-text-heading);
+  color: var(--color-text-heading, #fff);
 }
 
 .hcDialogClose{
@@ -67,8 +73,16 @@ export const dialogCss = `
   height: 2rem;
   border-radius: var(--radius-md);
   border: var(--border-width-thin) solid var(--hc-dialog-border);
-  background: var(--hc-dialog-bg);
+  background: transparent;
+  color: var(--color-text-secondary, #999);
   cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1.25rem;
+}
+
+.hcDialogClose:hover{
+  background: var(--color-surface-hover);
+  color: var(--color-text-heading, #fff);
 }
 
 .hcDialogBody{
@@ -83,7 +97,8 @@ export const dialogCss = `
 .hcDialogFooter{
   padding: var(--spacing-base) var(--spacing-2xl);
   border-top: var(--border-width-thin) solid var(--hc-dialog-border);
-  display: flex;
+  display: 'flex';
+  background: color-mix(in oklab, var(--hc-dialog-bg) 95%, white 5%);
   justify-content: flex-end;
   gap: var(--spacing-sm);
 }
@@ -92,12 +107,30 @@ export const dialogCss = `
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 2rem;
-  padding: 0 var(--spacing-base);
+  height: 2.25rem;
+  padding: 0 var(--spacing-lg);
   border-radius: var(--radius-md);
   border: var(--border-width-thin) solid var(--hc-dialog-border);
-  background: var(--hc-dialog-bg);
+  background: var(--color-surface);
+  color: var(--color-text-heading, #fff);
   cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.hcDialogFooterBtn:hover{
+  background: var(--color-surface-hover);
+  border-color: var(--color-brand-primary);
+}
+
+.hcDialogFooterBtn:last-child {
+  background: var(--color-brand-primary);
+  color: var(--color-text-on-primary, #000);
+  border-color: var(--color-brand-primary);
+}
+
+.hcDialogFooterBtn:last-child:hover {
+  filter: brightness(1.1);
 }
 
 .hcDialogFooterBtn[aria-disabled="true"]{
