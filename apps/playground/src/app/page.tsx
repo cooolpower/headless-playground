@@ -89,11 +89,11 @@ export default function Home() {
           Vanilla Extract.
         </p>
         <div className={styles.btnGroup}>
-          <Link href="/components/button" className={styles.primaryBtn}>
+          <Link href="/components/alert" className={styles.primaryBtn}>
             Start Building <ArrowRight size={20} />
           </Link>
           <a
-            href="https://github.com"
+            href="https://github.com/cooolpower/headless-playground"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.secondaryBtn}
@@ -276,7 +276,10 @@ export default function Home() {
             <span className={styles.syntaxKeyword}>import</span> {'{'}{' '}
             <span className={styles.syntaxComponent}>Button</span> {'}'}{' '}
             <span className={styles.syntaxKeyword}>from</span>{' '}
-            <span className={styles.syntaxString}>'@cooolpower/headless-ui'</span>;<br />
+            <span className={styles.syntaxString}>
+              '@cooolpower/headless-ui'
+            </span>
+            ;<br />
             <br />
             <span className={styles.syntaxKeyword}>
               export default function
