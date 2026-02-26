@@ -7,8 +7,8 @@ const fadeIn = keyframes({
 });
 
 const textReveal = keyframes({
-  '0%': { backgroundPosition: '0% 50%' },
-  '100%': { backgroundPosition: '100% 50%' },
+  '0%': { backgroundPosition: '0% center' },
+  '100%': { backgroundPosition: '100% center' },
 });
 
 const float = keyframes({
@@ -83,9 +83,10 @@ export const heroTitle = style({
 });
 
 export const gradientText = style({
-  background: 'linear-gradient(90deg, #5EEAD4, #3B82F6, #8B5CF6, #5EEAD4)',
-  backgroundSize: '300% 100%',
-  animation: `${textReveal} 8s linear infinite`,
+  background:
+    'linear-gradient(90deg, #5EEAD4, #3B82F6, #8B5CF6, #5EEAD4, #3B82F6, #8B5CF6, #5EEAD4)',
+  backgroundSize: '200% auto',
+  animation: `${textReveal} 6s linear infinite`,
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
 });
