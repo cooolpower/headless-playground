@@ -26,8 +26,25 @@ export const headerLogoLink = style({
 });
 
 export const headerLogoImage = style({
-  filter: 'var(--logoInvert)',
+  display: 'block',
+});
 
+export const logoLight = style({
+  display: 'block',
+  selectors: {
+    '[data-theme="dark"] &': {
+      display: 'none',
+    },
+  },
+});
+
+export const logoDark = style({
+  display: 'none',
+  selectors: {
+    '[data-theme="dark"] &': {
+      display: 'block',
+    },
+  },
 });
 
 export const headerLogoText = style({

@@ -10,13 +10,26 @@ export function Header() {
       <div className={styles.headerContent}>
         <div className={styles.headerLogo}>
           <Link href="/" className={styles.headerLogoLink}>
-            <Image
-              src="/logo.svg"
-              alt="James's Component"
-              className={styles.headerLogoImage}
-              width={45}
-              height={30}
-            />
+            <div className={styles.logoLight}>
+              <Image
+                src="/logo-light.svg"
+                alt="Headless UI Logo"
+                className={styles.headerLogoImage}
+                width={45}
+                height={30}
+                priority
+              />
+            </div>
+            <div className={styles.logoDark}>
+              <Image
+                src="/logo-dark.svg"
+                alt="Headless UI Logo"
+                className={styles.headerLogoImage}
+                width={45}
+                height={30}
+                priority
+              />
+            </div>
             {/* <div className={styles.headerLogoText}>
               <Title level={4}>HUGOBEAR</Title>
               <p
