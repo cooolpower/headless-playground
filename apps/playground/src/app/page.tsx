@@ -76,7 +76,19 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroBadge}>
           <Sparkles size={14} className={styles.gradientText} />
-          <span>v2.0 is now available with 68+ components</span>
+          <span>v2.0 is now available</span>
+          <div
+            style={{
+              width: '1px',
+              height: '10px',
+              background: 'var(--color-border)',
+              margin: '0 4px',
+            }}
+          />
+          <img
+            src="https://img.shields.io/npm/v/@cooolpower/headless-ui?color=CB3837&label=npm&style=flat-square"
+            alt="npm version"
+          />
           <ArrowRight size={14} />
         </div>
         <h1 className={styles.heroTitle}>
@@ -98,7 +110,15 @@ export default function Home() {
             rel="noopener noreferrer"
             className={styles.secondaryBtn}
           >
-            <Github size={20} /> View Source
+            <Github size={20} /> GitHub
+          </a>
+          <a
+            href="https://www.npmjs.com/package/@cooolpower/headless-ui"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.npmBtn}
+          >
+            <Box size={18} /> npm
           </a>
         </div>
       </section>

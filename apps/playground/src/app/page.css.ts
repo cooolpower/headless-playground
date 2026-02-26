@@ -142,6 +142,26 @@ export const secondaryBtn = style({
   },
 });
 
+export const npmBtn = style({
+  height: '52px',
+  padding: `0 ${vars.spacing.xl}`,
+  backgroundColor: 'var(--color-surface)',
+  border: `1px solid var(--color-border)`,
+  color: 'var(--color-text-secondary)',
+  borderRadius: vars.radius.md,
+  fontSize: vars.fontSize.sm,
+  fontWeight: vars.fontWeight.medium,
+  display: 'flex',
+  alignItems: 'center',
+  gap: vars.spacing.xs,
+  transition: 'all 0.3s ease',
+  ':hover': {
+    backgroundColor: '#CB3837',
+    borderColor: '#CB3837',
+    color: 'white',
+  },
+});
+
 // Interactive Showcase Section
 export const showcaseSection = style({
   display: 'flex',

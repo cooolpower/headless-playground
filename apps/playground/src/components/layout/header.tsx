@@ -54,7 +54,7 @@ export function Header() {
             Components
           </Link>
           <a
-            href="https://github.com"
+            href="https://github.com/cooolpower/headless-playground"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.navLink}
