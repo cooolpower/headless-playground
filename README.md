@@ -1,5 +1,12 @@
 <div align="center">
 
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-dark.svg">
+    <img alt="Headless UI Playground - Logo" src="docs/images/logo-light.svg" width="120">
+  </picture>
+</div>
+
 # @cooolpower/headless-ui
 
 **Ultimate Headless Experience for Next.js**
