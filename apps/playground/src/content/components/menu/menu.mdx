@@ -211,7 +211,39 @@ const menuItems: MenuItem[] = [
 | -------- | ----------------- | -------- | ------- |
 | key      | 메뉴 항목 고유 키 | `string` | -       |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Menu` 컴포넌트는 내부적으로 `Tree` 컴포넌트를 사용하고 있어 `Tree`의 클래스들과 다음 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcMenuTitle`: 메뉴 항목의 제목 요소
+> - (기타 `Tree` 컴포넌트의 클래스들)
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customMenuWrapper = style({});
+
+// 메뉴 레이블 스타일 커스텀
+globalStyle(`${customMenuWrapper} .hcMenuTitle`, {
+  fontSize: '15px',
+  fontWeight: '600',
+  color: '#2d3748',
+});
+
+// 위험(Danger) 상태 메뉴 스타일 커스텀
+globalStyle(`${customMenuWrapper} .hcMenuTitle[data-danger="true"]`, {
+  color: '#e53e3e',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={MenuCss} title="MenuCss" />
 

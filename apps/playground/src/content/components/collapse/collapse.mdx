@@ -223,7 +223,63 @@ export function MyComponent() {
 | className | 추가 CSS 클래스      | `string`          | -       |
 | children  | 패널 콘텐츠          | `React.ReactNode` | -       |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Collapse` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcCollapse`: 전체 콜랩스 컨테이너
+> - `.hcCollapsePanel`: 개별 패널 컨테이너
+> - `.hcCollapseHeader`: 패널의 헤더 영역
+> - `.hcCollapseHeaderMain`: 헤더의 메인 텍스트 영역
+> - `.hcCollapseExtra`: 헤더의 추가 콘텐츠 영역
+> - `.hcCollapseArrow`: 확장/축소 화살표 아이콘 영역
+> - `.hcCollapseContent`: 펼쳐지는 콘텐츠 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customCollapseWrapper = style({});
+
+// 패널 보더 및 배경 커스텀
+globalStyle(`${customCollapseWrapper} .hcCollapsePanel`, {
+  border: 'none',
+  backgroundColor: '#f8fafc',
+  marginBottom: '8px',
+  borderRadius: '12px',
+});
+
+// 헤더 스타일 커스텀
+globalStyle(`${customCollapseWrapper} .hcCollapseHeader`, {
+  padding: '16px 20px',
+  fontSize: '1.1rem',
+  color: '#1e293b',
+});
+
+// 활성화된(펼쳐진) 패널의 헤더 스타일
+globalStyle(
+  `${customCollapseWrapper} .hcCollapsePanel[data-active="true"] .hcCollapseHeader`,
+  {
+    color: '#3182ce',
+    fontWeight: '700',
+  },
+);
+
+// 콘텐츠 영역 스타일
+globalStyle(`${customCollapseWrapper} .hcCollapseContent`, {
+  padding: '20px',
+  backgroundColor: 'white',
+  borderTop: '1px solid #e2e8f0',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={CollapseCss} title="CollapseCss" />
 

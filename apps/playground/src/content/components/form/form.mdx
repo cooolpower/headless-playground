@@ -209,7 +209,59 @@ const passwordSchema = z.string()
 | formItemHelpClassName          | `string`                                            | -       | 도움말/에러 메시지 CSS 클래스 |
 | statusClassNames               | `object`                                            | -       | 상태별 CSS 클래스 객체        |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Form` 및 `FormItem` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcForm`: 폼 전체 컨테이너
+> - `.hcFormItem`: 레이블과 입력을 포함하는 개별 폼 아이템
+> - `.hcFormItemLabel`: 폼 아이템의 레이블 영역
+> - `.hcFormItemRequiredMark`: 필수 항목 표시 (별표 등)
+> - `.hcFormItemInputWrapper`: 입력 컨트롤과 도움말을 감싸는 영역
+> - `.hcFormItemControl`: 입력 요소가 배치되는 컨트롤 영역
+> - `.hcFormItemControlInput`: 실제 입력 컴포넌트가 위치하는 곳
+> - `.hcFormItemControlStatus`: 검증 상태 피드백 아이콘 영역
+> - `.hcFormItemHelp`: 도움말 또는 에러 메시지 텍스트 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customFormWrapper = style({});
+
+// 폼 레이아웃 커스텀
+globalStyle(`${customFormWrapper} .hcForm`, {
+  gap: '24px',
+});
+
+// 레이블 스타일 커스텀
+globalStyle(`${customFormWrapper} .hcFormItemLabel`, {
+  fontSize: '14px',
+  fontWeight: '600',
+  color: '#334155',
+  marginBottom: '4px',
+});
+
+// 에러 메시지 스타일
+globalStyle(`${customFormWrapper} .hcFormItemHelp.hcFormStatusText--error`, {
+  color: '#ef4444',
+  fontSize: '12px',
+  marginTop: '4px',
+});
+
+// 검증 에러 시 입력창 테두리 (하위 input에 영향)
+globalStyle(`${customFormWrapper} .hcFormStatusInput--error input`, {
+  borderColor: '#ef4444 !important',
+});
+```
+
+###기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={FormCss} title="FormCss" />
 

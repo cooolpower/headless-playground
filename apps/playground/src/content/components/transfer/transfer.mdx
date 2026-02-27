@@ -462,24 +462,59 @@ const classNames: TransferClassNames = {
 };
 ```
 
-## Styling
+### 커스텀 스타일링 (Custom Styling)
 
-Transfer 컴포넌트는 Headless 컴포넌트이므로 스타일을 직접 제공하지 않습니다. `classNames` prop을 통해 내부 요소에 CSS 클래스를 적용할 수 있습니다.
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
 
-```tsx
-import { Transfer } from '@cooolpower/headless-ui';
-import * as styles from './my-transfer-styles.css';
+`Transfer` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
 
-<Transfer
-  dataSource={dataSource}
-  targetKeys={targetKeys}
-  selectedKeys={[]}
-  classNames={{
-    transfer: styles.transfer,
-    transferList: styles.transferList,
-    // ... 기타 클래스명
-  }}
-/>;
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcTransfer`: 전체 트랜스퍼 컨테이너
+> - `.hcTransferList`: 좌/우 개별 리스트 박스
+> - `.hcTransferListHeader`: 리스트 헤더 (제목, 카운트)
+> - `.hcTransferListTitle`: 리스트 제목
+> - `.hcTransferCount`: 항목 개수 표시
+> - `.hcTransferListSearch`: 검색바 컨테이너
+> - `.hcTransferSearchInput`: 실제 검색 input
+> - `.hcTransferListBody`: 항목 리스트 영역
+> - `.hcTransferListItem`: 각 행(Row) 아이템
+> - `.hcTransferOperations`: 중앙 이동 버튼 그룹
+> - `.hcTransferOperationButton`: 이동 버튼 (←, →)
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customTransferWrapper = style({});
+
+// 리스트 박스 디자인 커스텀
+globalStyle(`${customTransferWrapper} .hcTransferList`, {
+  borderRadius: '12px',
+  borderColor: '#e2e8f0',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+});
+
+// 헤더 배경색 변경
+globalStyle(`${customTransferWrapper} .hcTransferListHeader`, {
+  backgroundColor: '#f8fafc',
+  borderBottom: '1px solid #e2e8f0',
+});
+
+// 이동 버튼 스타일 커스텀
+globalStyle(`${customTransferWrapper} .hcTransferOperationButton`, {
+  backgroundColor: '#3b82f6',
+  color: 'white',
+  border: 'none',
+  padding: '8px 16px',
+  borderRadius: '6px',
+});
+
+globalStyle(`${customTransferWrapper} .hcTransferOperationButton:disabled`, {
+  backgroundColor: '#bfdbfe',
+});
 ```
 
 ## 특징

@@ -158,7 +158,58 @@ Pagination의 크기를 조정할 수 있습니다.
 
 <CssSnippet css={PaginationCss} title="PaginationCss" />
 
-## 특징
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Pagination` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcPagination`: 전체 페이지네이션 컨테이너
+> - `.hcPaginationTotal`: 총 항목 수 표시 영역
+> - `.hcPaginationButtons`: 페이지 번호 버튼들을 감싸는 컨테이너
+> - `.hcPaginationBtn`: 개별 페이지 번호 및 이전/다음 버튼
+> - `.hcPaginationExtras`: 추가 컨트롤 영역
+> - `.hcPaginationQuickJumper`: 빠른 페이지 이동 입력 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customPaginationWrapper = style({});
+
+// 개별 페이지 버튼 스타일 커스텀
+globalStyle(`${customPaginationWrapper} .hcPaginationBtn`, {
+  width: '36px',
+  height: '36px',
+  borderRadius: '50%', // 원형 버튼
+  border: '1px solid #e2e8f0',
+  backgroundColor: 'white',
+  color: '#4a5568',
+  transition: 'all 0.2s ease',
+});
+
+// 활성화된 페이지 버튼 스타일
+globalStyle(`${customPaginationWrapper} .hcPaginationBtn[data-active="true"]`, {
+  backgroundColor: '#3182ce',
+  borderColor: '#3182ce',
+  color: 'white',
+});
+
+// 호버 효과
+globalStyle(
+  `${customPaginationWrapper} .hcPaginationBtn:hover:not([aria-disabled="true"])`,
+  {
+    backgroundColor: '#ebf8ff',
+    borderColor: '#bee3f8',
+  },
+);
+```
+
+### 특징
 
 - **키보드 네비게이션**: 화살표 키로 페이지 이동 가능
 - **접근성**: ARIA 속성을 지원하여 스크린 리더와 호환

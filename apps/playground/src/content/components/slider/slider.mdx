@@ -621,7 +621,63 @@ const getRailColor = (val: number) => {
 />;
 ```
 
-### API Reference
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Slider` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcSlider`: 전체 슬라이더 컨테이너
+> - `.hcSliderTrack`: 슬라이더의 전체 트랙(레일)
+> - `.hcSliderFill`: 현재 값까지 채워진 트랙 영역
+> - `.hcSliderHandle`: 드래그 가능한 핸들(Thumb)
+> - `.hcSliderTooltip`: 핸들 조작 시 나타나는 값 표시 툴팁
+> - `.hcSliderMarkDot`: 특정 눈금에 표시되는 점
+> - `.hcSliderMarkLabel`: 눈금 아래 표시되는 텍스트/아이콘 라벨
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customSliderWrapper = style({});
+
+// 트랙과 핸들 기본 스타일 커스텀
+globalStyle(`${customSliderWrapper} .hcSliderTrack`, {
+  height: '8px',
+  backgroundColor: '#e2e8f0',
+});
+
+globalStyle(`${customSliderWrapper} .hcSliderFill`, {
+  backgroundColor: '#8b5cf6',
+});
+
+globalStyle(`${customSliderWrapper} .hcSliderHandle`, {
+  width: '20px',
+  height: '20px',
+  border: '3px solid #8b5cf6',
+  backgroundColor: '#fff',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+});
+
+// 툴팁 디자인 커스텀
+globalStyle(`${customSliderWrapper} .hcSliderTooltip`, {
+  backgroundColor: '#1e293b',
+  borderRadius: '6px',
+  padding: '4px 8px',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
+
+`injectStyles`를 켜면 Slider가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
+
+<CssSnippet css={SliderCss} title="SliderCss" />
+
+## API Reference
 
 #### Slider Props
 

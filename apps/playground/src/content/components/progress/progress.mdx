@@ -106,6 +106,52 @@ const [progress, setProgress] = useState(50)
 | width        | `number`                                        | `120`       | 원형 Progress 너비         |
 | injectStyles | `boolean`                                       | `true`      | 기본 스타일(CSS) 주입 여부 |
 
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Progress` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcProgress`: 전체 프로그래스 컨테이너
+> - `.hcProgressLineOuter`: 선형 프로그래스의 배경 트랙
+> - `.hcProgressLineInner`: 선형 프로그래스의 진행 바
+> - `.hcProgressLineText`: 선형 프로그래스의 진행률 텍스트
+> - `.hcProgressCircleSvg`: 원형 프로그래스의 SVG 요소
+> - `.hcProgressCircleTrail`: 원형 프로그래스의 배경 트랙 (원)
+> - `.hcProgressCircleBar`: 원형 프로그래스의 진행 바 (원)
+> - `.hcProgressCircleText`: 원형 프로그래스의 중앙 텍스트
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customProgressWrapper = style({});
+
+// 선형 프로그래스 바 스타일 커스텀
+globalStyle(`${customProgressWrapper} .hcProgressLineInner`, {
+  background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
+  borderRadius: '4px',
+  height: '12px',
+});
+
+// 프로그래스 트랙 스타일 커스텀
+globalStyle(`${customProgressWrapper} .hcProgressLineOuter`, {
+  backgroundColor: '#f1f5f9',
+  height: '12px',
+});
+
+// 원형 프로그래스 텍스트 스타일
+globalStyle(`${customProgressWrapper} .hcProgressCircleText`, {
+  fontSize: '24px',
+  fontWeight: '800',
+  fill: '#0f172a',
+});
+```
+
 ### Notes
 
 - Progress는 자동으로 애니메이션 전환을 처리합니다

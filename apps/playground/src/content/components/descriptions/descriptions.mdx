@@ -18,10 +18,7 @@ import { DescriptionsCss } from '@cooolpower/headless-ui';
 ### Usage
 
 ```tsx
-import {
-  Descriptions,
-  DescriptionsItem,
-} from '@cooolpower/headless-ui';
+import { Descriptions, DescriptionsItem } from '@cooolpower/headless-ui';
 
 export function MyComponent() {
   return (
@@ -129,6 +126,54 @@ export function MyComponent() {
 | children | `ReactNode`        | -       | 항목 콘텐츠      |
 | span     | `number`           | `1`     | 병합할 컬럼 개수 |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Descriptions` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcDescriptions`: 전체 설명 목록 컨테이너
+> - `.hcDescriptionsTitle`: 제목 요소
+> - `.hcDescriptionsList`: 항목 그리드 컨테이너
+> - `.hcDescriptionsItem`: 개별 항목 컨테이너
+> - `.hcDescriptionsLabel`: 항목의 레이블 영역
+> - `.hcDescriptionsValue`: 항목의 내용 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customDescriptionsWrapper = style({});
+
+// 설명 제목 스타일 커스텀
+globalStyle(`${customDescriptionsWrapper} .hcDescriptionsTitle`, {
+  fontSize: '1.25rem',
+  color: '#2d3748',
+  marginBottom: '1rem',
+  borderLeft: '4px solid #3182ce',
+  paddingLeft: '12px',
+});
+
+// 레이블 영역 스타일 커스텀 (배경 및 폰트)
+globalStyle(`${customDescriptionsWrapper} .hcDescriptionsLabel`, {
+  backgroundColor: '#f7fafc',
+  padding: '12px 16px',
+  fontWeight: '700',
+  color: '#4a5568',
+  width: '150px',
+});
+
+// 값 영역 스타일
+globalStyle(`${customDescriptionsWrapper} .hcDescriptionsValue`, {
+  padding: '12px 16px',
+  color: '#2d3748',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={DescriptionsCss} title="DescriptionsCss" />

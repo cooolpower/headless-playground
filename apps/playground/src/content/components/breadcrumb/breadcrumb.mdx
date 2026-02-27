@@ -176,15 +176,43 @@ const items: BreadcrumbItem[] = [
 | onClick  | `(event: React.MouseEvent) => void` | -       | 클릭 핸들러 |
 | icon     | `ReactNode`                         | -       | 항목 아이콘 |
 
-### 특징
+### 커스텀 스타일링 (Custom Styling)
 
-- **계층적 네비게이션**: 페이지 경로를 시각적으로 표현
-- **아이콘 지원**: 각 항목에 아이콘 추가 가능
-- **커스텀 구분자**: separator prop으로 구분자 커스터마이징 가능
-- **최대 개수 제한**: maxCount prop으로 긴 경로 처리
-- **링크 및 클릭 핸들러**: href 또는 onClick으로 네비게이션 처리
-- **접근성**: ARIA 속성을 지원하여 스크린 리더와 호환
-- **Headless 설계**: 스타일링은 사용자가 제어
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Breadcrumb` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcBreadcrumbNav`: 전체 네비게이션 요소
+> - `.hcBreadcrumbList`: `ol` 리스트 요소
+> - `.hcBreadcrumbLi`: 각 항목의 `li` 요소
+> - `.hcBreadcrumbItem`: 실제 링크나 텍스트를 담은 요소
+> - `.hcBreadcrumbIcon`: 아이콘 요소
+> - `.hcBreadcrumbSep`: 구분자 요소
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customWrapper = style({});
+
+// 구분자 스타일 및 간격 커스텀
+globalStyle(`${customWrapper} .hcBreadcrumbSep`, {
+  margin: '0 12px',
+  color: '#cbd5e0',
+  fontWeight: 'bold',
+});
+
+// 현재 활성화된 항목 스타일 커스텀
+globalStyle(`${customWrapper} .hcBreadcrumbItem[data-current="true"]`, {
+  color: '#2d3748',
+  textDecoration: 'underline',
+  textUnderlineOffset: '4px',
+});
+```
 
 ### 기본 스타일(CSS) (Inject Styles)
 

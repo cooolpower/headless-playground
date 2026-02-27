@@ -8,11 +8,7 @@ import { TypographyCss } from '@cooolpower/headless-ui';
 ### 사용법
 
 ```tsx
-import {
-  Title,
-  Text,
-  Paragraph,
-} from '@cooolpower/headless-ui';
+import { Title, Text, Paragraph } from '@cooolpower/headless-ui';
 
 export function MyComponent() {
   return (
@@ -85,18 +81,42 @@ export function MyComponent() {
 </Paragraph>
 ```
 
-#### 커스텀 스타일링
+### 커스텀 스타일링 (Custom Styling)
 
-<Playground preview={<DemoTypographyCustom />} />
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
 
-```tsx
-<Title level={1} className="custom-title">
-  커스텀 스타일 제목
-</Title>
+`Typography` 컴포넌트들은 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
 
-<Paragraph className="custom-paragraph">
-  커스텀 스타일이 적용된 단락
-</Paragraph>
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcTypography`: 모든 타이포그래피 요소의 공통 클래스
+> - `.hcTitle`: `Title` 요소
+> - `.hcText`: `Text` 요소
+> - `.hcParagraph`: `Paragraph` 요소
+> - `.hcCaption`: `Caption` 요소
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customTextContainer = style({});
+
+// 특정 레벨의 제목 스타일 커스텀
+globalStyle(`${customTextContainer} .hcTitle[data-level="1"]`, {
+  fontSize: '3rem',
+  color: '#2d3748',
+  letterSpacing: '-0.02em',
+  marginBottom: '2rem',
+});
+
+// 단락 스타일 커스텀
+globalStyle(`${customTextContainer} .hcParagraph`, {
+  lineHeight: '1.8',
+  color: '#4a5568',
+  maxWidth: '65ch', // 가독성을 위한 너비 제한
+});
 ```
 
 ### API Reference

@@ -114,6 +114,65 @@ const columns = [
 | onDoubleClick | `(event: React.MouseEvent) => void` | 행 더블 클릭 핸들러 |
 | className     | `string`                            | 행 CSS 클래스       |
 
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Table` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcTableWrap`: 테이블과 로딩 표시기를 감싸는 최상위 컨테이너
+> - `.hcTable`: 실제 `table` 요소
+> - `.hcTableLoading`: 로딩 상태 시 표시되는 오버레이
+> - `.hcTableHeaderCell`: 헤더 셀 (`th`)
+> - `.hcTableCell`: 데이터 셀 (`td`)
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customTableWrapper = style({});
+
+// 테이블 기본 스타일 커스텀
+globalStyle(`${customTableWrapper} .hcTable`, {
+  borderCollapse: 'separate',
+  borderSpacing: '0 8px',
+  backgroundColor: 'transparent',
+});
+
+// 헤더 셀 스타일 커스텀
+globalStyle(`${customTableWrapper} .hcTableHeaderCell`, {
+  backgroundColor: '#f8fafc',
+  padding: '16px',
+  color: '#4a5568',
+  textTransform: 'uppercase',
+  fontSize: '0.75rem',
+  fontWeight: '700',
+  borderBottom: '2px solid #e2e8f0',
+});
+
+// 데이터 행 스타일 커스텀 (그림자 및 둥근 모서리)
+globalStyle(`${customTableWrapper} tbody tr`, {
+  backgroundColor: 'white',
+  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+  transition: 'transform 0.2s',
+});
+
+globalStyle(`${customTableWrapper} tbody tr:hover`, {
+  transform: 'scale(1.01)',
+  backgroundColor: '#f1f5f9',
+});
+
+// 데이터 셀 스타일
+globalStyle(`${customTableWrapper} .hcTableCell`, {
+  padding: '16px',
+  borderBottom: 'none',
+});
+```
+
 ### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={TableCss} title="TableCss" />

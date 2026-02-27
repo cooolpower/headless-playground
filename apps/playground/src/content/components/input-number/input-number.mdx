@@ -124,14 +124,51 @@ Input Number를 비활성화할 수 있습니다.
 | className    | 추가 CSS 클래스                             | `string`                               | -          |
 | injectStyles | 기본 스타일을 컴포넌트가 직접 주입할지 여부 | `boolean`                              | `true`     |
 
-## 특징
+### 커스텀 스타일링 (Custom Styling)
 
-- **증가/감소 버튼**: 버튼을 클릭하여 값 조정
-- **키보드 지원**: 화살표 키로 값 증가/감소
-- **범위 제한**: min/max로 입력 범위 제한
-- **소수점 지원**: precision으로 소수점 자릿수 제어
-- **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
 
-## 기본 스타일(CSS) (Inject Styles)
+`InputNumber` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcInputNumber`: 전체 컨테이너 요소
+> - `.hcInputNumberInput`: 실제 숫자가 입력되는 `input` 요소
+> - `.hcInputNumberButton`: 증가/감소 버튼 요소
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customInputNumberWrapper = style({});
+
+// 컨테이너 스타일 커스텀
+globalStyle(`${customInputNumberWrapper} .hcInputNumber`, {
+  border: '2px solid #ed8936',
+  borderRadius: '0',
+  backgroundColor: '#fffaf0',
+});
+
+// 입력 필드 텍스트 정렬 및 스타일
+globalStyle(`${customInputNumberWrapper} .hcInputNumberInput`, {
+  color: '#c05621',
+  fontWeight: 'bold',
+  fontSize: '1.2rem',
+});
+
+// 버튼 디자인 커스텀
+globalStyle(`${customInputNumberWrapper} .hcInputNumberButton`, {
+  backgroundColor: '#ed8936',
+  color: 'white',
+});
+
+globalStyle(`${customInputNumberWrapper} .hcInputNumberButton:hover`, {
+  backgroundColor: '#dd6b20',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={InputNumberCss} title="InputNumberCss" />

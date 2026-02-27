@@ -143,10 +143,7 @@ Provides floating action buttons for quick access to common actions.
 </DemoFloatButtonProvider>
 
 ```tsx
-import {
-  FloatButton,
-  FloatButtonGroup,
-} from '@cooolpower/headless-ui';
+import { FloatButton, FloatButtonGroup } from '@cooolpower/headless-ui';
 ```
 
 ```tsx
@@ -177,6 +174,50 @@ import {
 | show         | 표시 여부                                   | `boolean`                                                                         | `true`           |
 | className    | 추가 CSS 클래스                             | `string`                                                                          | -                |
 | injectStyles | 기본 스타일을 컴포넌트가 직접 주입할지 여부 | `boolean`                                                                         | `true`           |
+
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`FloatButton` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcFloatButton`: 개별 플로팅 버튼 요소
+> - `.hcFloatButtonGroup`: 버튼들을 그룹화하는 컨테이너
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customFloatBtnWrapper = style({});
+
+// 플로팅 버튼 기본 스타일 커스텀
+globalStyle(`${customFloatBtnWrapper} .hcFloatButton`, {
+  backgroundColor: '#3b82f6',
+  color: '#fff',
+  width: '64px',
+  height: '64px',
+  borderRadius: '16px',
+  boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.3)',
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+});
+
+// 호버 효과 커스텀
+globalStyle(`${customFloatBtnWrapper} .hcFloatButton:hover`, {
+  backgroundColor: '#2563eb',
+  transform: 'translateY(-4px) rotate(5deg)',
+});
+
+// 그룹 내 간격 조정
+globalStyle(`${customFloatBtnWrapper} .hcFloatButtonGroup`, {
+  gap: '16px',
+  bottom: '32px',
+  right: '32px',
+});
+```
 
 ### 기본 스타일(CSS) (Inject Styles)
 

@@ -44,11 +44,69 @@ export function MyModal() {
   />
 </DemoModalBasicProvider>
 
-#### 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Modal` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcModalMask`: 모달 전체를 감싸는 고정 위치 마스크
+> - `.hcModalBackdrop`: 배경 흐림/색상을 담당하는 배경 영역
+> - `.hcModalWrap`: 모달의 위치를 잡는 래퍼
+> - `.hcModal`: 실제 모달 박스
+> - `.hcModalHeader`: 헤더 영역
+> - `.hcModalTitle`: 제목 텍스트 영역
+> - `.hcModalClose`: 닫기 버튼
+> - `.hcModalBody`: 콘텐츠가 들어가는 본문 영역
+> - `.hcModalFooter`: 하단 버튼 등이 배치되는 푸터 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customModalWrapper = style({});
+
+// 배경 마스크 디자인 커스텀
+globalStyle(`${customModalWrapper} .hcModalBackdrop`, {
+  backgroundColor: 'rgba(15, 23, 42, 0.9)',
+  backdropFilter: 'blur(12px)',
+});
+
+// 모달 본체 스타일 커스텀
+globalStyle(`${customModalWrapper} .hcModal`, {
+  borderRadius: '32px',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+  backgroundColor: '#0f172a',
+  color: '#f8fafc',
+});
+
+// 제목 폰트 스타일
+globalStyle(`${customModalWrapper} .hcModalTitle`, {
+  fontSize: '1.5rem',
+  fontWeight: '900',
+  textAlign: 'center',
+  width: '100%',
+});
+
+// 본문 패딩 조정
+globalStyle(`${customModalWrapper} .hcModalBody`, {
+  padding: '40px',
+  textAlign: 'center',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 `injectStyles`를 켜면 Modal이 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
 
 <CssSnippet css={ModalCss} title="ModalCss" />
+
+### Notes
 
 #### 기본 Modal
 

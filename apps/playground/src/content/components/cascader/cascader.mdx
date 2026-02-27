@@ -193,6 +193,71 @@ const [value, setValue] = useState<string[]>(['frontend', 'react']);
 - **Headless 설계**: 스타일링은 사용자가 제어
 - **접근성**: ARIA 속성 지원
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Cascader` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcCascader`: 컴포넌트 전체 컨테이너
+> - `.hcCascaderTrigger`: 선택된 값을 표시하는 트리거 영역
+> - `.hcCascaderArrow`: 트리거 내 화살표 아이콘 영역
+> - `.hcCascaderArrowIcon`: 화살표 아이콘 자체
+> - `.hcCascaderPanels`: 옵션 패널들이 배치되는 컨테이너
+> - `.hcCascaderPanel`: 개별 레벨의 옵션 패널
+> - `.hcCascaderOption`: 패널 내 개별 옵션 항목
+> - `.hcCascaderOptionMain`: 옵션의 메인 콘텐츠 영역(레이블 포함)
+> - `.hcCascaderOptionLabel`: 옵션의 텍스트 레이블
+> - `.hcCascaderNextIcon`: 하위 메뉴가 있음을 나타내는 아이콘
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customCascaderWrapper = style({});
+
+// 패널 컨테이너 스타일 커스텀
+globalStyle(`${customCascaderWrapper} .hcCascaderPanels`, {
+  backgroundColor: '#ffffff',
+  borderRadius: '12px',
+  boxShadow:
+    '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+  border: '1px solid #e2e8f0',
+  marginTop: '8px',
+});
+
+// 개별 옵션 스타일 커스텀
+globalStyle(`${customCascaderWrapper} .hcCascaderOption`, {
+  padding: '10px 16px',
+  fontSize: '14px',
+  transition: 'all 0.2s ease',
+});
+
+// 활성화/선택된 옵션 스타일
+globalStyle(`${customCascaderWrapper} .hcCascaderOption[data-active="true"]`, {
+  backgroundColor: '#f1f5f9',
+});
+
+globalStyle(
+  `${customCascaderWrapper} .hcCascaderOption[data-selected="true"]`,
+  {
+    backgroundColor: '#eff6ff',
+    color: '#3b82f6',
+    fontWeight: '600',
+  },
+);
+
+// 다음 아이콘 스타일
+globalStyle(`${customCascaderWrapper} .hcCascaderNextIcon`, {
+  color: '#94a3b8',
+  fontSize: '12px',
+});
+```
+
+###기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={CascaderCss} title="CascaderCss" />

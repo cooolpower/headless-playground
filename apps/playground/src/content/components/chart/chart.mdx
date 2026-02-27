@@ -260,7 +260,41 @@ export function MyComponent() {
 | injectStyles | 기본 스타일 주입 여부 | `boolean`              | `true`  |
 | children     | 차트 콘텐츠           | `React.ReactNode`      | -       |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다. `Chart` 컴포넌트는 차트를 감싸는 컨테이너의 스타일만 제공하며, 내부의 실제 차트 디자인은 사용하는 차트 라이브러리(Chart.js 등)의 옵션을 통해 설정해야 합니다.
+
+`Chart` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcChart`: 전체 차트 컨테이너
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customChartContainer = style({});
+
+// 차트 외곽 컨테이너 스타일 커스텀
+globalStyle(`${customChartContainer} .hcChart`, {
+  backgroundColor: '#ffffff',
+  border: '1px solid #e2e8f0',
+  borderRadius: '12px',
+  padding: '1.5rem',
+  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+});
+
+// 비활성화 상태의 차트 스타일
+globalStyle(`${customChartContainer} .hcChart[data-disabled="true"]`, {
+  filter: 'grayscale(100%)',
+  opacity: 0.6,
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={ChartCss} title="ChartCss" />
 

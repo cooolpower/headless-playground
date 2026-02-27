@@ -102,8 +102,39 @@ export function MyComponent() {
 | injectStyles | `boolean`              | `true`  | 기본 스타일 주입 여부   |
 | children     | `ReactNode`            | -       | 커스텀 콘텐츠           |
 
-**Note:** 이 컴포넌트는 현재 개발 중입니다. 향후 업데이트에서 정렬, 필터링, 페이지네이션 등의 고급 기능이 추가될 예정입니다.
+### 커스텀 스타일링 (Custom Styling)
 
-## 기본 스타일(CSS) (Inject Styles)
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`DataTable` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcDataTable`: 전체 데이터 테이블 컨테이너
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customDataTableContainer = style({});
+
+// 데이터 테이블 컨테이너 스타일 커스텀
+globalStyle(`${customDataTableContainer} .hcDataTable`, {
+  backgroundColor: '#ffffff',
+  border: '1px solid #e2e8f0',
+  borderRadius: '8px',
+  padding: '1rem',
+});
+
+// 비활성화 상태의 테이블 스타일
+globalStyle(`${customDataTableContainer} .hcDataTable[data-disabled="true"]`, {
+  opacity: 0.5,
+  cursor: 'not-allowed',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={DataTableCss} title="DataTableCss" />

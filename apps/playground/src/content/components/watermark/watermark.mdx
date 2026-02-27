@@ -61,6 +61,43 @@ export function MyComponent() {
 - **커스터마이징**: 텍스트와 투명도 등 옵션 제공
 - **비침투적**: 콘텐츠를 가리지 않는 투명한 워터마크
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Watermark` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcWatermarkContainer`: 콘텐츠를 감싸는 상대 위치(Relative) 컨테이너
+> - `.hcWatermark`: 실제 텍스트 워터마크가 그려지는 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customWatermarkWrapper = style({});
+
+// 워터마크 텍스트 스타일 커스텀
+globalStyle(`${customWatermarkWrapper} .hcWatermark`, {
+  fontSize: '4rem',
+  fontWeight: '900',
+  color: '#94a3b8',
+  opacity: 0.05,
+  textTransform: 'uppercase',
+  userSelect: 'none',
+  transform: 'translate(-50%, -50%) rotate(-30deg)', // 각도 조정
+});
+
+// 컨테이너 스타일 (필요한 경우)
+globalStyle(`${customWatermarkWrapper} .hcWatermarkContainer`, {
+  border: '1px solid #e2e8f0',
+  borderRadius: '8px',
+});
+```
+
+###기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={WatermarkCss} title="WatermarkCss" />

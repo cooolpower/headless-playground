@@ -45,12 +45,6 @@ import { CheckboxCss } from '@cooolpower/headless-ui';
   />
 </DemoCheckboxBasicProvider>
 
-#### 기본 스타일(CSS) (Inject Styles)
-
-`injectStyles`를 켜면 Checkbox가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
-
-<CssSnippet css={CheckboxCss} title="CheckboxCss" />
-
 #### Basic Checkbox
 
 <Playground preview={<DemoCheckboxBasic />} />
@@ -218,6 +212,51 @@ const handleOptionChange = (key, checked: boolean) => {
     <div style={{ fontSize: '12px', color: '#666' }}>Description text</div>
   </div>
 </Checkbox>
+```
+
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Checkbox` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcCheckbox`: 레이블을 포함한 전체 컨테이너
+> - `.hcCheckboxBox`: 실제 체크박스 상자 요소
+> - `.hcCheckboxMark`: 상자 안의 체크 표시(SVG/텍스트)
+> - `.hcCheckboxText`: 체크박스 옆의 레이블 텍스트
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customWrapper = style({});
+
+// 체크박스 상자 디자인 커스텀
+globalStyle(`${customWrapper} .hcCheckboxBox`, {
+  width: '24px',
+  height: '24px',
+  borderRadius: '4px',
+  border: '2px solid #a0aec0',
+});
+
+// 체크된 상태의 스타일 커스텀
+globalStyle(
+  `${customWrapper} .hcCheckbox[data-checked="true"] .hcCheckboxBox`,
+  {
+    backgroundColor: '#48bb78',
+    borderColor: '#48bb78',
+  },
+);
+
+// 레이블 텍스트 스타일 커스텀
+globalStyle(`${customWrapper} .hcCheckboxText`, {
+  fontSize: '1rem',
+  marginLeft: '8px',
+});
 ```
 
 ### API Reference

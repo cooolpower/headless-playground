@@ -72,7 +72,54 @@ const removeSnackbar = (id) => {
 }
 ```
 
-#### 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Snackbar` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcSnackbar`: 스택바 전체 컨테이너
+> - `.hcSnackbarBody`: 메시지 텍스트가 들어가는 본문 영역
+> - `.hcSnackbarAction`: 액션 버튼이 배치되는 영역
+> - `.hcSnackbarClose`: 닫기 버튼
+> - `.hcSnackbarProgressTrack`: 자동 닫힘 진행바의 트랙
+> - `.hcSnackbarProgressFill`: 자동 닫힘 진행바의 채워지는 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customSnackbarWrapper = style({});
+
+// 스낵바 본체 디자인 커스텀
+globalStyle(`${customSnackbarWrapper} .hcSnackbar`, {
+  backgroundColor: '#1e293b',
+  color: '#f8fafc',
+  borderRadius: '12px',
+  padding: '16px 20px',
+  boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+});
+
+// 프로그레스 바 색상 커스텀
+globalStyle(`${customSnackbarWrapper} .hcSnackbarProgressFill`, {
+  backgroundColor: '#60a5fa',
+});
+
+// 액션 버튼 스타일 (내부 버튼이 배정될 경우)
+globalStyle(`${customSnackbarWrapper} .hcSnackbarAction button`, {
+  color: '#60a5fa',
+  fontWeight: '700',
+  textTransform: 'uppercase',
+  fontSize: '0.75rem',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 `injectStyles`를 켜면 Snackbar가 내부에서 기본 스타일을 자동 주입합니다. `injectStyles={false}`로 끄면, 아래 CSS를 전역/레이아웃 등 원하는 위치에서 한 번만 주입해 사용할 수 있습니다.
 

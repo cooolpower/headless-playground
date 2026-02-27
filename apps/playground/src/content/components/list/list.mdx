@@ -46,6 +46,56 @@ import { ListCss } from '@cooolpower/headless-ui';
 | injectStyles | `boolean`                                 | `true`         | 기본 스타일(CSS) 주입 여부 |
 | className    | `string`                                  | -              | 추가 클래스                |
 
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`List` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcList`: 전체 리스트 컨테이너
+> - `.hcListHeader`: 리스트 헤더 영역
+> - `.hcListFooter`: 리스트 푸터 영역
+> - `.hcListUl`: 아이템들을 감싸는 `ul` 요소
+> - `.hcListItem`: 개별 리스트 아이템 (`li`)
+> - `.hcListLoading`: 로딩 상태 표시 영역
+> - `.hcListEmpty`: 데이터가 없을 때 표시되는 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customListWrapper = style({});
+
+// 리스트 아이템 스타일 커스텀
+globalStyle(`${customListWrapper} .hcListItem`, {
+  padding: '16px 24px',
+  borderBottom: '1px solid #edf2f7',
+  transition: 'background-color 0.2s',
+});
+
+// 호버 효과
+globalStyle(`${customListWrapper} .hcListItem:hover`, {
+  backgroundColor: '#f7fafc',
+  cursor: 'pointer',
+});
+
+// 마지막 아이템의 보더 제거
+globalStyle(`${customListWrapper} .hcListItem:last-child`, {
+  borderBottom: 'none',
+});
+
+// 헤더 스타일 커스텀
+globalStyle(`${customListWrapper} .hcListHeader`, {
+  backgroundColor: '#edf2f7',
+  borderRadius: '8px 8px 0 0',
+  fontWeight: 'bold',
+});
+```
+
 ### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={ListCss} title="ListCss" />

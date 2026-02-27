@@ -168,9 +168,42 @@ import { TextareaCss } from '@cooolpower/headless-ui';
 - 적절한 ARIA 속성 사용
 - 포커스 관리
 
-### 스타일링 (Styling)
+### 커스텀 스타일링 (Custom Styling)
 
-Textarea 컴포넌트는 `globals.css`의 CSS 변수를 사용하여 스타일이 적용됩니다. 커스텀 스타일이 필요한 경우 `textareaStyle` prop을 사용할 수 있습니다.
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Textarea` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcTextareaWrap`: 텍스트 영역과 버튼을 감싸는 루트 컨테이너
+> - `.hcTextarea`: 실제 `textarea` 요소
+> - `.hcTextareaClear`: 지우기 버튼 요소
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customTextareaWrapper = style({});
+
+// 텍스트 영역 스타일 커스텀
+globalStyle(`${customTextareaWrapper} .hcTextarea`, {
+  backgroundColor: '#f7fafc',
+  border: '1px solid #e2e8f0',
+  borderRadius: '8px',
+  padding: '1rem',
+  minHeight: '200px',
+  resize: 'none',
+});
+
+// 포커스 시 스타일 커스텀
+globalStyle(`${customTextareaWrapper} .hcTextarea:focus`, {
+  borderColor: '#63b3ed',
+  boxShadow: '0 0 0 3px rgba(99, 179, 237, 0.2)',
+});
+```
 
 ### 기본 스타일(CSS) (Inject Styles)
 

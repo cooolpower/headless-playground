@@ -129,6 +129,57 @@ export function MyComponent() {
 | status      | `'wait' \| 'process' \| 'finish' \| 'error'` | -       | Step 상태          |
 | disabled    | `boolean`                                    | `false` | Step 비활성화 여부 |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Steps` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcSteps`: 전체 스텝 컨테이너
+> - `.hcStep`: 개별 스텝 항목
+> - `.hcStepMain`: 아이콘과 콘텐츠를 포함하는 메인 영역
+> - `.hcStepIcon`: 단계 번호 또는 아이콘 표시 영역
+> - `.hcStepContent`: 제목과 설명을 포함하는 영역
+> - `.hcStepTitle`: 스텝 제목
+> - `.hcStepDescription`: 스텝 상세 설명
+> - `.hcStepTail`: 스텝 사이를 연결하는 선(Tail)
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customStepsWrapper = style({});
+
+// 스텝 아이콘(번호) 스타일 커스텀
+globalStyle(`${customStepsWrapper} .hcStepIcon`, {
+  width: '40px',
+  height: '40px',
+  border: '2px solid #cbd5e0',
+  backgroundColor: '#edf2f7',
+  color: '#4a5568',
+  fontSize: '1.25rem',
+});
+
+// 현재 진행 중인 스텝의 아이콘 스타일
+globalStyle(
+  `${customStepsWrapper} .hcStep[data-status="process"] .hcStepIcon`,
+  {
+    borderColor: '#4299e1',
+    backgroundColor: '#4299e1',
+    color: 'white',
+  },
+);
+
+// 스텝 사이의 연결선 스타일 커스텀
+globalStyle(`${customStepsWrapper} .hcStepTail`, {
+  backgroundColor: '#e2e8f0',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={StepsCss} title="StepsCss" />

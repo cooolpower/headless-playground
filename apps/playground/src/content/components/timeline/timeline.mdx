@@ -159,6 +159,55 @@ export function MyComponent() {
 | itemLabel       | `string` | Timeline 항목 레이블 CSS 클래스 |
 | itemDescription | `string` | Timeline 항목 설명 CSS 클래스   |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Timeline` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcTimeline`: 전체 타임라인 컨테이너
+> - `.hcTimelineItem`: 개별 타임라인 항목
+> - `.hcTimelineItemTail`: 항목 간을 연결하는 세로선 (Tail)
+> - `.hcTimelineItemHead`: 점(Dot)이 위치하는 헤더 영역
+> - `.hcTimelineDot`: 타임라인의 점 요소
+> - `.hcTimelineItemContent`: 내용이 위치하는 영역
+> - `.hcTimelineItemLabel`: 항목의 레이블(제목) 영역
+> - `.hcTimelineItemDescription`: 항목의 상세 설명 영역
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customTimelineWrapper = style({});
+
+// 연결 선(Tail) 디자인 커스텀
+globalStyle(`${customTimelineWrapper} .hcTimelineItemTail`, {
+  width: '4px',
+  backgroundColor: '#e2e8f0',
+  left: '10px',
+});
+
+// 점(Dot) 디자인 커스텀
+globalStyle(`${customTimelineWrapper} .hcTimelineDot`, {
+  width: '16px',
+  height: '16px',
+  border: '4px solid white',
+  backgroundColor: '#3182ce',
+  boxShadow: '0 0 0 2px #3182ce',
+});
+
+// 레이블 스타일 커스텀
+globalStyle(`${customTimelineWrapper} .hcTimelineItemLabel`, {
+  fontSize: '1.125rem',
+  color: '#2d3748',
+  fontWeight: '800',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={TimelineCss} title="TimelineCss" />

@@ -261,27 +261,38 @@ const [count, setCount] = useState(0);
 - 포커스 상태가 명확하게 표시됨
 - 적절한 ARIA 속성 사용 (`role="button"`, `aria-disabled`)
 
-### Styling
+### 커스텀 스타일링 (Custom Styling)
 
-Button 컴포넌트는 headless 컴포넌트로, 기본 스타일 없이 로직과 접근성 기능만 제공합니다. 다음 방법으로 스타일을 적용할 수 있습니다:
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
 
-- **CSS Classes**: `className` prop을 통해 커스텀 클래스 적용
-- **Inline Styles**: 빠른 스타일링을 위해 `style` prop 사용
-- **CSS-in-JS**: 선호하는 스타일링 솔루션 사용
-- **CSS Modules**: 모듈 클래스 import 및 적용
+`Button` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
 
-### Best Practices
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcButton`: 버튼 전체 요소
 
-- 액션에는 시맨틱 버튼 요소 사용
-- 명확하고 설명적인 버튼 레이블 제공
-- 액션이 불가능할 때 버튼 비활성화
-- 비동기 작업 중 로딩 상태 표시
-- 관련된 버튼들을 함께 그룹화
-- 애플리케이션 전반에 걸쳐 일관된 버튼 스타일 유지
-- 접근성을 위한 충분한 색상 대비 확보
-- 다양한 컨텍스트에 적절한 버튼 크기 사용
-- 일관성을 위해 Naive UI 디자인 패턴 따르기
+#### Vanilla Extract 예제
 
-### Notes
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
 
-이것은 headless 컴포넌트로, 핵심 기능과 접근성 기능만 제공합니다. 모든 시각적 스타일링은 CSS 클래스나 인라인 스타일을 통해 적용해야 합니다. 위 예제들은 애플리케이션에 맞게 적용할 수 있는 Naive UI에서 영감을 받은 스타일링 패턴을 보여줍니다.
+export const customWrapper = style({});
+
+// 버튼 배경 및 둥글기 커스텀
+globalStyle(`${customWrapper} .hcButton`, {
+  backgroundColor: '#3182ce',
+  color: 'white',
+  borderRadius: '9999px',
+  padding: '0.75rem 2rem',
+  transition: 'all 0.3s ease',
+});
+
+// 호버 상태 커스텀
+globalStyle(`${customWrapper} .hcButton:hover`, {
+  backgroundColor: '#2b6cb0',
+  transform: 'translateY(-2px)',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)

@@ -120,8 +120,63 @@ export function DateRangePickerDemo() {
 | placeholder    | `string`                               | `'날짜 범위를 선택하세요'` | 입력창 플레이스홀더         |
 | injectStyles   | `boolean`                              | `true`                     | 기본 스타일 주입 여부       |
 
-### 기본 스타일(CSS)
+### 커스텀 스타일링 (Custom Styling)
 
-커스텀 스타일링이 필요한 경우 아래의 CSS 변수를 활용하거나 각 요소의 `className` 속성을 통해 오버라이드할 수 있습니다.
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`DatePicker` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcDatePicker`: 컴포넌트 전체 컨테이너
+> - `.hcDatePickerInputWrapper`: 입력창을 감싸는 영역
+> - `.hcDatePickerInput`: 실제 input 요소
+> - `.hcDatePickerPanelWrapper`: 달력 팝업을 감싸는 영역
+> - `.hcDatePickerCalendar`: 달력 본체
+> - `.hcDatePickerCalendarHeader`: 달력 상단(월/년 이동) 영역
+> - `.hcDatePickerNavButton`: 이전/다음 달 이동 버튼
+> - `.hcDatePickerMonthYear`: 현재 표시 중인 월/년 텍스트
+> - `.hcDatePickerWeekHeader`: 요일 표시 영역
+> - `.hcDatePickerDateGrid`: 날짜 그리드 영역
+> - `.hcDatePickerDateCell`: 개별 날짜 셀
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customDatePickerWrapper = style({});
+
+// 입력창 커스텀
+globalStyle(`${customDatePickerWrapper} .hcDatePickerInputWrapper`, {
+  borderRadius: '12px',
+  border: '2px solid #e2e8f0',
+  backgroundColor: '#f8fafc',
+  height: '48px',
+});
+
+// 달력 패널 커스텀
+globalStyle(`${customDatePickerWrapper} .hcDatePickerCalendar`, {
+  borderRadius: '20px',
+  border: 'none',
+  boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+  padding: '16px',
+});
+
+// 날짜 셀 스타일
+globalStyle(`${customDatePickerWrapper} .hcDatePickerDateCell`, {
+  borderRadius: '50%',
+  fontSize: '14px',
+});
+
+// 선택된 날짜
+globalStyle(`${customDatePickerWrapper} .hcDatePickerDateCellSelected`, {
+  backgroundColor: '#6366f1 !important',
+  color: '#fff !important',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={DatePickerCss} title="DatePickerCss" />

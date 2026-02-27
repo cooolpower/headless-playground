@@ -195,15 +195,54 @@ const [value, setValue] = useState('option1');
 | className    | `string`                            | -          | 추가 CSS 클래스            |
 | children     | `ReactNode`                         | -          | Radio 컴포넌트들           |
 
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Radio` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcRadioGroup`: 여러 라디오 버튼을 감싸는 컨테이너
+> - `.hcRadioLabel`: 실제 라디오 버튼과 텍스트를 감싸는 레이블 요소
+> - `.hcRadioCircle`: 바깥쪽 원 요소
+> - `.hcRadioDot`: 안쪽 체크 표시 원 요소
+> - `.hcRadioText`: 라디오 버튼 옆의 텍스트
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customRadioWrapper = style({});
+
+// 라디오 버튼 원형 스타일 커스텀
+globalStyle(`${customRadioWrapper} .hcRadioCircle`, {
+  width: '24px',
+  height: '24px',
+  border: '2px solid #cbd5e0',
+  backgroundColor: 'white',
+});
+
+// 체크된 상태의 스타일 커스텀
+globalStyle(`${customRadioWrapper} .hcRadioCircle[data-checked="true"]`, {
+  borderColor: '#3182ce',
+});
+
+globalStyle(`${customRadioWrapper} .hcRadioDot`, {
+  backgroundColor: '#3182ce',
+  width: '12px',
+  height: '12px',
+});
+
+// 텍스트 스타일 커스텀
+globalStyle(`${customRadioWrapper} .hcRadioText`, {
+  fontSize: '1.1rem',
+  color: '#4a5568',
+});
+```
+
 ### 특징
-
-- **단일 선택**: 여러 옵션 중 하나만 선택 가능
-- **그룹 관리**: RadioGroup으로 여러 Radio를 그룹화하여 관리
-- **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
-- **크기 조절**: small, medium, large 크기 지원
-- **Headless 설계**: 스타일링은 사용자가 제어
-- **접근성**: ARIA 속성 지원
-
-### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={RadioCss} title="RadioCss" />

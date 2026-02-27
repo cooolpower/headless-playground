@@ -237,7 +237,62 @@ export function ColorPickerLivePreview() {
 | children     | 커스텀 렌더           | `React.ReactNode`         | -                          |
 | injectStyles | 기본 스타일 주입 여부 | `boolean`                 | `true`                     |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`ColorPicker` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcColorPicker`: 컴포넌트 전체 컨테이너
+> - `.hcColorPickerTop`: 스와치와 입력을 포함하는 상단 영역
+> - `.hcColorPickerSwatch`: 현재 선택된 색상을 보여주는 버튼
+> - `.hcColorPickerInput`: 색상 코드를 직접 입력하는 input
+> - `.hcColorPickerPopover`: 팔레트가 나타나는 팝오버 영역
+> - `.hcColorPickerPalette`: 프리셋 컬러들이 모여있는 그리드 팔레트
+> - `.hcColorPickerChip`: 팔레트 내 개별 색상 칩
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customColorPickerWrapper = style({});
+
+// 메인 스와치 버튼 커스텀
+globalStyle(`${customColorPickerWrapper} .hcColorPickerSwatch`, {
+  width: '40px',
+  height: '40px',
+  borderRadius: '50%',
+  border: '2px solid #fff',
+  boxShadow: '0 0 0 1px #e2e8f0, 0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+});
+
+// 팔레트 컨테이너 커스텀
+globalStyle(`${customColorPickerWrapper} .hcColorPickerPalette`, {
+  padding: '16px',
+  gap: '8px',
+  borderRadius: '16px',
+  backgroundColor: '#f8fafc',
+  border: '1px solid #e2e8f0',
+});
+
+// 개별 색상 칩 커스텀
+globalStyle(`${customColorPickerWrapper} .hcColorPickerChip`, {
+  width: '24px',
+  height: '24px',
+  borderRadius: '6px',
+  transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+});
+
+globalStyle(`${customColorPickerWrapper} .hcColorPickerChip:hover`, {
+  transform: 'scale(1.2) rotate(8deg)',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={ColorPickerCss} title="ColorPickerCss" />
 

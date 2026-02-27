@@ -196,6 +196,60 @@ const handleSearch = async (query: string): Promise<MentionOption[]> => {
 - **Headless 설계**: 스타일링은 사용자가 제어
 - **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
 
-### 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Mention` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcMention`: 컴포넌트 전체 컨테이너
+> - `.hcMentionInputWrap`: 입력을 감싸는 상대 위치 영역
+> - `.hcMentionHighlight`: 멘션 강조 표시를 위한 배경 레이어
+> - `.hcMentionHighlightMention`: 강조된 멘션 텍스트 영역
+> - `.hcMentionHighlightText`: 텍스트 하이라이트 투명 영역
+> - `.hcMentionTextarea`: 실제 입력을 담당하는 textarea
+> - `.hcMentionDropdown`: 자동완성 드롭다운 목록
+> - `.hcMentionStatus`: 드롭다운 내 상태(검색 중 등) 표시 영역
+> - `.hcMentionOption`: 드롭다운 내 개별 선택 옵션
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customMentionWrapper = style({});
+
+// 강조된 멘션 스타일 커스텀
+globalStyle(`${customMentionWrapper} .hcMentionHighlightMention`, {
+  backgroundColor: 'rgba(59, 130, 246, 0.2)',
+  color: '#2563eb',
+  fontWeight: '700',
+  borderRadius: '4px',
+  padding: '0 2px',
+});
+
+// 드롭다운 목록 디자인
+globalStyle(`${customMentionWrapper} .hcMentionDropdown`, {
+  borderRadius: '12px',
+  border: '1px solid #e2e8f0',
+  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+  marginTop: '8px',
+});
+
+// 개별 옵션 커스텀
+globalStyle(`${customMentionWrapper} .hcMentionOption`, {
+  padding: '10px 16px',
+  transition: 'background-color 0.2s ease',
+});
+
+globalStyle(`${customMentionWrapper} .hcMentionOption:hover`, {
+  backgroundColor: '#f1f5f9',
+});
+```
+
+###기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={MentionCss} title="MentionCss" />

@@ -140,6 +140,55 @@ export function MyComponent() {
 - **Headless 설계**: 스타일링은 사용자가 제어
 - **제어/비제어 모드**: value와 defaultValue를 통한 상태 관리 지원
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`TreeSelect` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcTreeSelect`: 전체 트리 셀렉트 컨테이너
+> - `.hcTreeSelectTrigger`: 선택 상태를 보여주는 트리거 버튼
+> - `.hcTreeSelectTriggerText`: 트리거 내의 텍스트 영역
+> - `.hcTreeSelectCount`: 선택된 항목 개수 표시 영역
+> - `.hcTreeSelectDropdown`: 트리가 나타나는 드롭다운 영역
+> - `.hcTreeSelectTreeRoot`: 드롭다운 내부의 트리 루트 요소
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customTreeSelectWrapper = style({});
+
+// 트리거 버튼 스타일 커스텀
+globalStyle(`${customTreeSelectWrapper} .hcTreeSelectTrigger`, {
+  borderColor: '#e2e8f0',
+  backgroundColor: '#fff',
+  padding: '10px 16px',
+  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+});
+
+// 드롭다운 디자인 커스텀
+globalStyle(`${customTreeSelectWrapper} .hcTreeSelectDropdown`, {
+  marginTop: '4px',
+  borderRadius: '8px',
+  border: '1px solid #e2e8f0',
+  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+});
+
+// 드롭다운 내부 트리 노드 스타일 커스텀
+globalStyle(
+  `${customTreeSelectWrapper} .hcTreeSelectTreeRoot [role="treeitem"]`,
+  {
+    padding: '8px 12px',
+    borderRadius: '4px',
+  },
+);
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={TreeSelectCss} title="TreeSelectCss" />

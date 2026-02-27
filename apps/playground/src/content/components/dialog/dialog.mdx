@@ -230,6 +230,63 @@ export function MyComponent() {
 - **스크롤 방지**: Dialog가 열려있을 때 배경 스크롤이 차단됩니다
 - **접근성**: ARIA 속성을 지원하여 스크린 리더와 호환됩니다
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`Dialog` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcDialogMask`: 다이얼로그 전체를 감싸는 고정 위치 마스크
+> - `.hcDialogBackdrop`: 배경 흐림/색상을 담당하는 배경 영역
+> - `.hcDialogWrap`: 다이얼로그의 위치(중앙 정렬 등)를 잡는 래퍼
+> - `.hcDialog`: 실제 다이얼로그 박스
+> - `.hcDialogHeader`: 헤더 영역
+> - `.hcDialogTitle`: 제목 텍스트 영역
+> - `.hcDialogClose`: 닫기 버튼
+> - `.hcDialogBody`: 콘텐츠가 들어가는 본문 영역
+> - `.hcDialogFooter`: 하단 버튼 등이 배치되는 푸터 영역
+> - `.hcDialogFooterBtn`: 기본 푸터 내의 버튼들
+> - `.hcDialogSpinner`: 로딩 상태 시 표시되는 스피너
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customDialogWrapper = style({});
+
+// 배경 마스크 커스텀
+globalStyle(`${customDialogWrapper} .hcDialogBackdrop`, {
+  backgroundColor: 'rgba(15, 23, 42, 0.8)',
+  backdropFilter: 'blur(8px)',
+});
+
+// 다이얼로그 본체 스타일 커스텀
+globalStyle(`${customDialogWrapper} .hcDialog`, {
+  borderRadius: '24px',
+  border: 'none',
+  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+  overflow: 'hidden',
+});
+
+// 헤더 디자인 커스텀
+globalStyle(`${customDialogWrapper} .hcDialogHeader`, {
+  padding: '24px 32px',
+  backgroundColor: '#f8fafc',
+  borderBottom: '1px solid #e2e8f0',
+});
+
+// 푸터 버튼 스타일
+globalStyle(`${customDialogWrapper} .hcDialogFooterBtn`, {
+  padding: '10px 20px',
+  fontWeight: '600',
+  borderRadius: '12px',
+});
+```
+
+### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={DialogCss} title="DialogCss" />

@@ -170,7 +170,58 @@ export function MyComponent() {
 | size         | 입력 필드 크기                | `'small' \| 'medium' \| 'large'`                                                 | `'medium'`     |
 | injectStyles | 기본 스타일 주입 여부         | `boolean`                                                                        | `true`         |
 
-## 기본 스타일(CSS) (Inject Styles)
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS를 통해 직접 스타일을 정의해야 합니다.
+
+`DynamicInput` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공합니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcDynamicInput`: 컴포넌트 전체 컨테이너
+> - `.hcDynamicInputItem`: 개별 입력 필드와 삭제 버튼을 포함하는 아이템 행
+> - `.hcDynamicInputItemInput`: 아이템 내의 입력 필드 영역
+> - `.hcDynamicInputRemoveButton`: 개별 아이템 삭제 버튼
+> - `.hcDynamicInputAddButton`: 아이템 추가 버튼
+
+#### Vanilla Extract 예제
+
+```typescript
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customDynamicInputWrapper = style({});
+
+// 아이템 간 간격 조정
+globalStyle(`${customDynamicInputWrapper} .hcDynamicInput`, {
+  gap: '12px',
+});
+
+// 입력 필드 디자인 커스텀
+globalStyle(`${customDynamicInputWrapper} .hcDynamicInputItemInput`, {
+  borderRadius: '8px',
+  border: '1px solid #d1d5db',
+  padding: '8px 12px',
+});
+
+// 추가 버튼 스타일
+globalStyle(`${customDynamicInputWrapper} .hcDynamicInputAddButton`, {
+  backgroundColor: '#f3f4f6',
+  color: '#374151',
+  fontWeight: '600',
+  borderRadius: '8px',
+  padding: '10px',
+  width: '100%',
+  border: '1px dashed #d1d5db',
+});
+
+globalStyle(`${customDynamicInputWrapper} .hcDynamicInputAddButton:hover`, {
+  backgroundColor: '#e5e7eb',
+  borderColor: '#9ca3af',
+});
+```
+
+###기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={DynamicInputCss} title="DynamicInputCss" />
 
