@@ -21,6 +21,7 @@ export interface UseCascaderProps {
   onChange?: (value: string[]) => void;
   onOpen?: () => void;
   onClose?: () => void;
+  expandStrategy?: 'sequential' | 'full'; // 열 때 확장 전략
 }
 
 export function useCascader({
@@ -34,6 +35,7 @@ export function useCascader({
   onChange,
   onOpen,
   onClose,
+  expandStrategy = 'full',
 }: UseCascaderProps) {
   const [internalValue, setInternalValue] = useState<string[]>(defaultValue);
   const [isOpen, setIsOpen] = useState(false);
@@ -100,9 +102,14 @@ export function useCascader({
       onClose?.();
     } else {
       setIsOpen(true);
-      // 열 때 값이 있으면 해당 경로를 활성 경로로 설정
-      if (value.length > 0) {
-        setActivePath(value); // 전체 경로를 활성 경로로 설정하여 현재 선택된 위치에서 탐색 시작
+      // 열 때 확장 전략에 따라 activePath 설정
+      if (expandStrategy === 'full' && value.length > 0) {
+        setActivePath(value.slice(0, -1)); // 마지막 리프 노드를 제외한 경로까지 확장? 아니면 전체? 
+        // 보통은 마지막 선택된 항목의 부모까지 보여주는게 맞음. 
+        // value가 ['A', 'B', 'C']면 'C'까지 다 보여주려면 activePath는 ['A', 'B', 'C']여야 함.
+        setActivePath(value);
+      } else if (expandStrategy === 'sequential') {
+        setActivePath([]);
       }
       onOpen?.();
     }

@@ -84,7 +84,7 @@ export function Cascader(props: CascaderProps) {
       {/* Dropdown Panels */}
       {isOpen && (
         <div className="hcCascaderPanels">
-          {/* 1Depth Panel */}
+          {/* 첫 번째 패널 (Root) */}
           <div
             className="hcCascaderPanel"
             data-bordered={activePath.length > 0 ? 'true' : 'false'}
@@ -105,7 +105,7 @@ export function Cascader(props: CascaderProps) {
                 >
                   <div className="hcCascaderOptionMain">
                     <Checkbox
-                      checked={navigating}
+                      checked={navigating || selected}
                       disabled={option.disabled}
                       size="small"
                       onChange={() => handleSelect(option, 0)}
@@ -127,49 +127,78 @@ export function Cascader(props: CascaderProps) {
             })}
           </div>
 
-          {/* 2Depth Panel (activePath가 있을 때만 표시) */}
-          {activePath.length > 0 && currentOptions.length > 0 && (
-            <div className="hcCascaderPanel">
-              {currentOptions.map((option) => {
-                const depth = activePath.length;
-                const selected = isSelected(option.value, depth);
-                const navigating = isNavigating(option.value, depth);
-                const hasChildren =
-                  option.children && option.children.length > 0;
+          {/* 하위 패널들 (activePath에 따라 동적 생성) */}
+          {activePath.map((pathValue, index) => {
+            // 현재 depth의 옵션들을 찾음
+            let currentOpts = props.options || [];
+            for (let i = 0; i < index; i++) {
+              const opt = currentOpts.find(
+                (o) => String(o.value) === activePath[i],
+              );
+              if (opt && opt.children) {
+                currentOpts = opt.children;
+              } else {
+                currentOpts = [];
+                break;
+              }
+            }
 
-                return (
-                  <div
-                    key={option.value}
-                    onClick={() => handleSelect(option, depth)}
-                    className="hcCascaderOption"
-                    data-selected={selected ? 'true' : 'false'}
-                    data-active={navigating ? 'true' : 'false'}
-                    data-disabled={option.disabled ? 'true' : 'false'}
-                  >
-                    <div className="hcCascaderOptionMain">
-                      <Checkbox
-                        checked={navigating}
-                        disabled={option.disabled}
-                        size="small"
-                        onChange={() => handleSelect(option, depth)}
-                        onClick={(e: React.MouseEvent<HTMLLabelElement>) =>
-                          e.stopPropagation()
-                        }
-                      />
-                      <span className="hcCascaderOptionLabel">
-                        {option.label}
-                      </span>
+            // 부모 노드를 찾아 자식들을 가져옴
+            const parentOpt = currentOpts.find(
+              (o) => String(o.value) === pathValue,
+            );
+            const children = parentOpt?.children || [];
+
+            if (children.length === 0) return null;
+
+            const depth = index + 1;
+
+            return (
+              <div
+                key={`${pathValue}-${depth}`}
+                className="hcCascaderPanel"
+                data-bordered={activePath.length > depth ? 'true' : 'false'}
+              >
+                {children.map((option) => {
+                  const selected = isSelected(option.value, depth);
+                  const navigating = isNavigating(option.value, depth);
+                  const hasChildren =
+                    option.children && option.children.length > 0;
+
+                  return (
+                    <div
+                      key={option.value}
+                      onClick={() => handleSelect(option, depth)}
+                      className="hcCascaderOption"
+                      data-selected={selected ? 'true' : 'false'}
+                      data-active={navigating ? 'true' : 'false'}
+                      data-disabled={option.disabled ? 'true' : 'false'}
+                    >
+                      <div className="hcCascaderOptionMain">
+                        <Checkbox
+                          checked={navigating || selected}
+                          disabled={option.disabled}
+                          size="small"
+                          onChange={() => handleSelect(option, depth)}
+                          onClick={(e: React.MouseEvent<HTMLLabelElement>) =>
+                            e.stopPropagation()
+                          }
+                        />
+                        <span className="hcCascaderOptionLabel">
+                          {option.label}
+                        </span>
+                      </div>
+                      {hasChildren && (
+                        <span className="hcCascaderNextIcon" aria-hidden="true">
+                          <Icon icon={ChevronRight} size="small" />
+                        </span>
+                      )}
                     </div>
-                    {hasChildren && (
-                      <span className="hcCascaderNextIcon" aria-hidden="true">
-                        <Icon icon={ChevronRight} size="small" />
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

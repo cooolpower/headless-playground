@@ -13,30 +13,49 @@ import * as styles from './cascader.demo.css';
 // 샘플 데이터
 const sampleOptions: CascaderOption[] = [
   {
-    label: '프론트엔드',
-    value: 'frontend',
+    label: '대한민국',
+    value: 'korea',
     children: [
-      { label: 'React', value: 'react' },
-      { label: 'Vue', value: 'vue' },
-      { label: 'Angular', value: 'angular' },
+      {
+        label: '서울특별시',
+        value: 'seoul',
+        children: [
+          { label: '강남구', value: 'gangnam' },
+          { label: '서초구', value: 'seocho' },
+          { label: '송파구', value: 'songpa' },
+        ],
+      },
+      {
+        label: '경기도',
+        value: 'gyeonggi',
+        children: [
+          { label: '수원시', value: 'suwon' },
+          { label: '성남시', value: 'seongnam' },
+          { label: '용인시', value: 'yongin' },
+        ],
+      },
     ],
   },
   {
-    label: '백엔드',
-    value: 'backend',
+    label: '미국',
+    value: 'usa',
     children: [
-      { label: 'Node.js', value: 'nodejs' },
-      { label: 'Python', value: 'python' },
-      { label: 'Java', value: 'java' },
-    ],
-  },
-  {
-    label: '데이터베이스',
-    value: 'database',
-    children: [
-      { label: 'MySQL', value: 'mysql' },
-      { label: 'PostgreSQL', value: 'postgresql' },
-      { label: 'MongoDB', value: 'mongodb' },
+      {
+        label: '캘리포니아',
+        value: 'california',
+        children: [
+          { label: '로스앤젤레스', value: 'la' },
+          { label: '샌프란시스코', value: 'sf' },
+        ],
+      },
+      {
+        label: '뉴욕',
+        value: 'newyork',
+        children: [
+          { label: '뉴욕시', value: 'nyc' },
+          { label: '버팔로', value: 'buffalo' },
+        ],
+      },
     ],
   },
 ];
@@ -55,6 +74,8 @@ interface CascaderControlsContextType {
   setSeparator: (separator: string) => void;
   injectStyles: boolean;
   setInjectStyles: (inject: boolean) => void;
+  expandStrategy: 'sequential' | 'full';
+  setExpandStrategy: (strategy: 'sequential' | 'full') => void;
 }
 
 const CascaderControlsContext =
@@ -72,6 +93,9 @@ export function DemoCascaderBasicProvider({
   const [placeholder, setPlaceholder] = useState('선택하세요...');
   const [separator, setSeparator] = useState(' / ');
   const [injectStyles, setInjectStyles] = useState(true);
+  const [expandStrategy, setExpandStrategy] = useState<'sequential' | 'full'>(
+    'full',
+  );
 
   const contextValue = useMemo(
     () => ({
@@ -87,8 +111,18 @@ export function DemoCascaderBasicProvider({
       setSeparator,
       injectStyles,
       setInjectStyles,
+      expandStrategy,
+      setExpandStrategy,
     }),
-    [value, disabled, size, placeholder, separator, injectStyles],
+    [
+      value,
+      disabled,
+      size,
+      placeholder,
+      separator,
+      injectStyles,
+      expandStrategy,
+    ],
   );
 
   return (
@@ -113,6 +147,7 @@ export function DemoCascaderBasicWithControls() {
     placeholder,
     separator,
     injectStyles,
+    expandStrategy,
   } = context;
 
   return (
@@ -130,6 +165,7 @@ export function DemoCascaderBasicWithControls() {
             placeholder={placeholder}
             separator={separator}
             injectStyles={injectStyles}
+            expandStrategy={expandStrategy}
           />
         </div>
         <p className={styles.status}>
@@ -161,6 +197,8 @@ export function DemoCascaderBasicControls() {
     setSeparator,
     injectStyles,
     setInjectStyles,
+    expandStrategy,
+    setExpandStrategy,
   } = context;
 
   const sizeOptions: SelectOption[] = [
@@ -175,6 +213,11 @@ export function DemoCascaderBasicControls() {
     { label: ' | ', value: ' | ' },
     { label: ' - ', value: ' - ' },
     { label: ' → ', value: ' → ' },
+  ];
+
+  const strategyOptions: SelectOption[] = [
+    { label: 'Sequential (지연 확장)', value: 'sequential' },
+    { label: 'Full (일괄 확장)', value: 'full' },
   ];
 
   return (
@@ -258,6 +301,22 @@ export function DemoCascaderBasicControls() {
             >
               기본 스타일 주입
             </Checkbox>
+          ),
+        },
+        {
+          label: '열기 전략 (Expand Strategy)',
+          control: (
+            <Select
+              options={strategyOptions}
+              value={expandStrategy}
+              onChange={(val) => {
+                if (!Array.isArray(val) && val !== undefined) {
+                  setExpandStrategy(val as typeof expandStrategy);
+                }
+              }}
+              placeholder="전략 선택"
+              size="small"
+            />
           ),
         },
       ]}
