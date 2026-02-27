@@ -15,12 +15,17 @@ export const badgeCss = `
   display: inline-flex;
 }
 
-.hcBadgeCount,
-.hcBadgeDot{
+.hcBadgeContainer .hcBadgeCount,
+.hcBadgeContainer .hcBadgeDot{
   position: absolute;
   top: 0;
   right: 0;
   transform: translate(50%, -50%);
+}
+
+.hcBadgeCount,
+.hcBadgeDot{
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -894,9 +894,9 @@ export function DemoBadgeBasic() {
 export function DemoBadgeStandalone() {
   return (
     <div className={styles.container}>
+      <Badge count={25} />
       <Badge count={99} />
       <Badge count={100} />
-      <Badge count={1000} maxCount={999} />
       <Badge count="hot" />
       <Badge count="new" />
     </div>

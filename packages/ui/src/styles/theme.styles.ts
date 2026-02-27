@@ -63,6 +63,8 @@ export const defaultThemeCss = `
   --color-surface-hover: oklch(20% 0 0);
   --color-surface-active: oklch(25% 0 0);
   --color-text: oklch(65% 0 0);
+  --color-text-secondary: oklch(100% 0 0);
+  --color-text-muted: oklch(100% 0 0 / 0.3);
   --color-text-heading: oklch(90% 0 0);
   --color-border: oklch(100% 0 0 / 0.1);
   --color-divider: oklch(100% 0 0 / 0.08);
@@ -99,6 +101,8 @@ export const defaultThemeCss = `
   --color-surface-hover: oklch(96% 0 0);
   --color-surface-active: oklch(92% 0 0);
   --color-text: oklch(32% 0 0);
+  --color-text-secondary: oklch(42% 0 0);
+  --color-text-muted: oklch(0% 0 0 / 0.3);
   --color-text-heading: oklch(22% 0 0);
   --color-border: oklch(0% 0 0 / 0.1);
   --color-divider: oklch(0% 0 0 / 0.08);

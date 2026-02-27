@@ -405,7 +405,7 @@ createGlobalTheme(':root', vars, {
     'surface-active': 'oklch(25% 0 0)',
 
     text: 'oklch(65% 0 0)',
-    'text-secondary': 'oklch(50% 0 0)',
+    'text-secondary': 'oklch(100% 0 0)',
     'text-muted': 'oklch(100% 0 0 / 0.3)',
     'text-disabled': 'oklch(50% 0 0)',
     'text-heading': 'oklch(90% 0 0)',

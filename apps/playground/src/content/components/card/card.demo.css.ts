@@ -26,7 +26,7 @@ export const cardWrapper = style({
   backgroundColor: 'var(--color-surface)',
   boxShadow: 'var(--shadow-sm)',
   transition: 'all 0.2s ease',
-  padding: 'var(--spacing-card-padding)',
+  padding: '0',
 
   ':hover': {
     boxShadow: 'var(--shadow-md)',
