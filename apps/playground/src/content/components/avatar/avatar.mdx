@@ -66,6 +66,37 @@ import { AvatarCss } from '@cooolpower/headless-ui';
 </div>
 ```
 
+### 커스텀 스타일링 (Custom Styling)
+
+`injectStyles={false}`로 설정하면 라이브러리의 기본 스타일이 주입되지 않습니다. 이 경우 사용자가 외부 CSS나 CSS-in-JS(Vanilla Extract 등)를 통해 직접 스타일을 정의해야 합니다.
+
+`Avatar` 컴포넌트는 내부적으로 다음과 같은 고정 클래스명을 제공하므로, 이를 선택자로 활용하여 스타일을 커스텀할 수 있습니다.
+
+> [!NOTE]
+> **제공되는 내부 클래스:**
+>
+> - `.hcAvatar`: 전체 컨테이너
+> - `.hcAvatarImg`: 이미지 요소 (`<img>`)
+> - `.hcAvatarFallback`: 이미지가 없을 때 표시되는 폴백 요소 (`<div>`)
+
+#### Vanilla Extract 예제
+
+```typescript
+// avatar.styles.ts
+import { style, globalStyle } from '@vanilla-extract/css';
+
+export const customWrapper = style({});
+
+globalStyle(`${customWrapper} .hcAvatar`, {
+  borderRadius: '12px', // 사각형 모양으로 변경
+  backgroundColor: '#f0f0f0',
+});
+
+globalStyle(`${customWrapper} .hcAvatarImg`, {
+  filter: 'grayscale(100%)', // 흑백 필터 적용
+});
+```
+
 ### 기본 스타일(CSS) (Inject Styles)
 
 <CssSnippet css={AvatarCss} title="AvatarCss" />

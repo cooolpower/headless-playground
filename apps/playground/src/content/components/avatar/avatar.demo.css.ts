@@ -96,14 +96,23 @@ export const controlDescription = style({
 const avatarCustomWrapper = style({});
 
 globalStyle(`${avatarCustomWrapper} .hcAvatar`, {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '9999px',
-  overflow: 'hidden',
-  background: 'var(--color-surface)',
-  border: '2px dashed var(--color-border)',
-  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  display: 'unset',
+  alignItems: 'unset',
+  justifyContent: 'unset',
+  borderRadius: 'unset',
+  overflow: 'unset',
+  background: 'unset',
+  border: 'unset',
+  boxShadow: 'unset',
+
+  // display: 'inline-flex',
+  // alignItems: 'center',
+  // justifyContent: 'center',
+  // borderRadius: '9999px',
+  // overflow: 'hidden',
+  // background: 'var(--color-surface)',
+  // border: '2px dashed var(--color-border)',
+  // boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 });
 
 globalStyle(`${avatarCustomWrapper} .hcAvatarFallback`, {

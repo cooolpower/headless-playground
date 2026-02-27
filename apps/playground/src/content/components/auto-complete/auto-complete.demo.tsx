@@ -69,40 +69,57 @@ export function DemoAutocompleteBasicWithControls() {
           />
           {showOptions && filteredOptions.length > 0 && (
             <div
+              className={injectStyles ? 'hcAutocompleteDropdown' : undefined}
               style={{
                 position: 'absolute',
                 top: '100%',
                 left: 0,
                 right: 0,
-                border: '1px solid var(--color-divider)',
-                borderRadius: '4px',
-                backgroundColor: 'var(--color-surface)',
                 zIndex: 1000,
-                marginTop: '4px',
-                maxHeight: '200px',
-                overflowY: 'auto',
+                // 기본 스타일 미주입 시 보조 스타일
+                ...(!injectStyles && {
+                  border: '1px solid var(--color-divider)',
+                  borderRadius: '4px',
+                  backgroundColor: 'var(--color-surface)',
+                  marginTop: '4px',
+                  maxHeight: '200px',
+                  overflowY: 'auto',
+                }),
               }}
             >
               {filteredOptions.map((opt) => (
                 <div
                   key={opt}
+                  className={injectStyles ? 'hcAutocompleteItem' : undefined}
                   onClick={() => {
                     setValue(opt);
                     setShowOptions(false);
                   }}
-                  style={{
-                    padding: '8px 12px',
-                    cursor: 'pointer',
-                    borderBottom: '1px solid var(--color-divider)',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      'var(--color-surface-hover)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      'var(--color-surface)';
-                  }}
+                  style={
+                    !injectStyles
+                      ? {
+                          padding: '8px 12px',
+                          cursor: 'pointer',
+                          borderBottom: '1px solid var(--color-divider)',
+                        }
+                      : undefined
+                  }
+                  onMouseEnter={
+                    !injectStyles
+                      ? (e) => {
+                          e.currentTarget.style.backgroundColor =
+                            'var(--color-surface-hover)';
+                        }
+                      : undefined
+                  }
+                  onMouseLeave={
+                    !injectStyles
+                      ? (e) => {
+                          e.currentTarget.style.backgroundColor =
+                            'var(--color-surface)';
+                        }
+                      : undefined
+                  }
                 >
                   {opt}
                 </div>

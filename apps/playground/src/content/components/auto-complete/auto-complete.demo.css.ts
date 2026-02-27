@@ -9,10 +9,13 @@ export const container = style({
 
 // Autocomplete component styles (moved from headless component)
 export const autocomplete = style({
-  padding: '1rem',
-  border: '1px solid var(--color-divider)',
-  borderRadius: 'var(--radius-md)',
-  backgroundColor: 'var(--color-surface)',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+  padding: '1.5rem',
+  border: '2px dashed var(--color-brand-primary)',
+  borderRadius: 'var(--radius-lg)',
+  backgroundColor: 'var(--color-surface-hover)',
 });
 
 export const section = style({
@@ -48,15 +51,18 @@ export const button = style({
 // Autocomplete 커스텀 스타일 (injectStyles=false일 때 사용)
 const autocompleteCustomWrapper = style({});
 
-globalStyle(`${autocompleteCustomWrapper} .hcAutocomplete`, {
-  padding: 'var(--spacing-base)',
-  border: '2px dashed var(--color-border)',
+globalStyle(`${autocompleteCustomWrapper} > div`, {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+  padding: '1.5rem',
+  border: '2px dashed var(--color-error)',
   borderRadius: 'var(--radius-lg)',
   background: 'var(--color-surface)',
-  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
 });
 
-globalStyle(`${autocompleteCustomWrapper} .hcAutocomplete[data-disabled="true"]`, {
+globalStyle(`${autocompleteCustomWrapper} [data-disabled="true"]`, {
   opacity: 0.5,
   cursor: 'not-allowed',
 });

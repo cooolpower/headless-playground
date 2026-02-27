@@ -145,6 +145,7 @@ export const vars = createGlobalThemeContract(
       'background-disabled': 'color-background-disabled',
       surface: 'color-surface',
       'surface-hover': 'color-surface-hover',
+      'surface-active': 'color-surface-active',
 
       text: 'color-text',
       'text-secondary': 'color-text-secondary',
@@ -400,7 +401,8 @@ createGlobalTheme(':root', vars, {
     'background-hover': 'oklch(10% 0 0)',
     'background-disabled': 'oklch(30% 0 0)',
     surface: 'oklch(15% 0 0)',
-    'surface-hover': 'oklch(15% 0 0)',
+    'surface-hover': 'oklch(20% 0 0)',
+    'surface-active': 'oklch(25% 0 0)',
 
     text: 'oklch(65% 0 0)',
     'text-secondary': 'oklch(50% 0 0)',
@@ -546,6 +548,7 @@ const lightColors = {
   'background-disabled': 'oklch(96% 0 0)',
   surface: 'oklch(100% 0 0)',
   'surface-hover': 'oklch(96% 0 0)',
+  'surface-active': 'oklch(92% 0 0)',
 
   text: 'oklch(32% 0 0)',
   'text-secondary': 'oklch(42% 0 0)',

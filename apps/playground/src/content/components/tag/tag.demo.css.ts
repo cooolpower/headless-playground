@@ -37,7 +37,7 @@ export const sectionTitle = style({
 
 export const tagGroup = style({
   display: 'flex',
-  gap: 'var(--spacing-sm)',
+  gap: '8px',
   flexWrap: 'wrap',
   alignItems: 'center',
 });
@@ -49,14 +49,6 @@ const tagBackgroundColor = createVar();
 export const tagWrapper = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '6px',
-  padding: '4px 8px',
-  borderRadius: '4px',
-  backgroundColor: tagBackgroundColor,
-  color: 'var(--color-text-muted)',
-  fontSize: 'var(--font-size-xs)',
-  fontWeight: '500',
-  border: '1px solid var(--color-divider)',
   transition: 'all 0.2s ease',
 });
 

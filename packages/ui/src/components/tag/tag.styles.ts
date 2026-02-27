@@ -19,23 +19,23 @@ export const tagCss = `
 .hcTag[data-size="small"]{
   padding: 0.125rem 0.375rem;
   font-size: var(--font-size-xs);
-  gap: var(--spacing-xs);
+  gap: 0.25rem;
 }
 .hcTag[data-size="medium"]{
   padding: 0.25rem 0.5rem;
   font-size: var(--font-size-sm);
-  gap: var(--spacing-sm);
+  gap: 0.375rem;
 }
 .hcTag[data-size="large"]{
   padding: 0.375rem 0.75rem;
   font-size: var(--font-size-base);
-  gap: var(--spacing-base);
+  gap: 0.5rem;
 }
 
 .hcTag[data-variant="default"]{
   background: var(--color-surface);
   color: var(--color-text);
-  //border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border);
 }
 .hcTag[data-variant="primary"]{
   background: oklch(0.83 0.13 var(--color-info));

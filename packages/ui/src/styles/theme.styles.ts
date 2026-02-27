@@ -60,6 +60,8 @@ export const defaultThemeCss = `
   /* 컬러 - 바탕 및 텍스트 */
   --color-background: oklch(5% 0 0);
   --color-surface: oklch(15% 0 0);
+  --color-surface-hover: oklch(20% 0 0);
+  --color-surface-active: oklch(25% 0 0);
   --color-text: oklch(65% 0 0);
   --color-text-heading: oklch(90% 0 0);
   --color-border: oklch(100% 0 0 / 0.1);
@@ -94,6 +96,8 @@ export const defaultThemeCss = `
 [data-theme="light"] {
   --color-background: oklch(100% 0 0);
   --color-surface: oklch(100% 0 0);
+  --color-surface-hover: oklch(96% 0 0);
+  --color-surface-active: oklch(92% 0 0);
   --color-text: oklch(32% 0 0);
   --color-text-heading: oklch(22% 0 0);
   --color-border: oklch(0% 0 0 / 0.1);
