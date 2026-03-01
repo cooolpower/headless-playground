@@ -148,60 +148,72 @@ export function useTree({
 
   // 체크 핸들러 (엄격 모드와 비엄격 모드 지원)
   const handleCheck = useCallback(
-    (keys: string[], info: any) => {
-      let finalKeys = keys;
-
-      if (!checkStrictly) {
-        // 비엄격 모드: 부모-자식 관계 자동 처리
-        const newCheckedKeys = new Set(keys);
-
-        keys.forEach((key) => {
-          const node = findNode(treeData, key);
-          if (node) {
-            // 자식 노드들 모두 체크/언체크
-            const childKeys = getAllChildKeys(node);
-            childKeys.forEach((childKey) => {
-              if (newCheckedKeys.has(key)) {
-                newCheckedKeys.add(childKey);
-              } else {
-                newCheckedKeys.delete(childKey);
-              }
-            });
-
-            // 부모 노드들 체크 상태 업데이트
-            const parentKeys = getAllParentKeys(treeData, key);
-            parentKeys.forEach((parentKey) => {
-              const parentNode = findNode(treeData, parentKey);
-              if (parentNode && parentNode.children) {
-                const allChildrenChecked = parentNode.children.every((child) =>
-                  newCheckedKeys.has(String(child.key))
-                );
-                const someChildrenChecked = parentNode.children.some((child) =>
-                  newCheckedKeys.has(String(child.key))
-                );
-
-                if (allChildrenChecked) {
-                  newCheckedKeys.add(parentKey);
-                } else if (someChildrenChecked) {
-                  // 일부만 체크된 경우 부모는 체크하지 않음
-                  newCheckedKeys.delete(parentKey);
-                } else {
-                  newCheckedKeys.delete(parentKey);
-                }
-              }
-            });
-          }
-        });
-
-        finalKeys = Array.from(newCheckedKeys);
+    (_keys: string[], info: { node?: TreeNodeData | null; checked?: boolean }) => {
+      if (checkStrictly) {
+        // 엄격 모드: 부모-자식 관계 무시
+        if (!isControlled.checked) {
+          setInternalCheckedKeys(_keys);
+        }
+        onCheck?.(_keys, info);
+        return;
       }
 
+      // 비엄격 모드: 부모-자식 관계 자동 처리
+      const targetKey = info.node ? String(info.node.key) : null;
+      const isChecking = info.checked ?? false;
+
+      if (!targetKey) {
+        if (!isControlled.checked) {
+          setInternalCheckedKeys(_keys);
+        }
+        onCheck?.(_keys, info);
+        return;
+      }
+
+      const newCheckedKeys = new Set(checkedKeys);
+      const targetNode = findNode(treeData, targetKey);
+
+      if (isChecking) {
+        // 체크: 대상 노드 + 모든 자식 추가
+        newCheckedKeys.add(targetKey);
+        if (targetNode) {
+          const childKeys = getAllChildKeys(targetNode);
+          childKeys.forEach((k) => newCheckedKeys.add(k));
+        }
+      } else {
+        // 언체크: 대상 노드 + 모든 자식 제거
+        newCheckedKeys.delete(targetKey);
+        if (targetNode) {
+          const childKeys = getAllChildKeys(targetNode);
+          childKeys.forEach((k) => newCheckedKeys.delete(k));
+        }
+      }
+
+      // 부모 노드들 상태 업데이트 (아래에서 위로)
+      const parentKeys = getAllParentKeys(treeData, targetKey);
+      // 가장 가까운 부모부터 처리
+      for (let i = parentKeys.length - 1; i >= 0; i--) {
+        const parentKey = parentKeys[i];
+        const parentNode = findNode(treeData, parentKey);
+        if (parentNode && parentNode.children) {
+          const allChildrenChecked = parentNode.children.every((child) =>
+            newCheckedKeys.has(String(child.key))
+          );
+          if (allChildrenChecked) {
+            newCheckedKeys.add(parentKey);
+          } else {
+            newCheckedKeys.delete(parentKey);
+          }
+        }
+      }
+
+      const finalKeys = Array.from(newCheckedKeys);
       if (!isControlled.checked) {
         setInternalCheckedKeys(finalKeys);
       }
       onCheck?.(finalKeys, info);
     },
-    [checkStrictly, treeData, isControlled.checked, onCheck]
+    [checkStrictly, treeData, checkedKeys, isControlled.checked, onCheck]
   );
 
   // 상태 설정 함수들

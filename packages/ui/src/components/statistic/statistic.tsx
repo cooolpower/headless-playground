@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import { StatisticProps } from './type-statistic';
 import { useStatistic } from './use-statistic';
 import { statisticCss as _statisticCss } from './statistic.styles';
+import { useStyles } from '../../hooks/use-styles';
 
 export const StatisticCss = _statisticCss;
 
@@ -24,7 +25,7 @@ export const Statistic = forwardRef<HTMLDivElement, StatisticProps>(
       injectStyles = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const { displayValue } = useStatistic({
       value,
@@ -33,6 +34,8 @@ export const Statistic = forwardRef<HTMLDivElement, StatisticProps>(
       decimalSeparator,
     });
 
+    useStyles('hc-statistic-styles', _statisticCss, injectStyles);
+
     if (loading) {
       return (
         <div
@@ -40,11 +43,14 @@ export const Statistic = forwardRef<HTMLDivElement, StatisticProps>(
           className={className || classNames?.container || 'hcStatistic'}
           {...props}
         >
-          {injectStyles && <style suppressHydrationWarning>{_statisticCss}</style>}
           {title && (
-            <div className={classNames?.title || 'hcStatisticTitle'}>{title}</div>
+            <div className={classNames?.title || 'hcStatisticTitle'}>
+              {title}
+            </div>
           )}
-          <div className={classNames?.loadingSkeleton || 'hcStatisticSkeleton'} />
+          <div
+            className={classNames?.loadingSkeleton || 'hcStatisticSkeleton'}
+          />
         </div>
       );
     }
@@ -55,19 +61,33 @@ export const Statistic = forwardRef<HTMLDivElement, StatisticProps>(
         className={className || classNames?.container || 'hcStatistic'}
         {...props}
       >
-        {injectStyles && <style suppressHydrationWarning>{_statisticCss}</style>}
-        {title && <div className={classNames?.title || 'hcStatisticTitle'}>{title}</div>}
+        {title && (
+          <div className={classNames?.title || 'hcStatisticTitle'}>{title}</div>
+        )}
 
-        <div className={classNames?.content || 'hcStatisticContent'} style={valueStyle}>
-          {prefix && <span className={classNames?.prefix || 'hcStatisticPrefix'}>{prefix}</span>}
+        <div
+          className={classNames?.content || 'hcStatisticContent'}
+          style={valueStyle}
+        >
+          {prefix && (
+            <span className={classNames?.prefix || 'hcStatisticPrefix'}>
+              {prefix}
+            </span>
+          )}
 
-          <span className={classNames?.value || 'hcStatisticValue'}>{displayValue}</span>
+          <span className={classNames?.value || 'hcStatisticValue'}>
+            {displayValue}
+          </span>
 
-          {suffix && <span className={classNames?.suffix || 'hcStatisticSuffix'}>{suffix}</span>}
+          {suffix && (
+            <span className={classNames?.suffix || 'hcStatisticSuffix'}>
+              {suffix}
+            </span>
+          )}
         </div>
       </div>
     );
-  }
+  },
 );
 
 Statistic.displayName = 'Statistic';
