@@ -5,12 +5,15 @@ export const sectionBorder = createVar();
 
 export const grid = style({
   display: 'grid',
-  gridTemplateColumns: '1fr 400px',
+  gridTemplateColumns: '1fr 300px',
   gap: '24px',
   marginTop: '24px',
 });
 
 export const interactionSection = style({
+  position: 'sticky',
+  top: '82px',
+  height: 'fit-content',
   backgroundColor: sectionBg,
   border: `1px solid ${sectionBorder}`,
   borderRadius: '8px',

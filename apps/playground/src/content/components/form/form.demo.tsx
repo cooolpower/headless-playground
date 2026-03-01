@@ -420,7 +420,7 @@ export function DemoFormLayout() {
             placeholder="입력하세요"
             style={{
               width: '100%',
-              padding: '8px 12px',
+              //padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
             }}
@@ -437,7 +437,7 @@ export function DemoFormLayout() {
             placeholder="입력하세요"
             style={{
               width: '100%',
-              padding: '8px 12px',
+              //padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
             }}
@@ -463,7 +463,7 @@ export function DemoFormLayout() {
             placeholder="입력하세요"
             style={{
               width: '150px',
-              padding: '8px 12px',
+              //padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
             }}
@@ -480,7 +480,7 @@ export function DemoFormLayout() {
             placeholder="입력하세요"
             style={{
               width: '150px',
-              padding: '8px 12px',
+              //padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
             }}
@@ -536,7 +536,6 @@ export function DemoFormValidation() {
             placeholder="필수 입력"
             style={{
               width: '100%',
-              padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
             }}
@@ -568,7 +567,6 @@ export function DemoFormValidation() {
             placeholder="YYYY-MM-DD"
             style={{
               width: '100%',
-              padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
             }}
@@ -594,7 +592,6 @@ export function DemoFormValidation() {
             placeholder="5-10자"
             style={{
               width: '100%',
-              padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
             }}
@@ -684,7 +681,7 @@ export function DemoFormWithZod() {
             placeholder="이메일을 입력하세요"
             style={{
               width: '100%',
-              padding: '8px 12px',
+              //padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
               fontSize: '14px',
@@ -708,7 +705,7 @@ export function DemoFormWithZod() {
             placeholder="비밀번호를 입력하세요"
             style={{
               width: '100%',
-              padding: '8px 12px',
+              //padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
               fontSize: '14px',
@@ -732,7 +729,7 @@ export function DemoFormWithZod() {
             placeholder="나이를 입력하세요"
             style={{
               width: '100%',
-              padding: '8px 12px',
+              //padding: '8px 12px',
               border: '1px solid var(--color-divider)',
               borderRadius: '4px',
               fontSize: '14px',

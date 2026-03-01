@@ -55,7 +55,7 @@ globalStyle(`${inputNumber} > input`, {
   flex: 1,
   border: 'none',
   backgroundColor: 'transparent',
-  padding: 'var(--spacing-xs) var(--spacing-sm)',
+  //padding: 'var(--spacing-xs) var(--spacing-sm)',
   textAlign: 'center',
   fontSize: 'inherit',
   fontFamily: 'inherit',

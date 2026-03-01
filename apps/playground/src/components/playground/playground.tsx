@@ -37,7 +37,7 @@ export function Playground({
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: wrappedControls ? '1fr 400px' : '1fr',
+        gridTemplateColumns: wrappedControls ? '1fr 300px' : '1fr',
         gap: '24px',
       }}
     >

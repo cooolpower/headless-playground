@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import { Countdown } from '../countdown/countdown';
+import { useCountdown } from '../countdown/use-countdown';
 import { FlipCountdownProps, FlipCountdownLabels } from './type-flip-countdown';
 import { flipCountdownCss as _flipCountdownCss } from './flip-countdown.styles';
 import { useStyles } from '../../hooks/use-styles';
@@ -13,7 +13,7 @@ function safeLabel(
   labels: FlipCountdownLabels | undefined,
   key: keyof FlipCountdownLabels,
   fallback: string,
-) {
+): string {
   const v = labels?.[key];
   return typeof v === 'string' && v.trim() !== '' ? v : fallback;
 }
@@ -24,7 +24,7 @@ function FlipDigit({
 }: {
   digit: number;
   digitSize: NonNullable<FlipCountdownProps['digitSize']>;
-}) {
+}): React.ReactNode {
   const [currentDigit, setCurrentDigit] = useState(digit);
   const [nextDigit, setNextDigit] = useState(digit);
   const [isFlipping, setIsFlipping] = useState(false);
@@ -108,7 +108,7 @@ function FlipUnit({
   label: string;
   value: number;
   digitSize: NonNullable<FlipCountdownProps['digitSize']>;
-}) {
+}): React.ReactNode {
   const valueStr = String(value).padStart(2, '0');
   const digits = valueStr.split('').map((ch) => Number(ch));
 
@@ -134,7 +134,7 @@ function FlipNumber({
   value: number;
   minDigits: number;
   digitSize: NonNullable<FlipCountdownProps['digitSize']>;
-}) {
+}): React.ReactNode {
   const valueStr = String(value).padStart(minDigits, '0');
   const digits = valueStr.split('').map((ch) => Number(ch));
 
@@ -150,7 +150,7 @@ function FlipNumber({
   );
 }
 
-export function FlipCountdown(props: FlipCountdownProps) {
+export function FlipCountdown(props: FlipCountdownProps): React.ReactNode {
   const {
     targetTime,
     active = true,
@@ -164,8 +164,15 @@ export function FlipCountdown(props: FlipCountdownProps) {
     precision = 0,
   } = props;
 
-  // useStyles 훅을 통해 테마 및 컴포넌트 스타일 주입
   useStyles('hc-flip-countdown-styles', _flipCountdownCss, injectStyles);
+
+  const { timeLeft } = useCountdown({
+    targetTime,
+    active,
+    precision,
+  });
+
+  const { days, hours, minutes, seconds, milliseconds, total } = timeLeft;
 
   const showDays = mode === 'time' && format.includes('DD');
   const showHours = mode === 'time' && format.includes('HH');
@@ -184,102 +191,93 @@ export function FlipCountdown(props: FlipCountdownProps) {
     [labels],
   );
 
+  const msStr =
+    precision > 0
+      ? String(milliseconds).padStart(3, '0').slice(0, precision)
+      : '';
+
+  const renderTimeMode = (): React.ReactNode => (
+    <>
+      {showDays && (
+        <FlipUnit
+          label={resolvedLabels.days}
+          value={days}
+          digitSize={digitSize}
+        />
+      )}
+      {showHours && (
+        <FlipUnit
+          label={resolvedLabels.hours}
+          value={hours}
+          digitSize={digitSize}
+        />
+      )}
+      {showMinutes && (
+        <FlipUnit
+          label={resolvedLabels.minutes}
+          value={minutes}
+          digitSize={digitSize}
+        />
+      )}
+      {showSeconds && (
+        <FlipUnit
+          label={resolvedLabels.seconds}
+          value={seconds}
+          digitSize={digitSize}
+        />
+      )}
+      {precision > 0 && (
+        <>
+          <div
+            className="hcFlipSeparator"
+            style={{ alignSelf: 'flex-end', marginBottom: '8px' }}
+          >
+            {resolvedLabels.milliseconds}
+          </div>
+          <FlipNumber
+            label=""
+            value={Number(msStr)}
+            minDigits={precision}
+            digitSize={digitSize}
+          />
+        </>
+      )}
+    </>
+  );
+
+  const renderNumberMode = (): React.ReactNode => {
+    const totalSeconds = Math.max(0, Math.floor(total / 1000));
+    return (
+      <>
+        <FlipNumber
+          label={resolvedLabels.number}
+          value={totalSeconds}
+          minDigits={Math.max(1, minDigits)}
+          digitSize={digitSize}
+        />
+        {precision > 0 && (
+          <>
+            <div
+              className="hcFlipSeparator"
+              style={{ alignSelf: 'flex-end', marginBottom: '8px' }}
+            >
+              {resolvedLabels.milliseconds}
+            </div>
+            <FlipNumber
+              label=""
+              value={Number(msStr)}
+              minDigits={precision}
+              digitSize={digitSize}
+            />
+          </>
+        )}
+      </>
+    );
+  };
+
   return (
-    <div className={className}>
-      <div className="hcFlipRoot">
-        <Countdown
-          targetTime={targetTime}
-          active={active}
-          injectStyles={injectStyles}
-          precision={precision}
-        >
-          {({ days, hours, minutes, seconds, milliseconds, total }) => {
-            const msStr =
-              precision > 0
-                ? String(milliseconds).padStart(3, '0').slice(0, precision)
-                : '';
-
-            if (mode === 'number') {
-              const totalSeconds = Math.max(0, Math.floor(total / 1000));
-              return (
-                <>
-                  <FlipNumber
-                    label={resolvedLabels.number}
-                    value={totalSeconds}
-                    minDigits={Math.max(1, minDigits)}
-                    digitSize={digitSize}
-                  />
-                  {precision > 0 && (
-                    <>
-                      <div
-                        className="hcFlipSeparator"
-                        style={{ alignSelf: 'flex-end', marginBottom: '8px' }}
-                      >
-                        {resolvedLabels.milliseconds}
-                      </div>
-                      <FlipNumber
-                        label=""
-                        value={Number(msStr)}
-                        minDigits={precision}
-                        digitSize={digitSize}
-                      />
-                    </>
-                  )}
-                </>
-              );
-            }
-
-            return (
-              <>
-                {showDays && (
-                  <FlipUnit
-                    label={resolvedLabels.days}
-                    value={days}
-                    digitSize={digitSize}
-                  />
-                )}
-                {showHours && (
-                  <FlipUnit
-                    label={resolvedLabels.hours}
-                    value={hours}
-                    digitSize={digitSize}
-                  />
-                )}
-                {showMinutes && (
-                  <FlipUnit
-                    label={resolvedLabels.minutes}
-                    value={minutes}
-                    digitSize={digitSize}
-                  />
-                )}
-                {showSeconds && (
-                  <FlipUnit
-                    label={resolvedLabels.seconds}
-                    value={seconds}
-                    digitSize={digitSize}
-                  />
-                )}
-                {precision > 0 && (
-                  <>
-                    <div
-                      className="hcFlipSeparator"
-                      style={{ alignSelf: 'flex-end', marginBottom: '8px' }}
-                    >
-                      {resolvedLabels.milliseconds}
-                    </div>
-                    <FlipNumber
-                      label=""
-                      value={Number(msStr)}
-                      minDigits={precision}
-                      digitSize={digitSize}
-                    />
-                  </>
-                )}
-              </>
-            );
-          }}
-        </Countdown>
-      </div>
+    <div className={className ? `hcFlipRoot ${className}` : 'hcFlipRoot'}>
+      {mode === 'number' ? renderNumberMode() : renderTimeMode()}
     </div>
   );
 }

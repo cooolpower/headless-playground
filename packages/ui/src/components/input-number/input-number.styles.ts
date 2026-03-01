@@ -2,6 +2,7 @@ export const inputNumberCss = `
 .hcInputNumber {
   display: inline-flex;
   align-items: stretch;
+  width: fit-content;
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -48,6 +49,7 @@ export const inputNumberCss = `
 
 .hcInputNumber[data-size="small"] {
   font-size: 0.875rem;
+  height: 2rem;
 }
 .hcInputNumber[data-size="small"] .hcInputNumberInput {
   padding: 0 0.5rem;
@@ -55,14 +57,20 @@ export const inputNumberCss = `
 }
 .hcInputNumber[data-size="small"] .hcInputNumberButton {
   width: 2rem;
+  height: 100%;
 }
 
 .hcInputNumber[data-size="medium"] {
   font-size: 1rem;
+  height: 2.25rem;
+}
+.hcInputNumber[data-size="medium"] .hcInputNumberButton {
+  height: 100%;
 }
 
 .hcInputNumber[data-size="large"] {
   font-size: 1.125rem;
+  height: 2.5rem;
 }
 .hcInputNumber[data-size="large"] .hcInputNumberInput {
   padding: 0 0.875rem;
@@ -70,6 +78,7 @@ export const inputNumberCss = `
 }
 .hcInputNumber[data-size="large"] .hcInputNumberButton {
   width: 2.5rem;
+  height: 100%;
 }
 `;
 
