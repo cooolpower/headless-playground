@@ -18,6 +18,13 @@ export const interactionSection = style({
   border: `1px solid ${sectionBorder}`,
   borderRadius: '8px',
   padding: '16px',
+  zIndex: 1,
+  transition: 'z-index 0s', // 즉시 적용
+  selectors: {
+    '&:focus-within': {
+      zIndex: 100,
+    },
+  },
 });
 
 globalStyle('[data-theme="dark"]', {

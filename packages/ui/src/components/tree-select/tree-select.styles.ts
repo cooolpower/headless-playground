@@ -13,6 +13,10 @@ export const treeSelectCss = `
   max-width: 25rem;
 }
 
+.hcTreeSelect[data-open="true"]{
+  z-index: 10;
+}
+
 .hcTreeSelectTrigger{
   width: 100%;
   display: flex;

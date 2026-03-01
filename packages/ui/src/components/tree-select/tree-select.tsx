@@ -29,7 +29,7 @@ const TreeSelectComponent = forwardRef<HTMLDivElement, TreeSelectProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const {
       selectedKeys,
@@ -72,7 +72,11 @@ const TreeSelectComponent = forwardRef<HTMLDivElement, TreeSelectProps>(
       : 'hcTreeSelectDropdown';
 
     return (
-      <div ref={wrapperRef} className={rootClass}>
+      <div
+        ref={wrapperRef}
+        className={rootClass}
+        data-open={isOpen ? 'true' : 'false'}
+      >
         {injectStyles ? (
           <style suppressHydrationWarning>{_treeSelectCss}</style>
         ) : null}
@@ -116,7 +120,7 @@ const TreeSelectComponent = forwardRef<HTMLDivElement, TreeSelectProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 TreeSelectComponent.displayName = 'TreeSelect';
