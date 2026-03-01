@@ -6,9 +6,9 @@ export const section = style({
 
 export const content = style({
   padding: '24px',
-  border: '1px solid oklch(90.0% 0.003 264.5)',
+  //border: '1px solid oklch(90.0% 0.003 264.5)',
   borderRadius: '8px',
-  backgroundColor: 'oklch(100.0% 0.000 0)',
+  //backgroundColor: 'oklch(100.0% 0.000 0)',
 });
 
 export const status = style({

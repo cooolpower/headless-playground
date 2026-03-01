@@ -1270,33 +1270,11 @@ export function DemoSliderVerticalWithControls() {
             <div
               style={{
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'row',
                 alignItems: 'center',
                 gap: '8px',
               }}
             >
-              <button
-                onClick={handleIncrement}
-                disabled={value >= 100}
-                style={{
-                  padding: '8px',
-                  border: '1px solid oklch(90.0% 0.003 264.5)',
-                  borderRadius: '4px',
-                  backgroundColor: 'white',
-                  cursor: value >= 100 ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Icon icon={Plus} size="small" />
-              </button>
-              <Input
-                value={inputValue}
-                onChange={handleInputChange}
-                onBlur={handleInputBlur}
-                style={{ width: '80px', textAlign: 'center' }}
-              />
               <button
                 onClick={handleDecrement}
                 disabled={value <= 0}
@@ -1312,6 +1290,28 @@ export function DemoSliderVerticalWithControls() {
                 }}
               >
                 <Icon icon={Minus} size="small" />
+              </button>
+              <Input
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={handleInputBlur}
+                style={{ width: '80px', textAlign: 'center' }}
+              />
+              <button
+                onClick={handleIncrement}
+                disabled={value >= 100}
+                style={{
+                  padding: '8px',
+                  border: '1px solid oklch(90.0% 0.003 264.5)',
+                  borderRadius: '4px',
+                  backgroundColor: 'white',
+                  cursor: value >= 100 ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Icon icon={Plus} size="small" />
               </button>
             </div>
             <div style={{ height: '200px', width: '40px' }}>
