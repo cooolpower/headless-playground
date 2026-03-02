@@ -2,6 +2,8 @@ export const tableCss = `
 .hcTableWrap{
   position: relative;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .hcTable{

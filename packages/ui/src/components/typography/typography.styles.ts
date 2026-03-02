@@ -29,5 +29,9 @@ export const typographyCss = `
   font-weight: var(--font-weight-regular);
   color: var(--color-text-secondary);
 }
+
+.hcStrong{
+  font-weight: var(--font-weight-bold);
+}
 `;
 

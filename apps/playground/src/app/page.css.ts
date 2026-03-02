@@ -33,7 +33,7 @@ export const glow = style({
   top: '-10%',
   left: '50%',
   transform: 'translateX(-50%)',
-  width: '800px',
+  width: '100%',
   height: '400px',
   background: 'radial-gradient(circle, var(--color-brand-primary) 0%, transparent 70%)',
   opacity: 0.15,
@@ -195,7 +195,8 @@ export const showcaseTitle = style({
 export const showcaseGrid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(12, 1fr)',
-  gap: vars.spacing.xl,
+  gap: '0',
+  //gap: vars.spacing.xl,
 });
 
 // Bento style items with different sizes
@@ -216,9 +217,28 @@ export const gridItem = style({
   },
 });
 
-export const itemLarge = style([gridItem, { gridColumn: 'span 8', minHeight: '400px' }]);
-export const itemMedium = style([gridItem, { gridColumn: 'span 4', minHeight: '400px' }]);
-export const itemSmall = style([gridItem, { gridColumn: 'span 4', minHeight: '300px' }]);
+export const itemLarge = style([
+  gridItem,
+  {
+    gridColumn: 'span 8',
+    minHeight: '400px',
+    '@media': {
+      'screen and (max-width: 1200px)': {
+        gridColumn: 'span 12',
+      },
+    },
+  },
+]);
+export const itemMedium = style([gridItem, { gridColumn: 'span 4', minHeight: '400px','@media': {
+      'screen and (max-width: 1200px)': {
+        gridColumn: 'span 12',
+      },
+    }, }]);
+export const itemSmall = style([gridItem, { gridColumn: 'span 4', minHeight: '300px', '@media': {
+      'screen and (max-width: 1200px)': {
+        gridColumn: 'span 12',
+      },
+    }, }]);
 
 export const visualArea = style({
   flex: 1,

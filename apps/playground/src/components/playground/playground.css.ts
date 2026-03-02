@@ -8,7 +8,19 @@ export const grid = style({
   gridTemplateColumns: '1fr 300px',
   gap: '24px',
   marginTop: '24px',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      gridTemplateColumns: '1fr',
+    },
+  },
 });
+
+export const singleColGrid = style([
+  grid,
+  {
+    gridTemplateColumns: '1fr',
+  },
+]);
 
 export const interactionSection = style({
   position: 'sticky',
@@ -19,10 +31,20 @@ export const interactionSection = style({
   borderRadius: '8px',
   padding: '16px',
   zIndex: 1,
-  transition: 'z-index 0s', // 즉시 적용
+  transition: 'z-index 0s',
+  minWidth: 0,
+  width: '100%',
+  boxSizing: 'border-box',
+  overflow: 'hidden', // 내부 컨텐츠가 섹션을 강제로 늘리지 못하도록 방지
   selectors: {
     '&:focus-within': {
       zIndex: 100,
+    },
+  },
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      position: 'relative',
+      top: '0',
     },
   },
 });

@@ -65,6 +65,56 @@ export const headerNav = style({
   display: 'flex',
   alignItems: 'center',
   gap: 'var(--spacing-base)',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      display: 'none',
+    },
+  },
+});
+
+export const menuButton = style({
+  display: 'none',
+  background: 'none',
+  border: 'none',
+  cursor: 'pointer',
+  padding: '8px',
+  color: 'var(--color-text)',
+  borderRadius: '8px',
+  transition: 'background-color 0.2s ease',
+  ':hover': {
+    backgroundColor: 'var(--color-surface)',
+  },
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  },
+});
+
+export const mobileNav = style({
+  display: 'none',
+  position: 'fixed',
+  top: '81px',
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'var(--color-background)',
+  zIndex: 100,
+  padding: '24px',
+  flexDirection: 'column',
+  gap: '16px',
+  overflowY: 'auto',
+  selectors: {
+    '&[data-open="true"]': {
+      display: 'flex',
+    },
+    '[data-theme="dark"] &': {
+      backgroundColor: 'rgba(9, 9, 11, 0.95)',
+      backdropFilter: 'blur(12px)',
+    },
+  },
 });
 
 export const navLink = style({
@@ -77,3 +127,13 @@ export const navLink = style({
     color: 'var(--color-text)',
   },
 });
+
+export const mobileNavLink = style([
+  navLink,
+  {
+    fontSize: 'var(--font-size-lg)',
+    padding: '12px 0',
+    borderBottom: '1px solid var(--color-border)',
+    width: '100%',
+  },
+]);

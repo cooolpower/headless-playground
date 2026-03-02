@@ -7,10 +7,12 @@
 // - Keep this module lightweight and server-compatible.
 
 import { Pre } from '@/components/mdx/pre';
+import { Table } from '@/components/mdx/table';
 
 export function useMDXComponents(components: Record<string, unknown> = {}) {
   return {
     pre: Pre,
+    table: Table,
     ...components,
   };
 }

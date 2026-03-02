@@ -34,13 +34,7 @@ export function Playground({
   }
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: wrappedControls ? '1fr 300px' : '1fr',
-        gap: '24px',
-      }}
-    >
+    <div className={wrappedControls ? styles.grid : styles.singleColGrid}>
       <div className={styles.interactionSection}>{wrappedPreview}</div>
       {wrappedControls && (
         <div className={styles.interactionSection}>{wrappedControls}</div>

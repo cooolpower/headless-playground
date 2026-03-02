@@ -13,6 +13,11 @@ export const sidebar = style({
   flexDirection: 'column',
   gap: vars.spacing.xl,
   zIndex: 10,
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      display: 'none',
+    },
+  },
 
   // Glassmorphism effect in dark mode
   selectors: {

@@ -14,8 +14,13 @@ export const mainContentInner = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  padding: `var(--spacing-xl) var(--spacing-4xl) var(--spacing-4xl) calc(var(--spacing-4xl))`,
+  padding: `var(--spacing-xl) var(--spacing-4xl) var(--spacing-4xl) var(--spacing-4xl)`,
   maxWidth: '1200px',
   margin: '0 auto',
   animation: 'fadeIn 0.5s ease-out',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      padding: `var(--spacing-xl) var(--spacing-base) var(--spacing-xl) var(--spacing-base)`,
+    },
+  },
 });

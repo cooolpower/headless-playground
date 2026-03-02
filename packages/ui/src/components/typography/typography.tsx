@@ -22,6 +22,7 @@ export function Title(props: UseTypographyProps & { children: ReactNode }) {
     <div
       className={[typography.className, className].filter(Boolean).join(' ')}
       data-level={typography['data-level']}
+      style={props.style}
     >
       {props.children}
     </div>
@@ -41,6 +42,7 @@ export function Text(props: UseTypographyProps & { children: ReactNode }) {
   return (
     <span
       className={[typography.className, className].filter(Boolean).join(' ')}
+      style={props.style}
     >
       {props.children}
     </span>
@@ -58,7 +60,10 @@ export function Paragraph(props: UseTypographyProps & { children: ReactNode }) {
   useStyles('hc-typography-styles', _typographyCss, injectStyles);
 
   return (
-    <p className={[typography.className, className].filter(Boolean).join(' ')}>
+    <p
+      className={[typography.className, className].filter(Boolean).join(' ')}
+      style={props.style}
+    >
       {props.children}
     </p>
   );
@@ -77,6 +82,7 @@ export function Caption(props: UseTypographyProps & { children: ReactNode }) {
   return (
     <span
       className={[typography.className, className].filter(Boolean).join(' ')}
+      style={props.style}
     >
       {props.children}
     </span>
