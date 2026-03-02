@@ -75,13 +75,7 @@ export function Header() {
           <ThemeToggle />
         </nav>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-          }}
-        >
+        <div className={styles.headerMobileNav}>
           <div className={styles.menuButton}>
             <ThemeToggle />
           </div>

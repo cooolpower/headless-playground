@@ -72,6 +72,15 @@ export const headerNav = style({
   },
 });
 
+export const headerMobileNav = style({
+  display: 'none',
+  '@media': {
+    'screen and (max-width: 1024px)': {
+      display: 'flex',
+    },
+  },
+});
+
 export const menuButton = style({
   display: 'none',
   background: 'none',
