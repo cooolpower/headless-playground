@@ -195,8 +195,8 @@ export const showcaseTitle = style({
 export const showcaseGrid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(12, 1fr)',
-  gap: '0',
-  //gap: vars.spacing.xl,
+  //gap: '0',
+  gap: vars.spacing.xl,
 });
 
 // Bento style items with different sizes
