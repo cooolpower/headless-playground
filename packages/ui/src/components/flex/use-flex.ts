@@ -16,6 +16,7 @@ export interface UseFlexProps {
   align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
   gap?: number | string;
   inline?: boolean;
+  style?: CSSProperties;
 }
 
 export function useFlex({
@@ -25,6 +26,7 @@ export function useFlex({
   align = 'stretch',
   gap = 0,
   inline = false,
+  style,
 }: UseFlexProps) {
   // 정렬 매핑
   const justifyMap = {
@@ -52,6 +54,7 @@ export function useFlex({
         ['--hc-flex-justify' as any]: justifyMap[justify],
         ['--hc-flex-align' as any]: alignMap[align],
         ['--hc-flex-gap' as any]: typeof gap === 'number' ? `${gap}px` : gap,
+        ...style,
       } as CSSProperties,
       'data-inline': inline ? 'true' : 'false',
     },

@@ -90,6 +90,7 @@ const COMPONENTS = {
     import('@/content/components/dynamic-input/dynamic-input.mdx'),
   toast: () => import('@/content/components/toast/toast.mdx'),
   snackbar: () => import('@/content/components/snackbar/snackbar.mdx'),
+  api: () => import('@/content/components/api/api.mdx'),
 } as const;
 
 const DEMOS = {
@@ -176,6 +177,7 @@ const DEMOS = {
     import('@/content/components/dynamic-input/dynamic-input.demo'),
   toast: () => import('@/content/components/toast/toast.demo'),
   snackbar: () => import('@/content/components/snackbar/snackbar.demo'),
+  api: () => import('@/content/components/api/api.demo'),
 } as const;
 
 export default async function ComponentDocPage({

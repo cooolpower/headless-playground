@@ -1,0 +1,57 @@
+import { ApiDemo } from './api.demo';
+import { Playground } from '@/components/playground/playground';
+
+# API (useApi)
+
+`useApi` 훅은 원격 데이터를 관리하기 위한 강력한 기능(캐싱, 중복 요청 방지, 변조 시 자동 무효화 등)을 제공하는 headless Hook입니다.
+
+### 사용법
+
+```tsx
+import { useApi } from '@cooolpower/headless-ui';
+
+function MyComponent() {
+  const { data, isLoading, request } = useApi({
+    url: 'https://api.example.com/data',
+    method: 'GET',
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  return <div>{JSON.stringify(data)}</div>;
+}
+```
+
+### 예제
+
+#### API 인터랙션 데모
+
+<Playground preview={<ApiDemo />} />
+
+### API Reference
+
+#### useApi Options
+
+| Property   | Type      | Default      | Description                       |
+| ---------- | --------- | ------------ | --------------------------------- |
+| params     | `TParams` | -            | URL 쿼리 파라미터로 변환될 객체   |
+| body       | `TBody`   | -            | HTTP 요청 본문 데이터             |
+| enabled    | `boolean` | `true (GET)` | 컴포넌트 마운트 시 자동 호출 여부 |
+| cacheTime  | `number`  | `300000`     | 캐시 유효 시간 (ms, 기본 5분)     |
+| revalidate | `boolean` | `false`      | 캐시가 있어도 강제 재요청 여부    |
+
+#### useApi Response
+
+| Property   | Type            | Description                      |
+| ---------- | --------------- | -------------------------------- |
+| data       | `TData \| null` | 서버로부터 받아온 응답 데이터    |
+| isLoading  | `boolean`       | 요청이 진행 중인지 여부          |
+| error      | `Error \| null` | 요청 실패 시 발생한 에러 객체    |
+| request    | `function`      | 수동으로 API를 호출하는 함수     |
+| invalidate | `function`      | 해당 요청의 캐시를 수동으로 제거 |
+
+### 주요 특징
+
+- **Automatic Caching**: 성공한 GET 응답은 메모리에 캐싱되어 재사용됩니다.
+- **Deduplication**: 동일한 시점에 발생하는 동일 요청을 병합하여 네트워크 낭비를 방지합니다.
+- **Mutation Handling**: POST/PUT/DELETE 성공 시 관련 경로의 GET 캐시를 자동으로 무효화합니다.
+- **TypeScript Support**: 제네릭을 통해 응답 데이터와 요청 본문에 대한 강력한 타입 추론을 제공합니다.

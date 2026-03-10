@@ -202,5 +202,6 @@ export type * from './components/tree/type-tree';
 export type * from './components/tree-select/type-tree-select';
 export type * from './components/upload/type-upload';
 export * from './hooks/use-styles';
+export * from './hooks/use-api';
 export * from './utils/style-injector';
 export * from './styles/theme.styles';

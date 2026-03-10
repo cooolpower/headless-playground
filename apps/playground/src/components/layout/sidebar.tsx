@@ -108,6 +108,7 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentItem[]> = {
     { slug: 'color-picker', label: 'Color Picker' },
     { slug: 'mention', label: 'Mention' },
   ],
+  Utilities: [{ slug: 'api', label: 'useApi' }],
 };
 
 interface SidebarProps {
