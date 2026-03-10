@@ -2,7 +2,7 @@ import { ApiDefinition } from "@cooolpower/headless-ui";
 
 /**
  * 데모용 API 정의
- * JSONPlaceholder를 사용하여 실제 네트워크 요청 테스트
+ * Restful-API.dev를 사용하여 실제 네트워크 요청 및 데이터 영속성 테스트
  */
 
 export const demoApi = {

@@ -144,9 +144,14 @@ export function useApi<
               timestamp: Date.now(),
             });
           } else {
-            // Mutation(POST, PUT 등) 성공 시 관련 캐시 무효화 (기초 전략: 전체 삭제 또는 특정 규칙 필요)
-            // 여기서는 단순함을 위해 현재 URL 기반 캐시만 삭제
-            cacheStore.delete(`GET:${apiDef.url}`);
+            // Mutation(POST, PUT 등) 성공 시 관련 캐시 무효화
+            // 1. 현재 URL 기반 캐시 삭제
+            cacheStore.delete(`GET:${url}`);
+            // 2. 리스트 URL(기본 경로) 기반 캐시 삭제 (데이터 정합성 유지)
+            // restful-api.dev의 경우 /objects 를 무효화해야 함
+            const baseUrl = apiDef.url.split("/").slice(0, -1).join("/") || apiDef.url;
+            cacheStore.delete(`GET:${baseUrl}`);
+            cacheStore.delete(`GET:${apiDef.url}`); // 기본 정의 URL도 삭제
           }
 
           setData(result);

@@ -19,6 +19,7 @@ export function ApiDemo() {
   const [postId, setPostId] = useState<number | string | undefined>();
   const [postTitle, setPostTitle] = useState('Apple MacBook Pro 16');
   const [postBody, setPostBody] = useState('Intel Core i9, 16GB RAM');
+  const [previewData, setPreviewData] = useState<any>(null);
   const [logs, setLogs] = useState<string[]>([]);
 
   // 1. GET (List) - 자동 실행
@@ -55,6 +56,18 @@ export function ApiDemo() {
   };
 
   useEffect(() => {
+    if (objects) {
+      setPreviewData(objects);
+    }
+  }, [objects]);
+
+  useEffect(() => {
+    if (objectDetail) {
+      setPreviewData(objectDetail);
+    }
+  }, [objectDetail]);
+
+  useEffect(() => {
     if (listError) {
       addLog(`[GET] List 로드 실패: ${listError.message}`);
     }
@@ -63,7 +76,8 @@ export function ApiDemo() {
   const handleFetchList = async () => {
     addLog('[GET] List 요청 시작');
     try {
-      await fetchList();
+      const result = await fetchList();
+      setPreviewData(result);
       addLog('[GET] List 완료');
     } catch (e) {
       addLog(`[GET] List 실패: ${(e as Error).message}`);
@@ -77,7 +91,8 @@ export function ApiDemo() {
     }
     addLog(`[GET] Detail (ID: ${postId}) 요청 시작`);
     try {
-      await fetchDetail();
+      const result = await fetchDetail();
+      setPreviewData(result);
       addLog(`[GET] Detail 완료`);
     } catch (e) {
       addLog(`[GET] Detail 실패: ${(e as Error).message}`);
@@ -93,6 +108,7 @@ export function ApiDemo() {
           data: { content: postBody },
         },
       });
+      setPreviewData(result);
       addLog(`[POST] Create 완료 (New ID: ${result?.id})`);
       if (result?.id) setPostId(result.id);
     } catch (e) {
@@ -104,12 +120,13 @@ export function ApiDemo() {
     if (!postId) return;
     addLog(`[PUT] Update (ID: ${postId}) 요청 시작`);
     try {
-      await updateObject({
+      const result = await updateObject({
         body: {
           name: postTitle,
           data: { content: postBody },
         },
       });
+      setPreviewData(result);
       addLog('[PUT] Update 완료');
     } catch (e) {
       addLog(`[PUT] Update 실패: ${(e as Error).message}`);
@@ -273,11 +290,7 @@ export function ApiDemo() {
                     whiteSpace: 'pre-wrap',
                   }}
                 >
-                  {JSON.stringify(
-                    objectDetail || (objects && objects[0]),
-                    null,
-                    2,
-                  )}
+                  {JSON.stringify(previewData, null, 2)}
                 </pre>
               </div>
             </CardContent>
@@ -285,9 +298,22 @@ export function ApiDemo() {
 
           <Card style={{ flex: 1, minWidth: '320px' }}>
             <CardHeader>
-              <UIText {...({ strong: true } as UseTypographyProps)}>
-                Activity Logs
-              </UIText>
+              <Flex
+                align="center"
+                justify="space-between"
+                style={{ width: '100%' }}
+              >
+                <UIText {...({ strong: true } as UseTypographyProps)}>
+                  Activity Logs
+                </UIText>
+                <Button
+                  size="small"
+                  type="quaternary"
+                  onClick={() => setLogs([])}
+                >
+                  Clear Logs
+                </Button>
+              </Flex>
             </CardHeader>
             <CardContent style={{ padding: '1rem' }}>
               <div
