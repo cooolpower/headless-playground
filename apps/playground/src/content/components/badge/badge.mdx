@@ -9,10 +9,10 @@ import {
   DemoBadgeSizes,
   DemoBadgeProcessing,
   DemoBadgeInteractive,
-} from './badge.demo';
-import { Playground } from '@/components/playground/playground';
-import { CssSnippet } from '@/components/playground/css-snippet';
-import { BadgeCss } from '@cooolpower/headless-ui';
+} from './badge.demo'
+import { Playground } from '@/components/playground/playground'
+import { CssSnippet } from '@/components/playground/css-snippet'
+import { BadgeCss } from '@cooolpower/headless-ui'
 
 # Badge
 
@@ -21,14 +21,14 @@ UI 요소에 작은 숫자 값이나 상태 설명자를 표시합니다.
 ### 사용법
 
 ```tsx
-import { Badge } from '@cooolpower/headless-ui';
+import { Badge } from '@cooolpower/headless-ui'
 
 export function MyComponent() {
   return (
     <Badge count={5}>
       <button>메시지</button>
     </Badge>
-  );
+  )
 }
 ```
 
@@ -136,11 +136,11 @@ export function MyComponent() {
 <Playground preview={<DemoBadgeInteractive />} />
 
 ```tsx
-const [count, setCount] = useState(5);
+const [count, setCount] = useState(5)
 
 <Badge count={count}>
   <button onClick={() => setCount(count + 1)}>증가</button>
-</Badge>;
+</Badge>
 ```
 
 ### API Reference
@@ -174,13 +174,13 @@ type BadgeColor =
   | 'success'
   | 'warning'
   | 'danger'
-  | 'info';
+  | 'info'
 ```
 
 #### BadgeSize
 
 ```tsx
-type BadgeSize = 'small' | 'medium' | 'large';
+type BadgeSize = 'small' | 'medium' | 'large'
 ```
 
 ### Accessibility
@@ -205,9 +205,9 @@ type BadgeSize = 'small' | 'medium' | 'large';
 #### Vanilla Extract 예제
 
 ```typescript
-import { style, globalStyle } from '@vanilla-extract/css';
+import { style, globalStyle } from '@vanilla-extract/css'
 
-export const customWrapper = style({});
+export const customWrapper = style({})
 
 // 배지 위치 및 크기 커스텀
 globalStyle(`${customWrapper} .hcBadgeCount`, {
@@ -216,14 +216,14 @@ globalStyle(`${customWrapper} .hcBadgeCount`, {
   fontSize: '0.8rem',
   top: '4px',
   right: '4px',
-});
+})
 
 // 점 스타일 커스텀
 globalStyle(`${customWrapper} .hcBadgeDot`, {
   width: '12px',
   height: '12px',
   border: '2px solid white',
-});
+})
 ```
 
 ### 기본 스타일(CSS) (Inject Styles)
