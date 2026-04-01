@@ -15,14 +15,14 @@ import { GlobalToastProvider } from '@/components/layout/global-toast-provider';
 
 import * as styles from './layout.css';
 
-export const nanumGothicCoding = Nanum_Gothic_Coding({
+const nanumGothicCoding = Nanum_Gothic_Coding({
   subsets: ['latin'],
   weight: ['400', '700'], // Nanum Gothic 지원 weight
   display: 'swap',
   variable: '--font-nanum-gothicCoding',
 });
 
-export const nanumGothic = Nanum_Gothic({
+const nanumGothic = Nanum_Gothic({
   subsets: ['latin'],
   weight: ['400', '700', '800'], // Nanum Gothic 지원 weight
   display: 'swap',
